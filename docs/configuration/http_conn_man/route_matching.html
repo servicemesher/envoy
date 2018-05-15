@@ -82,7 +82,7 @@
     }
     </style>
     <script>
-        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/awesome-servicemesh","types":["star"],"size":"small"};
+        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/envoyproxy","types":["star"],"size":"small"};
     </script>
 
     </head>
@@ -953,18 +953,69 @@
             
         </li>
     
-        <li class="chapter " data-level="4.3" data-path="../../install/tools/tools.html">
+        <li class="chapter " data-level="4.3" >
             
-                <a href="../../install/tools/tools.html">
+                <span>
             
                     
                         <b>4.3.</b>
                     
                     工具
             
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.3.1" data-path="../../install/tools/config_load_check_tool.html">
+            
+                <a href="../../install/tools/config_load_check_tool.html">
+            
+                    
+                        <b>4.3.1.</b>
+                    
+                    配置负载检查工具
+            
                 </a>
             
 
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.2" data-path="../../install/tools/route_table_check_tool.html">
+            
+                <a href="../../install/tools/route_table_check_tool.html">
+            
+                    
+                        <b>4.3.2.</b>
+                    
+                    路由表检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.3" data-path="../../install/tools/schema_validator_check_tool.html">
+            
+                <a href="../../install/tools/schema_validator_check_tool.html">
+            
+                    
+                        <b>4.3.3.</b>
+                    
+                    Schema 验证器检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -1968,12 +2019,27 @@
         
         
     
-        <li class="chapter " data-level="8.1" data-path="../../faq/binaries.html">
+        <li class="chapter " data-level="8.1" data-path="../../faq/how_fast_is_envoy.html">
+            
+                <a href="../../faq/how_fast_is_envoy.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    Envoy 有多快？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../../faq/binaries.html">
             
                 <a href="../../faq/binaries.html">
             
                     
-                        <b>8.1.</b>
+                        <b>8.2.</b>
                     
                     从哪里能获得二进制文件？
             
@@ -1983,12 +2049,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.2" data-path="../../faq/sni.html">
+        <li class="chapter " data-level="8.3" data-path="../../faq/sni.html">
             
                 <a href="../../faq/sni.html">
             
                     
-                        <b>8.2.</b>
+                        <b>8.3.</b>
                     
                     如何设置 SNI？
             
@@ -1998,12 +2064,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.3" data-path="../../faq/zone_aware_routing.html">
+        <li class="chapter " data-level="8.4" data-path="../../faq/zone_aware_routing.html">
             
                 <a href="../../faq/zone_aware_routing.html">
             
                     
-                        <b>8.3.</b>
+                        <b>8.4.</b>
                     
                     如何设置 zone 可感知路由？
             
@@ -2013,12 +2079,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.4" data-path="../../faq/zipkin_tracing.html">
+        <li class="chapter " data-level="8.5" data-path="../../faq/zipkin_tracing.html">
             
                 <a href="../../faq/zipkin_tracing.html">
             
                     
-                        <b>8.4.</b>
+                        <b>8.5.</b>
                     
                     如何设置 Zipkin 追踪？
             
@@ -2028,12 +2094,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.5" data-path="../../faq/lb_panic_threshold.html">
+        <li class="chapter " data-level="8.6" data-path="../../faq/lb_panic_threshold.html">
             
                 <a href="../../faq/lb_panic_threshold.html">
             
                     
-                        <b>8.5.</b>
+                        <b>8.6.</b>
                     
                     我设置了健康检查，但是当有节点失败时，Envoy 又路由到那些节点，这是怎么回事？
             
@@ -2043,12 +2109,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.6" data-path="../../faq/concurrency_lb.html">
+        <li class="chapter " data-level="8.7" data-path="../../faq/concurrency_lb.html">
             
                 <a href="../../faq/concurrency_lb.html">
             
                     
-                        <b>8.6.</b>
+                        <b>8.7.</b>
                     
                     为什么 Round Robin 负载均衡看起来不起作用？
             
@@ -2153,7 +2219,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"路由匹配","level":"5.6.1","depth":2,"next":{"title":"流量转换/切分","level":"5.6.2","depth":2,"path":"configuration/http_conn_man/traffic_splitting.md","ref":"configuration/http_conn_man/traffic_splitting.md","articles":[]},"previous":{"title":"HTTP 连接管理器","level":"5.6","depth":1,"ref":"","articles":[{"title":"路由匹配","level":"5.6.1","depth":2,"path":"configuration/http_conn_man/route_matching.md","ref":"configuration/http_conn_man/route_matching.md","articles":[]},{"title":"流量转换/切分","level":"5.6.2","depth":2,"path":"configuration/http_conn_man/traffic_splitting.md","ref":"configuration/http_conn_man/traffic_splitting.md","articles":[]},{"title":"HTTP header 操作","level":"5.6.3","depth":2,"path":"configuration/http_conn_man/headers.md","ref":"configuration/http_conn_man/headers.md","articles":[]},{"title":"HTTP header sanitizing","level":"5.6.4","depth":2,"path":"configuration/http_conn_man/header_sanitizing.md","ref":"configuration/http_conn_man/header_sanitizing.md","articles":[]},{"title":"统计","level":"5.6.5","depth":2,"path":"configuration/http_conn_man/stats.md","ref":"configuration/http_conn_man/stats.md","articles":[]},{"title":"运行时","level":"5.6.6","depth":2,"path":"configuration/http_conn_man/runtime.md","ref":"configuration/http_conn_man/runtime.md","articles":[]},{"title":"路由发现服务（RDS）","level":"5.6.7","depth":2,"path":"configuration/http_conn_man/rds.md","ref":"configuration/http_conn_man/rds.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/awesome-servicemesh","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/awesome-servicemesh/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_conn_man/route_matching.md","mtime":"2018-05-15T11:13:29.095Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-15T13:44:31.144Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"路由匹配","level":"5.6.1","depth":2,"next":{"title":"流量转换/切分","level":"5.6.2","depth":2,"path":"configuration/http_conn_man/traffic_splitting.md","ref":"configuration/http_conn_man/traffic_splitting.md","articles":[]},"previous":{"title":"HTTP 连接管理器","level":"5.6","depth":1,"ref":"","articles":[{"title":"路由匹配","level":"5.6.1","depth":2,"path":"configuration/http_conn_man/route_matching.md","ref":"configuration/http_conn_man/route_matching.md","articles":[]},{"title":"流量转换/切分","level":"5.6.2","depth":2,"path":"configuration/http_conn_man/traffic_splitting.md","ref":"configuration/http_conn_man/traffic_splitting.md","articles":[]},{"title":"HTTP header 操作","level":"5.6.3","depth":2,"path":"configuration/http_conn_man/headers.md","ref":"configuration/http_conn_man/headers.md","articles":[]},{"title":"HTTP header sanitizing","level":"5.6.4","depth":2,"path":"configuration/http_conn_man/header_sanitizing.md","ref":"configuration/http_conn_man/header_sanitizing.md","articles":[]},{"title":"统计","level":"5.6.5","depth":2,"path":"configuration/http_conn_man/stats.md","ref":"configuration/http_conn_man/stats.md","articles":[]},{"title":"运行时","level":"5.6.6","depth":2,"path":"configuration/http_conn_man/runtime.md","ref":"configuration/http_conn_man/runtime.md","articles":[]},{"title":"路由发现服务（RDS）","level":"5.6.7","depth":2,"path":"configuration/http_conn_man/rds.md","ref":"configuration/http_conn_man/rds.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoyproxy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoyproxy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_conn_man/route_matching.md","mtime":"2018-05-15T11:13:29.095Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-15T14:14:17.083Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

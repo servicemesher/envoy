@@ -19,11 +19,11 @@
   ],
   "pluginsConfig": {
     "edit-link": {
-        "base": "https://github.com/servicemesher/awesome-servicemesh/edit/master",
+        "base": "https://github.com/servicemesher/envoyproxy/edit/master",
         "label": "在线编辑"
     },
     "github-buttons": {
-        "repo": "servicemesher/awesome-servicemesh",
+        "repo": "servicemesher/envoyproxy",
         "types": ["star"],
         "size": "small"
     },

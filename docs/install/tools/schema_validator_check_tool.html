@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>工具 · Envoy proxy中文文档</title>
+        <title>Schema 验证器检查工具 · Envoy proxy中文文档</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -73,7 +73,7 @@
     <link rel="next" href="../../configuration/overview/v1_overview.html" />
     
     
-    <link rel="prev" href="../ref_configs.html" />
+    <link rel="prev" href="route_table_check_tool.html" />
     
 
     <style>
@@ -84,7 +84,7 @@
     }
     </style>
     <script>
-        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/awesome-servicemesh","types":["star"],"size":"small"};
+        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/envoyproxy","types":["star"],"size":"small"};
     </script>
 
     </head>
@@ -955,18 +955,69 @@
             
         </li>
     
-        <li class="chapter active" data-level="4.3" data-path="tools.html">
+        <li class="chapter " data-level="4.3" >
             
-                <a href="tools.html">
+                <span>
             
                     
                         <b>4.3.</b>
                     
                     工具
             
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.3.1" data-path="config_load_check_tool.html">
+            
+                <a href="config_load_check_tool.html">
+            
+                    
+                        <b>4.3.1.</b>
+                    
+                    配置负载检查工具
+            
                 </a>
             
 
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.2" data-path="route_table_check_tool.html">
+            
+                <a href="route_table_check_tool.html">
+            
+                    
+                        <b>4.3.2.</b>
+                    
+                    路由表检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.3.3" data-path="schema_validator_check_tool.html">
+            
+                <a href="schema_validator_check_tool.html">
+            
+                    
+                        <b>4.3.3.</b>
+                    
+                    Schema 验证器检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -1970,12 +2021,27 @@
         
         
     
-        <li class="chapter " data-level="8.1" data-path="../../faq/binaries.html">
+        <li class="chapter " data-level="8.1" data-path="../../faq/how_fast_is_envoy.html">
+            
+                <a href="../../faq/how_fast_is_envoy.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    Envoy 有多快？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../../faq/binaries.html">
             
                 <a href="../../faq/binaries.html">
             
                     
-                        <b>8.1.</b>
+                        <b>8.2.</b>
                     
                     从哪里能获得二进制文件？
             
@@ -1985,12 +2051,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.2" data-path="../../faq/sni.html">
+        <li class="chapter " data-level="8.3" data-path="../../faq/sni.html">
             
                 <a href="../../faq/sni.html">
             
                     
-                        <b>8.2.</b>
+                        <b>8.3.</b>
                     
                     如何设置 SNI？
             
@@ -2000,12 +2066,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.3" data-path="../../faq/zone_aware_routing.html">
+        <li class="chapter " data-level="8.4" data-path="../../faq/zone_aware_routing.html">
             
                 <a href="../../faq/zone_aware_routing.html">
             
                     
-                        <b>8.3.</b>
+                        <b>8.4.</b>
                     
                     如何设置 zone 可感知路由？
             
@@ -2015,12 +2081,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.4" data-path="../../faq/zipkin_tracing.html">
+        <li class="chapter " data-level="8.5" data-path="../../faq/zipkin_tracing.html">
             
                 <a href="../../faq/zipkin_tracing.html">
             
                     
-                        <b>8.4.</b>
+                        <b>8.5.</b>
                     
                     如何设置 Zipkin 追踪？
             
@@ -2030,12 +2096,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.5" data-path="../../faq/lb_panic_threshold.html">
+        <li class="chapter " data-level="8.6" data-path="../../faq/lb_panic_threshold.html">
             
                 <a href="../../faq/lb_panic_threshold.html">
             
                     
-                        <b>8.5.</b>
+                        <b>8.6.</b>
                     
                     我设置了健康检查，但是当有节点失败时，Envoy 又路由到那些节点，这是怎么回事？
             
@@ -2045,12 +2111,12 @@
             
         </li>
     
-        <li class="chapter " data-level="8.6" data-path="../../faq/concurrency_lb.html">
+        <li class="chapter " data-level="8.7" data-path="../../faq/concurrency_lb.html">
             
                 <a href="../../faq/concurrency_lb.html">
             
                     
-                        <b>8.6.</b>
+                        <b>8.7.</b>
                     
                     为什么 Round Robin 负载均衡看起来不起作用？
             
@@ -2090,7 +2156,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >工具</a>
+        <a href="../.." >Schema 验证器检查工具</a>
     </h1>
 </div>
 
@@ -2105,11 +2171,21 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x5DE5;&#x5177;">&#x5DE5;&#x5177;</h1>
+                                <h1 id="schema-&#x9A8C;&#x8BC1;&#x5668;&#x68C0;&#x67E5;&#x5DE5;&#x5177;">Schema &#x9A8C;&#x8BC1;&#x5668;&#x68C0;&#x67E5;&#x5DE5;&#x5177;</h1>
+<p>The schema validator tool validates that the passed in JSON conforms to a schema in the configuration. To validate the entire config, please refer to the <a href="config_load_check_tool.html#install-tools-config-load-check-tool">config load check tool</a>. Currently, only <a href="../../api-v1/route_config/route_config.md#config-http-conn-man-route-table">route config</a> schema validation is supported.</p>
 <ul>
-<li><a href="config_load_check_tool.md">Config load check tool</a></li>
-<li><a href="route_table_check_tool.md">Route table check tool</a></li>
-<li><a href="schema_validator_check_tool.md">Schema Validator check tool</a></li>
+<li><p>Input</p>
+<p>The tool expects two inputs:The schema type to check the passed in JSON against. The supported type is:route - for <a href="../../api-v1/route_config/route_config.md#config-http-conn-man-route-table">route configuration</a> validation.The path to the JSON.</p>
+</li>
+<li><p>Output</p>
+<p>If the JSON conforms to the schema, the tool will exit with status EXIT_SUCCESS. If the JSON does not conform to the schema, an error message is outputted detailing what doesn&#x2019;t conform to the schema. The tool will exit with status EXIT_FAILURE.</p>
+</li>
+<li><p>Building</p>
+<p>The tool can be built locally using Bazel.<code>bazel build //test/tools/schema_validator:schema_validator_tool</code></p>
+</li>
+<li><p>Running</p>
+<p>The tool takes a path as described above.<code>bazel-bin/test/tools/schema_validator/schema_validator_tool  --schema-type SCHEMA_TYPE  --json-path PATH</code></p>
+</li>
 </ul>
 
                                 
@@ -2138,7 +2214,7 @@
 
             
                 
-                <a href="../ref_configs.html" class="navigation navigation-prev " aria-label="Previous page: 参考配置">
+                <a href="route_table_check_tool.html" class="navigation navigation-prev " aria-label="Previous page: 路由表检查工具">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -2154,7 +2230,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"工具","level":"4.3","depth":1,"next":{"title":"v1 API 概览","level":"5.1","depth":1,"path":"configuration/overview/v1_overview.md","ref":"configuration/overview/v1_overview.md","articles":[]},"previous":{"title":"参考配置","level":"4.2","depth":1,"path":"install/ref_configs.md","ref":"install/ref_configs.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/awesome-servicemesh","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/awesome-servicemesh/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"install/tools/tools.md","mtime":"2018-05-15T09:54:18.306Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-15T13:44:31.144Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Schema 验证器检查工具","level":"4.3.3","depth":2,"next":{"title":"v1 API 概览","level":"5.1","depth":1,"path":"configuration/overview/v1_overview.md","ref":"configuration/overview/v1_overview.md","articles":[]},"previous":{"title":"路由表检查工具","level":"4.3.2","depth":2,"path":"install/tools/route_table_check_tool.md","ref":"install/tools/route_table_check_tool.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoyproxy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoyproxy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"install/tools/schema_validator_check_tool.md","mtime":"2018-05-15T14:04:10.888Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-15T14:14:17.083Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
