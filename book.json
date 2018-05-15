@@ -1,0 +1,39 @@
+﻿{
+  "title": "Envoy proxy中文文档",
+  "gitbook": ">=3.2.0",
+  "description": "Envoy proxy中文文档",
+  "language": "zh-hans",
+  "author": "ServiceMesher",
+  "extension": null,
+  "generator": "site",
+  "plugins": [
+    "splitter",
+    "-lunr", "-search", "search-plus",
+    "-sharing",
+    "theme-default",
+    "edit-link",
+    "page-toc-button",
+    "back-to-top-button",
+    "github-buttons@2.1.0",
+    "-highlight", "prism", "prism-themes"
+  ],
+  "pluginsConfig": {
+    "edit-link": {
+        "base": "https://github.com/servicemesher/awesome-servicemesh/edit/master",
+        "label": "在线编辑"
+    },
+    "github-buttons": {
+        "repo": "servicemesher/awesome-servicemesh",
+        "types": ["star"],
+        "size": "small"
+    },
+    "theme-default": {
+            "showLevel": true
+    },
+    "prism": {
+      "css": [
+        "prism-themes/themes/prism-ghcolors.css"
+        ]
+    }
+  }
+}

@@ -1,0 +1,2378 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Lua · Envoy proxy中文文档</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="ServiceMesher">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism-ghcolors.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="rate_limit_filter.html" />
+    
+    
+    <link rel="prev" href="ip_tagging_filter.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/awesome-servicemesh","types":["star"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">说明</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../about_docs.html">
+            
+                <a href="../../about_docs.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    关于本文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../../intro/what_is_envoy.html">
+            
+                <a href="../../intro/what_is_envoy.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    Envoy 是什么？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../../intro/what_is_envoy.html">
+            
+                <a href="../../intro/what_is_envoy.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    架构概览
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../../intro/arch_overview/terminology.html">
+            
+                <a href="../../intro/arch_overview/terminology.html">
+            
+                    
+                        <b>2.2.1.</b>
+                    
+                    术语
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="../../intro/arch_overview/threading_model.html">
+            
+                <a href="../../intro/arch_overview/threading_model.html">
+            
+                    
+                        <b>2.2.2.</b>
+                    
+                    线程模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="../../intro/arch_overview/listeners.html">
+            
+                <a href="../../intro/arch_overview/listeners.html">
+            
+                    
+                        <b>2.2.3.</b>
+                    
+                    Listener
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.4" data-path="../../intro/arch_overview/listener_filters.html">
+            
+                <a href="../../intro/arch_overview/listener_filters.html">
+            
+                    
+                        <b>2.2.4.</b>
+                    
+                    Listener filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.5" data-path="../../intro/arch_overview/network_filters.html">
+            
+                <a href="../../intro/arch_overview/network_filters.html">
+            
+                    
+                        <b>2.2.5.</b>
+                    
+                    Network (L3/L4) filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.6" data-path="../../intro/arch_overview/http_connection_management.html">
+            
+                <a href="../../intro/arch_overview/http_connection_management.html">
+            
+                    
+                        <b>2.2.6.</b>
+                    
+                    HTTP 连接管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.7" data-path="../../intro/arch_overview/http_filters.html">
+            
+                <a href="../../intro/arch_overview/http_filters.html">
+            
+                    
+                        <b>2.2.7.</b>
+                    
+                    HTTP filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.8" data-path="../../intro/arch_overview/http_routing.html">
+            
+                <a href="../../intro/arch_overview/http_routing.html">
+            
+                    
+                        <b>2.2.8.</b>
+                    
+                    HTTP 路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.9" data-path="../../intro/arch_overview/grpc.html">
+            
+                <a href="../../intro/arch_overview/grpc.html">
+            
+                    
+                        <b>2.2.9.</b>
+                    
+                    gRPC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.10" data-path="../../intro/arch_overview/websocket.html">
+            
+                <a href="../../intro/arch_overview/websocket.html">
+            
+                    
+                        <b>2.2.10.</b>
+                    
+                    WebSocket 支持
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.11" data-path="../../intro/arch_overview/cluster_manager.html">
+            
+                <a href="../../intro/arch_overview/cluster_manager.html">
+            
+                    
+                        <b>2.2.11.</b>
+                    
+                    Cluster manager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.12" data-path="../../intro/arch_overview/service_discovery.html">
+            
+                <a href="../../intro/arch_overview/service_discovery.html">
+            
+                    
+                        <b>2.2.12.</b>
+                    
+                    服务发现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.13" data-path="../../intro/arch_overview/health_checking.html">
+            
+                <a href="../../intro/arch_overview/health_checking.html">
+            
+                    
+                        <b>2.2.13.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.14" data-path="../../intro/arch_overview/connection_pooling.html">
+            
+                <a href="../../intro/arch_overview/connection_pooling.html">
+            
+                    
+                        <b>2.2.14.</b>
+                    
+                    连接池
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.15" data-path="../../intro/arch_overview/load_balancing.html">
+            
+                <a href="../../intro/arch_overview/load_balancing.html">
+            
+                    
+                        <b>2.2.15.</b>
+                    
+                    负载均衡
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.16" data-path="../../intro/arch_overview/outlier.html">
+            
+                <a href="../../intro/arch_overview/outlier.html">
+            
+                    
+                        <b>2.2.16.</b>
+                    
+                    异常点检测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.17" data-path="../../intro/arch_overview/circuit_breaking.html">
+            
+                <a href="../../intro/arch_overview/circuit_breaking.html">
+            
+                    
+                        <b>2.2.17.</b>
+                    
+                    断路器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.18" data-path="../../intro/arch_overview/global_rate_limiting.html">
+            
+                <a href="../../intro/arch_overview/global_rate_limiting.html">
+            
+                    
+                        <b>2.2.18.</b>
+                    
+                    全局速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.19" data-path="../../intro/arch_overview/ssl.html">
+            
+                <a href="../../intro/arch_overview/ssl.html">
+            
+                    
+                        <b>2.2.19.</b>
+                    
+                    TLS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.20" data-path="../../intro/arch_overview/statistics.html">
+            
+                <a href="../../intro/arch_overview/statistics.html">
+            
+                    
+                        <b>2.2.20.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.21" data-path="../../intro/arch_overview/runtime.html">
+            
+                <a href="../../intro/arch_overview/runtime.html">
+            
+                    
+                        <b>2.2.21.</b>
+                    
+                    运行时配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.22" data-path="../../intro/arch_overview/tracing.html">
+            
+                <a href="../../intro/arch_overview/tracing.html">
+            
+                    
+                        <b>2.2.22.</b>
+                    
+                    追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.23" data-path="../../intro/arch_overview/tcp_proxy.html">
+            
+                <a href="../../intro/arch_overview/tcp_proxy.html">
+            
+                    
+                        <b>2.2.23.</b>
+                    
+                    TCP 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.24" data-path="../../intro/arch_overview/access_logging.html">
+            
+                <a href="../../intro/arch_overview/access_logging.html">
+            
+                    
+                        <b>2.2.24.</b>
+                    
+                    访问记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.25" data-path="../../intro/arch_overview/mongo.html">
+            
+                <a href="../../intro/arch_overview/mongo.html">
+            
+                    
+                        <b>2.2.25.</b>
+                    
+                    MongoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.26" data-path="../../intro/arch_overview/dynamo.html">
+            
+                <a href="../../intro/arch_overview/dynamo.html">
+            
+                    
+                        <b>2.2.26.</b>
+                    
+                    DynamoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.27" data-path="../../intro/arch_overview/redis.html">
+            
+                <a href="../../intro/arch_overview/redis.html">
+            
+                    
+                        <b>2.2.27.</b>
+                    
+                    Redis
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.28" data-path="../../intro/arch_overview/hot_restart.html">
+            
+                <a href="../../intro/arch_overview/hot_restart.html">
+            
+                    
+                        <b>2.2.28.</b>
+                    
+                    热重启
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.29" data-path="../../intro/arch_overview/dynamic_configuration.html">
+            
+                <a href="../../intro/arch_overview/dynamic_configuration.html">
+            
+                    
+                        <b>2.2.29.</b>
+                    
+                    动态配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.30" data-path="../../intro/arch_overview/init.html">
+            
+                <a href="../../intro/arch_overview/init.html">
+            
+                    
+                        <b>2.2.30.</b>
+                    
+                    初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.31" data-path="../../intro/arch_overview/draining.html">
+            
+                <a href="../../intro/arch_overview/draining.html">
+            
+                    
+                        <b>2.2.31.</b>
+                    
+                    排除
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.32" data-path="../../intro/arch_overview/scripting.html">
+            
+                <a href="../../intro/arch_overview/scripting.html">
+            
+                    
+                        <b>2.2.32.</b>
+                    
+                    脚本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../../intro/deployment_types/deployment_types.html">
+            
+                <a href="../../intro/deployment_types/deployment_types.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    部署类型
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="../../intro/deployment_types/service_to_service.html">
+            
+                <a href="../../intro/deployment_types/service_to_service.html">
+            
+                    
+                        <b>2.3.1.</b>
+                    
+                    仅服务之间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="../../intro/deployment_types/front_proxy.html">
+            
+                <a href="../../intro/deployment_types/front_proxy.html">
+            
+                    
+                        <b>2.3.2.</b>
+                    
+                    服务之间外加前端代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.3" data-path="../../intro/deployment_types/double_proxy.html">
+            
+                <a href="../../intro/deployment_types/double_proxy.html">
+            
+                    
+                        <b>2.3.3.</b>
+                    
+                    服务间、前端代理、双向代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../../intro/comparison.html">
+            
+                <a href="../../intro/comparison.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    与类似系统比较
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../../intro/getting_help.html">
+            
+                <a href="../../intro/getting_help.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    获取帮助
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../../intro/version_history.html">
+            
+                <a href="../../intro/version_history.html">
+            
+                    
+                        <b>2.6.</b>
+                    
+                    历史版本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">入门指南</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../start/start.html">
+            
+                <a href="../../start/start.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    入门指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" >
+            
+                <span>
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Sandbox
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../../start/sandboxes/front_proxy.html">
+            
+                <a href="../../start/sandboxes/front_proxy.html">
+            
+                    
+                        <b>3.2.1.</b>
+                    
+                    前端代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../../start/sandboxes/zipkin_tracing.html">
+            
+                <a href="../../start/sandboxes/zipkin_tracing.html">
+            
+                    
+                        <b>3.2.2.</b>
+                    
+                    Zipkin 追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../../start/sandboxes/jaeger_tracing.html">
+            
+                <a href="../../start/sandboxes/jaeger_tracing.html">
+            
+                    
+                        <b>3.2.3.</b>
+                    
+                    Jaeger 追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../../start/sandboxes/jaeger_native_tracing.html">
+            
+                <a href="../../start/sandboxes/jaeger_native_tracing.html">
+            
+                    
+                        <b>3.2.4.</b>
+                    
+                    Jaeger 原生追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" >
+            
+                <span>
+            
+                    
+                        <b>3.3.</b>
+                    
+                    其他用例
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="../../start/distro/ambassador.html">
+            
+                <a href="../../start/distro/ambassador.html">
+            
+                    
+                        <b>3.3.1.</b>
+                    
+                    Envoy 作为 Kubernetes 的 API 网关
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">构建和安装</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../../install/building.html">
+            
+                <a href="../../install/building.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    构建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../../install/ref_configs.html">
+            
+                <a href="../../install/ref_configs.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    参考配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../../install/tools/tools.html">
+            
+                <a href="../../install/tools/tools.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">配置参考</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../overview/v1_overview.html">
+            
+                <a href="../overview/v1_overview.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    v1 API 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../overview/v2_overview.html">
+            
+                <a href="../overview/v2_overview.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    v2 API 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" >
+            
+                <span>
+            
+                    
+                        <b>5.3.</b>
+                    
+                    Listener
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.3.1" data-path="../listeners/stats.html">
+            
+                <a href="../listeners/stats.html">
+            
+                    
+                        <b>5.3.1.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.2" data-path="../listeners/runtime.html">
+            
+                <a href="../listeners/runtime.html">
+            
+                    
+                        <b>5.3.2.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.3" data-path="../listeners/lds.html">
+            
+                <a href="../listeners/lds.html">
+            
+                    
+                        <b>5.3.3.</b>
+                    
+                    Listener 发现服务（LDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" >
+            
+                <span>
+            
+                    
+                        <b>5.4.</b>
+                    
+                    Listener filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.1" data-path="../listener_filters/original_dst_filter.html">
+            
+                <a href="../listener_filters/original_dst_filter.html">
+            
+                    
+                        <b>5.4.1.</b>
+                    
+                    原始目的地
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2" data-path="../listener_filters/tls_inspector.html">
+            
+                <a href="../listener_filters/tls_inspector.html">
+            
+                    
+                        <b>5.4.2.</b>
+                    
+                    TLS 检查器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" >
+            
+                <span>
+            
+                    
+                        <b>5.5.</b>
+                    
+                    网络 filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.5.1" data-path="../network_filters/client_ssl_auth_filter.html">
+            
+                <a href="../network_filters/client_ssl_auth_filter.html">
+            
+                    
+                        <b>5.5.1.</b>
+                    
+                    客户端 TLS 身份验证
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.2" data-path="../network_filters/echo_filter.html">
+            
+                <a href="../network_filters/echo_filter.html">
+            
+                    
+                        <b>5.5.2.</b>
+                    
+                    Echo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.3" data-path="../network_filters/mongo_proxy_filter.html">
+            
+                <a href="../network_filters/mongo_proxy_filter.html">
+            
+                    
+                        <b>5.5.3.</b>
+                    
+                    Mongo 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.4" data-path="../network_filters/rate_limit_filter.html">
+            
+                <a href="../network_filters/rate_limit_filter.html">
+            
+                    
+                        <b>5.5.4.</b>
+                    
+                    速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.5" data-path="../network_filters/redis_proxy_filter.html">
+            
+                <a href="../network_filters/redis_proxy_filter.html">
+            
+                    
+                        <b>5.5.5.</b>
+                    
+                    Redis 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.6" data-path="../network_filters/tcp_proxy_filter.html">
+            
+                <a href="../network_filters/tcp_proxy_filter.html">
+            
+                    
+                        <b>5.5.6.</b>
+                    
+                    TCP 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" >
+            
+                <span>
+            
+                    
+                        <b>5.6.</b>
+                    
+                    HTTP 连接管理器
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.6.1" data-path="../http_conn_man/route_matching.html">
+            
+                <a href="../http_conn_man/route_matching.html">
+            
+                    
+                        <b>5.6.1.</b>
+                    
+                    路由匹配
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.2" data-path="../http_conn_man/traffic_splitting.html">
+            
+                <a href="../http_conn_man/traffic_splitting.html">
+            
+                    
+                        <b>5.6.2.</b>
+                    
+                    流量转换/切分
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.3" data-path="../http_conn_man/headers.html">
+            
+                <a href="../http_conn_man/headers.html">
+            
+                    
+                        <b>5.6.3.</b>
+                    
+                    HTTP header 操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.4" data-path="../http_conn_man/header_sanitizing.html">
+            
+                <a href="../http_conn_man/header_sanitizing.html">
+            
+                    
+                        <b>5.6.4.</b>
+                    
+                    HTTP header sanitizing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.5" data-path="../http_conn_man/stats.html">
+            
+                <a href="../http_conn_man/stats.html">
+            
+                    
+                        <b>5.6.5.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.6" data-path="../http_conn_man/runtime.html">
+            
+                <a href="../http_conn_man/runtime.html">
+            
+                    
+                        <b>5.6.6.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.7" data-path="../http_conn_man/rds.html">
+            
+                <a href="../http_conn_man/rds.html">
+            
+                    
+                        <b>5.6.7.</b>
+                    
+                    路由发现服务（RDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" >
+            
+                <span>
+            
+                    
+                        <b>5.7.</b>
+                    
+                    HTTP filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.7.1" data-path="buffer_filter.html">
+            
+                <a href="buffer_filter.html">
+            
+                    
+                        <b>5.7.1.</b>
+                    
+                    Buffer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.2" data-path="cors_filter.html">
+            
+                <a href="cors_filter.html">
+            
+                    
+                        <b>5.7.2.</b>
+                    
+                    CORS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.3" data-path="dynamodb_filter.html">
+            
+                <a href="dynamodb_filter.html">
+            
+                    
+                        <b>5.7.3.</b>
+                    
+                    DynamoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.4" data-path="fault_filter.html">
+            
+                <a href="fault_filter.html">
+            
+                    
+                        <b>5.7.4.</b>
+                    
+                    故障注入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.5" data-path="grpc_http1_bridge_filter.html">
+            
+                <a href="grpc_http1_bridge_filter.html">
+            
+                    
+                        <b>5.7.5.</b>
+                    
+                    gRPC HTTP/1.1 bridge
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.6" data-path="grpc_json_transcoder_filter.html">
+            
+                <a href="grpc_json_transcoder_filter.html">
+            
+                    
+                        <b>5.7.6.</b>
+                    
+                    gRPC-JSON 转码
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.7" data-path="grpc_web_filter.html">
+            
+                <a href="grpc_web_filter.html">
+            
+                    
+                        <b>5.7.7.</b>
+                    
+                    gRPC-Web
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.8" data-path="gzip_filter.html">
+            
+                <a href="gzip_filter.html">
+            
+                    
+                        <b>5.7.8.</b>
+                    
+                    Gzip
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.9" data-path="health_check_filter.html">
+            
+                <a href="health_check_filter.html">
+            
+                    
+                        <b>5.7.9.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.10" data-path="ip_tagging_filter.html">
+            
+                <a href="ip_tagging_filter.html">
+            
+                    
+                        <b>5.7.10.</b>
+                    
+                    IP Tagging
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="5.7.11" data-path="lua_filter.html">
+            
+                <a href="lua_filter.html">
+            
+                    
+                        <b>5.7.11.</b>
+                    
+                    Lua
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.12" data-path="rate_limit_filter.html">
+            
+                <a href="rate_limit_filter.html">
+            
+                    
+                        <b>5.7.12.</b>
+                    
+                    速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.13" data-path="router_filter.html">
+            
+                <a href="router_filter.html">
+            
+                    
+                        <b>5.7.13.</b>
+                    
+                    路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.14" data-path="squash_filter.html">
+            
+                <a href="squash_filter.html">
+            
+                    
+                        <b>5.7.14.</b>
+                    
+                    Squash
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" >
+            
+                <span>
+            
+                    
+                        <b>5.8.</b>
+                    
+                    Cluster Manager
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.8.1" data-path="../cluster_manager/cluster_stats.html">
+            
+                <a href="../cluster_manager/cluster_stats.html">
+            
+                    
+                        <b>5.8.1.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.2" data-path="../cluster_manager/cluster_runtime.html">
+            
+                <a href="../cluster_manager/cluster_runtime.html">
+            
+                    
+                        <b>5.8.2.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.3" data-path="../cluster_manager/cds.html">
+            
+                <a href="../cluster_manager/cds.html">
+            
+                    
+                        <b>5.8.3.</b>
+                    
+                    集群发现服务（CDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.4" data-path="../cluster_manager/cluster_hc.html">
+            
+                <a href="../cluster_manager/cluster_hc.html">
+            
+                    
+                        <b>5.8.4.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.5" data-path="../cluster_manager/cluster_circuit_breakers.html">
+            
+                <a href="../cluster_manager/cluster_circuit_breakers.html">
+            
+                    
+                        <b>5.8.5.</b>
+                    
+                    断路
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.9" >
+            
+                <span>
+            
+                    
+                        <b>5.9.</b>
+                    
+                    健康检查器
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.9.1" data-path="../health_checkers/redis.html">
+            
+                <a href="../health_checkers/redis.html">
+            
+                    
+                        <b>5.9.1.</b>
+                    
+                    Redis
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.10" data-path="../access_log.html">
+            
+                <a href="../access_log.html">
+            
+                    
+                        <b>5.10.</b>
+                    
+                    访问记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.11" data-path="../rate_limit.html">
+            
+                <a href="../rate_limit.html">
+            
+                    
+                        <b>5.11.</b>
+                    
+                    速率限制服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.12" data-path="../runtime.html">
+            
+                <a href="../runtime.html">
+            
+                    
+                        <b>5.12.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.13" data-path="../statistics.html">
+            
+                <a href="../statistics.html">
+            
+                    
+                        <b>5.13.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.14" data-path="../tools/router_check.html">
+            
+                <a href="../tools/router_check.html">
+            
+                    
+                        <b>5.14.</b>
+                    
+                    路由表检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">运维管理</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../../operations/cli.html">
+            
+                <a href="../../operations/cli.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    命令行选项
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="../../operations/hot_restarter.html">
+            
+                <a href="../../operations/hot_restarter.html">
+            
+                    
+                        <b>6.2.</b>
+                    
+                    热重启 Python 包装器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="../../operations/admin.html">
+            
+                <a href="../../operations/admin.html">
+            
+                    
+                        <b>6.3.</b>
+                    
+                    管理接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.4" data-path="../../operations/stats_overview.html">
+            
+                <a href="../../operations/stats_overview.html">
+            
+                    
+                        <b>6.4.</b>
+                    
+                    统计概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.5" data-path="../../operations/runtime.html">
+            
+                <a href="../../operations/runtime.html">
+            
+                    
+                        <b>6.5.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.6" data-path="../../operations/fs_flags.html">
+            
+                <a href="../../operations/fs_flags.html">
+            
+                    
+                        <b>6.6.</b>
+                    
+                    文件系统标志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.7" data-path="../../operations/traffic_capture.html">
+            
+                <a href="../../operations/traffic_capture.html">
+            
+                    
+                        <b>6.7.</b>
+                    
+                    流量捕获
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.8" data-path="../../extending/extending.html">
+            
+                <a href="../../extending/extending.html">
+            
+                    
+                        <b>6.8.</b>
+                    
+                    为自定义用例扩展 Envoy
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API 参考</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" >
+            
+                <a target="_blank" href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/api">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    v1 API 参考
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" >
+            
+                <a target="_blank" href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api">
+            
+                    
+                        <b>7.2.</b>
+                    
+                    v2 API 参考
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">常见问题</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../faq/binaries.html">
+            
+                <a href="../../faq/binaries.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    从哪里能获得二进制文件？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../../faq/sni.html">
+            
+                <a href="../../faq/sni.html">
+            
+                    
+                        <b>8.2.</b>
+                    
+                    如何设置 SNI？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="../../faq/zone_aware_routing.html">
+            
+                <a href="../../faq/zone_aware_routing.html">
+            
+                    
+                        <b>8.3.</b>
+                    
+                    如何设置 zone 可感知路由？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="../../faq/zipkin_tracing.html">
+            
+                <a href="../../faq/zipkin_tracing.html">
+            
+                    
+                        <b>8.4.</b>
+                    
+                    如何设置 Zipkin 追踪？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="../../faq/lb_panic_threshold.html">
+            
+                <a href="../../faq/lb_panic_threshold.html">
+            
+                    
+                        <b>8.5.</b>
+                    
+                    我设置了健康检查，但是当有节点失败时，Envoy 又路由到那些节点，这是怎么回事？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.6" data-path="../../faq/concurrency_lb.html">
+            
+                <a href="../../faq/concurrency_lb.html">
+            
+                    
+                        <b>8.6.</b>
+                    
+                    为什么 Round Robin 负载均衡看起来不起作用？
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Lua</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div class="search-plus" id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="lua">Lua</h1>
+<p>Attention</p>
+<p>By default Envoy is built without exporting symbols that you may need when interacting with Lua modules installed as shared objects. Envoy may need to be built with support for exported symbols. Please see the <a href="https://github.com/envoyproxy/envoy/blob/master/bazel/README.md" target="_blank">Bazel docs</a> for more information.</p>
+<h2 id="overview">Overview</h2>
+<p>The HTTP Lua filter allows <a href="https://www.lua.org/" target="_blank">Lua</a> scripts to be run during both the request and response flows. <a href="http://luajit.org/" target="_blank">LuaJIT</a>is used as the runtime. Because of this, the supported Lua version is mostly 5.1 with some 5.2 features. See the <a href="http://luajit.org/extensions.md" target="_blank">LuaJIT documentation</a> for more details.</p>
+<p>The filter only supports loading Lua code in-line in the configuration. If local filesystem code is desired, a trivial in-line script can be used to load the rest of the code from the local environment.</p>
+<p>The design of the filter and Lua support at a high level is as follows:</p>
+<ul>
+<li>All Lua environments are <a href="../../intro/arch_overview/threading_model.html#arch-overview-threading">per worker thread</a>. This means that there is no truly global data. Any globals create and populated at load time will be visible from each worker thread in isolation. True global support may be added via an API in the future.</li>
+<li>All scripts are run as coroutines. This means that they are written in a synchronous style even though they may perform complex asynchronous tasks. This makes the scripts substantially easier to write. All network/async processing is performed by Envoy via a set of APIs. Envoy will yield the script as appropriate and resume it when async tasks are complete.</li>
+<li><strong>Do not perform blocking operations from scripts.</strong> It is critical for performance that Envoy APIs are used for all IO.</li>
+</ul>
+<h2 id="currently-supported-high-level-features">Currently supported high level features</h2>
+<p><strong>NOTE:</strong> It is expected that this list will expand over time as the filter is used in production. The API surface has been kept small on purpose. The goal is to make scripts extremely simple and safe to write. Very complex or high performance use cases are assumed to use the native C++ filter API.</p>
+<ul>
+<li>Inspection of headers, body, and trailers while streaming in either the request flow, response flow, or both.</li>
+<li>Modification of headers and trailers.</li>
+<li>Blocking and buffering the full request/response body for inspection.</li>
+<li>Performing an outbound async HTTP call to an upstream host. Such a call can be performed while buffering body data so that when the call completes upstream headers can be modified.</li>
+<li>Performing a direct response and skipping further filter iteration. For example, a script could make an upstream HTTP call for authentication, and then directly respond with a 403 response code.</li>
+</ul>
+<h2 id="configuration">Configuration</h2>
+<ul>
+<li><a href="../../api-v1/http_filters/lua_filter.md#config-http-filters-lua-v1">v1 API reference</a></li>
+<li><a href="../../api-v2/config/filter/http/lua/v2/lua.proto.md#envoy-api-msg-config-filter-http-lua-v2-lua">v2 API reference</a></li>
+</ul>
+<h2 id="script-examples">Script examples</h2>
+<p>This section provides some concrete examples of Lua scripts as a more gentle introduction and quick start. Please refer to the <a href="#config-http-filters-lua-stream-handle-api">stream handle API</a> for more details on the supported API.</p>
+<pre class="language-"><code class="lang-lua"><span class="token comment" spellcheck="true">-- Called on the request path.</span>
+<span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">-- Wait for the entire request body and add a request header with the body size.</span>
+  request_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;request_body_size&quot;</span><span class="token punctuation">,</span> request_handle<span class="token punctuation">:</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+
+<span class="token comment" spellcheck="true">-- Called on the response path.</span>
+<span class="token keyword">function</span> <span class="token function">envoy_on_response</span><span class="token punctuation">(</span>response_handle<span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">-- Wait for the entire response body and a response header with the the body size.</span>
+  response_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;response_body_size&quot;</span><span class="token punctuation">,</span> response_handle<span class="token punctuation">:</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">-- Remove a response header named &apos;foo&apos;</span>
+  response_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token string">&quot;foo&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+</code></pre>
+<pre class="language-"><code class="lang-lua"><span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">-- Make an HTTP call to an upstream host with the following headers, body, and timeout.</span>
+  <span class="token keyword">local</span> headers<span class="token punctuation">,</span> body <span class="token operator">=</span> request_handle<span class="token punctuation">:</span><span class="token function">httpCall</span><span class="token punctuation">(</span>
+  <span class="token string">&quot;lua_cluster&quot;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;:method&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;POST&quot;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;:path&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;/&quot;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;:authority&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;lua_cluster&quot;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;hello world&quot;</span><span class="token punctuation">,</span>
+  <span class="token number">5000</span><span class="token punctuation">)</span>
+
+  <span class="token comment" spellcheck="true">-- Add information from the HTTP call into the headers that are about to be sent to the next</span>
+  <span class="token comment" spellcheck="true">-- filter in the filter chain.</span>
+  request_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;upstream_foo&quot;</span><span class="token punctuation">,</span> headers<span class="token punctuation">[</span><span class="token string">&quot;foo&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  request_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;upstream_body_size&quot;</span><span class="token punctuation">,</span> <span class="token operator">#</span>body<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+</code></pre>
+<pre class="language-"><code class="lang-lua"><span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">-- Make an HTTP call.</span>
+  <span class="token keyword">local</span> headers<span class="token punctuation">,</span> body <span class="token operator">=</span> request_handle<span class="token punctuation">:</span><span class="token function">httpCall</span><span class="token punctuation">(</span>
+  <span class="token string">&quot;lua_cluster&quot;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;:method&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;POST&quot;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;:path&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;/&quot;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token string">&quot;:authority&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;lua_cluster&quot;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;hello world&quot;</span><span class="token punctuation">,</span>
+  <span class="token number">5000</span><span class="token punctuation">)</span>
+
+  <span class="token comment" spellcheck="true">-- Response directly and set a header from the HTTP call. No further filter iteration</span>
+  <span class="token comment" spellcheck="true">-- occurs.</span>
+  request_handle<span class="token punctuation">:</span><span class="token function">respond</span><span class="token punctuation">(</span>
+    <span class="token punctuation">{</span><span class="token punctuation">[</span><span class="token string">&quot;:status&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;403&quot;</span><span class="token punctuation">,</span>
+     <span class="token punctuation">[</span><span class="token string">&quot;upstream_foo&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> headers<span class="token punctuation">[</span><span class="token string">&quot;foo&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;nope&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+</code></pre>
+<h2 id="stream-handle-api">Stream handle API</h2>
+<p>When Envoy loads the script in the configuration, it looks for two global functions that the script defines:</p>
+<pre class="language-"><code class="lang-lua"><span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+
+<span class="token keyword">function</span> <span class="token function">envoy_on_response</span><span class="token punctuation">(</span>response_handle<span class="token punctuation">)</span>
+<span class="token keyword">end</span>
+</code></pre>
+<p>A script can define either or both of these functions. During the request path, Envoy will run <em>envoy_on_request</em> as a coroutine, passing an API handle. During the response path, Envoy will run <em>envoy_on_response</em> as a coroutine, passing an API handle.</p>
+<p>Attention</p>
+<p>It is critical that all interaction with Envoy occur through the passed stream handle. The stream handle should not be assigned to any global variable and should not be used outside of the coroutine. Envoy will fail your script if the handle is used incorrectly.</p>
+<p>The following methods on the stream handle are supported:</p>
+<h3 id="headers">headers()</h3>
+<pre class="language-"><code>headers = handle:headers()
+</code></pre><p>Returns the stream&#x2019;s headers. The headers can be modified as long as they have not been sent to the next filter in the header chain. For example, they can be modified after an <em>httpCall()</em> or after a <em>body()</em> call returns. The script will fail if the headers are modified in any other situation.</p>
+<p>Returns a <a href="#config-http-filters-lua-header-wrapper">header object</a>.</p>
+<h3 id="body">body()</h3>
+<pre class="language-"><code>body = handle:body()
+</code></pre><p>Returns the stream&#x2019;s body. This call will cause Envoy to yield the script until the entire body has been buffered. Note that all buffering must adhere to the flow control policies in place. Envoy will not buffer more data than is allowed by the connection manager.</p>
+<p>Returns a <a href="#config-http-filters-lua-buffer-wrapper">buffer object</a>.</p>
+<h3 id="bodychunks">bodyChunks()</h3>
+<pre class="language-"><code>iterator = handle:bodyChunks()
+</code></pre><p>Returns an iterator that can be used to iterate through all received body chunks as they arrive. Envoy will yield the script in between chunks, but <em>will not buffer</em> them. This can be used by a script to inspect data as it is streaming by.</p>
+<pre class="language-"><code>for chunk in request_handle:bodyChunks() do
+  request_handle:log(0, chunk:length())
+end
+</code></pre><p>Each chunk the iterator returns is a <a href="#config-http-filters-lua-buffer-wrapper">buffer object</a>.</p>
+<h3 id="trailers">trailers()</h3>
+<pre class="language-"><code>trailers = handle:trailers()
+</code></pre><p>Returns the stream&#x2019;s trailers. May return nil if there are no trailers. The trailers may be modified before they are sent to the next filter.</p>
+<p>Returns a <a href="#config-http-filters-lua-header-wrapper">header object</a>.</p>
+<h3 id="log">log*()</h3>
+<pre class="language-"><code>handle:logTrace(message)
+handle:logDebug(message)
+handle:logInfo(message)
+handle:logWarn(message)
+handle:logErr(message)
+handle:logCritical(message)
+</code></pre><p>Logs a message using Envoy&#x2019;s application logging. <em>message</em> is a string to log.</p>
+<h3 id="httpcall">httpCall()</h3>
+<pre class="language-"><code>headers, body = handle:httpCall(cluster, headers, body, timeout)
+</code></pre><p>Makes an HTTP call to an upstream host. Envoy will yield the script until the call completes or has an error. <em>cluster</em> is a string which maps to a configured cluster manager cluster. <em>headers</em> is a table of key/value pairs to send. Note that the <em>:method</em>, <em>:path</em>, and <em>:authority</em> headers must be set. <em>body</em> is an optional string of body data to send. <em>timeout</em> is an integer that specifies the call timeout in milliseconds.</p>
+<p>Returns <em>headers</em> which is a table of response headers. Returns <em>body</em> which is the string response body. May be nil if there is no body.</p>
+<h3 id="respond">respond()</h3>
+<pre class="language-"><code>handle:respond(headers, body)
+</code></pre><p>Respond immediately and do not continue further filter iteration. This call is <em>only valid in the request flow</em>. Additionally, a response is only possible if request headers have not yet been passed to subsequent filters. Meaning, the following Lua code is invalid:</p>
+<pre class="language-"><code class="lang-lua"><span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
+  <span class="token keyword">for</span> chunk <span class="token keyword">in</span> request_handle<span class="token punctuation">:</span><span class="token function">bodyChunks</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">do</span>
+    request_handle<span class="token punctuation">:</span><span class="token function">respond</span><span class="token punctuation">(</span>
+      <span class="token punctuation">{</span><span class="token punctuation">[</span><span class="token string">&quot;:status&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;100&quot;</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;nope&quot;</span><span class="token punctuation">)</span>
+  <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+</code></pre>
+<p><em>headers</em> is a table of key/value pairs to send. Note that the <em>:status</em> header must be set. <em>body</em> is a string and supplies the optional response body. May be nil.</p>
+<h3 id="metadata">metadata()</h3>
+<pre class="language-"><code>metadata = handle:metadata()
+</code></pre><p>Returns the current route entry metadata. Note that the metadata should be specified under the filter name i.e. <em>envoy.lua</em>. Below is an example of a <em>metadata</em> in a <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route">route entry</a>.</p>
+<pre class="language-"><code class="lang-yaml"><span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">filter_metadata</span><span class="token punctuation">:</span>
+    <span class="token key atrule">envoy.lua</span><span class="token punctuation">:</span>
+      <span class="token key atrule">foo</span><span class="token punctuation">:</span> bar
+      <span class="token key atrule">baz</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> bad
+        <span class="token punctuation">-</span> baz
+</code></pre>
+<p>Returns a <a href="#config-http-filters-lua-metadata-wrapper">metadata object</a>.</p>
+<h2 id="header-object-api">Header object API</h2>
+<h3 id="add">add()</h3>
+<pre class="language-"><code>headers:add(key, value)
+</code></pre><p>Adds a header. <em>key</em> is a string that supplies the header key. <em>value</em> is a string that supplies the header value.</p>
+<p>Attention</p>
+<p>Envoy treats certain headers specially. These are known as the O(1) or <em>inline</em> headers. The list of inline headers can be found <a href="https://github.com/envoyproxy/envoy/blob/6b6ce85a24094146c5c225f19b6ecc47b2ca84bf/include/envoy/http/header_map.h#L228" target="_blank">here</a>. If an inline header is already present in the header map, <em>add()</em>will have no effect. If attempting to <em>add()</em> a non-inline header, the additional header will be added so that the resultant headers contains multiple header entries with the same name. Consider using the <em>replace</em> function if want to replace a header with another value. Note also that we understand this behavior is confusing and we may change it in a future release.</p>
+<h3 id="get">get()</h3>
+<pre class="language-"><code>headers:get(key)
+</code></pre><p>Gets a header. <em>key</em> is a string that supplies the header key. Returns a string that is the header value or nil if there is no such header.</p>
+<h3 id="pairs">__pairs()</h3>
+<pre class="language-"><code>for key, value in pairs(headers) do
+end
+</code></pre><p>Iterates through every header. <em>key</em> is a string that supplies the header key. <em>value</em> is a string that supplies the header value.</p>
+<p>Attention</p>
+<p>In the currently implementation, headers cannot be modified during iteration. Additionally, if it is desired to modify headers after iteration, the iteration must be completed. Meaning, do not use break or any other mechanism to exit the loop early. This may be relaxed in the future.</p>
+<h3 id="remove">remove()</h3>
+<pre class="language-"><code>headers:remove(key)
+</code></pre><p>Removes a header. <em>key</em> supplies the header key to remove.</p>
+<h3 id="replace">replace()</h3>
+<pre class="language-"><code>headers:replace(key, value)
+</code></pre><p>Replaces a header. <em>key</em> is a string that supplies the header key. <em>value</em> is a string that supplies the header value. If the header does not exist, it is added as per the <em>add()</em> function.</p>
+<h2 id="buffer-api">Buffer API</h2>
+<h3 id="length">length()</h3>
+<pre class="language-"><code>size = buffer:length()
+</code></pre><p>Gets the size of the buffer in bytes. Returns an integer.</p>
+<h3 id="getbytes">getBytes()</h3>
+<pre class="language-"><code>buffer:getBytes(index, length)
+</code></pre><p>Get bytes from the buffer. By default Envoy will not copy all buffer bytes to Lua. This will cause a buffer segment to be copied. <em>index</em> is an integer and supplies the buffer start index to copy. <em>length</em>is an integer and supplies the buffer length to copy. <em>index</em> + <em>length</em> must be less than the buffer length.</p>
+<h2 id="metadata-object-api">Metadata object API</h2>
+<h3 id="get">get()</h3>
+<pre class="language-"><code>metadata:get(key)
+</code></pre><p>Gets a metadata. <em>key</em> is a string that supplies the metadata key. Returns the corresponding value of the given metadata key. The type of the value can be: <em>null</em>, <em>boolean</em>, <em>number</em>, <em>string</em> and <em>table</em>.</p>
+<h3 id="pairs">__pairs()</h3>
+<pre class="language-"><code>for key, value in pairs(metadata) do
+end
+</code></pre><p>Iterates through every <em>metadata</em> entry. <em>key</em> is a string that supplies a <em>metadata</em> key. <em>value</em> is <em>metadata</em> entry value.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ip_tagging_filter.html" class="navigation navigation-prev " aria-label="Previous page: IP Tagging">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="rate_limit_filter.html" class="navigation navigation-next " aria-label="Next page: 速率限制">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Lua","level":"5.7.11","depth":2,"next":{"title":"速率限制","level":"5.7.12","depth":2,"path":"configuration/http_filters/rate_limit_filter.md","ref":"configuration/http_filters/rate_limit_filter.md","articles":[]},"previous":{"title":"IP Tagging","level":"5.7.10","depth":2,"path":"configuration/http_filters/ip_tagging_filter.md","ref":"configuration/http_filters/ip_tagging_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/awesome-servicemesh","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/awesome-servicemesh/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_filters/lua_filter.md","mtime":"2018-05-15T11:31:38.700Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-15T13:44:31.144Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

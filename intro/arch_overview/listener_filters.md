@@ -1,0 +1,5 @@
+# Listener filter
+
+As discussed in the [listener](listeners.md#arch-overview-listeners) section, listener filters may be used to manipulate connection metadata. The main purpose of listener filters is to make adding further system integration functions easier by not requiring changes to Envoy core functionality, and also make interaction between multiple such features more explicit.
+
+The API for listener filters is relatively simple since ultimately these filters operate on newly accepted sockets. Filters in the chain can stop and subsequently continue iteration to further filters. This allows for more complex scenarios such as calling a [rate limiting service](global_rate_limiting.md#arch-overview-rate-limit), etc. Envoy already includes several listener filters that are documented in this architecture overview as well as the [configuration reference](../../configuration/listener_filters/listener_filters.md#config-listener-filters).

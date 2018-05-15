@@ -1,0 +1,2620 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>负载均衡 · Envoy proxy中文文档</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="ServiceMesher">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism-ghcolors.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="outlier.html" />
+    
+    
+    <link rel="prev" href="connection_pooling.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/awesome-servicemesh","types":["star"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">说明</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../about_docs.html">
+            
+                <a href="../../about_docs.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    关于本文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../what_is_envoy.html">
+            
+                <a href="../what_is_envoy.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    Envoy 是什么？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../what_is_envoy.html">
+            
+                <a href="../what_is_envoy.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    架构概览
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="terminology.html">
+            
+                <a href="terminology.html">
+            
+                    
+                        <b>2.2.1.</b>
+                    
+                    术语
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="threading_model.html">
+            
+                <a href="threading_model.html">
+            
+                    
+                        <b>2.2.2.</b>
+                    
+                    线程模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="listeners.html">
+            
+                <a href="listeners.html">
+            
+                    
+                        <b>2.2.3.</b>
+                    
+                    Listener
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.4" data-path="listener_filters.html">
+            
+                <a href="listener_filters.html">
+            
+                    
+                        <b>2.2.4.</b>
+                    
+                    Listener filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.5" data-path="network_filters.html">
+            
+                <a href="network_filters.html">
+            
+                    
+                        <b>2.2.5.</b>
+                    
+                    Network (L3/L4) filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.6" data-path="http_connection_management.html">
+            
+                <a href="http_connection_management.html">
+            
+                    
+                        <b>2.2.6.</b>
+                    
+                    HTTP 连接管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.7" data-path="http_filters.html">
+            
+                <a href="http_filters.html">
+            
+                    
+                        <b>2.2.7.</b>
+                    
+                    HTTP filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.8" data-path="http_routing.html">
+            
+                <a href="http_routing.html">
+            
+                    
+                        <b>2.2.8.</b>
+                    
+                    HTTP 路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.9" data-path="grpc.html">
+            
+                <a href="grpc.html">
+            
+                    
+                        <b>2.2.9.</b>
+                    
+                    gRPC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.10" data-path="websocket.html">
+            
+                <a href="websocket.html">
+            
+                    
+                        <b>2.2.10.</b>
+                    
+                    WebSocket 支持
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.11" data-path="cluster_manager.html">
+            
+                <a href="cluster_manager.html">
+            
+                    
+                        <b>2.2.11.</b>
+                    
+                    Cluster manager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.12" data-path="service_discovery.html">
+            
+                <a href="service_discovery.html">
+            
+                    
+                        <b>2.2.12.</b>
+                    
+                    服务发现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.13" data-path="health_checking.html">
+            
+                <a href="health_checking.html">
+            
+                    
+                        <b>2.2.13.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.14" data-path="connection_pooling.html">
+            
+                <a href="connection_pooling.html">
+            
+                    
+                        <b>2.2.14.</b>
+                    
+                    连接池
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.2.15" data-path="load_balancing.html">
+            
+                <a href="load_balancing.html">
+            
+                    
+                        <b>2.2.15.</b>
+                    
+                    负载均衡
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.16" data-path="outlier.html">
+            
+                <a href="outlier.html">
+            
+                    
+                        <b>2.2.16.</b>
+                    
+                    异常点检测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.17" data-path="circuit_breaking.html">
+            
+                <a href="circuit_breaking.html">
+            
+                    
+                        <b>2.2.17.</b>
+                    
+                    断路器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.18" data-path="global_rate_limiting.html">
+            
+                <a href="global_rate_limiting.html">
+            
+                    
+                        <b>2.2.18.</b>
+                    
+                    全局速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.19" data-path="ssl.html">
+            
+                <a href="ssl.html">
+            
+                    
+                        <b>2.2.19.</b>
+                    
+                    TLS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.20" data-path="statistics.html">
+            
+                <a href="statistics.html">
+            
+                    
+                        <b>2.2.20.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.21" data-path="runtime.html">
+            
+                <a href="runtime.html">
+            
+                    
+                        <b>2.2.21.</b>
+                    
+                    运行时配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.22" data-path="tracing.html">
+            
+                <a href="tracing.html">
+            
+                    
+                        <b>2.2.22.</b>
+                    
+                    追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.23" data-path="tcp_proxy.html">
+            
+                <a href="tcp_proxy.html">
+            
+                    
+                        <b>2.2.23.</b>
+                    
+                    TCP 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.24" data-path="access_logging.html">
+            
+                <a href="access_logging.html">
+            
+                    
+                        <b>2.2.24.</b>
+                    
+                    访问记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.25" data-path="mongo.html">
+            
+                <a href="mongo.html">
+            
+                    
+                        <b>2.2.25.</b>
+                    
+                    MongoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.26" data-path="dynamo.html">
+            
+                <a href="dynamo.html">
+            
+                    
+                        <b>2.2.26.</b>
+                    
+                    DynamoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.27" data-path="redis.html">
+            
+                <a href="redis.html">
+            
+                    
+                        <b>2.2.27.</b>
+                    
+                    Redis
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.28" data-path="hot_restart.html">
+            
+                <a href="hot_restart.html">
+            
+                    
+                        <b>2.2.28.</b>
+                    
+                    热重启
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.29" data-path="dynamic_configuration.html">
+            
+                <a href="dynamic_configuration.html">
+            
+                    
+                        <b>2.2.29.</b>
+                    
+                    动态配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.30" data-path="init.html">
+            
+                <a href="init.html">
+            
+                    
+                        <b>2.2.30.</b>
+                    
+                    初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.31" data-path="draining.html">
+            
+                <a href="draining.html">
+            
+                    
+                        <b>2.2.31.</b>
+                    
+                    排除
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.32" data-path="scripting.html">
+            
+                <a href="scripting.html">
+            
+                    
+                        <b>2.2.32.</b>
+                    
+                    脚本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../deployment_types/deployment_types.html">
+            
+                <a href="../deployment_types/deployment_types.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    部署类型
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="../deployment_types/service_to_service.html">
+            
+                <a href="../deployment_types/service_to_service.html">
+            
+                    
+                        <b>2.3.1.</b>
+                    
+                    仅服务之间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="../deployment_types/front_proxy.html">
+            
+                <a href="../deployment_types/front_proxy.html">
+            
+                    
+                        <b>2.3.2.</b>
+                    
+                    服务之间外加前端代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.3" data-path="../deployment_types/double_proxy.html">
+            
+                <a href="../deployment_types/double_proxy.html">
+            
+                    
+                        <b>2.3.3.</b>
+                    
+                    服务间、前端代理、双向代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../comparison.html">
+            
+                <a href="../comparison.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    与类似系统比较
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../getting_help.html">
+            
+                <a href="../getting_help.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    获取帮助
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../version_history.html">
+            
+                <a href="../version_history.html">
+            
+                    
+                        <b>2.6.</b>
+                    
+                    历史版本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">入门指南</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../../start/start.html">
+            
+                <a href="../../start/start.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    入门指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" >
+            
+                <span>
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Sandbox
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../../start/sandboxes/front_proxy.html">
+            
+                <a href="../../start/sandboxes/front_proxy.html">
+            
+                    
+                        <b>3.2.1.</b>
+                    
+                    前端代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../../start/sandboxes/zipkin_tracing.html">
+            
+                <a href="../../start/sandboxes/zipkin_tracing.html">
+            
+                    
+                        <b>3.2.2.</b>
+                    
+                    Zipkin 追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../../start/sandboxes/jaeger_tracing.html">
+            
+                <a href="../../start/sandboxes/jaeger_tracing.html">
+            
+                    
+                        <b>3.2.3.</b>
+                    
+                    Jaeger 追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../../start/sandboxes/jaeger_native_tracing.html">
+            
+                <a href="../../start/sandboxes/jaeger_native_tracing.html">
+            
+                    
+                        <b>3.2.4.</b>
+                    
+                    Jaeger 原生追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" >
+            
+                <span>
+            
+                    
+                        <b>3.3.</b>
+                    
+                    其他用例
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="../../start/distro/ambassador.html">
+            
+                <a href="../../start/distro/ambassador.html">
+            
+                    
+                        <b>3.3.1.</b>
+                    
+                    Envoy 作为 Kubernetes 的 API 网关
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">构建和安装</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../../install/building.html">
+            
+                <a href="../../install/building.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    构建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../../install/ref_configs.html">
+            
+                <a href="../../install/ref_configs.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    参考配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../../install/tools/tools.html">
+            
+                <a href="../../install/tools/tools.html">
+            
+                    
+                        <b>4.3.</b>
+                    
+                    工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">配置参考</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../../configuration/overview/v1_overview.html">
+            
+                <a href="../../configuration/overview/v1_overview.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    v1 API 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../../configuration/overview/v2_overview.html">
+            
+                <a href="../../configuration/overview/v2_overview.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    v2 API 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" >
+            
+                <span>
+            
+                    
+                        <b>5.3.</b>
+                    
+                    Listener
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.3.1" data-path="../../configuration/listeners/stats.html">
+            
+                <a href="../../configuration/listeners/stats.html">
+            
+                    
+                        <b>5.3.1.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.2" data-path="../../configuration/listeners/runtime.html">
+            
+                <a href="../../configuration/listeners/runtime.html">
+            
+                    
+                        <b>5.3.2.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.3" data-path="../../configuration/listeners/lds.html">
+            
+                <a href="../../configuration/listeners/lds.html">
+            
+                    
+                        <b>5.3.3.</b>
+                    
+                    Listener 发现服务（LDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" >
+            
+                <span>
+            
+                    
+                        <b>5.4.</b>
+                    
+                    Listener filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.1" data-path="../../configuration/listener_filters/original_dst_filter.html">
+            
+                <a href="../../configuration/listener_filters/original_dst_filter.html">
+            
+                    
+                        <b>5.4.1.</b>
+                    
+                    原始目的地
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2" data-path="../../configuration/listener_filters/tls_inspector.html">
+            
+                <a href="../../configuration/listener_filters/tls_inspector.html">
+            
+                    
+                        <b>5.4.2.</b>
+                    
+                    TLS 检查器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" >
+            
+                <span>
+            
+                    
+                        <b>5.5.</b>
+                    
+                    网络 filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.5.1" data-path="../../configuration/network_filters/client_ssl_auth_filter.html">
+            
+                <a href="../../configuration/network_filters/client_ssl_auth_filter.html">
+            
+                    
+                        <b>5.5.1.</b>
+                    
+                    客户端 TLS 身份验证
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.2" data-path="../../configuration/network_filters/echo_filter.html">
+            
+                <a href="../../configuration/network_filters/echo_filter.html">
+            
+                    
+                        <b>5.5.2.</b>
+                    
+                    Echo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.3" data-path="../../configuration/network_filters/mongo_proxy_filter.html">
+            
+                <a href="../../configuration/network_filters/mongo_proxy_filter.html">
+            
+                    
+                        <b>5.5.3.</b>
+                    
+                    Mongo 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.4" data-path="../../configuration/network_filters/rate_limit_filter.html">
+            
+                <a href="../../configuration/network_filters/rate_limit_filter.html">
+            
+                    
+                        <b>5.5.4.</b>
+                    
+                    速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.5" data-path="../../configuration/network_filters/redis_proxy_filter.html">
+            
+                <a href="../../configuration/network_filters/redis_proxy_filter.html">
+            
+                    
+                        <b>5.5.5.</b>
+                    
+                    Redis 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.6" data-path="../../configuration/network_filters/tcp_proxy_filter.html">
+            
+                <a href="../../configuration/network_filters/tcp_proxy_filter.html">
+            
+                    
+                        <b>5.5.6.</b>
+                    
+                    TCP 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" >
+            
+                <span>
+            
+                    
+                        <b>5.6.</b>
+                    
+                    HTTP 连接管理器
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.6.1" data-path="../../configuration/http_conn_man/route_matching.html">
+            
+                <a href="../../configuration/http_conn_man/route_matching.html">
+            
+                    
+                        <b>5.6.1.</b>
+                    
+                    路由匹配
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.2" data-path="../../configuration/http_conn_man/traffic_splitting.html">
+            
+                <a href="../../configuration/http_conn_man/traffic_splitting.html">
+            
+                    
+                        <b>5.6.2.</b>
+                    
+                    流量转换/切分
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.3" data-path="../../configuration/http_conn_man/headers.html">
+            
+                <a href="../../configuration/http_conn_man/headers.html">
+            
+                    
+                        <b>5.6.3.</b>
+                    
+                    HTTP header 操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.4" data-path="../../configuration/http_conn_man/header_sanitizing.html">
+            
+                <a href="../../configuration/http_conn_man/header_sanitizing.html">
+            
+                    
+                        <b>5.6.4.</b>
+                    
+                    HTTP header sanitizing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.5" data-path="../../configuration/http_conn_man/stats.html">
+            
+                <a href="../../configuration/http_conn_man/stats.html">
+            
+                    
+                        <b>5.6.5.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.6" data-path="../../configuration/http_conn_man/runtime.html">
+            
+                <a href="../../configuration/http_conn_man/runtime.html">
+            
+                    
+                        <b>5.6.6.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.7" data-path="../../configuration/http_conn_man/rds.html">
+            
+                <a href="../../configuration/http_conn_man/rds.html">
+            
+                    
+                        <b>5.6.7.</b>
+                    
+                    路由发现服务（RDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" >
+            
+                <span>
+            
+                    
+                        <b>5.7.</b>
+                    
+                    HTTP filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.7.1" data-path="../../configuration/http_filters/buffer_filter.html">
+            
+                <a href="../../configuration/http_filters/buffer_filter.html">
+            
+                    
+                        <b>5.7.1.</b>
+                    
+                    Buffer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.2" data-path="../../configuration/http_filters/cors_filter.html">
+            
+                <a href="../../configuration/http_filters/cors_filter.html">
+            
+                    
+                        <b>5.7.2.</b>
+                    
+                    CORS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.3" data-path="../../configuration/http_filters/dynamodb_filter.html">
+            
+                <a href="../../configuration/http_filters/dynamodb_filter.html">
+            
+                    
+                        <b>5.7.3.</b>
+                    
+                    DynamoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.4" data-path="../../configuration/http_filters/fault_filter.html">
+            
+                <a href="../../configuration/http_filters/fault_filter.html">
+            
+                    
+                        <b>5.7.4.</b>
+                    
+                    故障注入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.5" data-path="../../configuration/http_filters/grpc_http1_bridge_filter.html">
+            
+                <a href="../../configuration/http_filters/grpc_http1_bridge_filter.html">
+            
+                    
+                        <b>5.7.5.</b>
+                    
+                    gRPC HTTP/1.1 bridge
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.6" data-path="../../configuration/http_filters/grpc_json_transcoder_filter.html">
+            
+                <a href="../../configuration/http_filters/grpc_json_transcoder_filter.html">
+            
+                    
+                        <b>5.7.6.</b>
+                    
+                    gRPC-JSON 转码
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.7" data-path="../../configuration/http_filters/grpc_web_filter.html">
+            
+                <a href="../../configuration/http_filters/grpc_web_filter.html">
+            
+                    
+                        <b>5.7.7.</b>
+                    
+                    gRPC-Web
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.8" data-path="../../configuration/http_filters/gzip_filter.html">
+            
+                <a href="../../configuration/http_filters/gzip_filter.html">
+            
+                    
+                        <b>5.7.8.</b>
+                    
+                    Gzip
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.9" data-path="../../configuration/http_filters/health_check_filter.html">
+            
+                <a href="../../configuration/http_filters/health_check_filter.html">
+            
+                    
+                        <b>5.7.9.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.10" data-path="../../configuration/http_filters/ip_tagging_filter.html">
+            
+                <a href="../../configuration/http_filters/ip_tagging_filter.html">
+            
+                    
+                        <b>5.7.10.</b>
+                    
+                    IP Tagging
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.11" data-path="../../configuration/http_filters/lua_filter.html">
+            
+                <a href="../../configuration/http_filters/lua_filter.html">
+            
+                    
+                        <b>5.7.11.</b>
+                    
+                    Lua
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.12" data-path="../../configuration/http_filters/rate_limit_filter.html">
+            
+                <a href="../../configuration/http_filters/rate_limit_filter.html">
+            
+                    
+                        <b>5.7.12.</b>
+                    
+                    速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.13" data-path="../../configuration/http_filters/router_filter.html">
+            
+                <a href="../../configuration/http_filters/router_filter.html">
+            
+                    
+                        <b>5.7.13.</b>
+                    
+                    路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.14" data-path="../../configuration/http_filters/squash_filter.html">
+            
+                <a href="../../configuration/http_filters/squash_filter.html">
+            
+                    
+                        <b>5.7.14.</b>
+                    
+                    Squash
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" >
+            
+                <span>
+            
+                    
+                        <b>5.8.</b>
+                    
+                    Cluster Manager
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.8.1" data-path="../../configuration/cluster_manager/cluster_stats.html">
+            
+                <a href="../../configuration/cluster_manager/cluster_stats.html">
+            
+                    
+                        <b>5.8.1.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.2" data-path="../../configuration/cluster_manager/cluster_runtime.html">
+            
+                <a href="../../configuration/cluster_manager/cluster_runtime.html">
+            
+                    
+                        <b>5.8.2.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.3" data-path="../../configuration/cluster_manager/cds.html">
+            
+                <a href="../../configuration/cluster_manager/cds.html">
+            
+                    
+                        <b>5.8.3.</b>
+                    
+                    集群发现服务（CDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.4" data-path="../../configuration/cluster_manager/cluster_hc.html">
+            
+                <a href="../../configuration/cluster_manager/cluster_hc.html">
+            
+                    
+                        <b>5.8.4.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.5" data-path="../../configuration/cluster_manager/cluster_circuit_breakers.html">
+            
+                <a href="../../configuration/cluster_manager/cluster_circuit_breakers.html">
+            
+                    
+                        <b>5.8.5.</b>
+                    
+                    断路
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.9" >
+            
+                <span>
+            
+                    
+                        <b>5.9.</b>
+                    
+                    健康检查器
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.9.1" data-path="../../configuration/health_checkers/redis.html">
+            
+                <a href="../../configuration/health_checkers/redis.html">
+            
+                    
+                        <b>5.9.1.</b>
+                    
+                    Redis
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.10" data-path="../../configuration/access_log.html">
+            
+                <a href="../../configuration/access_log.html">
+            
+                    
+                        <b>5.10.</b>
+                    
+                    访问记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.11" data-path="../../configuration/rate_limit.html">
+            
+                <a href="../../configuration/rate_limit.html">
+            
+                    
+                        <b>5.11.</b>
+                    
+                    速率限制服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.12" data-path="../../configuration/runtime.html">
+            
+                <a href="../../configuration/runtime.html">
+            
+                    
+                        <b>5.12.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.13" data-path="../../configuration/statistics.html">
+            
+                <a href="../../configuration/statistics.html">
+            
+                    
+                        <b>5.13.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.14" data-path="../../configuration/tools/router_check.html">
+            
+                <a href="../../configuration/tools/router_check.html">
+            
+                    
+                        <b>5.14.</b>
+                    
+                    路由表检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">运维管理</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../../operations/cli.html">
+            
+                <a href="../../operations/cli.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    命令行选项
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="../../operations/hot_restarter.html">
+            
+                <a href="../../operations/hot_restarter.html">
+            
+                    
+                        <b>6.2.</b>
+                    
+                    热重启 Python 包装器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="../../operations/admin.html">
+            
+                <a href="../../operations/admin.html">
+            
+                    
+                        <b>6.3.</b>
+                    
+                    管理接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.4" data-path="../../operations/stats_overview.html">
+            
+                <a href="../../operations/stats_overview.html">
+            
+                    
+                        <b>6.4.</b>
+                    
+                    统计概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.5" data-path="../../operations/runtime.html">
+            
+                <a href="../../operations/runtime.html">
+            
+                    
+                        <b>6.5.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.6" data-path="../../operations/fs_flags.html">
+            
+                <a href="../../operations/fs_flags.html">
+            
+                    
+                        <b>6.6.</b>
+                    
+                    文件系统标志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.7" data-path="../../operations/traffic_capture.html">
+            
+                <a href="../../operations/traffic_capture.html">
+            
+                    
+                        <b>6.7.</b>
+                    
+                    流量捕获
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.8" data-path="../../extending/extending.html">
+            
+                <a href="../../extending/extending.html">
+            
+                    
+                        <b>6.8.</b>
+                    
+                    为自定义用例扩展 Envoy
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API 参考</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" >
+            
+                <a target="_blank" href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/api">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    v1 API 参考
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" >
+            
+                <a target="_blank" href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api">
+            
+                    
+                        <b>7.2.</b>
+                    
+                    v2 API 参考
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">常见问题</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../../faq/binaries.html">
+            
+                <a href="../../faq/binaries.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    从哪里能获得二进制文件？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../../faq/sni.html">
+            
+                <a href="../../faq/sni.html">
+            
+                    
+                        <b>8.2.</b>
+                    
+                    如何设置 SNI？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="../../faq/zone_aware_routing.html">
+            
+                <a href="../../faq/zone_aware_routing.html">
+            
+                    
+                        <b>8.3.</b>
+                    
+                    如何设置 zone 可感知路由？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="../../faq/zipkin_tracing.html">
+            
+                <a href="../../faq/zipkin_tracing.html">
+            
+                    
+                        <b>8.4.</b>
+                    
+                    如何设置 Zipkin 追踪？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="../../faq/lb_panic_threshold.html">
+            
+                <a href="../../faq/lb_panic_threshold.html">
+            
+                    
+                        <b>8.5.</b>
+                    
+                    我设置了健康检查，但是当有节点失败时，Envoy 又路由到那些节点，这是怎么回事？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.6" data-path="../../faq/concurrency_lb.html">
+            
+                <a href="../../faq/concurrency_lb.html">
+            
+                    
+                        <b>8.6.</b>
+                    
+                    为什么 Round Robin 负载均衡看起来不起作用？
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >负载均衡</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div class="search-plus" id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x8D1F;&#x8F7D;&#x5747;&#x8861;">&#x8D1F;&#x8F7D;&#x5747;&#x8861;</h1>
+<p>When a filter needs to acquire a connection to a host in an upstream cluster, the cluster manager uses a load balancing policy to determine which host is selected. The load balancing policies are pluggable and are specified on a per upstream cluster basis in the <a href="../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster">configuration</a>. Note that if no active health checking policy is <a href="../../configuration/cluster_manager/cluster_hc.html#config-cluster-manager-cluster-hc">configured</a> for a cluster, all upstream cluster members are considered healthy.</p>
+<h2 id="&#x652F;&#x6301;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5668;">&#x652F;&#x6301;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5668;</h2>
+<h3 id="round-robin">Round robin</h3>
+<p>This is a simple policy in which each healthy upstream host is selected in round robin order. If <a href="../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-field-endpoint-lbendpoint-load-balancing-weight">weights</a> are assigned to endpoints in a locality, then a weighted round robin schedule is used, where higher weighted endpoints will appear more often in the rotation to achieve the effective weighting.</p>
+<h3 id="weighted-least-request">Weighted least request</h3>
+<p>The least request load balancer uses an O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests (<a href="http://www.eecs.harvard.edu/~michaelm/postscripts/handbook2001.pdf" target="_blank">Research</a> has shown that this approach is nearly as good as an O(N) full scan). If any host in the cluster has a load balancing weight greater than 1, the load balancer shifts into a mode where it randomly picks a host and then uses that host <weight> times. This algorithm is simple and sufficient for load testing. It should not be used where true weighted least request behavior is desired (generally if request durations are variable and long in length). We may add a true full scan weighted least request variant in the future to cover this use case.</weight></p>
+<h3 id="ring-hash">Ring hash</h3>
+<p>The ring/modulo hash load balancer implements consistent hashing to upstream hosts. The algorithm is based on mapping all hosts onto a circle such that the addition or removal of a host from the host set changes only affect 1/N requests. This technique is also commonly known as <a href="https://github.com/RJ/ketama" target="_blank">&#x201C;ketama&#x201D;</a> hashing. A consistent hashing load balancer is only effective when protocol routing is used that specifies a value to hash on. The minimum ring size governs the replication factor for each host in the ring. For example, if the minimum ring size is 1024 and there are 16 hosts, each host will be replicated 64 times. The ring hash load balancer does not currently support weighting.</p>
+<p>When priority based load balancing is in use, the priority level is also chosen by hash, so the endpoint selected will still be consistent when the set of backends is stable.</p>
+<p>Note</p>
+<p>The ring hash load balancer does not support <a href="#arch-overview-load-balancing-locality-weighted-lb">locality weighted load balancing</a>.</p>
+<h3 id="maglev">Maglev</h3>
+<p>The Maglev load balancer implements consistent hashing to upstream hosts. It uses the algorithm described in section 3.4 of <a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf" target="_blank">this paper</a> with a fixed table size of 65537 (see section 5.3 of the same paper). Maglev can be used as a drop in replacement for the <a href="#arch-overview-load-balancing-types-ring-hash">ring hash load balancer</a> any place in which consistent hashing is desired. Like the ring hash load balancer, a consistent hashing load balancer is only effective when protocol routing is used that specifies a value to hash on.</p>
+<p>In general, when compared to the ring hash (&#x201C;ketama&#x201D;) algorithm, Maglev has substantially faster table lookup build times as well as host selection times (approximately 10x and 5x respectively when using a large ring size of 256K entries). The downside of Maglev is that it is not as stable as ring hash. More keys will move position when hosts are removed (simulations show approximately double the keys will move). With that said, for many applications including Redis, Maglev is very likely a superior drop in replacement for ring hash. The advanced reader can use <a href="https://github.com/envoyproxy/envoy/blob/master//test/common/upstream/load_balancer_benchmark.cc" target="_blank">this benchmark</a> to compare ring hash versus Maglev with different parameters.</p>
+<h3 id="random">Random</h3>
+<p>The random load balancer selects a random healthy host. The random load balancer generally performs better than round robin if no health checking policy is configured. Random selection avoids bias towards the host in the set that comes after a failed host.</p>
+<h3 id="original-destination">Original destination</h3>
+<p>This is a special purpose load balancer that can only be used with <a href="service_discovery.html#arch-overview-service-discovery-types-original-destination">an original destination cluster</a>. Upstream host is selected based on the downstream connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection was before the connection was redirected to Envoy. New destinations are added to the cluster by the load balancer on-demand, and the cluster <a href="../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-cleanup-interval-ms">periodically</a> cleans out unused hosts from the cluster. No other <a href="../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-lb-type">load balancing type</a> can be used with original destination clusters.</p>
+<h2 id="&#x6050;&#x614C;&#x9608;&#x503C;">&#x6050;&#x614C;&#x9608;&#x503C;</h2>
+<p>During load balancing, Envoy will generally only consider healthy hosts in an upstream cluster. However, if the percentage of healthy hosts in the cluster becomes too low, Envoy will disregard health status and balance amongst all hosts. This is known as the <em>panic threshold</em>. The default panic threshold is 50%. This is <a href="../../configuration/cluster_manager/cluster_runtime.html#config-cluster-manager-cluster-runtime">configurable</a> via runtime as well as in the <a href="../../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-commonlbconfig-healthy-panic-threshold">cluster configuration</a>. The panic threshold is used to avoid a situation in which host failures cascade throughout the cluster as load increases.</p>
+<p>Note that panic thresholds are <em>per-priority</em>. This means that if the percentage of healthy nodes in a single priority goes below the threshold, that priority will enter panic mode. In general it is discouraged to use panic thresholds in conjunction with priorities, as by the time enough nodes are unhealthy to trigger the panic threshold most of the traffic should already have spilled over to the next priority level.</p>
+<h2 id="&#x4F18;&#x5148;&#x7EA7;&#x5212;&#x5206;">&#x4F18;&#x5148;&#x7EA7;&#x5212;&#x5206;</h2>
+<p>During load balancing, Envoy will generally only consider hosts configured at the highest priority level. For each EDS <a href="../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-msg-endpoint-localitylbendpoints">LocalityLbEndpoints</a> an optional priority may also be specified. When endpoints at the highest priority level (P=0) are healthy, all traffic will land on endpoints in that priority level. As endpoints for the highest priority level become unhealthy, traffic will begin to trickle to lower priority levels.</p>
+<p>Currently, it is assumed that each priority level is over-provisioned by a (hard-coded) factor of 1.4. So if 80% of the endpoints are healthy, the priority level is still considered healthy because 80*1.4 &gt; 100. As the number of healthy endpoints dips below 72%, the health of the priority level goes below 100. At that point the percent of traffic equivalent to the health of P=0 will go to P=0 and remaining traffic will flow to P=1.</p>
+<p>Assume a simple set-up with 2 priority levels, P=1 100% healthy.</p>
+<table>
+<thead>
+<tr>
+<th>P=0 healthy endpoints</th>
+<th>Percent of traffic to P=0</th>
+<th>Percent of traffic to P=1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100%</td>
+<td>100%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>72%</td>
+<td>100%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>71%</td>
+<td>99%</td>
+<td>1%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>70%</td>
+<td>30%</td>
+</tr>
+<tr>
+<td>25%</td>
+<td>35%</td>
+<td>65%</td>
+</tr>
+<tr>
+<td>0%</td>
+<td>0%</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<p>If P=1 becomes unhealthy, it will continue to take spilled load from P=0 until the sum of the health P=0 + P=1 goes below 100. At this point the healths will be scaled up to an &#x201C;effective&#x201D; health of 100%.</p>
+<table>
+<thead>
+<tr>
+<th>P=0 healthy endpoints</th>
+<th>P=1 healthy endpoints</th>
+<th>Traffic to P=0</th>
+<th>Traffic to P=1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100%</td>
+<td>100%</td>
+<td>100%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>72%</td>
+<td>72%</td>
+<td>100%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>71%</td>
+<td>71%</td>
+<td>99%</td>
+<td>1%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>50%</td>
+<td>70%</td>
+<td>30%</td>
+</tr>
+<tr>
+<td>25%</td>
+<td>100%</td>
+<td>35%</td>
+<td>65%</td>
+</tr>
+<tr>
+<td>25%</td>
+<td>25%</td>
+<td>50%</td>
+<td>50%</td>
+</tr>
+</tbody>
+</table>
+<p>As more priorities are added, each level consumes load equal to its &#x201C;scaled&#x201D; effective health, so P=2 would only receive traffic if the combined health of P=0 + P=1 was less than 100.</p>
+<table>
+<thead>
+<tr>
+<th>P=0 healthy endpoints</th>
+<th>P=1 healthy endpoints</th>
+<th>P=2 healthy endpoints</th>
+<th>Traffic to P=0</th>
+<th>Traffic to P=1</th>
+<th>Traffic to P=2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100%</td>
+<td>100%</td>
+<td>100%</td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>72%</td>
+<td>72%</td>
+<td>100%</td>
+<td>100%</td>
+<td>0%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>71%</td>
+<td>71%</td>
+<td>100%</td>
+<td>99%</td>
+<td>1%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>50%</td>
+<td>100%</td>
+<td>70%</td>
+<td>30%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>25%</td>
+<td>100%</td>
+<td>100%</td>
+<td>35%</td>
+<td>65%</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>25%</td>
+<td>25%</td>
+<td>100%</td>
+<td>25%</td>
+<td>25%</td>
+<td>50%</td>
+</tr>
+</tbody>
+</table>
+<p>To sum this up in pseudo algorithms:</p>
+<pre class="language-"><code>load to P_0 = min(100, health(P_0) * 100 / total_health)
+health(P_X) = 140 * healthy_P_X_backends / total_P_X_backends
+total_health = min(100, &#x3A3;(health(P_0)...health(P_X))
+load to P_X = 100 - &#x3A3;(percent_load(P_0)..percent_load(P_X-1))
+</code></pre><h2 id="zone-&#x611F;&#x77E5;&#x8DEF;&#x7531;">Zone &#x611F;&#x77E5;&#x8DEF;&#x7531;</h2>
+<p>We use the following terminology:</p>
+<ul>
+<li><strong>Originating/Upstream cluster</strong>: Envoy routes requests from an originating cluster to an upstream cluster.</li>
+<li><strong>Local zone</strong>: The same zone that contains a subset of hosts in both the originating and upstream clusters.</li>
+<li><strong>Zone aware routing</strong>: Best effort routing of requests to an upstream cluster host in the local zone.</li>
+</ul>
+<p>In deployments where hosts in originating and upstream clusters belong to different zones Envoy performs zone aware routing. There are several preconditions before zone aware routing can be performed:</p>
+<ul>
+<li>Both originating and upstream cluster are not in <a href="#arch-overview-load-balancing-panic-threshold">panic mode</a>.</li>
+<li>Zone aware <a href="../../configuration/cluster_manager/cluster_runtime.html#config-cluster-manager-cluster-runtime-zone-routing">routing is enabled</a>.</li>
+<li>The originating cluster has the same number of zones as the upstream cluster.</li>
+<li>The upstream cluster has enough hosts. See <a href="../../configuration/cluster_manager/cluster_runtime.html#config-cluster-manager-cluster-runtime-zone-routing">here</a> for more information.</li>
+</ul>
+<p>The purpose of zone aware routing is to send as much traffic to the local zone in the upstream cluster as possible while roughly maintaining the same number of requests per second across all upstream hosts (depending on load balancing policy).</p>
+<p>Envoy tries to push as much traffic as possible to the local upstream zone as long as roughly the same number of requests per host in the upstream cluster are maintained. The decision of whether Envoy routes to the local zone or performs cross zone routing depends on the percentage of healthy hosts in the originating cluster and upstream cluster in the local zone. There are two cases with regard to percentage relations in the local zone between originating and upstream clusters:</p>
+<ul>
+<li>The originating cluster local zone percentage is greater than the one in the upstream cluster. In this case we cannot route all requests from the local zone of the originating cluster to the local zone of the upstream cluster because that will lead to request imbalance across all upstream hosts. Instead, Envoy calculates the percentage of requests that can be routed directly to the local zone of the upstream cluster. The rest of the requests are routed cross zone. The specific zone is selected based on the residual capacity of the zone (that zone will get some local zone traffic and may have additional capacity Envoy can use for cross zone traffic).</li>
+<li>The originating cluster local zone percentage is smaller than the one in upstream cluster. In this case the local zone of the upstream cluster can get all of the requests from the local zone of the originating cluster and also have some space to allow traffic from other zones in the originating cluster (if needed).</li>
+</ul>
+<p>Note that when using multiple priorities, zone aware routing is currently only supported for P=0.</p>
+<h2 id="&#x6240;&#x5728;&#x5730;&#x6743;&#x91CD;&#x8D1F;&#x8F7D;&#x5747;&#x8861;">&#x6240;&#x5728;&#x5730;&#x6743;&#x91CD;&#x8D1F;&#x8F7D;&#x5747;&#x8861;</h2>
+<p>Another approach to determining how to weight assignments across different zones and geographical locations is by using explicit weights supplied via EDS in the <a href="../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-msg-endpoint-localitylbendpoints">LocalityLbEndpoints</a>message. This approach is mutually exclusive with the above zone aware routing, since in the case of locality aware LB, we rely on the management server to provide the locality weighting, rather than the Envoy-side heuristics used in zone aware routing.</p>
+<p>When all endpoints are healthy, the locality is picked using a weighted round-robin schedule, where the locality weight is used for weighting. When some endpoints in a locality are unhealthy, we adjust the locality weight to reflect this. As with <a href="#arch-overview-load-balancing-priority-levels">priority levels</a>, we assume an over-provision factor (currently hardcoded at 1.4), which means we do not perform any weight adjustment when only a small number of endpoints in a locality are unhealthy.</p>
+<p>Assume a simple set-up with 2 localities X and Y, where X has a locality weight of 1 and Y has a locality weight of 2, L=Y 100% healthy.</p>
+<table>
+<thead>
+<tr>
+<th>L=X healthy endpoints</th>
+<th>Percent of traffic to L=X</th>
+<th>Percent of traffic to L=Y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100%</td>
+<td>33%</td>
+<td>67%</td>
+</tr>
+<tr>
+<td>70%</td>
+<td>33%</td>
+<td>67%</td>
+</tr>
+<tr>
+<td>69%</td>
+<td>32%</td>
+<td>68%</td>
+</tr>
+<tr>
+<td>50%</td>
+<td>26%</td>
+<td>74%</td>
+</tr>
+<tr>
+<td>25%</td>
+<td>15%</td>
+<td>85%</td>
+</tr>
+<tr>
+<td>0%</td>
+<td>0%</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<p>To sum this up in pseudo algorithms:</p>
+<pre class="language-"><code>health(L_X) = 140 * healthy_X_backends / total_X_backends
+effective_weight(L_X) = locality_weight_X * min(100, health(L_X))
+load to L_X = effective_weight(L_X) / &#x3A3;_c(effective_weight(L_c))
+</code></pre><p>Note that the locality weighted pick takes place after the priority level is picked. The load balancer follows these steps:</p>
+<ol>
+<li>Pick <a href="#arch-overview-load-balancing-priority-levels">priority level</a>.</li>
+<li>Pick locality (as described in this section) within priority level from (1).</li>
+<li>Pick endpoint using cluster specified load balancer within locality from (2).</li>
+</ol>
+<p>Locality weighted load balancing is configured by setting <a href="../../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-commonlbconfig-locality-weighted-lb-config">locality_weighted_lb_config</a> in the cluster configuration and providing weights in <a href="../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-msg-endpoint-localitylbendpoints">LocalityLbEndpoints</a> via <a href="../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-field-endpoint-localitylbendpoints-load-balancing-weight">load_balancing_weight</a>.</p>
+<p>This feature is not compatible with <a href="#arch-overview-load-balancer-subsets">load balancer subsetting</a>, since it is not straightforward to reconcile locality level weighting with sensible weights for individual subsets.</p>
+<h2 id="load-balancer-subsets">Load Balancer Subsets</h2>
+<p>Envoy may be configured to divide hosts within an upstream cluster into subsets based on metadata attached to the hosts. Routes may then specify the metadata that a host must match in order to be selected by the load balancer, with the option of falling back to a predefined set of hosts, including any host.</p>
+<p>Subsets use the load balancer policy specified by the cluster. The original destination policy may not be used with subsets because the upstream hosts are not known in advance. Subsets are compatible with zone aware routing, but be aware that the use of subsets may easily violate the minimum hosts condition described above.</p>
+<p>If subsets are <a href="../../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-lb-subset-config">configured</a> and a route specifies no metadata or no subset matching the metadata exists, the subset load balancer initiates its fallback policy. The default policy is <code>NO_ENDPOINT</code>, in which case the request fails as if the cluster had no hosts. Conversely, the <code>ANY_ENDPOINT</code> fallback policy load balances across all hosts in the cluster, without regard to host metadata. Finally, the <code>DEFAULT_SUBSET</code> causes fallback to load balance among hosts that match a specific set of metadata.</p>
+<p>Subsets must be predefined to allow the subset load balancer to efficiently select the correct subset of hosts. Each definition is a set of keys, which translates to zero or more subsets. Conceptually, each host that has a metadata value for all of the keys in a definition is added to a subset specific to its key-value pairs. If no host has all the keys, no subsets result from the definition. Multiple definitions may be provided, and a single host may appear in multiple subsets if it matches multiple definitions.</p>
+<p>During routing, the route&#x2019;s metadata match configuration is used to find a specific subset. If there is a subset with the exact keys and values specified by the route, the subset is used for load balancing. Otherwise, the fallback policy is used. The cluster&#x2019;s subset configuration must, therefore, contain a definition that has the same keys as a given route in order for subset load balancing to occur.</p>
+<p>This feature can only be enabled using the V2 configuration API. Furthermore, host metadata is only supported when using the EDS discovery type for clusters. Host metadata for subset load balancing must be placed under the filter name <code>&quot;envoy.lb&quot;</code>. Similarly, route metadata match criteria use the <code>&quot;envoy.lb&quot;</code> filter name. Host metadata may be hierarchical (e.g., the value for a top-level key may be a structured value or list), but the subset load balancer only compares top-level keys and values. Therefore when using structured values, a route&#x2019;s match criteria will only match if an identical structured value appears in the host&#x2019;s metadata.</p>
+<h3 id="examples">Examples</h3>
+<p>We&#x2019;ll use simple metadata where all values are strings. Assume the following hosts are defined and associated with a cluster:</p>
+<table>
+<thead>
+<tr>
+<th>Host</th>
+<th>Metadata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host1</td>
+<td>v: 1.0, stage: prod</td>
+</tr>
+<tr>
+<td>host2</td>
+<td>v: 1.0, stage: prod</td>
+</tr>
+<tr>
+<td>host3</td>
+<td>v: 1.1, stage: canary</td>
+</tr>
+<tr>
+<td>host4</td>
+<td>v: 1.2-pre, stage: dev</td>
+</tr>
+</tbody>
+</table>
+<p>The cluster may enable subset load balancing like this:</p>
+<pre class="language-"><code class="lang-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">name</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>name
+<span class="token key atrule">type</span><span class="token punctuation">:</span> EDS
+<span class="token key atrule">eds_cluster_config</span><span class="token punctuation">:</span>
+  <span class="token key atrule">eds_config</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">&apos;.../eds.conf&apos;</span>
+<span class="token key atrule">connect_timeout</span><span class="token punctuation">:</span>
+  <span class="token key atrule">seconds</span><span class="token punctuation">:</span> <span class="token number">10</span>
+<span class="token key atrule">lb_policy</span><span class="token punctuation">:</span> LEAST_REQUEST
+<span class="token key atrule">lb_subset_config</span><span class="token punctuation">:</span>
+  <span class="token key atrule">fallback_policy</span><span class="token punctuation">:</span> DEFAULT_SUBSET
+  <span class="token key atrule">default_subset</span><span class="token punctuation">:</span>
+    <span class="token key atrule">stage</span><span class="token punctuation">:</span> prod
+  <span class="token key atrule">subset_selectors</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">keys</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> v
+    <span class="token punctuation">-</span> stage
+  <span class="token punctuation">-</span> <span class="token key atrule">keys</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> stage
+</code></pre>
+<p>The following table describes some routes and the result of their application to the cluster. Typically the match criteria would be used with routes matching specific aspects of the request, such as the path or header information.</p>
+<table>
+<thead>
+<tr>
+<th>Match Criteria</th>
+<th>Balances Over</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stage: canary</td>
+<td>host3</td>
+<td>Subset of hosts selected</td>
+</tr>
+<tr>
+<td>v: 1.2-pre, stage: dev</td>
+<td>host4</td>
+<td>Subset of hosts selected</td>
+</tr>
+<tr>
+<td>v: 1.0</td>
+<td>host1, host2</td>
+<td>Fallback: No subset selector for &#x201C;v&#x201D; alone</td>
+</tr>
+<tr>
+<td>other: x</td>
+<td>host1, host2</td>
+<td>Fallback: No subset selector for &#x201C;other&#x201D;</td>
+</tr>
+<tr>
+<td>(none)</td>
+<td>host1, host2</td>
+<td>Fallback: No subset requested</td>
+</tr>
+</tbody>
+</table>
+<p>Metadata match criteria may also be specified on a route&#x2019;s weighted clusters. Metadata match criteria from the selected weighted cluster are merged with and override the criteria from the route:</p>
+<table>
+<thead>
+<tr>
+<th>Route Match Criteria</th>
+<th>Weighted Cluster Match Criteria</th>
+<th>Final Match Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stage: canary</td>
+<td>stage: prod</td>
+<td>stage: prod</td>
+</tr>
+<tr>
+<td>v: 1.0</td>
+<td>stage: prod</td>
+<td>v: 1.0, stage: prod</td>
+</tr>
+<tr>
+<td>v: 1.0, stage: prod</td>
+<td>stage: canary</td>
+<td>v: 1.0, stage: canary</td>
+</tr>
+<tr>
+<td>v: 1.0, stage: prod</td>
+<td>v: 1.1, stage: canary</td>
+<td>v: 1.1, stage: canary</td>
+</tr>
+<tr>
+<td>(none)</td>
+<td>v: 1.0</td>
+<td>v: 1.0</td>
+</tr>
+<tr>
+<td>v: 1.0</td>
+<td>(none)</td>
+<td>v: 1.0</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-host-with-metadata">Example Host With Metadata</h4>
+<p>An EDS <code>LbEndpoint</code> with host metadata:</p>
+<pre class="language-"><code class="lang-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">endpoint</span><span class="token punctuation">:</span>
+  <span class="token key atrule">address</span><span class="token punctuation">:</span>
+    <span class="token key atrule">socket_address</span><span class="token punctuation">:</span>
+      <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
+      <span class="token key atrule">address</span><span class="token punctuation">:</span> 127.0.0.1
+      <span class="token key atrule">port_value</span><span class="token punctuation">:</span> <span class="token number">8888</span>
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">filter_metadata</span><span class="token punctuation">:</span>
+    <span class="token key atrule">envoy.lb</span><span class="token punctuation">:</span>
+      <span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">&apos;1.0&apos;</span>
+      <span class="token key atrule">stage</span><span class="token punctuation">:</span> <span class="token string">&apos;prod&apos;</span>
+</code></pre>
+<h4 id="example-route-with-metadata-criteria">Example Route With Metadata Criteria</h4>
+<p>An RDS <code>Route</code> with metadata match criteria:</p>
+<pre class="language-"><code class="lang-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">match</span><span class="token punctuation">:</span>
+  <span class="token key atrule">prefix</span><span class="token punctuation">:</span> /
+<span class="token key atrule">route</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cluster</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>name
+  <span class="token key atrule">metadata_match</span><span class="token punctuation">:</span>
+    <span class="token key atrule">filter_metadata</span><span class="token punctuation">:</span>
+      <span class="token key atrule">envoy.lb</span><span class="token punctuation">:</span>
+        <span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">&apos;1.0&apos;</span>
+        <span class="token key atrule">stage</span><span class="token punctuation">:</span> <span class="token string">&apos;prod&apos;</span>
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="connection_pooling.html" class="navigation navigation-prev " aria-label="Previous page: 连接池">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="outlier.html" class="navigation navigation-next " aria-label="Next page: 异常点检测">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"负载均衡","level":"2.2.15","depth":2,"next":{"title":"异常点检测","level":"2.2.16","depth":2,"path":"intro/arch_overview/outlier.md","ref":"intro/arch_overview/outlier.md","articles":[]},"previous":{"title":"连接池","level":"2.2.14","depth":2,"path":"intro/arch_overview/connection_pooling.md","ref":"intro/arch_overview/connection_pooling.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/awesome-servicemesh","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/awesome-servicemesh/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"intro/arch_overview/load_balancing.md","mtime":"2018-05-15T08:12:22.684Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-15T13:44:31.144Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
