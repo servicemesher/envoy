@@ -1,15 +1,16 @@
 # 连接池
 
-For HTTP traffic, Envoy supports abstract connection pools that are layered on top of the underlying wire protocol (HTTP/1.1 or HTTP/2). The utilizing filter code does not need to be aware of whether the underlying protocol supports true multiplexing or not. In practice the underlying implementations have the following high level properties:
+对于HTTP流量，Envoy支持在底层协议（HTTP/1.1或HTTP/2）之上的抽象连接池。过滤器代码不需要知道底层协议是否支持真正的复用。 在实践中，底层实现具有以下高级属性：
 
 ## HTTP/1.1
 
-The HTTP/1.1 connection pool acquires connections as needed to an upstream host (up to the circuit breaking limit). Requests are bound to connections as they become available, either because a connection is done processing a previous request or because a new connection is ready to receive its first request. The HTTP/1.1 connection pool does not make use of pipelining so that only a single downstream request must be reset if the upstream connection is severed.
+HTTP/1.1连接池根据需要获取上游主机的连接（取决于断路限制）。当连接变得可用时，请求被绑定到连接，这可能是因为连接完成先前请求的处理，或者因为新的连接已经准备好可以接收第一次请求。HTTP/1.1连接池不使用流水线，因此如果上游连接被切断，只有一个下游请求必须重置。
 
 ## HTTP/2
 
-The HTTP/2 connection pool acquires a single connection to an upstream host. All requests are multiplexed over this connection. If a GOAWAY frame is received or if the connection reaches the maximum stream limit, the connection pool will create a new connection and drain the existing one. HTTP/2 is the preferred communication protocol as connections rarely if ever get severed.
+HTTP/2连接池获取到上游主机的单个连接。所有请求都通过此连接复用。如果收到GOAWAY帧，或者连接达到最大流限制，连接池将创建新的连接并且耗尽现有连接。 HTTP/2是首选的通信协议，因为连接很少会被切断。
 
 ## 健康检查交互
 
-If Envoy is configured for either active or passive [health checking](health_checking.md#arch-overview-health-checking), all connection pool connections will be closed on behalf of a host that transitions from a healthy state to an unhealthy state. If the host reenters the load balancing rotation it will create fresh connections which will maximize the chance of working around a bad flow (due to ECMP route or something else).
+如果Envoy配置有主动或被动[健康检查](health_checking.md#arch-overview-health-checking)，则代表从健康状态转换为不健康状态的主机将关闭所有连接池连接。如果主机重新进入负载均衡轮换，它将创建新的连接，这将最大化解决流量不佳（由于ECMP路由或其他原因）的机会。
+
