@@ -15,7 +15,7 @@
 
 1. 首先加入到 ServiceMesher 组织中，请联系 [Jimmy Song](https://jimmysong.io/about) 加入。
 2. 在 [Issues](https://github.com/servicemesher/envoy/issues) 中找到你想翻译的文档的标题（对应的文档路径即为标题），在 issue 中回复“认领”，确认不要与他人认领的重复。
-3. 创建一个翻译分支，翻译完成后提交 PR。
+3. 创建一个翻译分支，翻译全文，删除原文中的英文部分，保留所有可达的链接，翻译完成后提交 PR。
 4. 由 owner 审核后 merge 进 master 分支。
 
 ## 注意事项
@@ -31,10 +31,15 @@
 
 下面的词汇作为专有名词，不需要翻译。
 
-- filter
-- listner
+- listener
 - Cluster manager
 - CDS
 - RDS
 - LDS
 - CORS
+
+以下词汇的翻译统一。
+
+- pluggable：可拔插的
+- cluster：集群
+- load balancer：负载均衡器
