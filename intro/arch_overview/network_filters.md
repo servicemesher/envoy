@@ -1,9 +1,11 @@
-# Network (L3/L4) filter
+# 网络 (L3/L4) 过滤器
 
-As discussed in the [listener](listeners.md#arch-overview-listeners) section, network level (L3/L4) filters form the core of Envoy connection handling. The filter API allows for different sets of filters to be mixed and matched and attached to a given listener. There are three different types of network filters:
 
-- **Read**: Read filters are invoked when Envoy receives data from a downstream connection.
-- **Write**: Write filters are invoked when Envoy is about to send data to a downstream connection.
-- **Read/Write**: Read/Write filters are invoked both when Envoy receives data from a downstream connection and when it is about to send data to a downstream connection.
 
-The API for network level filters is relatively simple since ultimately the filters operate on raw bytes and a small number of connection events (e.g., TLS handshake complete, connection disconnected locally or remotely, etc.). Filters in the chain can stop and subsequently continue iteration to further filters. This allows for more complex scenarios such as calling a [rate limiting service](global_rate_limiting.md#arch-overview-rate-limit), etc. Envoy already includes several network level filters that are documented in this architecture overview as well as the [configuration reference](../../configuration/network_filters/network_filters.md#config-network-filters).
+如[监听器](listeners.md#arch-overview-listeners)一节所述，网络级（L3/L4）过滤器构成Envoy连接处理的核心。过滤器API允许混合不同的过滤器组合，并匹配和附加到给定的监听器。有三种不同类型的网络过滤器：
+
+- **读**: 当Envoy从下游连接接收数据时，调用读过滤器。
+- **写**: 当Envoy要发送数据到下游连接时，调用写过滤器。
+- **读/写**: 当Envoy从下游连接接收数据和要发送数据到下游连接时，调用读/写过滤器。
+
+网络级过滤器的API相对简单，因为最终过滤器只操作原始字节和少量连接事件（例如，TLS握手完成，连接在本地或远程断开等）。链中的过滤器可以停止后续的过滤器，并随后继续。这可以实现更复杂的场景，例如调用[限速服务](global_rate_limiting.md#arch-overview-rate-limit)等。Envoy包含多个网络级的过滤器，这些过滤器在此架构概述和[配置参考](../../configuration/network_filters/network_filters.md#config-network-filters)中都有说明。
