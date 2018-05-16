@@ -1,35 +1,35 @@
 # 前端代理
 
-To get a flavor of what Envoy has to offer as a front proxy, we are releasing a [docker compose](https://docs.docker.com/compose/) sandbox that deploys a front envoy and a couple of services (simple flask apps) colocated with a running service envoy. The three containers will be deployed inside a virtual network called `envoymesh`.
+为了帮助大家了解如何使用 Envoy 作为前端代理，我们发布了一个 [docker compose](https://docs.docker.com/compose/) 沙箱，该沙箱中部署了一个前端 envoy 以及与服务 envoy 搭配的一组服务（简单的沙箱应用）。这三个容器将被部署在名为 `envoymesh` 的虚拟网络中。
 
-Below you can see a graphic showing the docker compose deployment:
+下面是使用 docker compose 部署的架构图：
 
 ![../../images/docker_compose_v0.1.svg](../../images/docker_compose_v0.1.svg)
 
-All incoming requests are routed via the front envoy, which is acting as a reverse proxy sitting on the edge of the `envoymesh` network. Port `80` is mapped to port `8000` by docker compose (see [/examples/front-proxy/docker-compose.yml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/docker-compose.yml)). Moreover, notice that all traffic routed by the front envoy to the service containers is actually routed to the service envoys (routes setup in [/examples/front-proxy/front-envoy.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/front-envoy.yaml)). In turn the service envoys route the request to the flask app via the loopback address (routes setup in [/examples/front-proxy/service-envoy.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/service-envoy.yaml)). This setup illustrates the advantage of running service envoys collocated with your services: all requests are handled by the service envoy, and efficiently routed to your services.
+所有传入的请求都通过前端 envoy 进行路由，该 envoy 充当位于 `envoymesh` 网络边缘的反向代理。通过docker compose 将端口 80 映射到 8000 端口（请参阅 [/examples/front-proxy/docker-compose.yml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/docker-compose.yml)）。此外，请注意，由前端 envoy 由到服务容器的所有流量实际上路由到服务 envoy（在 [/examples/front-proxy/front-envoy.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/front-envoy.yaml) 中设置的路由）。反过来，服务 envoy 通过回环地址（[/examples/front-proxy/service-envoy.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/service-envoy.yaml) 中的路由设置）将请求路由到 flask 应用程序。此设置说明了运行服务 envoy 与您的服务搭配的优势：所有请求都由服务 envoy 处理，并有效地路由到您的服务。
 
 ## 运行 Sandbox
 
-The following documentation runs through the setup of an envoy cluster organized as is described in the image above.
+以下文档通过按照上图中所述组织的 envoy 集群的设置运行。
 
-**Step 1: Install Docker**
+**步骤 1：安装 Docker**
 
-Ensure that you have a recent versions of `docker, docker-compose` and `docker-machine` installed.
+确保您已经安装了最新版本的 `docker`、`docker-compose` 和 `docker-machine`。
 
-A simple way to achieve this is via the [Docker Toolbox](https://www.docker.com/products/docker-toolbox).
+安装这些软件最简单的方式是使用 [Docker Toolbox](https://www.docker.com/products/docker-toolbox)。
 
-**Step 2: Docker Machine setup**
+**步骤 2：配置 Docker Machine**
 
-First let’s create a new machine which will hold the containers:
+首先创建一个容纳容器的新机器：
 
 ```bash
 $ docker-machine create --driver virtualbox default
 $ eval $(docker-machine env default)
 ```
 
-**Step 4: Clone the Envoy repo, and start all of our containers**
+**步骤 3：克隆 Envoy repo，启动所有的容器**
 
-If you have not cloned the envoy repo, clone it with `git clone git@github.com:envoyproxy/envoy` or `git clone https://github.com/envoyproxy/envoy.git`:
+如果您还没有克隆 envoy repo，执行 `git clone git@github.com:envoyproxy/envoy` 或者 `git clone https://github.com/envoyproxy/envoy.git` 来克隆。
 
 ```bash
 $ pwd
@@ -43,11 +43,11 @@ example_service2_1      /bin/sh -c /usr/local/bin/ ... Up       80/tcp
 example_front-envoy_1   /bin/sh -c /usr/local/bin/ ... Up       0.0.0.0:8000->80/tcp, 0.0.0.0:8001->8001/tcp
 ```
 
-**Step 5: Test Envoy’s routing capabilities**
+**步骤 4：测试 Envoy 的路由能力**
 
-You can now send a request to both services via the front-envoy.
+您现在可以通过前端 envoy 向两项服务发送请求。
 
-For service1:
+向 service1：
 
 ```bash
 $ curl -v $(docker-machine ip default):8000/service/1
@@ -70,7 +70,7 @@ Hello from behind Envoy (service 1)! hostname: f26027f1ce28 resolvedhostname: 17
 * Connection #0 to host 192.168.99.100 left intact
 ```
 
-For service2:
+向 service2：
 
 ```bash
 $ curl -v $(docker-machine ip default):8000/service/2
@@ -93,11 +93,13 @@ Hello from behind Envoy (service 2)! hostname: 92f4a3737bbc resolvedhostname: 17
 * Connection #0 to host 192.168.99.100 left intact
 ```
 
-Notice that each request, while sent to the front envoy, was correctly routed to the respective application.
+请注意，每个请求在发送给前端 envoy 时已正确路由到相应的应用程序。
 
-**Step 6: Test Envoy’s load balancing capabilities**
+**步骤 5：测试 Envoy 的负载均衡能力**
 
 Now let’s scale up our service1 nodes to demonstrate the clustering abilities of envoy.:
+
+现在扩展我们的 service1 节点来演示 envoy 的集群能力：
 
 ```bash
 $ docker-compose scale service1=3
@@ -105,7 +107,7 @@ Creating and starting example_service1_2 ... done
 Creating and starting example_service1_3 ... done
 ```
 
-Now if we send a request to service1 multiple times, the front envoy will load balance the requests by doing a round robin of the three service1 machines:
+现在，如果我们多次向 service1 发送请求，前端 envoy 将通过循环轮询三台 service1 机器来负载均衡请求：
 
 ```bash
 $ curl -v $(docker-machine ip default):8000/service/1
@@ -164,9 +166,11 @@ Hello from behind Envoy (service 1)! hostname: f26027f1ce28 resolvedhostname: 17
 * Connection #0 to host 192.168.99.100 left intact
 ```
 
-**Step 7: enter containers and curl services**
+**步骤 6：进入容器并 curl 服务**
 
 In addition of using `curl` from your host machine, you can also enter the containers themselves and `curl` from inside them. To enter a container you can use `docker-compose exec <container_name> /bin/bash`. For example we can enter the `front-envoy` container, and `curl` for services locally:
+
+除了使用主机上的 `curl` 外，您还可以进入容器并从容器里面 `curl`。要进入容器，可以使用 `docker-compose exec <容器名> /bin/bash`。例如，我们可以进入前端 envoy 容器，并在本地 `curl` 服务：
 
 ```bash
 $ docker-compose exec front-envoy /bin/bash
@@ -180,9 +184,9 @@ root@81288499f9d7:/# curl localhost:80/service/2
 Hello from behind Envoy (service 2)! hostname: 92f4a3737bbc resolvedhostname: 172.19.0.2
 ```
 
-**Step 8: enter containers and curl admin**
+**步骤7：进入容器并 curl admin**
 
-When envoy runs it also attaches an `admin` to your desired port. In the example configs the admin is bound to port `8001`. We can `curl` it to gain useful information. For example you can `curl``/server_info` to get information about the envoy version you are running. Additionally you can `curl` `/stats` to get statistics. For example inside `frontenvoy` we can get:
+当 envoy 运行时，它也会将 `admin` 连接到所需的端口。在示例配置 admin 绑定到 8001 端口。我们可以 `curl` 它获得有用的信息。例如，您可以 `curl /server_info` 来获取正在运行的 envoy 版本的信息。此外，你可以 `curl /stats` 来获得统计数据。例如在 `frontenvoy` 里面我们可以得到：
 
 ```bash
 $ docker-compose exec front-envoy /bin/bash
@@ -209,4 +213,4 @@ cluster.service2.upstream_rq_total: 2
 ...
 ```
 
-Notice that we can get the number of members of upstream clusters, number of requests fulfilled by them, information about http ingress, and a plethora of other useful stats.
+请注意，我们可以获取上游集群的成员数量，它们实现的请求数量，有关 http 入口的信息以及大量其他有用的统计信息。
