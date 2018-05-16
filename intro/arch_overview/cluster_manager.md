@@ -1,24 +1,24 @@
-# Cluster manager
+# 集群管理器
 
-Envoy’s cluster manager manages all configured upstream clusters. Just as the Envoy configuration can contain any number of listeners, the configuration can also contain any number of independently configured upstream clusters.
+Envoy集群管理器管理所有配置的上游集群。正如Envoy配置可以包含任意数量的监听器一样，配置也可以包含任意数量的独立配置的上游群集。
 
-Upstream clusters and hosts are abstracted from the network/HTTP filter stack given that upstream clusters and hosts may be used for any number of different proxy tasks. The cluster manager exposes APIs to the filter stack that allow filters to obtain a L3/L4 connection to an upstream cluster, or a handle to an abstract HTTP connection pool to an upstream cluster (whether the upstream host supports HTTP/1.1 or HTTP/2 is hidden). A filter stage determines whether it needs an L3/L4 connection or a new HTTP stream and the cluster manager handles all of the complexity of knowing which hosts are available and healthy, load balancing, thread local storage of upstream connection data (since most Envoy code is written to be single threaded), upstream connection type (TCP/IP, UDS), upstream protocol where applicable (HTTP/1.1, HTTP/2), etc.
+上游集群和主机是从网络/ HTTP过滤器堆栈中抽象而来，因为上游集群和主机可用于任意数量的不同代理任务。集群管理器向过滤器堆栈暴露API，允许过滤器获得连接到上游集群的L3 / L4连接，或者连接到上游集群的抽象HTTP连接池的句柄（上游主机是否支持HTTP / 1.1或HTTP / 2 是隐藏的）。过滤器阶段判断是否需要L3 / L4连接或新的HTTP流，而集群管理器处理所有的复杂性，包括获知哪些主机可用并且健康，负载均衡，上游连接数据的线程本地存储（因为大多数Envoy代码以单线程编写），上流连接类型（TCP / IP，UDS），适用的上游协议（HTTP / 1.1，HTTP / 2）等。
 
-Clusters known to the cluster manager can be configured either statically, or fetched dynamically via the cluster discovery service (CDS) API. Dynamic cluster fetches allow more configuration to be stored in a central configuration server and thus requires fewer Envoy restarts and configuration distribution.
+群集管理器获知群集的方式可以是静态配置，或者可以通过群集发现服务（CDS）API动态获取。动态集群获取允许将更多配置存储在中央配置服务器中，因此可以减少Envoy重新启动和配置分配。
 
-- Cluster manager [configuration](../../configuration/cluster_manager/cluster_manager.md#config-cluster-manager).
-- CDS [configuration](../../configuration/cluster_manager/cds.md#config-cluster-manager-cds).
+- 集群管理器 [配置](../../configuration/cluster_manager/cluster_manager.md#config-cluster-manager).
+- CDS [配置](../../configuration/cluster_manager/cds.md#config-cluster-manager-cds).
 
 ## Cluster warming
 
-When clusters are initialized both at server boot as well as via CDS, they are “warmed.” This means that clusters do not become available until the following operations have taken place.
+当集群在服务器启动或者通过CDS进行初始化时，它们会“热身”。这意味着集群在下列操作发生之前不可用。
 
-- Initial service discovery load (e.g., DNS resolution, EDS update, etc.).
-- Initial active [health check](health_checking.md#arch-overview-health-checking) pass if active health checking is configured. Envoy will send a health check request to each discovered host to determine its initial health status.
+- 初始服务发现加载 (例如, DNS 解析, EDS 更新, 等等).
+- 初始主动 [健康检查](health_checking.md#arch-overview-health-checking) 通过，如果配置了主动健康检查。Envoy将发送健康检查请求到每个被发现的主机来判断他的初始健康状态。
 
-The previous items ensure that Envoy has an accurate view of a cluster before it begins using it for traffic serving.
+上述项确保Envoy在开始将集群用于流量服务之前具有准确的集群视图。
 
-When discussing cluster warming, the cluster “becoming available” means:
+在讨论集群热身时，集群 “变为可用” 意味着:
 
-- For newly added clusters, the cluster will not appear to exist to the rest of Envoy until it has been warmed. I.e., HTTP routes that reference the cluster will result in either a 404 or 503 (depending on configuration).
-- For updated clusters, the old cluster will continue to exist and serve traffic. When the new cluster has been warmed, it will be atomically swapped with the old cluster such that no traffic interruptions take place.
+- 对于新加入的集群，在集群热身前，集群对于Envoy的其余部分是不存在的。即，引用群集的HTTP路由将导致404或503（取决于配置）。
+- 对于更新后的群集，旧群集将继续存在并服务流量。当新群集被加热后，它将与旧群集进行原子交换，从而不会发生流量中断。
