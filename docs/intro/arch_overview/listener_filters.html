@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Listener filter · Envoy proxy中文文档</title>
+        <title>监听器过滤器 · Envoy proxy中文文档</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -84,7 +84,7 @@
     }
     </style>
     <script>
-        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/envoyproxy","types":["star"],"size":"small"};
+        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/envoy","types":["star"],"size":"small"};
     </script>
 
     </head>
@@ -220,7 +220,7 @@
                     
                         <b>2.2.3.</b>
                     
-                    Listener
+                    监听器
             
                 </a>
             
@@ -235,7 +235,7 @@
                     
                         <b>2.2.4.</b>
                     
-                    Listener filter
+                    监听器过滤器
             
                 </a>
             
@@ -2156,7 +2156,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >Listener filter</a>
+        <a href="../.." >监听器过滤器</a>
     </h1>
 </div>
 
@@ -2171,9 +2171,9 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="listener-filter">Listener filter</h1>
-<p>As discussed in the <a href="listeners.html#arch-overview-listeners">listener</a> section, listener filters may be used to manipulate connection metadata. The main purpose of listener filters is to make adding further system integration functions easier by not requiring changes to Envoy core functionality, and also make interaction between multiple such features more explicit.</p>
-<p>The API for listener filters is relatively simple since ultimately these filters operate on newly accepted sockets. Filters in the chain can stop and subsequently continue iteration to further filters. This allows for more complex scenarios such as calling a <a href="global_rate_limiting.html#arch-overview-rate-limit">rate limiting service</a>, etc. Envoy already includes several listener filters that are documented in this architecture overview as well as the <a href="../../configuration/listener_filters/listener_filters.md#config-listener-filters">configuration reference</a>.</p>
+                                <h1 id="&#x76D1;&#x542C;&#x5668;&#x8FC7;&#x6EE4;&#x5668;">&#x76D1;&#x542C;&#x5668;&#x8FC7;&#x6EE4;&#x5668;</h1>
+<p>&#x5728;<a href="listeners.html#arch-overview-listeners">&#x76D1;&#x542C;&#x5668;</a>&#x4E00;&#x8282;&#x4E2D;&#x8BA8;&#x8BBA;&#x5230;&#xFF0C;&#x76D1;&#x542C;&#x5668;&#x8FC7;&#x6EE4;&#x5668;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x64CD;&#x7EB5;&#x8FDE;&#x63A5;&#x5143;&#x6570;&#x636E;&#x3002;&#x76D1;&#x542C;&#x5668;&#x8FC7;&#x6EE4;&#x5668;&#x7684;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#x662F;&#x6765;&#x66F4;&#x65B9;&#x4FBF;&#x5730;&#x6DFB;&#x52A0;&#x7CFB;&#x7EDF;&#x96C6;&#x6210;&#x529F;&#x80FD;&#xFF0C;&#x800C;&#x65E0;&#x9700;&#x66F4;&#x6539;Envoy&#x6838;&#x5FC3;&#x529F;&#x80FD;&#xFF0C;&#x5E76;&#x4E14;&#x8FD8;&#x53EF;&#x4EE5;&#x8BA9;&#x591A;&#x4E2A;&#x6B64;&#x7C7B;&#x529F;&#x80FD;&#x4E4B;&#x95F4;&#x7684;&#x4EA4;&#x4E92;&#x66F4;&#x52A0;&#x660E;&#x786E;&#x3002;</p>
+<p>&#x76D1;&#x542C;&#x5668;&#x8FC7;&#x6EE4;&#x5668;&#x7684;API&#x76F8;&#x5BF9;&#x7B80;&#x5355;&#xFF0C;&#x56E0;&#x4E3A;&#x6700;&#x7EC8;&#x8FD9;&#x4E9B;&#x8FC7;&#x6EE4;&#x5668;&#x5728;&#x65B0;&#x63A5;&#x6536;&#x7684;&#x5957;&#x63A5;&#x5B57;&#x4E0A;&#x64CD;&#x4F5C;&#x3002;&#x94FE;&#x4E2D;&#x7684;&#x8FC7;&#x6EE4;&#x5668;&#x53EF;&#x4EE5;&#x505C;&#x6B62;&#x540E;&#x9762;&#x7684;&#x8FC7;&#x6EE4;&#x5668;&#x5E76;&#x968F;&#x540E;&#x7EE7;&#x7EED;&#x652F;&#x6301;&#x3002;&#x8FD9;&#x5141;&#x8BB8;&#x66F4;&#x590D;&#x6742;&#x7684;&#x573A;&#x666F;&#xFF0C;&#x4F8B;&#x5982;&#x8C03;&#x7528;<a href="global_rate_limiting.html#arch-overview-rate-limit">&#x9650;&#x901F;&#x670D;&#x52A1;</a>&#x7B49;&#x3002;Envoy&#x5305;&#x542B;&#x591A;&#x4E2A;&#x76D1;&#x542C;&#x5668;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x8FD9;&#x4E9B;&#x8FC7;&#x6EE4;&#x5668;&#x5728;&#x6B64;&#x67B6;&#x6784;&#x6982;&#x8FF0;&#x4EE5;&#x53CA;<a href="../../configuration/listener_filters/listener_filters.md#config-listener-filters">&#x914D;&#x7F6E;&#x53C2;&#x8003;</a>&#x4E2D;&#x90FD;&#x6709;&#x8BB0;&#x5F55;&#x3002;</p>
 
                                 
                                 </section>
@@ -2201,7 +2201,7 @@
 
             
                 
-                <a href="listeners.html" class="navigation navigation-prev " aria-label="Previous page: Listener">
+                <a href="listeners.html" class="navigation navigation-prev " aria-label="Previous page: 监听器">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -2217,7 +2217,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Listener filter","level":"2.2.4","depth":2,"next":{"title":"Network (L3/L4) filter","level":"2.2.5","depth":2,"path":"intro/arch_overview/network_filters.md","ref":"intro/arch_overview/network_filters.md","articles":[]},"previous":{"title":"Listener","level":"2.2.3","depth":2,"path":"intro/arch_overview/listeners.md","ref":"intro/arch_overview/listeners.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoyproxy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoyproxy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"intro/arch_overview/listener_filters.md","mtime":"2018-05-15T07:51:06.774Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-16T03:08:36.385Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"监听器过滤器","level":"2.2.4","depth":2,"next":{"title":"Network (L3/L4) filter","level":"2.2.5","depth":2,"path":"intro/arch_overview/network_filters.md","ref":"intro/arch_overview/network_filters.md","articles":[]},"previous":{"title":"监听器","level":"2.2.3","depth":2,"path":"intro/arch_overview/listeners.md","ref":"intro/arch_overview/listeners.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"intro/arch_overview/listener_filters.md","mtime":"2018-05-16T08:13:32.710Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-16T09:05:39.521Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

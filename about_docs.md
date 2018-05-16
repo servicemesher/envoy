@@ -1,13 +1,13 @@
-# About the documentation
+# 关于本文档
 
-The Envoy documentation is composed of a few major sections:
+Envoy 文档由以下几个主要部分组成：
 
-- [Introduction](intro/intro.md#intro): This section covers a general overview of what Envoy is, an architecture overview, how it is typically deployed, etc.
-- [Getting Started](start/start.md#start): Quickly get started with Envoy using Docker.
-- [Installation](install/install.md#install): How to build/install Envoy using Docker.
-- [Configuration](configuration/configuration.md#config): Detailed configuration instructions common to both the legacy v1 API and the new v2 API. Where relevant, the configuration guide also contains information on statistics, runtime configuration, and APIs.
-- [Operations](operations/operations.md#operations): General information on how to operate Envoy including the command line interface, hot restart wrapper, administration interface, a general statistics overview, etc.
-- [Extending Envoy](extending/extending.md#extending): Information on how to write custom filters for Envoy.
-- [v1 API reference](api-v1/api.md#envoy-v1-api-reference): Configuration details specific to the legacy v1 API.
-- [v2 API reference](api-v2/api.md#envoy-api-reference): Configuration details specific to the new v2 API.
-- [Envoy FAQ](faq/overview.md#faq-overview): Have questions? We have answers. Hopefully.
+- [简介](intro/intro.md#intro)：本部分介绍 Envoy 的概况、体系结构概述、典型部署方式等。
+- [入门](start/start.md#start)：使用 Docker 快速开始使用 Envoy。
+- [安装](install/install.md#install)：如何使用 Docker 构建/安装 Envoy。
+- [配置](configuration/configuration.md#config)：遗留 v1 API 和新 v2 API 共同的详细配置指令。相关时，配置指南还包含有关统计信息、运行时配置和 API 的信息。
+- [操作](operations/operations.md#operations)：有关如何操作 Envoy 的常规信息，包括命令行界面、热重启包装器、管理界面、常规统计概览等。
+- [扩展 Envoy](extending/extending.md#extending)：有关如何为 Envoy 编写自定义过滤器的信息。
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/api)：特定于遗留 v1 API 的配置详细信息。
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api)：特定于新 v2 API 的配置细节。
+- [Envoy 常见问题](faq/overview.md#faq-overview)：有疑问？希望我们的答案能让您满意。
