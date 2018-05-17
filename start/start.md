@@ -23,13 +23,9 @@ $ curl -v localhost:10000
 
 ## 简单的配置
 
-Envoy can be configured using a single YAML file passed in as an argument on the command line.
+Envoy 通过 YAML 文件中传入的参数来进行配置。
 
-Envoy可以使用作为参数在命令行中传入的单个YAML文件进行配置。
-
-The [admin message](../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-msg-config-bootstrap-v2-admin) is required to configure the administration server. The address key specifies the listening [address](../api-v2/api/v2/core/address.proto.md#envoy-api-file-envoy-api-v2-core-address-proto) which in this case is simply 0.0.0.0:9901.
-
-管理员消息是配置管理服务器所必需的。 地址码指定监听地址，在这种情况下，监听地址只是0.0.0.0:9901。
+[admin message](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-msg-config-bootstrap-v2-admin) 是 administration 服务必须的配置。address 键指定监听[地址](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/address.proto#envoy-api-file-envoy-api-v2-core-address-proto)，下面的例子监听地址是 0.0.0.0:9901。
 
 ```yaml
 admin:
@@ -38,17 +34,13 @@ admin:
     socket_address: { address: 0.0.0.0, port_value: 9901 }
 ```
 
-The [static_resources](../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-field-config-bootstrap-v2-bootstrap-static-resources) contains everything that is configured statically when Envoy starts, as opposed to the means of configuring resources dynamically when Envoy is running. The [v2 API Overview](../configuration/overview/v2_overview.md#config-overview-v2) describes this.
-
-static_resources包含Envoy启动时静态配置的所有内容，而不是在Envoy运行时动态配置资源的方式。 v2 API概述描述了这一点。
+[static_resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-static-resources)包含 Envoy 启动时静态配置的所有内容，而不是 Envoy 在运行时动态配置的资源。 [v2 API Overview](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v2_overview#config-overview-v2)描述了这一点。
 
 ```yaml
 static_resources:
 ```
 
-The specification of the [listeners](../api-v2/api/v2/listener/listener.proto.md#envoy-api-file-envoy-api-v2-listener-listener-proto).
-
-听众的规格
+[listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto#envoy-api-file-envoy-api-v2-listener-listener-proto)规范
 
 ```yaml
 listeners:
@@ -73,9 +65,7 @@ listeners:
         - name: envoy.router
 ```
 
-The specification of the [clusters](../api-v2/api/v2/cds.proto.md#envoy-api-file-envoy-api-v2-cds-proto).
-
-集群的规格
+[clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-file-envoy-api-v2-cds-proto)规范
 
 ```yaml
 clusters:
@@ -91,32 +81,24 @@ clusters:
 
 ## 使用 Envoy Docker 镜像
 
-Create a simple Dockerfile to execute Envoy, which assumes that envoy.yaml (described above) is in your local directory. You can refer to the [Command line options](../operations/cli.md#operations-cli).
-
-创建一个简单的Dockerfile来执行Envoy，它假定envoy.yaml（如上所述）位于本地目录中。 您可以参考命令行选项。
+创建一个简单的 Dockerfile 来执行 Envoy，假定 envoy.yaml（如上所述）位于本地目录中。您可以参考[命令行选项](../operations/cli.md#operations-cli)。
 
 ```
 FROM envoyproxy/envoy:latest
 COPY envoy.yaml /etc/envoy/envoy.yaml
 ```
 
-Build the Docker image that runs your configuration using:
-
-构建使用以下命令运行配置的Docker镜像：
+使用以下命令构建您配置的 Docker 镜像：
 
 ```bash
 $ docker build -t envoy:v1
 ```
 
-And now you can execute it with:
-
-现在你可以执行它：
+现在您可以执行它：
 
 ```bash
 $ docker run -d --name envoy -p 9901:9901 -p 10000:10000 envoy:v1
 ```
-
-And finally test is using:
 
 最后测试使用：
 
@@ -124,15 +106,11 @@ And finally test is using:
 $ curl -v localhost:10000
 ```
 
-If you would like to use envoy with docker-compose you can overwrite the provided configuration file by using a volume.
-
-如果您想通过docker-compose使用envoy，则可以使用卷覆盖提供的配置文件。
+如果您想通过 docker-compose 使用 envoy，则可以使用 volume 覆盖提供的配置文件。
 
 ## Sandbox
 
-We’ve created a number of sandboxes using Docker Compose that set up different environments to test out Envoy’s features and show sample configurations. As we gauge peoples’ interests we will add more sandboxes demonstrating different features. The following sandboxes are available:
-
-我们使用Docker Compose创建了许多沙箱，这些沙箱设置了不同的环境来测试Envoy的功能并显示示例配置。 当我们衡量人们的兴趣时，我们将添加更多展示不同特征的沙箱。 以下沙箱可用：
+我们使用 Docker Compose 创建了许多 sandbox ，这些 sandbox 设置了不同的环境来测试 Envoy 的功能并显示示例配置。 当我们觉得人们更有兴趣时，将添加和展示更多不同特征的 sandbox。 以下 sandbox 可用：
 
 - [Front Proxy](sandboxes/front_proxy.md)
 - [Zipkin Tracing](sandboxes/zipkin_tracing.md)
@@ -142,8 +120,6 @@ We’ve created a number of sandboxes using Docker Compose that set up different
 
 ## 其他用例
 
-In addition to the proxy itself, Envoy is also bundled as part of several open source distributions that target specific use cases.
-
-除代理本身之外，Envoy还被捆绑为几个针对特定用例的开源发行版的一部分。
+除代理本身之外， Envoy 还被几个特定用例捆绑为开源发行版的一部分。
 
 - [Envoy as an API Gateway in Kubernetes](distro/ambassador.md)
