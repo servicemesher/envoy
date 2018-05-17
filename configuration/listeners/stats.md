@@ -1,37 +1,38 @@
 # 统计
 
-## Listener
+## 监听器
 
-Every listener has a statistics tree rooted at *listener.<address>.* with the following statistics:
+每个监听器的统计树根在 *`listener.<address>.`* ，有如下统计:
 
-| Name                      | Type      | Description                                                  |
-| ------------------------- | --------- | ------------------------------------------------------------ |
-| downstream_cx_total       | Counter   | Total connections                                            |
-| downstream_cx_destroy     | Counter   | Total destroyed connections                                  |
-| downstream_cx_active      | Gauge     | Total active connections                                     |
-| downstream_cx_length_ms   | Histogram | Connection length milliseconds                               |
-| ssl.connection_error      | Counter   | Total TLS connection errors not including failed certificate verifications |
-| ssl.handshake             | Counter   | Total successful TLS connection handshakes                   |
-| ssl.session_reused        | Counter   | Total successful TLS session resumptions                     |
-| ssl.no_certificate        | Counter   | Total successul TLS connections with no client certificate   |
-| ssl.fail_no_sni_match     | Counter   | Total TLS connections that were rejected because of missing SNI match |
-| ssl.fail_verify_no_cert   | Counter   | Total TLS connections that failed because of missing client certificate |
-| ssl.fail_verify_error     | Counter   | Total TLS connections that failed CA verification            |
-| ssl.fail_verify_san       | Counter   | Total TLS connections that failed SAN verification           |
-| ssl.fail_verify_cert_hash | Counter   | Total TLS connections that failed certificate pinning verification |
-| ssl.cipher.<cipher>       | Counter   | Total TLS connections that used <cipher>                     |
+| 名称                      | 类似      | 描述                                  |
+| ------------------------- | --------- | ------------------------------------- |
+| downstream_cx_total       | Counter   | 连接总数                              |
+| downstream_cx_destroy     | Counter   | 销毁连接总数                          |
+| downstream_cx_active      | Gauge     | 活动连接总数                          |
+| downstream_cx_length_ms   | Histogram | 连接长度，单位毫秒                    |
+| ssl.connection_error      | Counter   | TLS 连接错误总数，不包括证书认证失败  |
+| ssl.handshake             | Counter   | TLS连接握手成功总数                   |
+| ssl.session_reused        | Counter   | TLS会话恢复成功总数                   |
+| ssl.no_certificate        | Counter   | 不带客户端证书的TLS连接成功总数       |
+| ssl.fail_no_sni_match     | Counter   | 因为缺少SNI匹配而被拒绝的TLS连接总数  |
+| ssl.fail_verify_no_cert   | Counter   | 因为缺少客户端证书而失败的TLS连接总数 |
+| ssl.fail_verify_error     | Counter   | CA认证失败的TLS连接总数               |
+| ssl.fail_verify_san       | Counter   | SAN认证失败的TLS连接总数              |
+| ssl.fail_verify_cert_hash | Counter   | 认证pinning认证失败的TLS连接总数      |
+| ssl.cipher.<cipher>       | Counter   | 使用 <cipher> 的TLS连接总数           |
 
-## Listener manager
+## 监听器管理器
 
-The listener manager has a statistics tree rooted at *listener_manager.* with the following statistics. Any `:` character in the stats name is replaced with `_`.
+监听器管理器的统计树根在 *listener_manager.* ，有以下统计。所有 stats 名称中的 `:` 字符被替换为 `_`。
 
-| Name                     | Type    | Description                                             |
-| ------------------------ | ------- | ------------------------------------------------------- |
-| listener_added           | Counter | Total listeners added (either via static config or LDS) |
-| listener_modified        | Counter | Total listeners modified (via LDS)                      |
-| listener_removed         | Counter | Total listeners removed (via LDS)                       |
-| listener_create_success  | Counter | Total listener objects successfully added to workers    |
-| listener_create_failure  | Counter | Total failed listener object additions to workers       |
-| total_listeners_warming  | Gauge   | Number of currently warming listeners                   |
-| total_listeners_active   | Gauge   | Number of currently active listeners                    |
-| total_listeners_draining | Gauge   | Number of currently draining listeners                  |
+| 名称                     | 类型    | 描述                                           |
+| ------------------------ | ------- | ---------------------------------------------- |
+| listener_added           | Counter | 添加的监听器总数（不管是通过静态配置还是 LDS） |
+| listener_modified        | Counter | 修改过的监听器总数（通过LDS）                  |
+| listener_removed         | Counter | 删除过的监听器总数（通过LDS）                  |
+| listener_create_success  | Counter | 成功添加到 workers 的监听器对象总数            |
+| listener_create_failure  | Counter | 添加到 workers 失败的监听器对象总数            |
+| total_listeners_warming  | Gauge   | 当前热身中的监听器数量                         |
+| total_listeners_active   | Gauge   | 当前活动中的监听器数量                         |
+| total_listeners_draining | Gauge   | 当前排除中的监听器数量                         |
+
