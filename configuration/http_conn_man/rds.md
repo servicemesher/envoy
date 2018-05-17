@@ -1,18 +1,20 @@
 # 路由发现服务（RDS）
 
-The route discovery service (RDS) API is an optional API that Envoy will call to dynamically fetch[route configurations](../../api-v1/route_config/route_config.md#config-http-conn-man-route-table). A route configuration includes both HTTP header modifications, virtual hosts, and the individual route entries contained within each virtual host. Each [HTTP connection manager filter](http_conn_man.md#config-http-conn-man) can independently fetch its own route configuration via the API.
+路由发现服务（RDS）的API在Envoy里面是一个可选API，用于动态获取[路由配置](../../api-v1/route_config/route_config.md#config-http-conn-man-route-table)。路由配置包括HTTP头部修改，虚拟主机以及每个虚拟主机中包含的单个路由规则。每个[HTTP连接管理器](http_conn_man.md#config-http-conn-man)都可以通过API独立地获取自身的路由配置。
 
 - [v1 API reference](../../api-v1/route_config/rds.md#config-http-conn-man-rds-v1)
 - [v2 API reference](../overview/v2_overview.md#v2-grpc-streaming-endpoints)
 
-## Statistics
+## 统计
 
-RDS has a statistics tree rooted at *http.<stat_prefix>.rds.<route_config_name>.*. Any `:` character in the `route_config_name` name gets replaced with `_` in the stats tree. The stats tree contains the following statistics:
+RDS的统计树以 `http.<stat_prefix>.rds.<route_config_name>.*.`为根，`route_config_name`名称中的任何`:`字符在统计树中被替换为`_`。统计树包含以下统计信息：
 
-| Name           | Type    | Description                                                  |
-| -------------- | ------- | ------------------------------------------------------------ |
-| config_reload  | Counter | Total API fetches that resulted in a config reload due to a different config |
-| update_attempt | Counter | Total API fetches attempted                                  |
-| update_success | Counter | Total API fetches completed successfully                     |
-| update_failure | Counter | Total API fetches that failed (either network or schema errors) |
-| version        | Gauge   | Hash of the contents from the last successful API fetch      |
+
+|	名称	|	类型	|	描述	|
+|	 ------------------------------------------	|	 ------------------------------------------	|	 ------------------------------------------	|
+|	config_reload	|	计数器	|	加载配置不同导致重新调用API的总次数	|
+|	update_attempt	|	计数器		|	调用API获取资源重试总数	|
+|	update_success	|	计数器		|	调用API获取资源成功总数	|
+|	update_failure	|	计数器		|	调用API获取资源失败总数（因网络、句法错误）	|
+|	version	|	测量	|	最后一次API获取资源成功的内容HASH	|
+
