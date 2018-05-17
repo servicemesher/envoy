@@ -2,6 +2,8 @@
 
 Cluster manager
 ===============
+集群管理
+===============
 
 .. toctree::
   :hidden:
