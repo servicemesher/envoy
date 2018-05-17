@@ -1,9 +1,9 @@
 # 初始化
 
-How Envoy initializes itself when it starts up is complex. This section explains at a high level how the process works. All of the following happens before any listeners start listening and accepting new connections.
+Envoy在启动时的初始化是很复杂的。本章将在高级别解释这个过程是如何工作的。以下会在任何监听器启动监听并接收新连接前发生。
 
-- During startup, the [cluster manager](cluster_manager.md#arch-overview-cluster-manager) goes through a multi-phase initialization where it first initializes static/DNS clusters, then predefined [SDS](dynamic_configuration.md#arch-overview-dynamic-config-sds) clusters. Then it initializes [CDS](dynamic_configuration.md#arch-overview-dynamic-config-cds) if applicable, waits for one response (or failure), and does the same primary/secondary initialization of CDS provided clusters.
-- If clusters use [active health checking](health_checking.md#arch-overview-health-checking), Envoy also does a single active HC round.
-- Once cluster manager initialization is done, [RDS](dynamic_configuration.md#arch-overview-dynamic-config-rds) and [LDS](dynamic_configuration.md#arch-overview-dynamic-config-lds) initialize (if applicable). The server doesn’t start accepting connections until there has been at least one response (or failure) for LDS/RDS requests.
-- If LDS itself returns a listener that needs an RDS response, Envoy further waits until an RDS response (or failure) is received. Note that this process takes place on every future listener addition via LDS and is known as [listener warming](../../configuration/listeners/lds.md#config-listeners-lds).
-- After all of the previous steps have taken place, the listeners start accepting new connections. This flow ensures that during hot restart the new process is fully capable of accepting and processing new connections before the draining of the old process begins.
+- 启动期间，[集群管理器](cluster_manager.md#arch-overview-cluster-manager) 会首先进行多阶段初始化，首先初始化静态/ DNS 集群，然后是预定义的 [SDS](dynamic_configuration.md#arch-overview-dynamic-config-sds) 集群. 然后，如果适用，它会初始化 [CDS](dynamic_configuration.md#arch-overview-dynamic-config-cds) , 等待响应（或失败）, 并为 CDS 提供的集群执行相同主/次初始化。
+- 如果集群使用 [主动健康检查](health_checking.md#arch-overview-health-checking) ，Envoy也会执行单个主动HC轮次。
+- 集群管理器初始化完成后， [RDS](dynamic_configuration.md#arch-overview-dynamic-config-rds) 和 [LDS](dynamic_configuration.md#arch-overview-dynamic-config-lds) 将初始化（如果适用）。在LDS / RDS请求至少有一次响应（或失败）之后，服务器才开始接受连接。
+- 如果 LDS 本身返回需要 RDS 响应的监听器，则Envoy会进一步等待，直到收到 RDS 响应（或失败）。请注意，这个过程发生在未来的每个通过 LDS 添加的监听器上，并且被称为 [监听器热身](../../configuration/listeners/lds.md#config-listeners-lds).
+- 在先前所有的步骤发生之后，监听器开始接受新的连接。该流程可确保在热启动期间新流程完全能够在旧流程耗尽之前接受并处理新连接。
