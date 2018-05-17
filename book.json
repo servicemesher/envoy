@@ -15,7 +15,9 @@
     "page-toc-button",
     "back-to-top-button",
     "github-buttons@2.1.0",
-    "-highlight", "prism", "prism-themes"
+    "-highlight", "prism", "prism-themes",
+    "favicon@^0.0.2",
+    "3-ba"
   ],
   "pluginsConfig": {
     "edit-link": {
@@ -28,10 +30,14 @@
         "size": "small"
     },
     "theme-default": {
-            "showLevel": true
+        "showLevel": true
+    },
+    "favicon": {
+        "shortcut": "favicon.ico",
+        "bookmark": "favicon.ico"
     },
     "prism": {
-      "css": [
+        "css": [
         "prism-themes/themes/prism-ghcolors.css"
         ]
     }
