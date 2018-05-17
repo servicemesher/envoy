@@ -39,7 +39,7 @@ spec:
     service: ambassador
 ```
 
-将上面的 YAML 文件保存成`ambassador-svc.yaml`文件。然后将这个服务部署到 kubernetes:
+将上面的 YAML 文件保存成`ambassador-svc.yaml`文件。然后将这个服务部署到 kubernetes：
 
 ```bash
 kubectl apply -f ambassador-svc.yaml
