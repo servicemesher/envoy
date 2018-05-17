@@ -5,7 +5,7 @@
 
 Envoy 目前不提供单独的预先编译好的二进制文件，但提供了 Docker 镜像。这是开始使用 Envoy 的最快方式。如果您希望在 Docker 容器外使用 Envoy，则需要[构建它](../install/building.md#building)。
 
-这些示例使用[v2 Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api#envoy-api-reference)，但仅使用 API 的静态配置功能，这对于简单的需求非常有用。 更复杂的需求是由[动态配置](../intro/arch_overview/dynamic_configuration.md#arch-overview-dynamic-config)来支持的。
+这些示例使用 [v2 Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api#envoy-api-reference)，但仅使用 API 的静态配置功能，这对于简单的需求非常有用。 更复杂的需求是由[动态配置](../intro/arch_overview/dynamic_configuration.md#arch-overview-dynamic-config)来支持的。
 ## 快速开始运行简单示例
 
 
@@ -34,7 +34,7 @@ admin:
     socket_address: { address: 0.0.0.0, port_value: 9901 }
 ```
 
-[static_resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-static-resources) 包含 Envoy 启动时静态配置的所有内容，而不是 Envoy 在运行时动态配置的资源。 [v2 API Overview](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v2_overview#config-overview-v2) 描述了这一点。
+[static_resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-static-resources) 包含 Envoy 启动时静态配置的所有内容，而不是 Envoy 在运行时动态配置的资源。[v2 API Overview](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v2_overview#config-overview-v2) 描述了这一点。
 
 ```yaml
 static_resources:
