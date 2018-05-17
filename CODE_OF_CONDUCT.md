@@ -31,8 +31,6 @@
 
 下面的词汇作为专有名词，不需要翻译。
 
-- listener
-- Cluster manager
 - CDS
 - RDS
 - LDS
