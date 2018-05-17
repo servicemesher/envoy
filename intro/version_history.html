@@ -1,0 +1,2514 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>历史版本 · Envoy proxy中文文档</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="ServiceMesher">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search-plus/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-prism/prism-ghcolors.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../start/start.html" />
+    
+    
+    <link rel="prev" href="getting_help.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"repo":"servicemesher/envoy","types":["star"],"size":"small"};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">说明</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../about_docs.html">
+            
+                <a href="../about_docs.html">
+            
+                    
+                        <b>1.2.</b>
+                    
+                    关于本文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">简介</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="what_is_envoy.html">
+            
+                <a href="what_is_envoy.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    Envoy 是什么？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="what_is_envoy.html">
+            
+                <a href="what_is_envoy.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    架构概览
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="arch_overview/terminology.html">
+            
+                <a href="arch_overview/terminology.html">
+            
+                    
+                        <b>2.2.1.</b>
+                    
+                    术语
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="arch_overview/threading_model.html">
+            
+                <a href="arch_overview/threading_model.html">
+            
+                    
+                        <b>2.2.2.</b>
+                    
+                    线程模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="arch_overview/listeners.html">
+            
+                <a href="arch_overview/listeners.html">
+            
+                    
+                        <b>2.2.3.</b>
+                    
+                    监听器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.4" data-path="arch_overview/listener_filters.html">
+            
+                <a href="arch_overview/listener_filters.html">
+            
+                    
+                        <b>2.2.4.</b>
+                    
+                    监听器过滤器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.5" data-path="arch_overview/network_filters.html">
+            
+                <a href="arch_overview/network_filters.html">
+            
+                    
+                        <b>2.2.5.</b>
+                    
+                    Network (L3/L4) filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.6" data-path="arch_overview/http_connection_management.html">
+            
+                <a href="arch_overview/http_connection_management.html">
+            
+                    
+                        <b>2.2.6.</b>
+                    
+                    HTTP 连接管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.7" data-path="arch_overview/http_filters.html">
+            
+                <a href="arch_overview/http_filters.html">
+            
+                    
+                        <b>2.2.7.</b>
+                    
+                    HTTP filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.8" data-path="arch_overview/http_routing.html">
+            
+                <a href="arch_overview/http_routing.html">
+            
+                    
+                        <b>2.2.8.</b>
+                    
+                    HTTP 路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.9" data-path="arch_overview/grpc.html">
+            
+                <a href="arch_overview/grpc.html">
+            
+                    
+                        <b>2.2.9.</b>
+                    
+                    gRPC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.10" data-path="arch_overview/websocket.html">
+            
+                <a href="arch_overview/websocket.html">
+            
+                    
+                        <b>2.2.10.</b>
+                    
+                    WebSocket 支持
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.11" data-path="arch_overview/cluster_manager.html">
+            
+                <a href="arch_overview/cluster_manager.html">
+            
+                    
+                        <b>2.2.11.</b>
+                    
+                    Cluster manager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.12" data-path="arch_overview/service_discovery.html">
+            
+                <a href="arch_overview/service_discovery.html">
+            
+                    
+                        <b>2.2.12.</b>
+                    
+                    服务发现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.13" data-path="arch_overview/health_checking.html">
+            
+                <a href="arch_overview/health_checking.html">
+            
+                    
+                        <b>2.2.13.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.14" data-path="arch_overview/connection_pooling.html">
+            
+                <a href="arch_overview/connection_pooling.html">
+            
+                    
+                        <b>2.2.14.</b>
+                    
+                    连接池
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.15" data-path="arch_overview/load_balancing.html">
+            
+                <a href="arch_overview/load_balancing.html">
+            
+                    
+                        <b>2.2.15.</b>
+                    
+                    负载均衡
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.16" data-path="arch_overview/outlier.html">
+            
+                <a href="arch_overview/outlier.html">
+            
+                    
+                        <b>2.2.16.</b>
+                    
+                    异常点检测
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.17" data-path="arch_overview/circuit_breaking.html">
+            
+                <a href="arch_overview/circuit_breaking.html">
+            
+                    
+                        <b>2.2.17.</b>
+                    
+                    断路器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.18" data-path="arch_overview/global_rate_limiting.html">
+            
+                <a href="arch_overview/global_rate_limiting.html">
+            
+                    
+                        <b>2.2.18.</b>
+                    
+                    全局速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.19" data-path="arch_overview/ssl.html">
+            
+                <a href="arch_overview/ssl.html">
+            
+                    
+                        <b>2.2.19.</b>
+                    
+                    TLS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.20" data-path="arch_overview/statistics.html">
+            
+                <a href="arch_overview/statistics.html">
+            
+                    
+                        <b>2.2.20.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.21" data-path="arch_overview/runtime.html">
+            
+                <a href="arch_overview/runtime.html">
+            
+                    
+                        <b>2.2.21.</b>
+                    
+                    运行时配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.22" data-path="arch_overview/tracing.html">
+            
+                <a href="arch_overview/tracing.html">
+            
+                    
+                        <b>2.2.22.</b>
+                    
+                    追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.23" data-path="arch_overview/tcp_proxy.html">
+            
+                <a href="arch_overview/tcp_proxy.html">
+            
+                    
+                        <b>2.2.23.</b>
+                    
+                    TCP 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.24" data-path="arch_overview/access_logging.html">
+            
+                <a href="arch_overview/access_logging.html">
+            
+                    
+                        <b>2.2.24.</b>
+                    
+                    访问记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.25" data-path="arch_overview/mongo.html">
+            
+                <a href="arch_overview/mongo.html">
+            
+                    
+                        <b>2.2.25.</b>
+                    
+                    MongoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.26" data-path="arch_overview/dynamo.html">
+            
+                <a href="arch_overview/dynamo.html">
+            
+                    
+                        <b>2.2.26.</b>
+                    
+                    DynamoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.27" data-path="arch_overview/redis.html">
+            
+                <a href="arch_overview/redis.html">
+            
+                    
+                        <b>2.2.27.</b>
+                    
+                    Redis
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.28" data-path="arch_overview/hot_restart.html">
+            
+                <a href="arch_overview/hot_restart.html">
+            
+                    
+                        <b>2.2.28.</b>
+                    
+                    热重启
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.29" data-path="arch_overview/dynamic_configuration.html">
+            
+                <a href="arch_overview/dynamic_configuration.html">
+            
+                    
+                        <b>2.2.29.</b>
+                    
+                    动态配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.30" data-path="arch_overview/init.html">
+            
+                <a href="arch_overview/init.html">
+            
+                    
+                        <b>2.2.30.</b>
+                    
+                    初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.31" data-path="arch_overview/draining.html">
+            
+                <a href="arch_overview/draining.html">
+            
+                    
+                        <b>2.2.31.</b>
+                    
+                    排除
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.32" data-path="arch_overview/scripting.html">
+            
+                <a href="arch_overview/scripting.html">
+            
+                    
+                        <b>2.2.32.</b>
+                    
+                    脚本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="deployment_types/deployment_types.html">
+            
+                <a href="deployment_types/deployment_types.html">
+            
+                    
+                        <b>2.3.</b>
+                    
+                    部署类型
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="deployment_types/service_to_service.html">
+            
+                <a href="deployment_types/service_to_service.html">
+            
+                    
+                        <b>2.3.1.</b>
+                    
+                    仅服务之间
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="deployment_types/front_proxy.html">
+            
+                <a href="deployment_types/front_proxy.html">
+            
+                    
+                        <b>2.3.2.</b>
+                    
+                    服务之间外加前端代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.3" data-path="deployment_types/double_proxy.html">
+            
+                <a href="deployment_types/double_proxy.html">
+            
+                    
+                        <b>2.3.3.</b>
+                    
+                    服务间、前端代理、双向代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="comparison.html">
+            
+                <a href="comparison.html">
+            
+                    
+                        <b>2.4.</b>
+                    
+                    与类似系统比较
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="getting_help.html">
+            
+                <a href="getting_help.html">
+            
+                    
+                        <b>2.5.</b>
+                    
+                    获取帮助
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.6" data-path="version_history.html">
+            
+                <a href="version_history.html">
+            
+                    
+                        <b>2.6.</b>
+                    
+                    历史版本
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">入门指南</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../start/start.html">
+            
+                <a href="../start/start.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    入门指南
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" >
+            
+                <span>
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Sandbox
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../start/sandboxes/front_proxy.html">
+            
+                <a href="../start/sandboxes/front_proxy.html">
+            
+                    
+                        <b>3.2.1.</b>
+                    
+                    前端代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../start/sandboxes/zipkin_tracing.html">
+            
+                <a href="../start/sandboxes/zipkin_tracing.html">
+            
+                    
+                        <b>3.2.2.</b>
+                    
+                    Zipkin 追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../start/sandboxes/jaeger_tracing.html">
+            
+                <a href="../start/sandboxes/jaeger_tracing.html">
+            
+                    
+                        <b>3.2.3.</b>
+                    
+                    Jaeger 追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../start/sandboxes/jaeger_native_tracing.html">
+            
+                <a href="../start/sandboxes/jaeger_native_tracing.html">
+            
+                    
+                        <b>3.2.4.</b>
+                    
+                    Jaeger 原生追踪
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" >
+            
+                <span>
+            
+                    
+                        <b>3.3.</b>
+                    
+                    其他用例
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.3.1" data-path="../start/distro/ambassador.html">
+            
+                <a href="../start/distro/ambassador.html">
+            
+                    
+                        <b>3.3.1.</b>
+                    
+                    Envoy 作为 Kubernetes 的 API 网关
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">构建和安装</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../install/building.html">
+            
+                <a href="../install/building.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    构建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../install/ref_configs.html">
+            
+                <a href="../install/ref_configs.html">
+            
+                    
+                        <b>4.2.</b>
+                    
+                    参考配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" >
+            
+                <span>
+            
+                    
+                        <b>4.3.</b>
+                    
+                    工具
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.3.1" data-path="../install/tools/config_load_check_tool.html">
+            
+                <a href="../install/tools/config_load_check_tool.html">
+            
+                    
+                        <b>4.3.1.</b>
+                    
+                    配置负载检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.2" data-path="../install/tools/route_table_check_tool.html">
+            
+                <a href="../install/tools/route_table_check_tool.html">
+            
+                    
+                        <b>4.3.2.</b>
+                    
+                    路由表检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.3" data-path="../install/tools/schema_validator_check_tool.html">
+            
+                <a href="../install/tools/schema_validator_check_tool.html">
+            
+                    
+                        <b>4.3.3.</b>
+                    
+                    Schema 验证器检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">配置参考</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../configuration/overview/v1_overview.html">
+            
+                <a href="../configuration/overview/v1_overview.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    v1 API 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../configuration/overview/v2_overview.html">
+            
+                <a href="../configuration/overview/v2_overview.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    v2 API 概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" >
+            
+                <span>
+            
+                    
+                        <b>5.3.</b>
+                    
+                    Listener
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.3.1" data-path="../configuration/listeners/stats.html">
+            
+                <a href="../configuration/listeners/stats.html">
+            
+                    
+                        <b>5.3.1.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.2" data-path="../configuration/listeners/runtime.html">
+            
+                <a href="../configuration/listeners/runtime.html">
+            
+                    
+                        <b>5.3.2.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3.3" data-path="../configuration/listeners/lds.html">
+            
+                <a href="../configuration/listeners/lds.html">
+            
+                    
+                        <b>5.3.3.</b>
+                    
+                    Listener 发现服务（LDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" >
+            
+                <span>
+            
+                    
+                        <b>5.4.</b>
+                    
+                    Listener filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.4.1" data-path="../configuration/listener_filters/original_dst_filter.html">
+            
+                <a href="../configuration/listener_filters/original_dst_filter.html">
+            
+                    
+                        <b>5.4.1.</b>
+                    
+                    原始目的地
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4.2" data-path="../configuration/listener_filters/tls_inspector.html">
+            
+                <a href="../configuration/listener_filters/tls_inspector.html">
+            
+                    
+                        <b>5.4.2.</b>
+                    
+                    TLS 检查器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" >
+            
+                <span>
+            
+                    
+                        <b>5.5.</b>
+                    
+                    网络 filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.5.1" data-path="../configuration/network_filters/client_ssl_auth_filter.html">
+            
+                <a href="../configuration/network_filters/client_ssl_auth_filter.html">
+            
+                    
+                        <b>5.5.1.</b>
+                    
+                    客户端 TLS 身份验证
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.2" data-path="../configuration/network_filters/echo_filter.html">
+            
+                <a href="../configuration/network_filters/echo_filter.html">
+            
+                    
+                        <b>5.5.2.</b>
+                    
+                    Echo
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.3" data-path="../configuration/network_filters/mongo_proxy_filter.html">
+            
+                <a href="../configuration/network_filters/mongo_proxy_filter.html">
+            
+                    
+                        <b>5.5.3.</b>
+                    
+                    Mongo 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.4" data-path="../configuration/network_filters/rate_limit_filter.html">
+            
+                <a href="../configuration/network_filters/rate_limit_filter.html">
+            
+                    
+                        <b>5.5.4.</b>
+                    
+                    速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.5" data-path="../configuration/network_filters/redis_proxy_filter.html">
+            
+                <a href="../configuration/network_filters/redis_proxy_filter.html">
+            
+                    
+                        <b>5.5.5.</b>
+                    
+                    Redis 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5.6" data-path="../configuration/network_filters/tcp_proxy_filter.html">
+            
+                <a href="../configuration/network_filters/tcp_proxy_filter.html">
+            
+                    
+                        <b>5.5.6.</b>
+                    
+                    TCP 代理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" >
+            
+                <span>
+            
+                    
+                        <b>5.6.</b>
+                    
+                    HTTP 连接管理器
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.6.1" data-path="../configuration/http_conn_man/route_matching.html">
+            
+                <a href="../configuration/http_conn_man/route_matching.html">
+            
+                    
+                        <b>5.6.1.</b>
+                    
+                    路由匹配
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.2" data-path="../configuration/http_conn_man/traffic_splitting.html">
+            
+                <a href="../configuration/http_conn_man/traffic_splitting.html">
+            
+                    
+                        <b>5.6.2.</b>
+                    
+                    流量转换/切分
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.3" data-path="../configuration/http_conn_man/headers.html">
+            
+                <a href="../configuration/http_conn_man/headers.html">
+            
+                    
+                        <b>5.6.3.</b>
+                    
+                    HTTP header 操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.4" data-path="../configuration/http_conn_man/header_sanitizing.html">
+            
+                <a href="../configuration/http_conn_man/header_sanitizing.html">
+            
+                    
+                        <b>5.6.4.</b>
+                    
+                    HTTP header sanitizing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.5" data-path="../configuration/http_conn_man/stats.html">
+            
+                <a href="../configuration/http_conn_man/stats.html">
+            
+                    
+                        <b>5.6.5.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.6" data-path="../configuration/http_conn_man/runtime.html">
+            
+                <a href="../configuration/http_conn_man/runtime.html">
+            
+                    
+                        <b>5.6.6.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6.7" data-path="../configuration/http_conn_man/rds.html">
+            
+                <a href="../configuration/http_conn_man/rds.html">
+            
+                    
+                        <b>5.6.7.</b>
+                    
+                    路由发现服务（RDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" >
+            
+                <span>
+            
+                    
+                        <b>5.7.</b>
+                    
+                    HTTP filter
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.7.1" data-path="../configuration/http_filters/buffer_filter.html">
+            
+                <a href="../configuration/http_filters/buffer_filter.html">
+            
+                    
+                        <b>5.7.1.</b>
+                    
+                    Buffer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.2" data-path="../configuration/http_filters/cors_filter.html">
+            
+                <a href="../configuration/http_filters/cors_filter.html">
+            
+                    
+                        <b>5.7.2.</b>
+                    
+                    CORS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.3" data-path="../configuration/http_filters/dynamodb_filter.html">
+            
+                <a href="../configuration/http_filters/dynamodb_filter.html">
+            
+                    
+                        <b>5.7.3.</b>
+                    
+                    DynamoDB
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.4" data-path="../configuration/http_filters/fault_filter.html">
+            
+                <a href="../configuration/http_filters/fault_filter.html">
+            
+                    
+                        <b>5.7.4.</b>
+                    
+                    故障注入
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.5" data-path="../configuration/http_filters/grpc_http1_bridge_filter.html">
+            
+                <a href="../configuration/http_filters/grpc_http1_bridge_filter.html">
+            
+                    
+                        <b>5.7.5.</b>
+                    
+                    gRPC HTTP/1.1 bridge
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.6" data-path="../configuration/http_filters/grpc_json_transcoder_filter.html">
+            
+                <a href="../configuration/http_filters/grpc_json_transcoder_filter.html">
+            
+                    
+                        <b>5.7.6.</b>
+                    
+                    gRPC-JSON 转码
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.7" data-path="../configuration/http_filters/grpc_web_filter.html">
+            
+                <a href="../configuration/http_filters/grpc_web_filter.html">
+            
+                    
+                        <b>5.7.7.</b>
+                    
+                    gRPC-Web
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.8" data-path="../configuration/http_filters/gzip_filter.html">
+            
+                <a href="../configuration/http_filters/gzip_filter.html">
+            
+                    
+                        <b>5.7.8.</b>
+                    
+                    Gzip
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.9" data-path="../configuration/http_filters/health_check_filter.html">
+            
+                <a href="../configuration/http_filters/health_check_filter.html">
+            
+                    
+                        <b>5.7.9.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.10" data-path="../configuration/http_filters/ip_tagging_filter.html">
+            
+                <a href="../configuration/http_filters/ip_tagging_filter.html">
+            
+                    
+                        <b>5.7.10.</b>
+                    
+                    IP Tagging
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.11" data-path="../configuration/http_filters/lua_filter.html">
+            
+                <a href="../configuration/http_filters/lua_filter.html">
+            
+                    
+                        <b>5.7.11.</b>
+                    
+                    Lua
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.12" data-path="../configuration/http_filters/rate_limit_filter.html">
+            
+                <a href="../configuration/http_filters/rate_limit_filter.html">
+            
+                    
+                        <b>5.7.12.</b>
+                    
+                    速率限制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.13" data-path="../configuration/http_filters/router_filter.html">
+            
+                <a href="../configuration/http_filters/router_filter.html">
+            
+                    
+                        <b>5.7.13.</b>
+                    
+                    路由
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7.14" data-path="../configuration/http_filters/squash_filter.html">
+            
+                <a href="../configuration/http_filters/squash_filter.html">
+            
+                    
+                        <b>5.7.14.</b>
+                    
+                    Squash
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8" >
+            
+                <span>
+            
+                    
+                        <b>5.8.</b>
+                    
+                    Cluster Manager
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.8.1" data-path="../configuration/cluster_manager/cluster_stats.html">
+            
+                <a href="../configuration/cluster_manager/cluster_stats.html">
+            
+                    
+                        <b>5.8.1.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.2" data-path="../configuration/cluster_manager/cluster_runtime.html">
+            
+                <a href="../configuration/cluster_manager/cluster_runtime.html">
+            
+                    
+                        <b>5.8.2.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.3" data-path="../configuration/cluster_manager/cds.html">
+            
+                <a href="../configuration/cluster_manager/cds.html">
+            
+                    
+                        <b>5.8.3.</b>
+                    
+                    集群发现服务（CDS）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.4" data-path="../configuration/cluster_manager/cluster_hc.html">
+            
+                <a href="../configuration/cluster_manager/cluster_hc.html">
+            
+                    
+                        <b>5.8.4.</b>
+                    
+                    健康检查
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.8.5" data-path="../configuration/cluster_manager/cluster_circuit_breakers.html">
+            
+                <a href="../configuration/cluster_manager/cluster_circuit_breakers.html">
+            
+                    
+                        <b>5.8.5.</b>
+                    
+                    断路
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.9" >
+            
+                <span>
+            
+                    
+                        <b>5.9.</b>
+                    
+                    健康检查器
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.9.1" data-path="../configuration/health_checkers/redis.html">
+            
+                <a href="../configuration/health_checkers/redis.html">
+            
+                    
+                        <b>5.9.1.</b>
+                    
+                    Redis
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5.10" data-path="../configuration/access_log.html">
+            
+                <a href="../configuration/access_log.html">
+            
+                    
+                        <b>5.10.</b>
+                    
+                    访问记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.11" data-path="../configuration/rate_limit.html">
+            
+                <a href="../configuration/rate_limit.html">
+            
+                    
+                        <b>5.11.</b>
+                    
+                    速率限制服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.12" data-path="../configuration/runtime.html">
+            
+                <a href="../configuration/runtime.html">
+            
+                    
+                        <b>5.12.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.13" data-path="../configuration/statistics.html">
+            
+                <a href="../configuration/statistics.html">
+            
+                    
+                        <b>5.13.</b>
+                    
+                    统计
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.14" data-path="../configuration/tools/router_check.html">
+            
+                <a href="../configuration/tools/router_check.html">
+            
+                    
+                        <b>5.14.</b>
+                    
+                    路由表检查工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">运维管理</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../operations/cli.html">
+            
+                <a href="../operations/cli.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    命令行选项
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="../operations/hot_restarter.html">
+            
+                <a href="../operations/hot_restarter.html">
+            
+                    
+                        <b>6.2.</b>
+                    
+                    热重启 Python 包装器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="../operations/admin.html">
+            
+                <a href="../operations/admin.html">
+            
+                    
+                        <b>6.3.</b>
+                    
+                    管理接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.4" data-path="../operations/stats_overview.html">
+            
+                <a href="../operations/stats_overview.html">
+            
+                    
+                        <b>6.4.</b>
+                    
+                    统计概览
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.5" data-path="../operations/runtime.html">
+            
+                <a href="../operations/runtime.html">
+            
+                    
+                        <b>6.5.</b>
+                    
+                    运行时
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.6" data-path="../operations/fs_flags.html">
+            
+                <a href="../operations/fs_flags.html">
+            
+                    
+                        <b>6.6.</b>
+                    
+                    文件系统标志
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.7" data-path="../operations/traffic_capture.html">
+            
+                <a href="../operations/traffic_capture.html">
+            
+                    
+                        <b>6.7.</b>
+                    
+                    流量捕获
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.8" data-path="../extending/extending.html">
+            
+                <a href="../extending/extending.html">
+            
+                    
+                        <b>6.8.</b>
+                    
+                    为自定义用例扩展 Envoy
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API 参考</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" >
+            
+                <a target="_blank" href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/api">
+            
+                    
+                        <b>7.1.</b>
+                    
+                    v1 API 参考
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" >
+            
+                <a target="_blank" href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api">
+            
+                    
+                        <b>7.2.</b>
+                    
+                    v2 API 参考
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">常见问题</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../faq/how_fast_is_envoy.html">
+            
+                <a href="../faq/how_fast_is_envoy.html">
+            
+                    
+                        <b>8.1.</b>
+                    
+                    Envoy 有多快？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../faq/binaries.html">
+            
+                <a href="../faq/binaries.html">
+            
+                    
+                        <b>8.2.</b>
+                    
+                    从哪里能获得二进制文件？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="../faq/sni.html">
+            
+                <a href="../faq/sni.html">
+            
+                    
+                        <b>8.3.</b>
+                    
+                    如何设置 SNI？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="../faq/zone_aware_routing.html">
+            
+                <a href="../faq/zone_aware_routing.html">
+            
+                    
+                        <b>8.4.</b>
+                    
+                    如何设置 zone 可感知路由？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="../faq/zipkin_tracing.html">
+            
+                <a href="../faq/zipkin_tracing.html">
+            
+                    
+                        <b>8.5.</b>
+                    
+                    如何设置 Zipkin 追踪？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.6" data-path="../faq/lb_panic_threshold.html">
+            
+                <a href="../faq/lb_panic_threshold.html">
+            
+                    
+                        <b>8.6.</b>
+                    
+                    我设置了健康检查，但是当有节点失败时，Envoy 又路由到那些节点，这是怎么回事？
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.7" data-path="../faq/concurrency_lb.html">
+            
+                <a href="../faq/concurrency_lb.html">
+            
+                    
+                        <b>8.7.</b>
+                    
+                    为什么 Round Robin 负载均衡看起来不起作用？
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本书使用 GitBook 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >历史版本</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div class="search-plus" id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x5386;&#x53F2;&#x7248;&#x672C;">&#x5386;&#x53F2;&#x7248;&#x672C;</h1>
+<h2 id="170-pending">1.7.0 (Pending)</h2>
+<ul>
+<li>access log: ability to log response trailers</li>
+<li>access log: ability to format START_TIME</li>
+<li>access log: added DYNAMIC_METADATA <a href="../configuration/access_log.html#config-access-log-format">access log formatter</a>.</li>
+<li>access log: added <a href="../api-v2/config/filter/accesslog/v2/accesslog.proto.md#envoy-api-msg-config-filter-accesslog-v2-headerfilter">HeaderFilter</a> to filter logs based on request headers</li>
+<li>admin: added <a href="../operations/admin.html#get--config_dump"><code>GET /config_dump</code></a> for dumping the current configuration and associated xDS version information (if applicable).</li>
+<li>admin: added <a href="../operations/admin.html#get--stats-prometheus"><code>GET /stats/prometheus</code></a> as an alternative endpoint for getting stats in prometheus format.</li>
+<li>admin: added <a href="../operations/admin.html#operations-admin-interface-runtime-modify">/runtime_modify endpoint</a> to add or change runtime values</li>
+<li>admin: mutations must be sent as POSTs, rather than GETs. Mutations include:<a href="../operations/admin.html#post--cpuprofiler"><code>POST /cpuprofiler</code></a>, <a href="../operations/admin.html#post--healthcheck-fail"><code>POST /healthcheck/fail</code></a>, <a href="../operations/admin.html#post--healthcheck-ok"><code>POST /healthcheck/ok</code></a>, <a href="../operations/admin.html#post--logging"><code>POST /logging</code></a>, <a href="../operations/admin.html#post--quitquitquit"><code>POST /quitquitquit</code></a>, <a href="../operations/admin.html#post--reset_counters"><code>POST /reset_counters</code></a>,<a href="../operations/admin.html#post--runtime_modify?key1=value1&amp;key2=value2&amp;keyN=valueN"><code>POST /runtime_modify?key1=value1&amp;key2=value2&amp;keyN=valueN</code></a>,</li>
+<li>admin: removed /routes endpoint; route configs can now be found at the <a href="../operations/admin.html#operations-admin-interface-config-dump">/config_dump endpoint</a>.</li>
+<li>buffer filter: the buffer filter can be optionally <a href="../api-v2/config/filter/http/buffer/v2/buffer.proto.md#envoy-api-field-config-filter-http-buffer-v2-bufferperroute-disabled">disabled</a> or <a href="../api-v2/config/filter/http/buffer/v2/buffer.proto.md#envoy-api-field-config-filter-http-buffer-v2-bufferperroute-buffer">overridden</a> with route-local configuration.</li>
+<li>cli: added &#x2013;config-yaml flag to the Envoy binary. When set its value is interpreted as a yaml representation of the bootstrap config and overrides &#x2013;config-path.</li>
+<li>cluster: Add <a href="../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-close-connections-on-host-health-failure">option</a> to close tcp_proxy upstream connections when health checks fail.</li>
+<li>cluster: Add <a href="../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-drain-connections-on-host-removal">option</a> to drain connections from hosts after they are removed from service discovery, regardless of health status.</li>
+<li>cluster: fixed bug preventing the deletion of all endpoints in a priority</li>
+<li>health check: added ability to set <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-httphealthcheck-request-headers-to-add">additional HTTP headers</a> for HTTP health check.</li>
+<li>health check: added support for EDS delivered <a href="../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-field-endpoint-lbendpoint-health-status">endpoint health status</a>.</li>
+<li>health check: added interval overrides for health state transitions from <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-unhealthy-edge-interval">healthy to unhealthy</a>, <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-healthy-edge-interval">unhealthy to healthy</a> and for subsequent checks on <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-unhealthy-interval">unhealthy hosts</a>.</li>
+<li>health check http filter: added <a href="../api-v2/config/filter/http/health_check/v2/health_check.proto.md#envoy-api-field-config-filter-http-health-check-v2-healthcheck-headers">generic header matching</a> to trigger health check response. Deprecated the <a href="../api-v2/config/filter/http/health_check/v2/health_check.proto.md#envoy-api-field-config-filter-http-health-check-v2-healthcheck-endpoint">endpoint option</a>.</li>
+<li>health check: added support for <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-custom-health-check">custom health check</a>.</li>
+<li>http: filters can now optionally support <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-virtualhost-per-filter-config">virtual host</a>, <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-route-per-filter-config">route</a>, and <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-weightedcluster-clusterweight-per-filter-config">weighted cluster</a> local configuration.</li>
+<li>http: added the ability to pass DNS type Subject Alternative Names of the client certificate in the <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-x-forwarded-client-cert">x-forwarded-client-cert</a> header.</li>
+<li>listeners: added <a href="../api-v2/api/v2/lds.proto.md#envoy-api-field-listener-tcp-fast-open-queue-length">tcp_fast_open_queue_length</a> option.</li>
+<li>load balancing: added <a href="arch_overview/load_balancing.html#arch-overview-load-balancing-types-round-robin">weighted round robin</a> support. The round robin scheduler now respects endpoint weights and also has improved fidelity across picks.</li>
+<li>load balancer: <a href="arch_overview/load_balancing.html#arch-overview-load-balancer-subsets">Locality weighted load balancing</a> is now supported.</li>
+<li>load balancer: ability to configure zone aware load balancer settings <a href="../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-commonlbconfig-zone-aware-lb-config">through the API</a></li>
+<li>logger: added the ability to optionally set the log format via the <a href="../operations/cli.html#cmdoption-log-format"><code>--log-format</code></a> option.</li>
+<li>logger: all <a href="../operations/admin.html#operations-admin-interface-logging">logging levels</a> can be configured at run-time: trace debug info warning error critical.</li>
+<li>sockets: added <a href="../operations/traffic_capture.html#operations-traffic-capture">capture transport socket extension</a> to support recording plain text traffic and PCAP generation.</li>
+<li>sockets: added IP_FREEBIND socket option support for <a href="../api-v2/api/v2/lds.proto.md#envoy-api-field-listener-freebind">listeners</a> and upstream connections via<a href="../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-field-config-bootstrap-v2-clustermanager-upstream-bind-config">cluster manager wide</a> and <a href="../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-upstream-bind-config">cluster specific</a> options.</li>
+<li>sockets: added IP_TRANSPARENT socket option support for <a href="../api-v2/api/v2/lds.proto.md#envoy-api-field-listener-transparent">listeners</a>.</li>
+<li>sockets: added SO_KEEPALIVE socket option for upstream connections <a href="../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-upstream-connection-options">per cluster</a>.</li>
+<li>stats: added support for histograms.</li>
+<li>stats: added <a href="../api-v2/config/metrics/v2/stats.proto.md#envoy-api-field-config-metrics-v2-statsdsink-prefix">option to configure the statsd prefix</a></li>
+<li>tls: removed support for legacy SHA-2 CBC cipher suites.</li>
+<li>tracing: the sampling decision is now delegated to the tracers, allowing the tracer to decide when and if to use it. For example, if the <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-x-b3-sampled">x-b3-sampled</a> header is supplied with the client request, its value will override any sampling decision made by the Envoy proxy.</li>
+<li>websocket: support configuring <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-routeaction-websocket-config">idle_timeout and max_connect_attempts</a>.</li>
+</ul>
+<h2 id="160-march-20-2018">1.6.0 (March 20, 2018)</h2>
+<ul>
+<li>access log: added DOWNSTREAM_REMOTE_ADDRESS, DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT, and DOWNSTREAM_LOCAL_ADDRESS <a href="../configuration/access_log.html#config-access-log-format">access log formatters</a>. DOWNSTREAM_ADDRESS access log formatter has been deprecated.</li>
+<li>access log: added less than or equal (LE) <a href="../api-v2/config/filter/accesslog/v2/accesslog.proto.md#envoy-api-msg-config-filter-accesslog-v2-comparisonfilter">comparison filter</a>.</li>
+<li>access log: added configuration to <a href="../api-v2/config/filter/accesslog/v2/accesslog.proto.md#envoy-api-msg-config-filter-accesslog-v2-runtimefilter">runtime filter</a> to set default sampling rate, divisor, and whether to use independent randomness or not.</li>
+<li>admin: added <a href="../operations/admin.html#operations-admin-interface-runtime">/runtime</a> admin endpoint to read the current runtime values.</li>
+<li>build: added support for <a href="https://github.com/envoyproxy/envoy/blob/master/bazel#enabling-optional-features" target="_blank">building Envoy with exported symbols</a>. This change allows scripts loaded with the Lua filter to load shared object libraries such as those installed via <a href="https://luarocks.org/" target="_blank">LuaRocks</a>.</li>
+<li>config: added support for sending error details as <a href="https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto" target="_blank">grpc.rpc.Status</a> in <a href="../api-v2/api/v2/discovery.proto.md#envoy-api-msg-discoveryrequest">DiscoveryRequest</a>.</li>
+<li>config: added support for <a href="../api-v2/api/v2/core/base.proto.md#envoy-api-msg-core-datasource">inline delivery</a> of TLS certificates and private keys.</li>
+<li>config: added restrictions for the backing <a href="../api-v2/api/v2/core/config_source.proto.md#envoy-api-msg-core-configsource">config sources</a> of xDS resources. For filesystem based xDS the file must exist at configuration time. For cluster based xDS the backing cluster must be statically defined and be of non-EDS type.</li>
+<li>grpc: the Google gRPC C++ library client is now supported as specified in the <a href="arch_overview/grpc.html#arch-overview-grpc-services">gRPC services overview</a> and <a href="../api-v2/api/v2/core/grpc_service.proto.md#envoy-api-msg-core-grpcservice">GrpcService</a>.</li>
+<li>grpc-json: Added support for <a href="../api-v2/config/filter/http/transcoder/v2/transcoder.proto.md#envoy-api-field-config-filter-http-transcoder-v2-grpcjsontranscoder-proto-descriptor-bin">inline descriptors</a>.</li>
+<li>health check: added <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-grpc-health-check">gRPC health check</a> based on <a href="https://github.com/grpc/grpc/blob/master/src/proto/grpc/health/v1/health.proto" target="_blank">grpc.health.v1.Health</a> service.</li>
+<li>health check: added ability to set <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-httphealthcheck-host">host header value</a> for http health check.</li>
+<li>health check: extended the health check filter to support computation of the health check response based on the <a href="../api-v2/config/filter/http/health_check/v2/health_check.proto.md#envoy-api-field-config-filter-http-health-check-v2-healthcheck-cluster-min-healthy-percentages">percentage of healthy servers in upstream clusters</a>.</li>
+<li>health check: added setting for <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-no-traffic-interval">no-traffic interval</a>.</li>
+<li>http : added idle timeout for <a href="../api-v2/api/v2/core/protocol.proto.md#envoy-api-field-core-httpprotocoloptions-idle-timeout">upstream http connections</a>.</li>
+<li>http: added support for <a href="../api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto.md#envoy-api-field-config-filter-network-http-connection-manager-v2-httpconnectionmanager-proxy-100-continue">proxying 100-Continue responses</a>.</li>
+<li>http: added the ability to pass a URL encoded PEM encoded peer certificate in the <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-x-forwarded-client-cert">x-forwarded-client-cert</a> header.</li>
+<li>http: added support for trusting additional hops in the <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-x-forwarded-for">x-forwarded-for</a> request header.</li>
+<li>http: added support for <a href="../api-v2/api/v2/core/protocol.proto.md#envoy-api-field-core-http1protocoloptions-accept-http-10">incoming HTTP/1.0</a>.</li>
+<li>hot restart: added SIGTERM propagation to children to <a href="../operations/hot_restarter.html#operations-hot-restarter">hot-restarter.py</a>, which enables using it as a parent of containers.</li>
+<li>ip tagging: added <a href="../configuration/http_filters/ip_tagging_filter.html#config-http-filters-ip-tagging">HTTP IP Tagging filter</a>.</li>
+<li>listeners: added support for <a href="../api-v2/api/v2/core/address.proto.md#envoy-api-field-core-socketaddress-ipv4-compat">listening for both IPv4 and IPv6</a> when binding to ::.</li>
+<li>listeners: added support for listening on <a href="../api-v2/api/v2/core/address.proto.md#envoy-api-field-core-address-pipe">UNIX domain sockets</a>.</li>
+<li>listeners: added support for <a href="../api-v2/api/v2/core/address.proto.md#envoy-api-msg-core-pipe">abstract unix domain sockets</a> on Linux. The abstract namespace can be used by prepending &#x2018;@&#x2019; to a socket path.</li>
+<li>load balancer: added cluster configuration for <a href="../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-commonlbconfig-healthy-panic-threshold">healthy panic threshold</a> percentage.</li>
+<li>load balancer: added <a href="arch_overview/load_balancing.html#arch-overview-load-balancing-types-maglev">Maglev</a> consistent hash load balancer.</li>
+<li>load balancer: added support for <a href="../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-msg-endpoint-localitylbendpoints">LocalityLbEndpoints</a> priorities.</li>
+<li>lua: added headers <a href="../configuration/http_filters/lua_filter.html#config-http-filters-lua-header-wrapper">replace()</a> API.</li>
+<li>lua: extended to support <a href="../configuration/http_filters/lua_filter.html#config-http-filters-lua-metadata-wrapper">metadata object</a> API.</li>
+<li>redis: added local PING support to the <a href="arch_overview/redis.html#arch-overview-redis">Redis filter</a>.</li>
+<li>redis: added GEORADIUS_RO and GEORADIUSBYMEMBER_RO to the <a href="arch_overview/redis.html#arch-overview-redis">Redis command splitter</a> whitelist.</li>
+<li>router: added DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT, DOWNSTREAM_LOCAL_ADDRESS, DOWNSTREAM_LOCAL_ADDRESS_WITHOUT_PORT, PROTOCOL, and UPSTREAM_METADATA <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-custom-request-headers">header formatters</a>. The CLIENT_IP header formatter has been deprecated.</li>
+<li>router: added gateway-error <a href="../configuration/http_filters/router_filter.html#config-http-filters-router-x-envoy-retry-on">retry-on</a> policy.</li>
+<li>router: added support for route matching based on <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-msg-route-queryparametermatcher">URL query string parameters</a>.</li>
+<li>router: added support for more granular weighted cluster routing by allowing the <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-weightedcluster-total-weight">total_weight</a>to be specified in configuration.</li>
+<li>router: added support for <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-custom-request-headers">custom request/response headers</a> with mixed static and dynamic values.</li>
+<li>router: added support for <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-route-direct-response">direct responses</a>. I.e., sending a preconfigured HTTP response without proxying anywhere.</li>
+<li>router: added support for <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-redirectaction-https-redirect">HTTPS redirects</a> on specific routes.</li>
+<li>router: added support for <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-redirectaction-prefix-rewrite">prefix_rewrite</a> for redirects.</li>
+<li>router: added support for <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-redirectaction-strip-query">stripping the query string</a> for redirects.</li>
+<li>router: added support for downstream request/upstream response <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-custom-request-headers">header manipulation</a> in <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-msg-route-weightedcluster">weighted cluster</a>.</li>
+<li>router: added support for <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-headermatcher-range-match">range based header matching</a> for request routing.</li>
+<li>squash: added support for the <a href="../configuration/http_filters/squash_filter.html#config-http-filters-squash">Squash microservices debugger</a>. Allows debugging an incoming request to a microservice in the mesh.</li>
+<li>stats: added metrics service API implementation.</li>
+<li>stats: added native <a href="../api-v2/config/metrics/v2/stats.proto.md#envoy-api-msg-config-metrics-v2-dogstatsdsink">DogStatsd</a> support.</li>
+<li>stats: added support for <a href="../api-v2/config/metrics/v2/stats.proto.md#envoy-api-field-config-metrics-v2-tagspecifier-fixed-value">fixed stats tag values</a> which will be added to all metrics.</li>
+<li>tcp proxy: added support for specifying a <a href="../api-v2/config/filter/network/tcp_proxy/v2/tcp_proxy.proto.md#envoy-api-field-config-filter-network-tcp-proxy-v2-tcpproxy-metadata-match">metadata matcher</a> for upstream clusters in the tcp filter.</li>
+<li>tcp proxy: improved TCP proxy to correctly proxy TCP half-close.</li>
+<li>tcp proxy: added <a href="../api-v2/config/filter/network/tcp_proxy/v2/tcp_proxy.proto.md#envoy-api-field-config-filter-network-tcp-proxy-v2-tcpproxy-idle-timeout">idle timeout</a>.</li>
+<li>tcp proxy: access logs now bring an IP address without a port when using DOWNSTREAM_ADDRESS. Use <a href="../configuration/access_log.html#config-access-log-format">DOWNSTREAM_REMOTE_ADDRESS</a> instead.</li>
+<li>tracing: added support for dynamically loading an <a href="../api-v2/config/trace/v2/trace.proto.md#envoy-api-msg-config-trace-v2-dynamicotconfig">OpenTracing tracer</a>.</li>
+<li>tracing: when using the Zipkin tracer, it is now possible for clients to specify the sampling decision (using the <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-x-b3-sampled">x-b3-sampled</a> header) and have the decision propagated through to subsequently invoked services.</li>
+<li>tracing: when using the Zipkin tracer, it is no longer necessary to propagate the <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-x-ot-span-context">x-ot-span-context</a> header. See more on trace context propagation <a href="arch_overview/tracing.html#arch-overview-tracing">here</a>.</li>
+<li>transport sockets: added transport socket interface to allow custom implementations of transport sockets. A transport socket provides read and write logic with buffer encryption and decryption (if applicable). The existing TLS implementation has been refactored with the interface.</li>
+<li>upstream: added support for specifying an <a href="../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-alt-stat-name">alternate stats name</a> while emitting stats for clusters.</li>
+<li>Many small bug fixes and performance improvements not listed.</li>
+</ul>
+<h2 id="150-december-4-2017">1.5.0 (December 4, 2017)</h2>
+<ul>
+<li>access log: added fields for <a href="../configuration/access_log.html#config-access-log-format">UPSTREAM_LOCAL_ADDRESS and DOWNSTREAM_ADDRESS</a>.</li>
+<li>admin: added <a href="../operations/admin.html#operations-admin-interface-stats">JSON output</a> for stats admin endpoint.</li>
+<li>admin: added basic <a href="../operations/admin.html#operations-admin-interface-stats">Prometheus output</a> for stats admin endpoint. Histograms are not currently output.</li>
+<li>admin: added <code>version_info</code> to the <a href="../operations/admin.html#operations-admin-interface-clusters">/clusters admin endpoint</a>.</li>
+<li>config: the <a href="../configuration/overview/v2_overview.html#config-overview-v2">v2 API</a> is now considered production ready.</li>
+<li>config: added <a href="../operations/cli.html#cmdoption-v2-config-only"><code>--v2-config-only</code></a> CLI flag.</li>
+<li>cors: added <a href="../configuration/http_filters/cors_filter.html#config-http-filters-cors">CORS filter</a>.</li>
+<li>health check: added <a href="../configuration/http_filters/router_filter.html#config-http-filters-router-x-envoy-immediate-health-check-fail">x-envoy-immediate-health-check-fail</a> header support.</li>
+<li>health check: added <a href="../api-v2/api/v2/core/health_check.proto.md#envoy-api-field-core-healthcheck-reuse-connection">reuse_connection</a> option.</li>
+<li>http: added <a href="../configuration/http_conn_man/stats.html#config-http-conn-man-stats-per-listener">per-listener stats</a>.</li>
+<li>http: end-to-end HTTP flow control is now complete across both connections, streams, and filters.</li>
+<li>load balancer: added <a href="arch_overview/load_balancing.html#arch-overview-load-balancer-subsets">subset load balancer</a>.</li>
+<li>load balancer: added ring size and hash <a href="../api-v2/api/v2/cds.proto.md#envoy-api-msg-cluster-ringhashlbconfig">configuration options</a>. This used to be configurable via runtime. The runtime configuration was deleted without deprecation as we are fairly certain no one is using it.</li>
+<li>log: added the ability to optionally log to a file instead of stderr via the <a href="../operations/cli.html#cmdoption-log-path"><code>--log-path</code></a> option.</li>
+<li>listeners: added <a href="../api-v2/api/v2/lds.proto.md#envoy-api-field-listener-drain-type">drain_type</a> option.</li>
+<li>lua: added experimental <a href="../configuration/http_filters/lua_filter.html#config-http-filters-lua">Lua filter</a>.</li>
+<li>mongo filter: added <a href="../configuration/network_filters/mongo_proxy_filter.html#config-network-filters-mongo-proxy-fault-injection">fault injection</a>.</li>
+<li>mongo filter: added <a href="arch_overview/draining.html#arch-overview-draining">&#x201C;drain close&#x201D;</a> support.</li>
+<li>outlier detection: added <a href="arch_overview/outlier.html#arch-overview-outlier-detection">HTTP gateway failure type</a>. See <a href="https://github.com/envoyproxy/envoy/blob/master/DEPRECATED.md#version-150" target="_blank">DEPRECATED.md</a> for outlier detection stats deprecations in this release.</li>
+<li>redis: the <a href="../configuration/network_filters/redis_proxy_filter.html#config-network-filters-redis-proxy">redis proxy filter</a> is now considered production ready.</li>
+<li>redis: added <a href="arch_overview/draining.html#arch-overview-draining">&#x201C;drain close&#x201D;</a> functionality.</li>
+<li>router: added <a href="../configuration/http_filters/router_filter.html#config-http-filters-router-x-envoy-overloaded">x-envoy-overloaded</a> support.</li>
+<li>router: added <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-routematch-regex">regex</a> route matching.</li>
+<li>router: added <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-custom-request-headers">custom request headers</a> for upstream requests.</li>
+<li>router: added <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-routeaction-hashpolicy-connection-properties">downstream IP hashing</a> for HTTP ketama routing.</li>
+<li>router: added <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-routeaction-hashpolicy-cookie">cookie hashing</a>.</li>
+<li>router: added <a href="../api-v2/config/filter/http/router/v2/router.proto.md#envoy-api-field-config-filter-http-router-v2-router-start-child-span">start_child_span</a> option to create child span for egress calls.</li>
+<li>router: added optional <a href="../api-v2/config/filter/http/router/v2/router.proto.md#envoy-api-field-config-filter-http-router-v2-router-upstream-log">upstream logs</a>.</li>
+<li>router: added complete <a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-custom-request-headers">custom append/override/remove support</a> of request/response headers.</li>
+<li>router: added support to <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-redirectaction-response-code">specify response code during redirect</a>.</li>
+<li>router: added <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-routeaction-cluster-not-found-response-code">configuration</a> to return either a 404 or 503 if the upstream cluster does not exist.</li>
+<li>runtime: added <a href="../configuration/runtime.html#config-runtime-comments">comment capability</a>.</li>
+<li>server: change default log level (<a href="../operations/cli.html#cmdoption-l"><code>-l</code></a>) to info.</li>
+<li>stats: maximum stat/name sizes and maximum number of stats are now variable via the<a href="../operations/cli.html#cmdoption-max-obj-name-len"><code>--max-obj-name-len</code></a> and <a href="../operations/cli.html#cmdoption-max-stats"><code>--max-stats</code></a> options.</li>
+<li>tcp proxy: added <a href="../api-v2/config/filter/network/tcp_proxy/v2/tcp_proxy.proto.md#envoy-api-field-config-filter-network-tcp-proxy-v2-tcpproxy-access-log">access logging</a>.</li>
+<li>tcp proxy: added <a href="../api-v2/config/filter/network/tcp_proxy/v2/tcp_proxy.proto.md#envoy-api-field-config-filter-network-tcp-proxy-v2-tcpproxy-max-connect-attempts">configurable connect retries</a>.</li>
+<li>tcp proxy: enable use of <a href="arch_overview/outlier.html#arch-overview-outlier-detection">outlier detector</a>.</li>
+<li>tls: added <a href="../faq/sni.html#faq-how-to-setup-sni">SNI support</a>.</li>
+<li>tls: added support for specifying <a href="../api-v2/api/v2/auth/cert.proto.md#envoy-api-field-auth-downstreamtlscontext-session-ticket-keys">TLS session ticket keys</a>.</li>
+<li>tls: allow configuration of the <a href="../api-v2/api/v2/auth/cert.proto.md#envoy-api-field-auth-tlsparameters-tls-minimum-protocol-version">min</a> and <a href="../api-v2/api/v2/auth/cert.proto.md#envoy-api-field-auth-tlsparameters-tls-maximum-protocol-version">max</a> TLS protocol versions.</li>
+<li>tracing: added <a href="../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-route-decorator">custom trace span decorators</a>.</li>
+<li>Many small bug fixes and performance improvements not listed.</li>
+</ul>
+<h2 id="140-august-24-2017">1.4.0 (August 24, 2017)</h2>
+<ul>
+<li>macOS is <a href="https://github.com/envoyproxy/envoy/blob/master//bazel#quick-start-bazel-build-for-developers" target="_blank">now supported</a>. (A few features are missing such as hot restart and original destination routing).</li>
+<li>YAML is now directly supported for <a href="../configuration/overview/v1_overview.html#config-overview-v1">config files</a>.</li>
+<li>Added /routes admin endpoint.</li>
+<li>End-to-end flow control is now supported for TCP proxy, HTTP/1, and HTTP/2. HTTP flow control that includes filter buffering is incomplete and will be implemented in 1.5.0.</li>
+<li>Log verbosity <a href="https://github.com/envoyproxy/envoy/blob/master//bazel#log-verbosity" target="_blank">compile time flag</a> added.</li>
+<li>Hot restart <a href="https://github.com/envoyproxy/envoy/blob/master//bazel#hot-restart" target="_blank">compile time flag</a> added.</li>
+<li>Original destination <a href="arch_overview/service_discovery.html#arch-overview-service-discovery-types-original-destination">cluster</a> and <a href="arch_overview/load_balancing.html#arch-overview-load-balancing-types-original-destination">load balancer</a> added.</li>
+<li><a href="arch_overview/websocket.html#arch-overview-websocket">WebSocket</a> is now supported.</li>
+<li>Virtual cluster priorities have been hard removed without deprecation as we are reasonably sure no one is using this feature.</li>
+<li>Route <a href="../api-v1/route_config/route_config.md#config-http-conn-man-route-table-validate-clusters">validate_clusters</a> option added.</li>
+<li><a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-downstream-service-node">x-envoy-downstream-service-node</a> header added.</li>
+<li><a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-x-forwarded-client-cert">x-forwarded-client-cert</a> header added.</li>
+<li>Initial HTTP/1 forward proxy support for <a href="../api-v1/network_filters/http_conn_man.md#config-http-conn-man-http1-settings">absolute URLs</a> has been added.</li>
+<li>HTTP/2 codec settings are now <a href="../api-v1/network_filters/http_conn_man.md#config-http-conn-man-http2-settings">configurable</a>.</li>
+<li>gRPC/JSON transcoder <a href="../configuration/http_filters/grpc_json_transcoder_filter.html#config-http-filters-grpc-json-transcoder">filter</a> added.</li>
+<li>gRPC web <a href="../configuration/http_filters/grpc_web_filter.html#config-http-filters-grpc-web">filter</a> added.</li>
+<li>Configurable timeout for the rate limit service call in the <a href="../configuration/network_filters/rate_limit_filter.html#config-network-filters-rate-limit">network</a> and <a href="../configuration/http_filters/rate_limit_filter.html#config-http-filters-rate-limit">HTTP</a> rate limit filters.</li>
+<li><a href="../configuration/http_filters/router_filter.html#config-http-filters-router-x-envoy-retry-grpc-on">x-envoy-retry-grpc-on</a> header added.</li>
+<li><a href="arch_overview/dynamic_configuration.html#arch-overview-dynamic-config-lds">LDS API</a> added.</li>
+<li>TLS <a href="../api-v1/listeners/listeners.md#config-listener-ssl-context-require-client-certificate">require_client_certificate</a> option added.</li>
+<li><a href="../install/tools/config_load_check_tool.html#install-tools-config-load-check-tool">Configuration check tool</a> added.</li>
+<li><a href="../install/tools/schema_validator_check_tool.html#install-tools-schema-validator-check-tool">JSON schema check tool</a> added.</li>
+<li>Config validation mode added via the <a href="../operations/cli.html#cmdoption-mode"><code>--mode</code></a> option.</li>
+<li><a href="../operations/cli.html#cmdoption-local-address-ip-version"><code>--local-address-ip-version</code></a> option added.</li>
+<li>IPv6 support is now complete.</li>
+<li>UDP <a href="../configuration/overview/v1_overview.html#config-overview-statsd-udp-ip-address">statsd_ip_address</a> option added.</li>
+<li>Per-cluster <a href="../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-dns-resolvers">DNS resolvers</a> added.</li>
+<li><a href="../configuration/http_filters/fault_filter.html#config-http-filters-fault-injection">Fault filter</a> enhancements and fixes.</li>
+<li>Several features are <a href="https://github.com/envoyproxy/envoy/blob/master//DEPRECATED.md#version-140" target="_blank">deprecated as of the 1.4.0 release</a>. They will be removed at the beginning of the 1.5.0 release cycle. We explicitly call out that the HttpFilterConfigFactory filter API has been deprecated in favor of NamedHttpFilterConfigFactory.</li>
+<li>Many small bug fixes and performance improvements not listed.</li>
+</ul>
+<h2 id="130-may-17-2017">1.3.0 (May 17, 2017)</h2>
+<ul>
+<li>As of this release, we now have an official <a href="https://github.com/envoyproxy/envoy/blob/master//CONTRIBUTING.md#breaking-change-policy" target="_blank">breaking change policy</a>. Note that there are numerous breaking configuration changes in this release. They are not listed here. Future releases will adhere to the policy and have clear documentation on deprecations and changes.</li>
+<li>Bazel is now the canonical build system (replacing CMake). There have been a huge number of changes to the development/build/test flow. See <a href="https://github.com/envoyproxy/envoy/blob/master//bazel/README.md" target="_blank">/bazel/README.md</a> and <a href="https://github.com/envoyproxy/envoy/blob/master//ci/README.md" target="_blank">/ci/README.md</a> for more information.</li>
+<li><a href="arch_overview/outlier.html#arch-overview-outlier-detection">Outlier detection</a> has been expanded to include success rate variance, and all parameters are now configurable in both runtime and in the JSON configuration.</li>
+<li>TCP level <a href="../api-v1/listeners/listeners.md#config-listeners-per-connection-buffer-limit-bytes">listener</a> and <a href="../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-per-connection-buffer-limit-bytes">cluster</a> connections now have configurable receive buffer limits at which point connection level back pressure is applied. Full end to end flow control will be available in a future release.</li>
+<li><a href="../configuration/cluster_manager/cluster_hc.html#config-cluster-manager-cluster-hc">Redis health checking</a> has been added as an active health check type. Full Redis support will be documented/supported in 1.4.0.</li>
+<li><a href="../configuration/cluster_manager/cluster_hc.html#config-cluster-manager-cluster-hc-tcp-health-checking">TCP health checking</a> now supports a &#x201C;connect only&#x201D; mode that only checks if the remote server can be connected to without writing/reading any data.</li>
+<li><a href="https://boringssl.googlesource.com/boringssl" target="_blank">BoringSSL</a> is now the only supported TLS provider. The default cipher suites and ECDH curves have been updated with more modern defaults for both <a href="../api-v1/listeners/listeners.md#config-listener-ssl-context">listener</a> and <a href="../api-v1/cluster_manager/cluster_ssl.md#config-cluster-manager-cluster-ssl">cluster</a> connections.</li>
+<li>The header value match <a href="../api-v1/route_config/rate_limits.md#config-http-conn-man-route-table-rate-limit-actions">rate limit action</a> has been expanded to include an <em>expect match</em>parameter.</li>
+<li>Route level HTTP rate limit configurations now do not inherit the virtual host level configurations by default. The <a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-route-include-vh">include_vh_rate_limits</a> to inherit the virtual host level options if desired.</li>
+<li>HTTP routes can now add request headers on a per route and per virtual host basis via the<a href="../configuration/http_conn_man/headers.html#config-http-conn-man-headers-custom-request-headers">request_headers_to_add</a> option.</li>
+<li>The <a href="../install/ref_configs.html#install-ref-configs">example configurations</a> have been refreshed to demonstrate the latest features.</li>
+<li><a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">per_try_timeout_ms</a> can now be configured in a route&#x2019;s retry policy in addition to via the <a href="../configuration/http_filters/router_filter.html#config-http-filters-router-x-envoy-upstream-rq-per-try-timeout-ms">x-envoy-upstream-rq-per-try-timeout-ms</a> HTTP header.</li>
+<li><a href="../api-v1/route_config/vhost.md#config-http-conn-man-route-table-vhost">HTTP virtual host matching</a> now includes support for prefix wildcard domains (e.g., *.lyft.com).</li>
+<li>The default for tracing random sampling has been changed to 100% and is still configurable in<a href="../configuration/http_conn_man/runtime.html#config-http-conn-man-runtime">runtime</a>.</li>
+<li><a href="../api-v1/network_filters/http_conn_man.md#config-http-conn-man-tracing">HTTP tracing configuration</a> has been extended to allow tags to be populated from arbitrary HTTP headers.</li>
+<li>The <a href="../configuration/http_filters/rate_limit_filter.html#config-http-filters-rate-limit">HTTP rate limit filter</a> can now be applied to internal, external, or all requests via the request_type option.</li>
+<li><a href="../configuration/listeners/listeners.md#config-listeners">Listener binding</a> now requires specifying an address field. This can be used to bind a listener to both a specific address as well as a port.</li>
+<li>The <a href="../configuration/network_filters/mongo_proxy_filter.html#config-network-filters-mongo-proxy">MongoDB filter</a> now emits a stat for queries that do not have $maxTimeMS set.</li>
+<li>The <a href="../configuration/network_filters/mongo_proxy_filter.html#config-network-filters-mongo-proxy">MongoDB filter</a> now emits logs that are fully valid JSON.</li>
+<li>The CPU profiler output path is now <a href="../api-v1/admin.md#config-admin-v1">configurable</a>.</li>
+<li>A <a href="../configuration/overview/v1_overview.html#config-overview-v1">watchdog system</a> has been added that can kill the server if a deadlock is detected.</li>
+<li>A <a href="../install/tools/route_table_check_tool.html#install-tools-route-table-check-tool">route table checking tool</a> has been added that can be used to test route tables before use.</li>
+<li>We have added an <a href="../extending/extending.html#extending">example repo</a> that shows how to compile/link a custom filter.</li>
+<li>Added additional cluster wide information related to outlier detection to the <a href="../operations/admin.html#operations-admin-interface">/clusters admin endpoint</a>.</li>
+<li>Multiple SANs can now be verified via the <a href="../api-v1/listeners/listeners.md#config-listener-ssl-context">verify_subject_alt_name</a> setting. Additionally, URI type SANs can be verified.</li>
+<li>HTTP filters can now be passed <a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-opaque-config">opaque configuration</a> specified on a per route basis.</li>
+<li>By default Envoy now has a built in crash handler that will print a back trace. This behavior can be disabled if desired via the <code>--define=signal_trace=disabled</code> Bazel option.</li>
+<li>Zipkin has been added as a supported <a href="arch_overview/tracing.html#arch-overview-tracing">tracing provider</a>.</li>
+<li>Numerous small changes and fixes not listed here.</li>
+</ul>
+<h2 id="120-march-7-2017">1.2.0 (March 7, 2017)</h2>
+<ul>
+<li><a href="../configuration/cluster_manager/cds.html#config-cluster-manager-cds">Cluster discovery service (CDS) API</a>.</li>
+<li><a href="arch_overview/outlier.html#arch-overview-outlier-detection">Outlier detection</a> (passive health checking).</li>
+<li>Envoy configuration is now checked against a <a href="../configuration/overview/v1_overview.html#config-overview-v1">JSON schema</a>.</li>
+<li><a href="arch_overview/load_balancing.html#arch-overview-load-balancing-types">Ring hash</a> consistent load balancer, as well as HTTP consistent hash routing <a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-hash-policy">based on a policy</a>.</li>
+<li>Vastly <a href="arch_overview/global_rate_limiting.html#arch-overview-rate-limit">enhanced global rate limit configuration</a> via the HTTP rate limiting filter.</li>
+<li>HTTP routing to a cluster <a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-route-cluster-header">retrieved from a header</a>.</li>
+<li><a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-route-config-weighted-clusters">Weighted cluster</a> HTTP routing.</li>
+<li><a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-route-auto-host-rewrite">Auto host rewrite</a> during HTTP routing.</li>
+<li><a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-route-headers">Regex header matching</a> during HTTP routing.</li>
+<li>HTTP access log <a href="../api-v1/access_log.md#config-http-con-manager-access-log-filters-runtime-v1">runtime filter</a>.</li>
+<li>LightStep tracer <a href="arch_overview/tracing.html#arch-overview-tracing">parent/child span association</a>.</li>
+<li><a href="../configuration/http_conn_man/rds.html#config-http-conn-man-rds">Route discovery service (RDS) API</a>.</li>
+<li>HTTP router <a href="../configuration/http_filters/router_filter.html#config-http-filters-router-x-envoy-upstream-rq-timeout-alt-response">x-envoy-upstream-rq-timeout-alt-response header</a> support.</li>
+<li><em>use_original_dst</em> and <em>bind_to_port</em> <a href="../configuration/listeners/listeners.md#config-listeners">listener options</a> (useful for iptables based transparent proxy support).</li>
+<li>TCP proxy filter <a href="../configuration/network_filters/tcp_proxy_filter.html#config-network-filters-tcp-proxy">route table support</a>.</li>
+<li>Configurable <a href="../configuration/overview/v1_overview.html#config-overview-stats-flush-interval-ms">stats flush interval</a>.</li>
+<li>Various <a href="../install/building.html#install-requirements">third party library upgrades</a>, including using BoringSSL as the default SSL provider.</li>
+<li>No longer maintain closed HTTP/2 streams for priority calculations. Leads to substantial memory savings for large meshes.</li>
+<li>Numerous small changes and fixes not listed here.</li>
+</ul>
+<h2 id="110-november-30-2016">1.1.0 (November 30, 2016)</h2>
+<ul>
+<li>Switch from Jannson to RapidJSON for our JSON library (allowing for a configuration schema in 1.2.0).</li>
+<li>Upgrade <a href="../install/building.html#install-requirements">recommended version</a> of various other libraries.</li>
+<li><a href="../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-dns-refresh-rate-ms">Configurable DNS refresh rate</a> for DNS service discovery types.</li>
+<li>Upstream circuit breaker configuration can be <a href="../configuration/cluster_manager/cluster_runtime.html#config-cluster-manager-cluster-runtime">overridden via runtime</a>.</li>
+<li><a href="arch_overview/load_balancing.html#arch-overview-load-balancing-zone-aware-routing">Zone aware routing support</a>.</li>
+<li>Generic <a href="../api-v1/route_config/route.md#config-http-conn-man-route-table-route-headers">header matching routing rule</a>.</li>
+<li>HTTP/2 <a href="../api-v1/network_filters/http_conn_man.md#config-http-conn-man-drain-timeout-ms">graceful connection draining</a> (double GOAWAY).</li>
+<li>DynamoDB filter <a href="../configuration/http_filters/dynamodb_filter.html#config-http-filters-dynamo">per shard statistics</a> (pre-release AWS feature).</li>
+<li>Initial release of the <a href="../configuration/http_filters/fault_filter.html#config-http-filters-fault-injection">fault injection HTTP filter</a>.</li>
+<li>HTTP <a href="../configuration/http_filters/rate_limit_filter.html#config-http-filters-rate-limit">rate limit filter</a> enhancements (note that the configuration for HTTP rate limiting is going to be overhauled in 1.2.0).</li>
+<li>Added <a href="../configuration/http_filters/router_filter.html#config-http-filters-router-x-envoy-retry-on">refused-stream retry policy</a>.</li>
+<li>Multiple <a href="arch_overview/http_routing.html#arch-overview-http-routing-priority">priority queues</a> for upstream clusters (configurable on a per route basis, with separate connection pools, circuit breakers, etc.).</li>
+<li>Added max connection circuit breaking to the <a href="arch_overview/tcp_proxy.html#arch-overview-tcp-proxy">TCP proxy filter</a>.</li>
+<li>Added <a href="../operations/cli.html#operations-cli">CLI</a> options for setting the logging file flush interval as well as the drain/shutdown time during hot restart.</li>
+<li>A very large number of performance enhancements for core HTTP/TCP proxy flows as well as a few new configuration flags to allow disabling expensive features if they are not needed (specifically request ID generation and dynamic response code stats).</li>
+<li>Support Mongo 3.2 in the <a href="../configuration/network_filters/mongo_proxy_filter.html#config-network-filters-mongo-proxy">Mongo sniffing filter</a>.</li>
+<li>Lots of other small fixes and enhancements not listed.</li>
+</ul>
+<h2 id="100-september-12-2016">1.0.0 (September 12, 2016)</h2>
+<p>Initial open source release.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="getting_help.html" class="navigation navigation-prev " aria-label="Previous page: 获取帮助">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../start/start.html" class="navigation navigation-next " aria-label="Next page: 入门指南">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"历史版本","level":"2.6","depth":1,"next":{"title":"入门指南","level":"3.1","depth":1,"path":"start/start.md","ref":"start/start.md","articles":[]},"previous":{"title":"获取帮助","level":"2.5","depth":1,"path":"intro/getting_help.md","ref":"intro/getting_help.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"intro/version_history.md","mtime":"2018-05-15T14:06:40.868Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-16T14:42:42.549Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-plus/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search-plus/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

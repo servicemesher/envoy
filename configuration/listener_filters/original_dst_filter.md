@@ -1,5 +1,0 @@
-# 原始目的地
-
-Original destination listener filter reads the SO_ORIGINAL_DST socket option set when a connection has been redirected by an iptables REDIRECT target, or by an iptables TPROXY target in combination with setting the listener’s [transparent](../../api-v2/api/v2/lds.proto.md#envoy-api-field-listener-transparent) option. Later processing in Envoy sees the restored destination address as the connection’s local address, rather than the address at which the listener is listening at. Furthermore, [an original destination cluster](../../intro/arch_overview/service_discovery.md#arch-overview-service-discovery-types-original-destination) may be used to forward HTTP requests or TCP connections to the restored destination address.
-
-- [v2 API reference](../../api-v2/api/v2/listener/listener.proto.md#envoy-api-field-listener-filter-name)

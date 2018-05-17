@@ -1,9 +1,0 @@
-# 初始化
-
-How Envoy initializes itself when it starts up is complex. This section explains at a high level how the process works. All of the following happens before any listeners start listening and accepting new connections.
-
-- During startup, the [cluster manager](cluster_manager.md#arch-overview-cluster-manager) goes through a multi-phase initialization where it first initializes static/DNS clusters, then predefined [SDS](dynamic_configuration.md#arch-overview-dynamic-config-sds) clusters. Then it initializes [CDS](dynamic_configuration.md#arch-overview-dynamic-config-cds) if applicable, waits for one response (or failure), and does the same primary/secondary initialization of CDS provided clusters.
-- If clusters use [active health checking](health_checking.md#arch-overview-health-checking), Envoy also does a single active HC round.
-- Once cluster manager initialization is done, [RDS](dynamic_configuration.md#arch-overview-dynamic-config-rds) and [LDS](dynamic_configuration.md#arch-overview-dynamic-config-lds) initialize (if applicable). The server doesn’t start accepting connections until there has been at least one response (or failure) for LDS/RDS requests.
-- If LDS itself returns a listener that needs an RDS response, Envoy further waits until an RDS response (or failure) is received. Note that this process takes place on every future listener addition via LDS and is known as [listener warming](../../configuration/listeners/lds.md#config-listeners-lds).
-- After all of the previous steps have taken place, the listeners start accepting new connections. This flow ensures that during hot restart the new process is fully capable of accepting and processing new connections before the draining of the old process begins.
