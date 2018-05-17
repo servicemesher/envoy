@@ -8,13 +8,10 @@ Envoy 目前不提供单独的预先编译好的二进制文件，但提供了 D
 这些示例使用[v2 Envoy API](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api#envoy-api-reference)，但仅使用 API 的静态配置功能，这对于简单的需求非常有用。 更复杂的需求是由[动态配置](../intro/arch_overview/dynamic_configuration.md#arch-overview-dynamic-config)来支持的。
 ## 快速开始运行简单示例
 
-These instructions run from files in the Envoy repo. The sections below give a more detailed explanation of the configuration file and execution steps for the same configuration.
 
-这些命令从 Envoy 存储库中的文件运行。下面的部分给出了相同配置的配置文件和执行步骤的更详细的解释。
+根据 Envoy 存储库中的文件运行这些命令。下面的部分给出了配置文件和执行步骤更详细的解释。
 
-A very minimal Envoy configuration that can be used to validate basic plain HTTP proxying is available in [configs/google_com_proxy.v2.yaml](https://github.com/envoyproxy/envoy/blob/master/configs/google_com_proxy.v2.yaml). This is not intended to represent a realistic Envoy deployment:
-
-configs / google_com_proxy.v2.yaml中提供了一个可用于验证基本纯HTTP代理的非常简单的Envoy配置。 这不是为了代表一个现实的特使部署：
+[configs / google_com_proxy.v2.yaml](https://github.com/envoyproxy/envoy/blob/master/configs/google_com_proxy.v2.yaml)中提供了一个非常简单的可用于验证基于纯 HTTP 代理的 Envoy 配置。 这不表示实际的 Envoy 部署：
 
 ```bash
 $ docker pull envoyproxy/envoy:latest
@@ -22,9 +19,7 @@ $ docker run --rm -d -p 10000:10000 envoyproxy/envoy:latest
 $ curl -v localhost:10000
 ```
 
-The Docker image used will contain the latest version of Envoy and a basic Envoy configuration. This basic configuration tells Envoy to route incoming requests to *.google.com.
-
-使用的Docker镜像将包含最新版本的Envoy和一个基本的Envoy配置。 此基本配置告诉Envoy将传入请求路由到* .google.com。
+使用的 Docker 镜像将包含最新版本的 Envoy 和一个基本的 Envoy 配置。此基本配置告诉 Envoy 将入站请求路由到 *.google.com。
 
 ## 简单的配置
 
