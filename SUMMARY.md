@@ -86,7 +86,7 @@
   - [速率限制](configuration/network_filters/rate_limit_filter.md)
   - [Redis 代理](configuration/network_filters/redis_proxy_filter.md)
   - [TCP 代理](configuration/network_filters/tcp_proxy_filter.md)
-- HTTP 连接管理器
+- [HTTP 连接管理器](configuration/http_conn_man/http_conn_man.md)
   - [路由匹配](configuration/http_conn_man/route_matching.md)
   - [流量转换/切分](configuration/http_conn_man/traffic_splitting.md)
   - [HTTP header 操作](configuration/http_conn_man/headers.md)
@@ -109,7 +109,7 @@
   - [速率限制](configuration/http_filters/rate_limit_filter.md)
   - [路由](configuration/http_filters/router_filter.md)
   - [Squash](configuration/http_filters/squash_filter.md)
-- 集群管理器
+- [集群管理器](configuration/cluster_manager/cluster_manager.md)
   - [统计](configuration/cluster_manager/cluster_stats.md)
   - [运行时](configuration/cluster_manager/cluster_runtime.md)
   - [集群发现服务（CDS）](configuration/cluster_manager/cds.md)

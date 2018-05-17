@@ -1,20 +1,6 @@
-.. _config_http_conn_man:
+# HTTP 链接管理器
 
-HTTP connection manager
-=======================
-
-* HTTP connection manager :ref:`architecture overview <arch_overview_http_conn_man>`
-* HTTP protocols :ref:`architecture overview <arch_overview_http_protocols>`
-* :ref:`v1 API reference <config_network_filters_http_conn_man_v1>`
-* :ref:`v2 API reference <envoy_api_msg_config.filter.network.http_connection_manager.v2.HttpConnectionManager>`
-
-.. toctree::
-  :hidden:
-
-  route_matching
-  traffic_splitting
-  headers
-  header_sanitizing
-  stats
-  runtime
-  rds
+- HTTP 链接管理器[架构概览](../../intro/arch_overview/http_connection_management.md#arch-overview-http-conn-man)
+- HTTP 协议[架构概览](../../intro/arch_overview/http_connection_management.md#arch-overview-http-protocols)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-network-filters-http-conn-man-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-msg-config-filter-network-http-connection-manager-v2-httpconnectionmanager)
