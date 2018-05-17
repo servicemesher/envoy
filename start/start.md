@@ -11,7 +11,7 @@ Envoy 目前不提供单独的预先编译好的二进制文件，但提供了 D
 
 根据 Envoy 存储库中的文件运行这些命令。下面的部分给出了配置文件和执行步骤更详细的解释。
 
-[configs / google_com_proxy.v2.yaml](https://github.com/envoyproxy/envoy/blob/master/configs/google_com_proxy.v2.yaml)中提供了一个非常简单的可用于验证基于纯 HTTP 代理的 Envoy 配置。 这不表示实际的 Envoy 部署：
+[configs/google_com_proxy.v2.yaml](https://github.com/envoyproxy/envoy/blob/master/configs/google_com_proxy.v2.yaml) 中提供了一个非常简单的可用于验证基于纯 HTTP 代理的 Envoy 配置。 这不表示实际的 Envoy 部署：
 
 ```bash
 $ docker pull envoyproxy/envoy:latest
@@ -34,13 +34,13 @@ admin:
     socket_address: { address: 0.0.0.0, port_value: 9901 }
 ```
 
-[static_resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-static-resources)包含 Envoy 启动时静态配置的所有内容，而不是 Envoy 在运行时动态配置的资源。 [v2 API Overview](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v2_overview#config-overview-v2)描述了这一点。
+[static_resources](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-static-resources) 包含 Envoy 启动时静态配置的所有内容，而不是 Envoy 在运行时动态配置的资源。 [v2 API Overview](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v2_overview#config-overview-v2) 描述了这一点。
 
 ```yaml
 static_resources:
 ```
 
-[listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto#envoy-api-file-envoy-api-v2-listener-listener-proto)规范
+[listeners](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto#envoy-api-file-envoy-api-v2-listener-listener-proto) 规范
 
 ```yaml
 listeners:
@@ -65,7 +65,7 @@ listeners:
         - name: envoy.router
 ```
 
-[clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-file-envoy-api-v2-cds-proto)规范
+[clusters](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-file-envoy-api-v2-cds-proto) 规范
 
 ```yaml
 clusters:
