@@ -1296,16 +1296,16 @@
             
         </li>
     
-        <li class="chapter " data-level="5.6" >
+        <li class="chapter " data-level="5.6" data-path="../../configuration/http_conn_man/http_conn_man.html">
             
-                <span>
+                <a href="../../configuration/http_conn_man/http_conn_man.html">
             
                     
                         <b>5.6.</b>
                     
                     HTTP 连接管理器
             
-                </span>
+                </a>
             
 
             
@@ -1653,16 +1653,16 @@
             
         </li>
     
-        <li class="chapter " data-level="5.8" >
+        <li class="chapter " data-level="5.8" data-path="../../configuration/cluster_manager/cluster_manager.html">
             
-                <span>
+                <a href="../../configuration/cluster_manager/cluster_manager.html">
             
                     
                         <b>5.8.</b>
                     
                     集群管理器
             
-                </span>
+                </a>
             
 
             
@@ -2182,22 +2182,22 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x6392;&#x9664;">&#x6392;&#x9664;</h1>
-<p>Draining is the process by which Envoy attempts to gracefully shed connections in response to various events. Draining occurs at the following times:</p>
+<p>&#x6392;&#x9664;&#x662F;Envoy&#x76F8;&#x5E94;&#x5404;&#x79CD;&#x4E8B;&#x4EF6;&#x7684;&#x8981;&#x6C42;&#x8BD5;&#x56FE;&#x4F18;&#x96C5;&#x5730;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#x7684;&#x8FC7;&#x7A0B;&#x3002;&#x6392;&#x9664;&#x53D1;&#x751F;&#x5728;&#x4EE5;&#x4E0B;&#x65F6;&#x673A;&#xFF1A;</p>
 <ul>
-<li>The server has been manually health check failed via the <a href="../../operations/admin.html#operations-admin-interface-healthcheck-fail">healthcheck/fail</a> admin endpoint. See the <a href="health_checking.html#arch-overview-health-checking-filter">health check filter</a> architecture overview for more information.</li>
-<li>The server is being <a href="hot_restart.html#arch-overview-hot-restart">hot restarted</a>.</li>
-<li>Individual listeners are being modified or removed via <a href="dynamic_configuration.html#arch-overview-dynamic-config-lds">LDS</a>.</li>
+<li>&#x670D;&#x52A1;&#x5668;&#x901A;&#x8FC7; <a href="../../operations/admin.html#operations-admin-interface-healthcheck-fail">healthcheck/fail</a> &#x7BA1;&#x7406;&#x7AEF;&#x70B9;&#x624B;&#x52A8;&#x8BBE;&#x7F6E;&#x5065;&#x5EB7;&#x72B6;&#x51B5;&#x68C0;&#x67E5;&#x5931;&#x8D25;&#x3002;&#x6709;&#x5173;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#xFF0C;&#x8BF7;&#x53C2;&#x9605; <a href="health_checking.html#arch-overview-health-checking-filter">&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x8FC7;&#x6EE4;&#x5668;</a> &#x67B6;&#x6784;&#x6982;&#x8FF0;&#x3002;</li>
+<li>&#x670D;&#x52A1;&#x5668; <a href="hot_restart.html#arch-overview-hot-restart">&#x70ED;&#x91CD;&#x542F;</a>.</li>
+<li>&#x901A;&#x8FC7; <a href="dynamic_configuration.html#arch-overview-dynamic-config-lds">LDS</a> &#x4FEE;&#x6539;&#x6216;&#x8005;&#x79FB;&#x9664;&#x5355;&#x4E2A;&#x76D1;&#x542C;&#x5668;&#x3002;</li>
 </ul>
-<p>Each <a href="listeners.html#arch-overview-listeners">configured listener</a> has a <a href="../../api-v1/listeners/listeners.md#config-listeners-drain-type">drain_type</a> setting which controls when draining takes place. The currently supported values are:</p>
+<p>&#x6BCF;&#x4E2A; <a href="listeners.html#arch-overview-listeners">&#x5DF2;&#x914D;&#x7F6E;&#x76D1;&#x542C;&#x5668;</a> &#x6709; <a href="../../api-v1/listeners/listeners.md#config-listeners-drain-type">drain_type</a> &#x8BBE;&#x7F6E;&#xFF0C;&#x7528;&#x6765;&#x63A7;&#x5236;&#x6392;&#x9664;&#x4F55;&#x65F6;&#x53D1;&#x751F;&#x3002;&#x76EE;&#x524D;&#x652F;&#x6301;&#x7684;&#x503C;&#x6709;&#xFF1A;</p>
 <ul>
 <li><p>default</p>
-<p>Envoy will drain listeners in response to all three cases above (admin drain, hot restart, and LDS update/remove). This is the default setting.</p>
+<p>&#x5BF9;&#x4E8E;&#x6240;&#x6709;&#x4E0A;&#x8FF0;&#x4E09;&#x79CD;&#x60C5;&#x51B5;&#xFF08;&#x7BA1;&#x7406;&#x6392;&#x9664;&#xFF0C;&#x70ED;&#x91CD;&#x542F;&#x548C; LDS &#x66F4;&#x65B0;/&#x5220;&#x9664;&#xFF09;&#xFF0C;Envoy &#x5C06;&#x6392;&#x9664;&#x76D1;&#x542C;&#x5668;&#x3002;&#x8FD9;&#x662F;&#x9ED8;&#x8BA4;&#x8BBE;&#x7F6E;&#x3002;</p>
 </li>
 <li><p>modify_only</p>
-<p>Envoy will drain listeners only in response to the 2nd and 3rd cases above (hot restart and LDS update/remove). This setting is useful if Envoy is hosting both ingress and egress listeners. It may be desirable to set <em>modify_only</em> on egress listeners so they only drain during modifications while relying on ingress listener draining to perform full server draining when attempting to do a controlled shutdown.</p>
+<p>Envoy &#x53EA;&#x4F1A;&#x54CD;&#x5E94;&#x4E0A;&#x8FF0;&#x7B2C;&#x4E8C;&#x548C;&#x7B2C;&#x4E09;&#x79CD;&#x60C5;&#x51B5;&#xFF08;&#x70ED;&#x91CD;&#x542F;&#x548C; LDS &#x66F4;&#x65B0;/&#x5220;&#x9664;&#xFF09;&#x800C;&#x6392;&#x9664;&#x76D1;&#x542C;&#x5668;&#x3002;&#x5982;&#x679C; Envoy &#x540C;&#x65F6;&#x6258;&#x7BA1; ingress &#x548C; egress &#x76D1;&#x542C;&#x5668;&#xFF0C;&#x6B64;&#x8BBE;&#x7F6E;&#x5F88;&#x6709;&#x7528;&#x3002;&#x9700;&#x8981;&#x5728; egress &#x76D1;&#x542C;&#x5668;&#x4E0A;&#x8BBE;&#x7F6E; <em>modify_only</em>&#xFF0C;&#x4EE5;&#x4FBF;&#x5728;&#x5C1D;&#x8BD5;&#x6267;&#x884C;&#x53D7;&#x63A7;&#x5173;&#x95ED;&#xFF0C;&#x4F9D;&#x8D56;  ingress &#x76D1;&#x542C;&#x5668;&#x6392;&#x9664;&#x6765;&#x6267;&#x884C;&#x5168;&#x670D;&#x52A1;&#x5668;&#x6392;&#x9664;&#x65F6;&#xFF0C;&#x5B83;&#x4EEC;&#x53EA;&#x5728;&#x4FEE;&#x6539;&#x671F;&#x95F4;&#x6392;&#x9664;&#x3002;</p>
 </li>
 </ul>
-<p>Note that although draining is a per-listener concept, it must be supported at the network filter level. Currently the only filters that support graceful draining are <a href="../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man">HTTP connection manager</a>, <a href="../../configuration/network_filters/redis_proxy_filter.html#config-network-filters-redis-proxy">Redis</a>, and <a href="../../configuration/network_filters/mongo_proxy_filter.html#config-network-filters-mongo-proxy">Mongo</a>.</p>
+<p>&#x8BF7;&#x6CE8;&#x610F;&#xFF0C;&#x867D;&#x7136;&#x6392;&#x9664;&#x662F;&#x6BCF;&#x76D1;&#x542C;&#x5668;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x4F46;&#x5B83;&#x5FC5;&#x987B;&#x5728;&#x7F51;&#x7EDC;&#x8FC7;&#x6EE4;&#x5668;&#x7EA7;&#x522B;&#x88AB;&#x652F;&#x6301;&#x3002;&#x76EE;&#x524D;&#x652F;&#x6301;&#x4F18;&#x96C5;&#x6392;&#x9664;&#x7684;&#x8FC7;&#x6EE4;&#x5668;&#x53EA;&#x6709; <a href="../../configuration/http_conn_man/http_conn_man.html#config-http-conn-man">HTTP &#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x5668;</a>, <a href="../../configuration/network_filters/redis_proxy_filter.html#config-network-filters-redis-proxy">Redis</a>, &#x548C; <a href="../../configuration/network_filters/mongo_proxy_filter.html#config-network-filters-mongo-proxy">Mongo</a></p>
 
                                 
                                 </section>
@@ -2241,7 +2241,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"排除","level":"2.2.31","depth":2,"next":{"title":"脚本","level":"2.2.32","depth":2,"path":"intro/arch_overview/scripting.md","ref":"intro/arch_overview/scripting.md","articles":[]},"previous":{"title":"初始化","level":"2.2.30","depth":2,"path":"intro/arch_overview/init.md","ref":"intro/arch_overview/init.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"intro/arch_overview/draining.md","mtime":"2018-05-15T08:39:19.892Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T06:25:00.728Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"排除","level":"2.2.31","depth":2,"next":{"title":"脚本","level":"2.2.32","depth":2,"path":"intro/arch_overview/scripting.md","ref":"intro/arch_overview/scripting.md","articles":[]},"previous":{"title":"初始化","level":"2.2.30","depth":2,"path":"intro/arch_overview/init.md","ref":"intro/arch_overview/init.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"intro/arch_overview/draining.md","mtime":"2018-05-17T06:43:18.243Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T06:44:35.740Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
