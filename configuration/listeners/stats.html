@@ -2180,139 +2180,139 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h1>
-<h2 id="listener">Listener</h2>
-<p>Every listener has a statistics tree rooted at <em>listener.<address>.</address></em> with the following statistics:</p>
+<h2 id="&#x76D1;&#x542C;&#x5668;">&#x76D1;&#x542C;&#x5668;</h2>
+<p>&#x6BCF;&#x4E2A;&#x76D1;&#x542C;&#x5668;&#x7684;&#x7EDF;&#x8BA1;&#x6811;&#x6839;&#x5728; <em><code>listener.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>address</span><span class="token punctuation">&gt;</span></span>.</code></em> &#xFF0C;&#x6709;&#x5982;&#x4E0B;&#x7EDF;&#x8BA1;:</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x4F3C;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>downstream_cx_total</td>
 <td>Counter</td>
-<td>Total connections</td>
+<td>&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_destroy</td>
 <td>Counter</td>
-<td>Total destroyed connections</td>
+<td>&#x9500;&#x6BC1;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_active</td>
 <td>Gauge</td>
-<td>Total active connections</td>
+<td>&#x6D3B;&#x52A8;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_length_ms</td>
 <td>Histogram</td>
-<td>Connection length milliseconds</td>
+<td>&#x8FDE;&#x63A5;&#x957F;&#x5EA6;&#xFF0C;&#x5355;&#x4F4D;&#x6BEB;&#x79D2;</td>
 </tr>
 <tr>
 <td>ssl.connection_error</td>
 <td>Counter</td>
-<td>Total TLS connection errors not including failed certificate verifications</td>
+<td>TLS &#x8FDE;&#x63A5;&#x9519;&#x8BEF;&#x603B;&#x6570;&#xFF0C;&#x4E0D;&#x5305;&#x62EC;&#x8BC1;&#x4E66;&#x8BA4;&#x8BC1;&#x5931;&#x8D25;</td>
 </tr>
 <tr>
 <td>ssl.handshake</td>
 <td>Counter</td>
-<td>Total successful TLS connection handshakes</td>
+<td>TLS&#x8FDE;&#x63A5;&#x63E1;&#x624B;&#x6210;&#x529F;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>ssl.session_reused</td>
 <td>Counter</td>
-<td>Total successful TLS session resumptions</td>
+<td>TLS&#x4F1A;&#x8BDD;&#x6062;&#x590D;&#x6210;&#x529F;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>ssl.no_certificate</td>
 <td>Counter</td>
-<td>Total successul TLS connections with no client certificate</td>
+<td>&#x4E0D;&#x5E26;&#x5BA2;&#x6237;&#x7AEF;&#x8BC1;&#x4E66;&#x7684;TLS&#x8FDE;&#x63A5;&#x6210;&#x529F;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>ssl.fail_no_sni_match</td>
 <td>Counter</td>
-<td>Total TLS connections that were rejected because of missing SNI match</td>
+<td>&#x56E0;&#x4E3A;&#x7F3A;&#x5C11;SNI&#x5339;&#x914D;&#x800C;&#x88AB;&#x62D2;&#x7EDD;&#x7684;TLS&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>ssl.fail_verify_no_cert</td>
 <td>Counter</td>
-<td>Total TLS connections that failed because of missing client certificate</td>
+<td>&#x56E0;&#x4E3A;&#x7F3A;&#x5C11;&#x5BA2;&#x6237;&#x7AEF;&#x8BC1;&#x4E66;&#x800C;&#x5931;&#x8D25;&#x7684;TLS&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>ssl.fail_verify_error</td>
 <td>Counter</td>
-<td>Total TLS connections that failed CA verification</td>
+<td>CA&#x8BA4;&#x8BC1;&#x5931;&#x8D25;&#x7684;TLS&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>ssl.fail_verify_san</td>
 <td>Counter</td>
-<td>Total TLS connections that failed SAN verification</td>
+<td>SAN&#x8BA4;&#x8BC1;&#x5931;&#x8D25;&#x7684;TLS&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>ssl.fail_verify_cert_hash</td>
 <td>Counter</td>
-<td>Total TLS connections that failed certificate pinning verification</td>
+<td>&#x8BA4;&#x8BC1;pinning&#x8BA4;&#x8BC1;&#x5931;&#x8D25;&#x7684;TLS&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>ssl.cipher.<cipher></cipher></td>
 <td>Counter</td>
-<td>Total TLS connections that used <cipher></cipher></td>
+<td>&#x4F7F;&#x7528; <cipher> &#x7684;TLS&#x8FDE;&#x63A5;&#x603B;&#x6570;</cipher></td>
 </tr>
 </tbody>
 </table>
-<h2 id="listener-manager">Listener manager</h2>
-<p>The listener manager has a statistics tree rooted at <em>listener_manager.</em> with the following statistics. Any <code>:</code> character in the stats name is replaced with <code>_</code>.</p>
+<h2 id="&#x76D1;&#x542C;&#x5668;&#x7BA1;&#x7406;&#x5668;">&#x76D1;&#x542C;&#x5668;&#x7BA1;&#x7406;&#x5668;</h2>
+<p>&#x76D1;&#x542C;&#x5668;&#x7BA1;&#x7406;&#x5668;&#x7684;&#x7EDF;&#x8BA1;&#x6811;&#x6839;&#x5728; <em>listener_manager.</em> &#xFF0C;&#x6709;&#x4EE5;&#x4E0B;&#x7EDF;&#x8BA1;&#x3002;&#x6240;&#x6709; stats &#x540D;&#x79F0;&#x4E2D;&#x7684; <code>:</code> &#x5B57;&#x7B26;&#x88AB;&#x66FF;&#x6362;&#x4E3A; <code>_</code>&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>listener_added</td>
 <td>Counter</td>
-<td>Total listeners added (either via static config or LDS)</td>
+<td>&#x6DFB;&#x52A0;&#x7684;&#x76D1;&#x542C;&#x5668;&#x603B;&#x6570;&#xFF08;&#x4E0D;&#x7BA1;&#x662F;&#x901A;&#x8FC7;&#x9759;&#x6001;&#x914D;&#x7F6E;&#x8FD8;&#x662F; LDS&#xFF09;</td>
 </tr>
 <tr>
 <td>listener_modified</td>
 <td>Counter</td>
-<td>Total listeners modified (via LDS)</td>
+<td>&#x4FEE;&#x6539;&#x8FC7;&#x7684;&#x76D1;&#x542C;&#x5668;&#x603B;&#x6570;&#xFF08;&#x901A;&#x8FC7;LDS&#xFF09;</td>
 </tr>
 <tr>
 <td>listener_removed</td>
 <td>Counter</td>
-<td>Total listeners removed (via LDS)</td>
+<td>&#x5220;&#x9664;&#x8FC7;&#x7684;&#x76D1;&#x542C;&#x5668;&#x603B;&#x6570;&#xFF08;&#x901A;&#x8FC7;LDS&#xFF09;</td>
 </tr>
 <tr>
 <td>listener_create_success</td>
 <td>Counter</td>
-<td>Total listener objects successfully added to workers</td>
+<td>&#x6210;&#x529F;&#x6DFB;&#x52A0;&#x5230; workers &#x7684;&#x76D1;&#x542C;&#x5668;&#x5BF9;&#x8C61;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>listener_create_failure</td>
 <td>Counter</td>
-<td>Total failed listener object additions to workers</td>
+<td>&#x6DFB;&#x52A0;&#x5230; workers &#x5931;&#x8D25;&#x7684;&#x76D1;&#x542C;&#x5668;&#x5BF9;&#x8C61;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>total_listeners_warming</td>
 <td>Gauge</td>
-<td>Number of currently warming listeners</td>
+<td>&#x5F53;&#x524D;&#x70ED;&#x8EAB;&#x4E2D;&#x7684;&#x76D1;&#x542C;&#x5668;&#x6570;&#x91CF;</td>
 </tr>
 <tr>
 <td>total_listeners_active</td>
 <td>Gauge</td>
-<td>Number of currently active listeners</td>
+<td>&#x5F53;&#x524D;&#x6D3B;&#x52A8;&#x4E2D;&#x7684;&#x76D1;&#x542C;&#x5668;&#x6570;&#x91CF;</td>
 </tr>
 <tr>
 <td>total_listeners_draining</td>
 <td>Gauge</td>
-<td>Number of currently draining listeners</td>
+<td>&#x5F53;&#x524D;&#x6392;&#x9664;&#x4E2D;&#x7684;&#x76D1;&#x542C;&#x5668;&#x6570;&#x91CF;</td>
 </tr>
 </tbody>
 </table>
@@ -2355,7 +2355,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"统计","level":"5.3.1","depth":2,"next":{"title":"运行时","level":"5.3.2","depth":2,"path":"configuration/listeners/runtime.md","ref":"configuration/listeners/runtime.md","articles":[]},"previous":{"title":"监听器","level":"5.3","depth":1,"ref":"","articles":[{"title":"统计","level":"5.3.1","depth":2,"path":"configuration/listeners/stats.md","ref":"configuration/listeners/stats.md","articles":[]},{"title":"运行时","level":"5.3.2","depth":2,"path":"configuration/listeners/runtime.md","ref":"configuration/listeners/runtime.md","articles":[]},{"title":"Listener 发现服务（LDS）","level":"5.3.3","depth":2,"path":"configuration/listeners/lds.md","ref":"configuration/listeners/lds.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/listeners/stats.md","mtime":"2018-05-15T10:06:39.900Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T07:21:12.092Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"统计","level":"5.3.1","depth":2,"next":{"title":"运行时","level":"5.3.2","depth":2,"path":"configuration/listeners/runtime.md","ref":"configuration/listeners/runtime.md","articles":[]},"previous":{"title":"监听器","level":"5.3","depth":1,"ref":"","articles":[{"title":"统计","level":"5.3.1","depth":2,"path":"configuration/listeners/stats.md","ref":"configuration/listeners/stats.md","articles":[]},{"title":"运行时","level":"5.3.2","depth":2,"path":"configuration/listeners/runtime.md","ref":"configuration/listeners/runtime.md","articles":[]},{"title":"Listener 发现服务（LDS）","level":"5.3.3","depth":2,"path":"configuration/listeners/lds.md","ref":"configuration/listeners/lds.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/listeners/stats.md","mtime":"2018-05-17T08:54:56.649Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T08:59:02.222Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
