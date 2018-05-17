@@ -7,7 +7,7 @@
 
 ### 简介
 - [Envoy 是什么？](intro/what_is_envoy.md)
-- [架构概览](intro/what_is_envoy.md)
+- 架构概览
   - [术语](intro/arch_overview/terminology.md)
   - [线程模型](intro/arch_overview/threading_model.md)
   - [监听器](intro/arch_overview/listeners.md)
