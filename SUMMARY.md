@@ -24,7 +24,7 @@
   - [连接池](intro/arch_overview/connection_pooling.md)
   - [负载均衡](intro/arch_overview/load_balancing.md)
   - [异常点检测](intro/arch_overview/outlier.md)
-  - [断路器](intro/arch_overview/circuit_breaking.md)
+  - [断路](intro/arch_overview/circuit_breaking.md)
   - [全局速率限制](intro/arch_overview/global_rate_limiting.md)
   - [TLS](intro/arch_overview/ssl.md)
   - [统计](intro/arch_overview/statistics.md)

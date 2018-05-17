@@ -1,12 +1,12 @@
-# 断路器
+# 断路
 
-Circuit breaking is a critical component of distributed systems. It’s nearly always better to fail quickly and apply back pressure downstream as soon as possible. One of the main benefits of an Envoy mesh is that Envoy enforces circuit breaking limits at the network level as opposed to having to configure and code each application independently. Envoy supports various types of fully distributed (not coordinated) circuit breaking:
+断路（circuit breaking）是分布式系统的关键组成部分。尽快失败和向下游施加反向压力大体上会得到更好的效果。Envoy 网格的主要优点之一就是 Envoy 在网络级别强制实现断路限制，而不必独立配置和编写每个应用程序。Envoy 支持各种类型的完全分布式（非协调的）断路：
 
-- **Cluster maximum connections**: The maximum number of connections that Envoy will establish to all hosts in an upstream cluster. In practice this is only applicable to HTTP/1.1 clusters since HTTP/2 uses a single connection to each host.
-- **Cluster maximum pending requests**: The maximum number of requests that will be queued while waiting for a ready connection pool connection. In practice this is only applicable to HTTP/1.1 clusters since HTTP/2 connection pools never queue requests. HTTP/2 requests are multiplexed immediately. If this circuit breaker overflows the [upstream_rq_pending_overflow](../../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats)counter for the cluster will increment.
-- **Cluster maximum requests**: The maximum number of requests that can be outstanding to all hosts in a cluster at any given time. In practice this is applicable to HTTP/2 clusters since HTTP/1.1 clusters are governed by the maximum connections circuit breaker. If this circuit breaker overflows the [upstream_rq_pending_overflow](../../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats) counter for the cluster will increment.
-- **Cluster maximum active retries**: The maximum number of retries that can be outstanding to all hosts in a cluster at any given time. In general we recommend aggressively circuit breaking retries so that retries for sporadic failures are allowed but the overall retry volume cannot explode and cause large scale cascading failure. If this circuit breaker overflows the[upstream_rq_retry_overflow](../../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats) counter for the cluster will increment.
+- **集群最大连接数**：Envoy 将为上游集群中的所有主机建立的最大连接数。实际上，这仅适用于 HTTP/1.1集群，因为 HTTP/2 使用到每个主机的单个连接。
+- **集群最大挂起请求数**：在等待就绪连接池连接时将排队的最大请求数。实际上，这仅适用于 HTTP/1.1 集群，因为 HTTP/2 连接池不会排队请求。HTTP/2 请求会立即复用。如果该断路器溢出，则集群的[upstream_rq_pending_overflowcounter](../../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats) 计数器将增加。
+- **集群最大请求数**：在任何给定时间内，集群中所有主机可以处理的最大请求数。实际上，这适用于仅 HTTP/2 集群，因为 HTTP/1.1 集群由最大连接断路器控制。如果该断路器溢出，集群的 [upstream_rq_pending_overflow](../../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats) 计数器将递增。
+- **集群最大活动重试次数**：在任何给定时间内，集群中所有主机可以执行的最大重试次数。一般而言，我们建议积极进行断路重试，以便做零星故障重试而整体重试数量又不会爆炸式增加和导致大规模级联故障。如果该断路器溢出，集群的 [upstream_rq_retry_overflow](../../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats) 计数器将递增。
 
-Each circuit breaking limit is [configurable](../../configuration/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers) and tracked on a per upstream cluster and per priority basis. This allows different components of the distributed system to be tuned independently and have different limits.
+断路限制可以根据每个上游集群和优先级进行[配置](../../configuration/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers)和跟踪。这使得分布式系统的不同组件可以独立调整并具有不同的限制。
 
-Note that circuit breaking will cause the [x-envoy-overloaded](../../configuration/http_filters/router_filter.md#config-http-filters-router-x-envoy-overloaded) header to be set by the router filter in the case of HTTP requests.
+请注意，在 HTTP 请求的情况下，断路会导致路由器设置 [x-envoy-overloaded](../../configuration/http_filters/router_filter.md#config-http-filters-router-x-envoy-overloaded) 头。
