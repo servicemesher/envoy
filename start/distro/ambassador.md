@@ -1,26 +1,26 @@
 # Envoy 作为 Kubernetes 的 API 网关
 
-A common scenario for using Envoy is deploying it as an edge service (API Gateway) in Kubernetes. [Ambassador](https://www.getambassador.io) is an open source distribution of Envoy designed for Kubernetes. Ambassador uses Envoy for all L4/L7 management and Kubernetes for reliability, availability, and scalability. Ambassador operates as a specialized control plane to expose Envoy’s functionality as Kubernetes annotations.
+使用 Ambassador 的一个常见场景是将其部署为 Kubernetes 的 edge 服务（ API 网关）。[Ambassador](https://www.getambassador.io/) 是开源Envoy的分布式版本，专门为 kubernetes 设计的。
 
-This example will walk through how you can deploy Envoy on Kubernetes via Ambassador.
+本例将介绍如何通过 Ambassador 在 Kubernetes 上部署 Ambassador 。
 
 ## 部署 Ambassador
 
-Ambassador is configured via Kubernetes deployments. To install Ambassador/Envoy on Kubernetes, run the following if you’re using a cluster with RBAC enabled:
+Ambassador 的设置是通过 kubernetes 部署的。为了在 kubernetes 安装 Ambassador/Envoy，如果你的集群启动了 RBAC:
 
 ```bash
 kubectl apply -f https://www.getambassador.io/yaml/ambassador/ambassador-rbac.yaml
 ```
 
-or this if you are not using RBAC:
+如果您没启动 RBAC:
 
 ```bash
 kubectl apply -f https://www.getambassador.io/yaml/ambassador/ambassador-no-rbac.yaml
 ```
 
-The above YAML will create a Kubernetes deployment for Ambassador that includes readiness and liveness checks. By default, it will also create 3 instances of Ambassador. Each Ambassador instance consists of an Envoy proxy along with the Ambassador control plane.
+上面的 YAML 将会为 Ambassador 创建 kubernetes 部署，包含 readiness 和 liveness 检查。默认，将会创建3个 Ambassador 实例。每一个 Ambassador 实例包含一个 Envoy 代理以及一个 Ambassador 控制器。
 
-We’ll now need to create a Kubernetes service to point to the Ambassador deployment. In this example, we’ll use a `LoadBalancer` service. If your cluster doesn’t support `LoadBalancer` services, you’ll need to change to a `NodePort` or `ClusterIP`.
+我们现在需要创建一个 Kubernetes 服务来指向 Ambassador 的部署，我们将使用` LoadBalancer`服务。如果你的集群不支持` LoadBalancer`服务，你需要改成`NodePort`或者`ClusterIP`。
 
 ```yaml
 ---
@@ -39,17 +39,17 @@ spec:
     service: ambassador
 ```
 
-Save this YAML to a file `ambassador-svc.yaml`. Then, deploy this service to Kubernetes:
+将上面的 YAML 文件保存成`ambassador-svc.yaml`文件。然后将这个服务部署到 kubernetes：
 
 ```bash
 kubectl apply -f ambassador-svc.yaml
 ```
 
-At this point, Envoy is now running on your cluster, along with the Ambassador control plane.
+这时候 Envoy 和 Ambassador 控制器已经在你的集群上运行。
 
 ## 配置 Ambassador
 
-Ambassador uses Kubernetes annotations to add or remove configuration. This sample YAML will add a route to Google, similar to the basic configuration example in the [Getting Started guide](../start.md#start).
+Ambassador 使用Kubernetes注解来添加或删除配置。这个示例 YAML 将添加一条到 Google 的路由，类似于[入门指南](https://github.com/xieydd/envoy/blob/master/start/start.md#start)中的基本配置示例。
 
 ```yaml
 ---
@@ -71,17 +71,17 @@ spec:
   clusterIP: None
 ```
 
-Save the above into a file called `google.yaml`. Then run:
+保存上面的文件，命名为`google.yaml`。然后运行:
 
 ```bash
 kubectl apply -f google.yaml
 ```
 
-Ambassador will detect the change to your Kubernetes annotation and add the route to Envoy. Note that we used a dummy service in this example; typically, you would associate the annotation with your real Kubernetes service.
+Ambassador 将发现您的 Kubernetes 注解的更改，并添加到 Envoy 的路由。注意，我们在这个例子中使用了一个虚拟服务;通常，您会将注解与真正的 Kubernetes 服务关联起来。
 
-## Testing the mapping
+## 测试映射
 
-You can test this mapping by getting the external IP address for the Ambassador service, and then sending a request via `curl`.
+您可以通过获得 Ambassador 服务的外部 IP 地址来测试这个映射，然后通过`curl`发送请求：
 
 ```bash
 $ kubectl get svc ambassador
@@ -92,4 +92,4 @@ $ curl -v 35.225.154.81/google/
 
 ## 更多
 
-Ambassador exposes multiple Envoy features on mappings, such as CORS, weighted round robin, gRPC, TLS, and timeouts. For more information, read the [configuration documentation](https://www.getambassador.io/reference/configuration).
+Ambassador 在上公开了多个 Envoy  的特性映射，比如 CORS 、加权循环调度算法、gRPC、TLS 和超时设定。要了解更多信息，请阅读[配置文档](https://www.getambassador.io/reference/configuration)。
