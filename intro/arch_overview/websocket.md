@@ -1,11 +1,11 @@
 # WebSocket 支持
 
-Envoy supports upgrading a HTTP/1.1 connection to a WebSocket connection. Connection upgrade will be allowed only if the downstream client sends the correct upgrade headers and the matching HTTP route is explicitly configured to use WebSockets ([use_websocket](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-use-websocket)). If a request arrives at a WebSocket enabled route without the requisite upgrade headers, it will be treated as any regular HTTP/1.1 request.
+Envoy 支持将 HTTP/1.1 连接升级到 WebSocket 连接。仅当下游客户端发送正确的升级请求头，并且被匹配的 HTTP 路由必须明确配置使用了 WebSocket （[use_websocket](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-use-websocket)）时才允许连接升级。如果请求到达 WebSocket 的路由没有必要的升级头，它将被视为常规的 HTTP/ 1.1请求。
 
-Since Envoy treats WebSocket connections as plain TCP connections, it supports all drafts of the WebSocket protocol, independent of their wire format. Certain HTTP request level features such as redirects, timeouts, retries, rate limits and shadowing are not supported for WebSocket routes. However, prefix rewriting, explicit and automatic host rewriting, traffic shifting and splitting are supported.
+由于 Envoy 将 WebSocket 连接视为纯 TCP 连接，因此它支持 WebSocket 协议的所有内容，而与它们的报文格式无关。WebSocket 路由不支持某些 HTTP 请求级别的功能，例如重定向，超时，重试，速率限制和阴影。但是，支持前缀重写，显式和自动主机重写，流量转移和拆分。
 
 ## 连接语义
 
-Even though WebSocket upgrades occur over HTTP/1.1 connections, WebSockets proxying works similarly to plain TCP proxy, i.e., Envoy does not interpret the websocket frames. The downstream client and/or the upstream server are responsible for properly terminating the WebSocket connection (e.g., by sending [close frames](https://tools.ietf.org/html/rfc6455#section-5.5.1)) and the underlying TCP connection.
+尽管 WebSocket 升级可以通过 HTTP/1.1 连接进行，但 WebSockets 代理的工作模式与普通 TCP 代理类似，即 Envoy 不会解析 websocket 报文帧。下游客户端和/或上游服务器负责终止 WebSocket 连接（例如，通过发送[关闭帧](https://tools.ietf.org/html/rfc6455#section-5.5.1)）和底层 TCP 连接。
 
-When the connection manager receives a WebSocket upgrade request over a WebSocket-enabled route, it forwards the request to an upstream server over a TCP connection. Envoy will not know if the upstream server rejected the upgrade request. It is the responsibility of the upstream server to terminate the TCP connection, which would cause Envoy to terminate the corresponding downstream client connection.
+当连接管理器通过支持 WebSocket 的路由接收到 WebSocket 升级请求时，它通过 TCP 连接将请求转发给上游服务器。Envoy 不知道上游服务器是否拒绝了升级请求。上游服务器负责终止 TCP 连接，这将导致 Envoy 终止相应的下游客户端连接。
