@@ -16,8 +16,7 @@
     "back-to-top-button",
     "github-buttons@2.1.0",
     "-highlight", "prism", "prism-themes",
-    "favicon@^0.0.2",
-    "3-ba"
+    "favicon@^0.0.2"
   ],
   "pluginsConfig": {
     "edit-link": {
