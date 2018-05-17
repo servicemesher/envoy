@@ -43,7 +43,7 @@
   - [IP 标签](http_filters/ip_tagging_filter.md)
   - [Lua](http_filters/lua_filter.md)
   - [频率限制](http_filters/rate_limit_filter.md)
-  - [路由器(http_filters/router_filter.md)
+  - [路由器](http_filters/router_filter.md)
   - [Squash 调试](http_filters/squash_filter.md)
 - 集群管理
   - [统计](cluster_manager/cluster_stats.md)
