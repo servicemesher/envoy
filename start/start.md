@@ -1,6 +1,7 @@
 #  入门指南
 
 This section gets you started with a very simple configuration and provides some example configurations.
+本章节会介绍非常简单的配置，并提供一些示例。
 
 Envoy does not currently provide separate pre-built binaries, but does provide Docker images. This is the fastest way to get started using Envoy. Should you wish to use Envoy outside of a Docker container, you will need to [build it](../install/building.md#building).
 
