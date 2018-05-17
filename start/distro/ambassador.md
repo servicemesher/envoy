@@ -1,18 +1,18 @@
 # Envoy 作为 Kubernetes 的 API 网关
 
-使用 Ambassador 的一个常见场景是将其部署为 Kubernetes 的 edge 服务（ API 网关）。[Ambassador](https://www.getambassador.io/) 是开源Envoy的分布式版本，专门为 kubernetes 设计的。
+使用 Ambassador 的一个常见场景是将其部署为 Kubernetes 的 edge 服务（ API 网关）。[Ambassador](https://www.getambassador.io/) 是开源 Envoy 的分布式版本，专门为 kubernetes 设计的。
 
 本例将介绍如何通过 Ambassador 在 Kubernetes 上部署 Ambassador 。
 
 ## 部署 Ambassador
 
-Ambassador 的设置是通过 kubernetes 部署的。为了在 kubernetes 安装 Ambassador/Envoy，如果你的集群启动了 RBAC:
+Ambassador 的设置是通过 kubernetes 部署的。为了在 kubernetes 安装 Ambassador/Envoy，如果你的集群启动了 RBAC：
 
 ```bash
 kubectl apply -f https://www.getambassador.io/yaml/ambassador/ambassador-rbac.yaml
 ```
 
-如果您没启动 RBAC:
+如果您没启动 RBAC：
 
 ```bash
 kubectl apply -f https://www.getambassador.io/yaml/ambassador/ambassador-no-rbac.yaml
@@ -20,7 +20,7 @@ kubectl apply -f https://www.getambassador.io/yaml/ambassador/ambassador-no-rbac
 
 上面的 YAML 将会为 Ambassador 创建 kubernetes 部署，包含 readiness 和 liveness 检查。默认，将会创建3个 Ambassador 实例。每一个 Ambassador 实例包含一个 Envoy 代理以及一个 Ambassador 控制器。
 
-我们现在需要创建一个 Kubernetes 服务来指向 Ambassador 的部署，我们将使用` LoadBalancer`服务。如果你的集群不支持` LoadBalancer`服务，你需要改成`NodePort`或者`ClusterIP`。
+我们现在需要创建一个 Kubernetes 服务来指向 Ambassador 的部署，我们将使用 ` LoadBalancer` 服务。如果你的集群不支持 ` LoadBalancer` 服务，你需要改成 `NodePort` 或者 `ClusterIP`。
 
 ```yaml
 ---
@@ -49,7 +49,7 @@ kubectl apply -f ambassador-svc.yaml
 
 ## 配置 Ambassador
 
-Ambassador 使用Kubernetes注解来添加或删除配置。这个示例 YAML 将添加一条到 Google 的路由，类似于[入门指南](https://github.com/xieydd/envoy/blob/master/start/start.md#start)中的基本配置示例。
+Ambassador 使用 Kubernetes 注解来添加或删除配置。这个示例 YAML 将添加一条到 Google 的路由，类似于[入门指南](https://github.com/xieydd/envoy/blob/master/start/start.md#start)中的基本配置示例。
 
 ```yaml
 ---
@@ -71,7 +71,7 @@ spec:
   clusterIP: None
 ```
 
-保存上面的文件，命名为`google.yaml`。然后运行:
+保存上面的文件，命名为 `google.yaml`。然后运行:
 
 ```bash
 kubectl apply -f google.yaml
