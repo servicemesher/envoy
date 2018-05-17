@@ -67,8 +67,8 @@ address:
 - 如果主机是健康的，那么 `healthy` 的输出为 `healthy`。
 - 如果主机不健康，则 `healthy` 返回的是下面几个状态之一：
   - `/failed_active_hc`：[主动健康监测](../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)失败。
-  - `failed_eds_health`：EDS 标记该主机不健康。
-  - `failed_outlier_check`：外部检测失败。
+  - `/failed_eds_health`：EDS 标记该主机不健康。
+  - `/failed_outlier_check`：外部检测失败。
 
 ## `GET /config_dump`
 
