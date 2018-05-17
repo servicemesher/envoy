@@ -2180,17 +2180,17 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="envoy-&#x4F5C;&#x4E3A;-kubernetes-&#x7684;-api-&#x7F51;&#x5173;">Envoy &#x4F5C;&#x4E3A; Kubernetes &#x7684; API &#x7F51;&#x5173;</h1>
-<p>A common scenario for using Envoy is deploying it as an edge service (API Gateway) in Kubernetes. <a href="https://www.getambassador.io" target="_blank">Ambassador</a> is an open source distribution of Envoy designed for Kubernetes. Ambassador uses Envoy for all L4/L7 management and Kubernetes for reliability, availability, and scalability. Ambassador operates as a specialized control plane to expose Envoy&#x2019;s functionality as Kubernetes annotations.</p>
-<p>This example will walk through how you can deploy Envoy on Kubernetes via Ambassador.</p>
+<p>&#x4F7F;&#x7528; Ambassador &#x7684;&#x4E00;&#x4E2A;&#x5E38;&#x89C1;&#x573A;&#x666F;&#x662F;&#x5C06;&#x5176;&#x90E8;&#x7F72;&#x4E3A; Kubernetes &#x7684; edge &#x670D;&#x52A1;&#xFF08; API &#x7F51;&#x5173;&#xFF09;&#x3002;<a href="https://www.getambassador.io/" target="_blank">Ambassador</a> &#x662F;&#x5F00;&#x6E90; Envoy &#x7684;&#x5206;&#x5E03;&#x5F0F;&#x7248;&#x672C;&#xFF0C;&#x4E13;&#x95E8;&#x4E3A; kubernetes &#x8BBE;&#x8BA1;&#x7684;&#x3002;</p>
+<p>&#x672C;&#x4F8B;&#x5C06;&#x4ECB;&#x7ECD;&#x5982;&#x4F55;&#x901A;&#x8FC7; Ambassador &#x5728; Kubernetes &#x4E0A;&#x90E8;&#x7F72; Ambassador &#x3002;</p>
 <h2 id="&#x90E8;&#x7F72;-ambassador">&#x90E8;&#x7F72; Ambassador</h2>
-<p>Ambassador is configured via Kubernetes deployments. To install Ambassador/Envoy on Kubernetes, run the following if you&#x2019;re using a cluster with RBAC enabled:</p>
+<p>Ambassador &#x7684;&#x8BBE;&#x7F6E;&#x662F;&#x901A;&#x8FC7; kubernetes &#x90E8;&#x7F72;&#x7684;&#x3002;&#x4E3A;&#x4E86;&#x5728; kubernetes &#x5B89;&#x88C5; Ambassador/Envoy&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x7684;&#x96C6;&#x7FA4;&#x542F;&#x52A8;&#x4E86; RBAC&#xFF1A;</p>
 <pre class="language-"><code class="lang-bash">kubectl apply -f https://www.getambassador.io/yaml/ambassador/ambassador-rbac.yaml
 </code></pre>
-<p>or this if you are not using RBAC:</p>
+<p>&#x5982;&#x679C;&#x60A8;&#x6CA1;&#x542F;&#x52A8; RBAC&#xFF1A;</p>
 <pre class="language-"><code class="lang-bash">kubectl apply -f https://www.getambassador.io/yaml/ambassador/ambassador-no-rbac.yaml
 </code></pre>
-<p>The above YAML will create a Kubernetes deployment for Ambassador that includes readiness and liveness checks. By default, it will also create 3 instances of Ambassador. Each Ambassador instance consists of an Envoy proxy along with the Ambassador control plane.</p>
-<p>We&#x2019;ll now need to create a Kubernetes service to point to the Ambassador deployment. In this example, we&#x2019;ll use a <code>LoadBalancer</code> service. If your cluster doesn&#x2019;t support <code>LoadBalancer</code> services, you&#x2019;ll need to change to a <code>NodePort</code> or <code>ClusterIP</code>.</p>
+<p>&#x4E0A;&#x9762;&#x7684; YAML &#x5C06;&#x4F1A;&#x4E3A; Ambassador &#x521B;&#x5EFA; kubernetes &#x90E8;&#x7F72;&#xFF0C;&#x5305;&#x542B; readiness &#x548C; liveness &#x68C0;&#x67E5;&#x3002;&#x9ED8;&#x8BA4;&#xFF0C;&#x5C06;&#x4F1A;&#x521B;&#x5EFA;3&#x4E2A; Ambassador &#x5B9E;&#x4F8B;&#x3002;&#x6BCF;&#x4E00;&#x4E2A; Ambassador &#x5B9E;&#x4F8B;&#x5305;&#x542B;&#x4E00;&#x4E2A; Envoy &#x4EE3;&#x7406;&#x4EE5;&#x53CA;&#x4E00;&#x4E2A; Ambassador &#x63A7;&#x5236;&#x5668;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x73B0;&#x5728;&#x9700;&#x8981;&#x521B;&#x5EFA;&#x4E00;&#x4E2A; Kubernetes &#x670D;&#x52A1;&#x6765;&#x6307;&#x5411; Ambassador &#x7684;&#x90E8;&#x7F72;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x4F7F;&#x7528; <code>LoadBalancer</code> &#x670D;&#x52A1;&#x3002;&#x5982;&#x679C;&#x4F60;&#x7684;&#x96C6;&#x7FA4;&#x4E0D;&#x652F;&#x6301; <code>LoadBalancer</code> &#x670D;&#x52A1;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x6539;&#x6210; <code>NodePort</code> &#x6216;&#x8005; <code>ClusterIP</code>&#x3002;</p>
 <pre class="language-"><code class="lang-yaml"><span class="token punctuation">---</span>
 <span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
@@ -2206,12 +2206,12 @@
   <span class="token key atrule">selector</span><span class="token punctuation">:</span>
     <span class="token key atrule">service</span><span class="token punctuation">:</span> ambassador
 </code></pre>
-<p>Save this YAML to a file <code>ambassador-svc.yaml</code>. Then, deploy this service to Kubernetes:</p>
+<p>&#x5C06;&#x4E0A;&#x9762;&#x7684; YAML &#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x6210;<code>ambassador-svc.yaml</code>&#x6587;&#x4EF6;&#x3002;&#x7136;&#x540E;&#x5C06;&#x8FD9;&#x4E2A;&#x670D;&#x52A1;&#x90E8;&#x7F72;&#x5230; kubernetes&#xFF1A;</p>
 <pre class="language-"><code class="lang-bash">kubectl apply -f ambassador-svc.yaml
 </code></pre>
-<p>At this point, Envoy is now running on your cluster, along with the Ambassador control plane.</p>
+<p>&#x8FD9;&#x65F6;&#x5019; Envoy &#x548C; Ambassador &#x63A7;&#x5236;&#x5668;&#x5DF2;&#x7ECF;&#x5728;&#x4F60;&#x7684;&#x96C6;&#x7FA4;&#x4E0A;&#x8FD0;&#x884C;&#x3002;</p>
 <h2 id="&#x914D;&#x7F6E;-ambassador">&#x914D;&#x7F6E; Ambassador</h2>
-<p>Ambassador uses Kubernetes annotations to add or remove configuration. This sample YAML will add a route to Google, similar to the basic configuration example in the <a href="../start.html#start">Getting Started guide</a>.</p>
+<p>Ambassador &#x4F7F;&#x7528; Kubernetes &#x6CE8;&#x89E3;&#x6765;&#x6DFB;&#x52A0;&#x6216;&#x5220;&#x9664;&#x914D;&#x7F6E;&#x3002;&#x8FD9;&#x4E2A;&#x793A;&#x4F8B; YAML &#x5C06;&#x6DFB;&#x52A0;&#x4E00;&#x6761;&#x5230; Google &#x7684;&#x8DEF;&#x7531;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;<a href="https://github.com/xieydd/envoy/blob/master/start/start.md#start" target="_blank">&#x5165;&#x95E8;&#x6307;&#x5357;</a>&#x4E2D;&#x7684;&#x57FA;&#x672C;&#x914D;&#x7F6E;&#x793A;&#x4F8B;&#x3002;</p>
 <pre class="language-"><code class="lang-yaml"><span class="token punctuation">---</span>
 <span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
 <span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
@@ -2230,19 +2230,19 @@
   <span class="token key atrule">type</span><span class="token punctuation">:</span> ClusterIP
   <span class="token key atrule">clusterIP</span><span class="token punctuation">:</span> None
 </code></pre>
-<p>Save the above into a file called <code>google.yaml</code>. Then run:</p>
+<p>&#x4FDD;&#x5B58;&#x4E0A;&#x9762;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x547D;&#x540D;&#x4E3A; <code>google.yaml</code>&#x3002;&#x7136;&#x540E;&#x8FD0;&#x884C;:</p>
 <pre class="language-"><code class="lang-bash">kubectl apply -f google.yaml
 </code></pre>
-<p>Ambassador will detect the change to your Kubernetes annotation and add the route to Envoy. Note that we used a dummy service in this example; typically, you would associate the annotation with your real Kubernetes service.</p>
-<h2 id="testing-the-mapping">Testing the mapping</h2>
-<p>You can test this mapping by getting the external IP address for the Ambassador service, and then sending a request via <code>curl</code>.</p>
+<p>Ambassador &#x5C06;&#x53D1;&#x73B0;&#x60A8;&#x7684; Kubernetes &#x6CE8;&#x89E3;&#x7684;&#x66F4;&#x6539;&#xFF0C;&#x5E76;&#x6DFB;&#x52A0;&#x5230; Envoy &#x7684;&#x8DEF;&#x7531;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#x4F7F;&#x7528;&#x4E86;&#x4E00;&#x4E2A;&#x865A;&#x62DF;&#x670D;&#x52A1;;&#x901A;&#x5E38;&#xFF0C;&#x60A8;&#x4F1A;&#x5C06;&#x6CE8;&#x89E3;&#x4E0E;&#x771F;&#x6B63;&#x7684; Kubernetes &#x670D;&#x52A1;&#x5173;&#x8054;&#x8D77;&#x6765;&#x3002;</p>
+<h2 id="&#x6D4B;&#x8BD5;&#x6620;&#x5C04;">&#x6D4B;&#x8BD5;&#x6620;&#x5C04;</h2>
+<p>&#x60A8;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x83B7;&#x5F97; Ambassador &#x670D;&#x52A1;&#x7684;&#x5916;&#x90E8; IP &#x5730;&#x5740;&#x6765;&#x6D4B;&#x8BD5;&#x8FD9;&#x4E2A;&#x6620;&#x5C04;&#xFF0C;&#x7136;&#x540E;&#x901A;&#x8FC7;<code>curl</code>&#x53D1;&#x9001;&#x8BF7;&#x6C42;&#xFF1A;</p>
 <pre class="language-"><code class="lang-bash">$ kubectl get svc ambassador
 NAME         CLUSTER-IP     EXTERNAL-IP     PORT<span class="token punctuation">(</span>S<span class="token punctuation">)</span>        AGE
 ambassador   10.19.241.98   35.225.154.81   80:32491/TCP   15m
 $ curl -v 35.225.154.81/google/
 </code></pre>
 <h2 id="&#x66F4;&#x591A;">&#x66F4;&#x591A;</h2>
-<p>Ambassador exposes multiple Envoy features on mappings, such as CORS, weighted round robin, gRPC, TLS, and timeouts. For more information, read the <a href="https://www.getambassador.io/reference/configuration" target="_blank">configuration documentation</a>.</p>
+<p>Ambassador &#x5728;&#x4E0A;&#x516C;&#x5F00;&#x4E86;&#x591A;&#x4E2A; Envoy  &#x7684;&#x7279;&#x6027;&#x6620;&#x5C04;&#xFF0C;&#x6BD4;&#x5982; CORS &#x3001;&#x52A0;&#x6743;&#x5FAA;&#x73AF;&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#x3001;gRPC&#x3001;TLS &#x548C;&#x8D85;&#x65F6;&#x8BBE;&#x5B9A;&#x3002;&#x8981;&#x4E86;&#x89E3;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#xFF0C;&#x8BF7;&#x9605;&#x8BFB;<a href="https://www.getambassador.io/reference/configuration" target="_blank">&#x914D;&#x7F6E;&#x6587;&#x6863;</a>&#x3002;</p>
 
                                 
                                 </section>
@@ -2282,7 +2282,7 @@ $ curl -v 35.225.154.81/google/
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Envoy 作为 Kubernetes 的 API 网关","level":"3.3.1","depth":2,"next":{"title":"构建","level":"4.1","depth":1,"path":"install/building.md","ref":"install/building.md","articles":[]},"previous":{"title":"其他用例","level":"3.3","depth":1,"ref":"","articles":[{"title":"Envoy 作为 Kubernetes 的 API 网关","level":"3.3.1","depth":2,"path":"start/distro/ambassador.md","ref":"start/distro/ambassador.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"start/distro/ambassador.md","mtime":"2018-05-15T09:49:08.083Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T10:18:17.454Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Envoy 作为 Kubernetes 的 API 网关","level":"3.3.1","depth":2,"next":{"title":"构建","level":"4.1","depth":1,"path":"install/building.md","ref":"install/building.md","articles":[]},"previous":{"title":"其他用例","level":"3.3","depth":1,"ref":"","articles":[{"title":"Envoy 作为 Kubernetes 的 API 网关","level":"3.3.1","depth":2,"path":"start/distro/ambassador.md","ref":"start/distro/ambassador.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"start/distro/ambassador.md","mtime":"2018-05-17T11:50:36.167Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T11:51:20.109Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
