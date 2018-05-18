@@ -75,7 +75,7 @@
 - 监听器
   - [统计](configuration/listeners/stats.md)
   - [运行时](configuration/listeners/runtime.md)
-  - [Listener 发现服务（LDS）](configuration/listeners/lds.md)
+  - [监听器发现服务（LDS）](configuration/listeners/lds.md)
 - 监听器过滤器
   - [原始目的地](configuration/listener_filters/original_dst_filter.md)
   - [TLS 检查器](configuration/listener_filters/tls_inspector.md)
@@ -88,7 +88,7 @@
   - [TCP 代理](configuration/network_filters/tcp_proxy_filter.md)
 - [HTTP 连接管理器](configuration/http_conn_man/http_conn_man.md)
   - [路由匹配](configuration/http_conn_man/route_matching.md)
-  - [流量转换/切分](configuration/http_conn_man/traffic_splitting.md)
+  - [流量转移/拆分](configuration/http_conn_man/traffic_splitting.md)
   - [HTTP header 操作](configuration/http_conn_man/headers.md)
   - [HTTP header sanitizing](configuration/http_conn_man/header_sanitizing.md)
   - [统计](configuration/http_conn_man/stats.md)
