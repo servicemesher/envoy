@@ -1121,7 +1121,7 @@
                     
                         <b>5.3.3.</b>
                     
-                    Listener 发现服务（LDS）
+                    监听器发现服务（LDS）
             
                 </a>
             
@@ -1334,7 +1334,7 @@
                     
                         <b>5.6.2.</b>
                     
-                    流量转换/切分
+                    流量转移/拆分
             
                 </a>
             
@@ -2182,14 +2182,14 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;">&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;</h1>
-<p>The <a href="http_connection_management.html#arch-overview-http-conn-man">HTTP connection manager</a> and <a href="tcp_proxy.html#arch-overview-tcp-proxy">tcp proxy</a> supports extensible access logging with the following features:</p>
+<p><a href="http_connection_management.html#arch-overview-http-conn-man">HTTP &#x8FDE;&#x63A5;&#x7BA1;&#x7406;</a>&#x4E0E; <a href="tcp_proxy.html#arch-overview-tcp-proxy">tcp &#x4EE3;&#x7406;</a>&#x652F;&#x6301;&#x53EF;&#x6269;&#x5C55;&#x7684;&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;&#xFF0C;&#x5E76;&#x62E5;&#x6709;&#x4EE5;&#x4E0B;&#x7279;&#x6027;:</p>
 <ul>
-<li>Any number of access logs per connection manager or tcp proxy.</li>
-<li>Asynchronous IO flushing architecture. Access logging will never block the main network processing threads.</li>
-<li>Customizable access log formats using predefined fields as well as arbitrary HTTP request and response headers.</li>
-<li>Customizable access log filters that allow different types of requests and responses to be written to different access logs.</li>
+<li>&#x53EF;&#x6309;&#x6BCF;&#x4E2A; HTTP &#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x6216; tcp &#x4EE3;&#x7406;&#x8BB0;&#x5F55;&#x4EFB;&#x4F55;&#x6570;&#x91CF;&#x7684;&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;&#x3002;</li>
+<li>&#x5F02;&#x6B65; IO &#x67B6;&#x6784;&#x3002;&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;&#x5C06;&#x6C38;&#x8FDC;&#x4E0D;&#x4F1A;&#x963B;&#x585E;&#x4E3B;&#x8981;&#x7684;&#x7F51;&#x7EDC;&#x5904;&#x7406;&#x7EBF;&#x7A0B;&#x3002;</li>
+<li>&#x53EF;&#x5B9A;&#x5236;&#x5316;&#x7684;&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;&#x683C;&#x5F0F;,&#x53EF;&#x4F7F;&#x7528;&#x9884;&#x5236;&#x5B9A;&#x7684;&#x5B57;&#x6BB5;,&#x66F4;&#x53EF;&#x4F7F;&#x7528;&#x4EFB;&#x610F;&#x7684; HTTP request &#x4EE5;&#x53CA; response&#x3002;</li>
+<li>&#x53EF;&#x5B9A;&#x5236;&#x5316;&#x7684;&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;&#x8FC7;&#x6EE4;&#x5668;,&#x53EF;&#x5141;&#x8BB8;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x8BF7;&#x6C42;&#x4EE5;&#x53CA;&#x56DE;&#x590D;&#x5199;&#x5165;&#x81F3;&#x4E0D;&#x540C;&#x7684;&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;&#x3002;</li>
 </ul>
-<p>Access log <a href="../../configuration/access_log.html#config-access-log">configuration</a>.</p>
+<p>&#x8BBF;&#x95EE;&#x8BB0;&#x5F55; <a href="../../configuration/access_log.html#config-access-log">&#x914D;&#x7F6E;</a>&#x3002;</p>
 
                                 
                                 </section>
@@ -2233,7 +2233,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"访问记录","level":"2.2.24","depth":2,"next":{"title":"MongoDB","level":"2.2.25","depth":2,"path":"intro/arch_overview/mongo.md","ref":"intro/arch_overview/mongo.md","articles":[]},"previous":{"title":"TCP 代理","level":"2.2.23","depth":2,"path":"intro/arch_overview/tcp_proxy.md","ref":"intro/arch_overview/tcp_proxy.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"intro/arch_overview/access_logging.md","mtime":"2018-05-15T14:08:10.339Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T11:51:20.109Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"访问记录","level":"2.2.24","depth":2,"next":{"title":"MongoDB","level":"2.2.25","depth":2,"path":"intro/arch_overview/mongo.md","ref":"intro/arch_overview/mongo.md","articles":[]},"previous":{"title":"TCP 代理","level":"2.2.23","depth":2,"path":"intro/arch_overview/tcp_proxy.md","ref":"intro/arch_overview/tcp_proxy.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"intro/arch_overview/access_logging.md","mtime":"2018-05-18T02:20:10.597Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-18T03:25:31.248Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

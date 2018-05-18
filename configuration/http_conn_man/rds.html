@@ -1119,7 +1119,7 @@
                     
                         <b>5.3.3.</b>
                     
-                    Listener 发现服务（LDS）
+                    监听器发现服务（LDS）
             
                 </a>
             
@@ -1332,7 +1332,7 @@
                     
                         <b>5.6.2.</b>
                     
-                    流量转换/切分
+                    流量转移/拆分
             
                 </a>
             
@@ -2180,46 +2180,46 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x8DEF;&#x7531;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#xFF08;rds&#xFF09;">&#x8DEF;&#x7531;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#xFF08;RDS&#xFF09;</h1>
-<p>The route discovery service (RDS) API is an optional API that Envoy will call to dynamically fetch<a href="../../api-v1/route_config/route_config.md#config-http-conn-man-route-table">route configurations</a>. A route configuration includes both HTTP header modifications, virtual hosts, and the individual route entries contained within each virtual host. Each <a href="http_conn_man.html#config-http-conn-man">HTTP connection manager filter</a> can independently fetch its own route configuration via the API.</p>
+<p>&#x8DEF;&#x7531;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#xFF08;RDS&#xFF09;&#x7684;API&#x5728; Envoy &#x91CC;&#x9762;&#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x9009; API&#xFF0C;&#x7528;&#x4E8E;&#x52A8;&#x6001;&#x83B7;&#x53D6;<a href="../../api-v1/route_config/route_config.md#config-http-conn-man-route-table">&#x8DEF;&#x7531;&#x914D;&#x7F6E;</a>&#x3002;&#x8DEF;&#x7531;&#x914D;&#x7F6E;&#x5305;&#x62EC; HTTP &#x5934;&#x90E8;&#x4FEE;&#x6539;&#xFF0C;&#x865A;&#x62DF;&#x4E3B;&#x673A;&#x4EE5;&#x53CA;&#x6BCF;&#x4E2A;&#x865A;&#x62DF;&#x4E3B;&#x673A;&#x4E2D;&#x5305;&#x542B;&#x7684;&#x5355;&#x4E2A;&#x8DEF;&#x7531;&#x89C4;&#x5219;&#x3002;&#x6BCF;&#x4E2A; <a href="http_conn_man.html#config-http-conn-man">HTTP&#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x5668;</a> &#x90FD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; API &#x72EC;&#x7ACB;&#x5730;&#x83B7;&#x53D6;&#x81EA;&#x8EAB;&#x7684;&#x8DEF;&#x7531;&#x914D;&#x7F6E;&#x3002;</p>
 <ul>
-<li><a href="../../api-v1/route_config/rds.md#config-http-conn-man-rds-v1">v1 API reference</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/rds.md#config-http-conn-man-rds-v1" target="_blank">v1 API reference</a></li>
 <li><a href="../overview/v2_overview.html#v2-grpc-streaming-endpoints">v2 API reference</a></li>
 </ul>
-<h2 id="statistics">Statistics</h2>
-<p>RDS has a statistics tree rooted at <em>http.<stat_prefix>.rds.<route_config_name>.</route_config_name></stat_prefix></em>. Any <code>:</code> character in the <code>route_config_name</code> name gets replaced with <code>_</code> in the stats tree. The stats tree contains the following statistics:</p>
+<h2 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h2>
+<p>RDS &#x7684;&#x7EDF;&#x8BA1;&#x6811;&#x4EE5; <code>http.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>stat_prefix</span><span class="token punctuation">&gt;</span></span>.rds.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>route_config_name</span><span class="token punctuation">&gt;</span></span>.*.</code>&#x4E3A;&#x6839;&#xFF0C;<code>route_config_name</code>&#x540D;&#x79F0;&#x4E2D;&#x7684;&#x4EFB;&#x4F55;<code>:</code>&#x5B57;&#x7B26;&#x5728;&#x7EDF;&#x8BA1;&#x6811;&#x4E2D;&#x88AB;&#x66FF;&#x6362;&#x4E3A;<code>_</code>&#x3002;&#x7EDF;&#x8BA1;&#x6811;&#x5305;&#x542B;&#x4EE5;&#x4E0B;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>config_reload</td>
-<td>Counter</td>
-<td>Total API fetches that resulted in a config reload due to a different config</td>
+<td>&#x8BA1;&#x6570;&#x5668;</td>
+<td>&#x52A0;&#x8F7D;&#x914D;&#x7F6E;&#x4E0D;&#x540C;&#x5BFC;&#x81F4;&#x91CD;&#x65B0;&#x8C03;&#x7528;API&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>update_attempt</td>
-<td>Counter</td>
-<td>Total API fetches attempted</td>
+<td>&#x8BA1;&#x6570;&#x5668;</td>
+<td>&#x8C03;&#x7528;API&#x83B7;&#x53D6;&#x8D44;&#x6E90;&#x91CD;&#x8BD5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>update_success</td>
-<td>Counter</td>
-<td>Total API fetches completed successfully</td>
+<td>&#x8BA1;&#x6570;&#x5668;</td>
+<td>&#x8C03;&#x7528;API&#x83B7;&#x53D6;&#x8D44;&#x6E90;&#x6210;&#x529F;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>update_failure</td>
-<td>Counter</td>
-<td>Total API fetches that failed (either network or schema errors)</td>
+<td>&#x8BA1;&#x6570;&#x5668;</td>
+<td>&#x8C03;&#x7528;API&#x83B7;&#x53D6;&#x8D44;&#x6E90;&#x5931;&#x8D25;&#x603B;&#x6570;&#xFF08;&#x56E0;&#x7F51;&#x7EDC;&#x3001;&#x53E5;&#x6CD5;&#x9519;&#x8BEF;&#xFF09;</td>
 </tr>
 <tr>
 <td>version</td>
-<td>Gauge</td>
-<td>Hash of the contents from the last successful API fetch</td>
+<td>&#x6D4B;&#x91CF;</td>
+<td>&#x6700;&#x540E;&#x4E00;&#x6B21;API&#x83B7;&#x53D6;&#x8D44;&#x6E90;&#x6210;&#x529F;&#x7684;&#x5185;&#x5BB9;HASH</td>
 </tr>
 </tbody>
 </table>
@@ -2262,7 +2262,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"路由发现服务（RDS）","level":"5.6.7","depth":2,"next":{"title":"HTTP 过滤器","level":"5.7","depth":1,"ref":"","articles":[{"title":"Buffer","level":"5.7.1","depth":2,"path":"configuration/http_filters/buffer_filter.md","ref":"configuration/http_filters/buffer_filter.md","articles":[]},{"title":"CORS","level":"5.7.2","depth":2,"path":"configuration/http_filters/cors_filter.md","ref":"configuration/http_filters/cors_filter.md","articles":[]},{"title":"DynamoDB","level":"5.7.3","depth":2,"path":"configuration/http_filters/dynamodb_filter.md","ref":"configuration/http_filters/dynamodb_filter.md","articles":[]},{"title":"故障注入","level":"5.7.4","depth":2,"path":"configuration/http_filters/fault_filter.md","ref":"configuration/http_filters/fault_filter.md","articles":[]},{"title":"gRPC HTTP/1.1 bridge","level":"5.7.5","depth":2,"path":"configuration/http_filters/grpc_http1_bridge_filter.md","ref":"configuration/http_filters/grpc_http1_bridge_filter.md","articles":[]},{"title":"gRPC-JSON 转码","level":"5.7.6","depth":2,"path":"configuration/http_filters/grpc_json_transcoder_filter.md","ref":"configuration/http_filters/grpc_json_transcoder_filter.md","articles":[]},{"title":"gRPC-Web","level":"5.7.7","depth":2,"path":"configuration/http_filters/grpc_web_filter.md","ref":"configuration/http_filters/grpc_web_filter.md","articles":[]},{"title":"Gzip","level":"5.7.8","depth":2,"path":"configuration/http_filters/gzip_filter.md","ref":"configuration/http_filters/gzip_filter.md","articles":[]},{"title":"健康检查","level":"5.7.9","depth":2,"path":"configuration/http_filters/health_check_filter.md","ref":"configuration/http_filters/health_check_filter.md","articles":[]},{"title":"IP Tagging","level":"5.7.10","depth":2,"path":"configuration/http_filters/ip_tagging_filter.md","ref":"configuration/http_filters/ip_tagging_filter.md","articles":[]},{"title":"Lua","level":"5.7.11","depth":2,"path":"configuration/http_filters/lua_filter.md","ref":"configuration/http_filters/lua_filter.md","articles":[]},{"title":"速率限制","level":"5.7.12","depth":2,"path":"configuration/http_filters/rate_limit_filter.md","ref":"configuration/http_filters/rate_limit_filter.md","articles":[]},{"title":"路由","level":"5.7.13","depth":2,"path":"configuration/http_filters/router_filter.md","ref":"configuration/http_filters/router_filter.md","articles":[]},{"title":"Squash","level":"5.7.14","depth":2,"path":"configuration/http_filters/squash_filter.md","ref":"configuration/http_filters/squash_filter.md","articles":[]}]},"previous":{"title":"运行时","level":"5.6.6","depth":2,"path":"configuration/http_conn_man/runtime.md","ref":"configuration/http_conn_man/runtime.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_conn_man/rds.md","mtime":"2018-05-15T11:22:21.774Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-17T11:51:20.109Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"路由发现服务（RDS）","level":"5.6.7","depth":2,"next":{"title":"HTTP 过滤器","level":"5.7","depth":1,"ref":"","articles":[{"title":"Buffer","level":"5.7.1","depth":2,"path":"configuration/http_filters/buffer_filter.md","ref":"configuration/http_filters/buffer_filter.md","articles":[]},{"title":"CORS","level":"5.7.2","depth":2,"path":"configuration/http_filters/cors_filter.md","ref":"configuration/http_filters/cors_filter.md","articles":[]},{"title":"DynamoDB","level":"5.7.3","depth":2,"path":"configuration/http_filters/dynamodb_filter.md","ref":"configuration/http_filters/dynamodb_filter.md","articles":[]},{"title":"故障注入","level":"5.7.4","depth":2,"path":"configuration/http_filters/fault_filter.md","ref":"configuration/http_filters/fault_filter.md","articles":[]},{"title":"gRPC HTTP/1.1 bridge","level":"5.7.5","depth":2,"path":"configuration/http_filters/grpc_http1_bridge_filter.md","ref":"configuration/http_filters/grpc_http1_bridge_filter.md","articles":[]},{"title":"gRPC-JSON 转码","level":"5.7.6","depth":2,"path":"configuration/http_filters/grpc_json_transcoder_filter.md","ref":"configuration/http_filters/grpc_json_transcoder_filter.md","articles":[]},{"title":"gRPC-Web","level":"5.7.7","depth":2,"path":"configuration/http_filters/grpc_web_filter.md","ref":"configuration/http_filters/grpc_web_filter.md","articles":[]},{"title":"Gzip","level":"5.7.8","depth":2,"path":"configuration/http_filters/gzip_filter.md","ref":"configuration/http_filters/gzip_filter.md","articles":[]},{"title":"健康检查","level":"5.7.9","depth":2,"path":"configuration/http_filters/health_check_filter.md","ref":"configuration/http_filters/health_check_filter.md","articles":[]},{"title":"IP Tagging","level":"5.7.10","depth":2,"path":"configuration/http_filters/ip_tagging_filter.md","ref":"configuration/http_filters/ip_tagging_filter.md","articles":[]},{"title":"Lua","level":"5.7.11","depth":2,"path":"configuration/http_filters/lua_filter.md","ref":"configuration/http_filters/lua_filter.md","articles":[]},{"title":"速率限制","level":"5.7.12","depth":2,"path":"configuration/http_filters/rate_limit_filter.md","ref":"configuration/http_filters/rate_limit_filter.md","articles":[]},{"title":"路由","level":"5.7.13","depth":2,"path":"configuration/http_filters/router_filter.md","ref":"configuration/http_filters/router_filter.md","articles":[]},{"title":"Squash","level":"5.7.14","depth":2,"path":"configuration/http_filters/squash_filter.md","ref":"configuration/http_filters/squash_filter.md","articles":[]}]},"previous":{"title":"运行时","level":"5.6.6","depth":2,"path":"configuration/http_conn_man/runtime.md","ref":"configuration/http_conn_man/runtime.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_conn_man/rds.md","mtime":"2018-05-18T03:02:26.586Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-18T03:25:31.248Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
