@@ -11,6 +11,7 @@
 - gRPC-Web 由一个指定的[过滤器](../../configuration/http_filters/grpc_web_filter.md#config-http-filters-grpc-web)支持，该过滤器允许 gRPC-Web 客户端通过 HTTP/1.1 向 Envoy 发送请求并代理到 gRPC 服务器。目前相关团队正在积极开发中，预计它将成为 gRPC [桥接过滤器](../../configuration/http_filters/grpc_http1_bridge_filter.md#config-http-filters-grpc-bridge)的后续产品。
 
 - gRPC-JSON 转码器由一个指定的[过滤器](../../configuration/http_filters/grpc_json_transcoder_filter.md#config-http-filters-grpc-json-transcoder)支持，该过滤器允许 RESTful JSON API 客户端通过 HTTP 向 Envoy 发送请求并获取代理到 gRPC 服务。
+
 ## gRPC 服务
 
 除了在数据层面上代理 gRPC 外，Envoy 在控制层面也使用了 gRPC，它从中[获取管理服务器的配置](../../configuration/overview/v2_overview.md#config-overview-v2)以及过滤器中的配置，例如用于[速率限制](../../configuration/http_filters/rate_limit_filter.md#config-http-filters-rate-limit))或授权检查。我们称之为 *gRPC 服务*。

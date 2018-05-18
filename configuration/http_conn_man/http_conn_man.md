@@ -1,4 +1,4 @@
-# HTTP 链接管理器
+# HTTP 连接管理器
 
 - HTTP 链接管理器[架构概览](../../intro/arch_overview/http_connection_management.md#arch-overview-http-conn-man)
 - HTTP 协议[架构概览](../../intro/arch_overview/http_connection_management.md#arch-overview-http-protocols)
