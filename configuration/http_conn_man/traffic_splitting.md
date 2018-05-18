@@ -1,20 +1,20 @@
-# 流量转换切分
+# 流量转移拆分
 
->  **Attention**
+>  **注意**
 >
-> This section is written for the v1 API but the concepts also apply to the v2 API. It will be rewritten to target the v2 API in a future release.
+>  本节为 v1 API编写，但概念也适用于 v2 API。 在未来的版本中将以 v2 API为目标重写为。
 
-- [Traffic shifting between two upstreams](#traffic-shifting-between-two-upstreams)
-- [Traffic splitting across multiple upstreams](#traffic-splitting-across-multiple-upstreams)
+- [在两个上游之间转移流量](#traffic-shifting-between-two-upstreams)
+- [跨多个上游拆分流量](#traffic-splitting-across-multiple-upstreams)
 
-Envoy’s router can split traffic to a route in a virtual host across two or more upstream clusters. There are two common use cases.
+Envoy的路由器可以跨两个或更多上游集群地将流量拆分到虚拟主机中的路由。有两个常见的用例。
 
-1. Version upgrades: traffic to a route is shifted gradually from one cluster to another. The [traffic shifting](#config-http-conn-man-route-table-traffic-splitting-shift) section describes this scenario in more detail.
-2. A/B testing or multivariate testing: `two or more versions` of the same service are tested simultaneously. The traffic to the route has to be *split* between clusters running different versions of the same service. The [traffic splitting](#config-http-conn-man-route-table-traffic-splitting-split) section describes this scenario in more detail.
+1. 版本升级：路由的流量逐渐从一个集群优雅地转移到另一个集群。 [流量转移](#config-http-conn-man-route-table-traffic-splitting-shift) 部分更详细地描述了这个场景。
+2. A/B测试或多变量测试：同时测试两个或更多版本的相同服务。流向路由的流量必须在运行同一服务的不同版本的集群之间进行拆分。 [流量拆分](#config-http-conn-man-route-table-traffic-splitting-split) 部分更详细地描述了这种情况。
 
-## Traffic shifting between two upstreams
+## 在两个上游之间转移流量
 
-The [runtime](../../api-v1/route_config/route.mdg-http-conn-man-route-table-route-runtime) object in the route configuration determines the probability of selecting a particular route (and hence its cluster). By using the runtime configuration, traffic to a particular route in a virtual host can be gradually shifted from one cluster to another. Consider the following example configuration, where two versions `helloworld_v1` and `helloworld_v2` of a service named `helloworld`are declared in the envoy configuration file.
+路由配置中的 [运行时](../../api-v1/route_config/route.mdg-http-conn-man-route-table-route-runtime) 对象判断选择特定路由（以及它的集群）的可能性（译者注：可以理解为百分比）。通过使用运行时配置，虚拟主机中到特定路由的流量可逐渐从一个集群转移到另一个集群。考虑以下示例配置，其中在 envoy 配置文件中声明了名为 helloworld 的服务的两个版本 helloworld_v1 和 helloworld_v2。
 
 ```
 {
@@ -43,18 +43,18 @@ The [runtime](../../api-v1/route_config/route.mdg-http-conn-man-route-table-rout
 }
 ```
 
-Envoy matches routes with a [first match](route_matching.html#config-http-conn-man-route-table-route-matching) policy. If the route has a runtime object, the request will be additionally matched based on the runtime [value](../../api-v1/route_config/route.html#config-http-conn-man-route-table-route-runtime-default) (or the default, if no value is specified). Thus, by placing routes back-to-back in the above example and specifying a runtime object in the first route, traffic shifting can be accomplished by changing the runtime value. The following are the approximate sequence of actions required to accomplish the task.
+Envoy 使用 [first match](route_matching.html#config-http-conn-man-route-table-route-matching)  策略来匹配路由。如果路由具有运行时对象，则会根据运行时[值](../../api-v1/route_config/route.html#config-http-conn-man-route-table-route-runtime-default)另外匹配请求（如果未指定值，则为默认值）。因此，通过在上述示例中背靠背地放置路由并在第一个路由中指定运行时对象，可以通过更改运行时值来完成流量转移。以下是完成任务所需的大致操作顺序。
 
-1. In the beginning, set `routing.traffic_shift.helloworld` to `100`, so that all requests to the `helloworld` virtual host would match with the v1 route and be served by the `helloworld_v1`cluster.
-2. To start shifting traffic to `helloworld_v2` cluster, set `routing.traffic_shift.helloworld` to values `0 < x < 100`. For instance at `90`, 1 out of every 10 requests to the `helloworld` virtual host will not match the v1 route and will fall through to the v2 route.
-3. Gradually decrease the value set in `routing.traffic_shift.helloworld` so that a larger percentage of requests match the v2 route.
-4. When `routing.traffic_shift.helloworld` is set to `0`, no requests to the `helloworld` virtual host will match to the v1 route. All traffic would now fall through to the v2 route and be served by the `helloworld_v2` cluster.
+1. 在开始时，将 `routing.traffic_shift.helloworld` 设置为 `100`, 因此所有到 `helloworld`  虚拟主机的请求都将匹配 v1 路由并由 `helloworld_v1` 集群提供服务。
+2. 为了开始将流量转移到 `helloworld_v2` 集群, 设置 `routing.traffic_shift.helloworld` 为 `0 < x < 100`. 例如设置为 `90` 时，有1个不会与 v1 路由匹配，然后会落入 v2 路由。
+3. 逐渐减少 `routing.traffic_shift.helloworld` 中设置的值，以便大部分请求与 `v2` 路由匹配。
+4. 当 `routing.traffic_shift.helloworld`  设置为 `0` 时, 到 `helloworld`  虚拟主机的请求都不会匹配 v1 路由。现在，所有流量都会流向 v2 路由，并由 helloworld_v2 集群提供服务。
 
-## Traffic splitting across multiple upstreams
+## 跨多个上游拆分流量
 
-Consider the `helloworld` example again, now with three versions (v1, v2 and v3) instead of two. To split traffic evenly across the three versions (i.e., `33%, 33%, 34%`), the `weighted_clusters` option can be used to specify the weight for each upstream cluster.
+再次考虑 `helloworld` 示例，现在有三个版本（v1，v2和v3）而不是两个。要在三个版本间平均分配流量（即33％，33％，34％），可以使用 `weighted_clusters`选项指定每个上游集群的权重。
 
-Unlike the previous example, a **single** [route](../../api-v1/route_config/route.html#config-http-conn-man-route-table-route) entry is sufficient. The [weighted_clusters](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-weighted-clusters) configuration block in a route can be used to specify multiple upstream clusters along with weights that indicate the **percentage** of traffic to be sent to each upstream cluster.
+与前面的例子不同，单个[路由](../../api-v1/route_config/route.html#config-http-conn-man-route-table-route)条目就足够了。路由中的 [weighted_clusters](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-weighted-clusters) 配置块可用于指定多个上游集群以及权重，权证则表示要发送到每个上游集群的流量百分比。
 
 ```json
 {
@@ -82,6 +82,6 @@ Unlike the previous example, a **single** [route](../../api-v1/route_config/rout
 }
 ```
 
-By default, the weights must sum to exactly 100. In the V2 API, the [total weight](../../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-weightedcluster-total-weight) defaults to 100, but can be modified to allow finer granularity.
+默认情况下，权重必须总和精确为100。在V2 API中，总权重默认为100，但可以修改以允许更精细的粒度。
 
-The weights assigned to each cluster can be dynamically adjusted using the following runtime variables: `routing.traffic_split.helloworld.helloworld_v1`,`routing.traffic_split.helloworld.helloworld_v2` and `routing.traffic_split.helloworld.helloworld_v3`.
+可以使用以下运行时变量动态调整分配给每个集群的权重：`routing.traffic_split.helloworld.helloworld_v1`，`routing.traffic_split.helloworld.helloworld_v2` 和 `routing.traffic_split.helloworld.helloworld_v3`。
