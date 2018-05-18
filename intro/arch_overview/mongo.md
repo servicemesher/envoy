@@ -9,6 +9,6 @@ Envoy 支持网络层的 MongoDB 嗅探过滤器,并拥有如下特性：
 - 故障注入。
 
 MongoDB 过滤器是表现 Envoy 扩展性以及核心抽象能力的典范案例。在 Lyft 我们将这个过滤器应用在所有的应用以及数据库中。
-在不了解应用平台以及所使用 MongoDB 驱动的情况下，它依然提供了不可估量的数据源。
+它提供了对应用程序平台和正在使用的特定 MongoDB 驱动程序不可知的重要数据源。
 
 MongoDB 代理过滤器[参考配置](../../configuration/network_filters/mongo_proxy_filter。md#config-network-filters-mongo-proxy)。
