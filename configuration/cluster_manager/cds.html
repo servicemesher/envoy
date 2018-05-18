@@ -2182,48 +2182,50 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x96C6;&#x7FA4;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#xFF08;cds&#xFF09;">&#x96C6;&#x7FA4;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#xFF08;CDS&#xFF09;</h1>
-<p>The cluster discovery service (CDS) is an optional API that Envoy will call to dynamically fetch cluster manager members. Envoy will reconcile the API response and add, modify, or remove known clusters depending on what is required.</p>
-<p>Note</p>
-<p>Any clusters that are statically defined within the Envoy configuration cannot be modified or removed via the CDS API.</p>
+<p>&#x96C6;&#x7FA4;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#xFF08;CDS&#xFF09;&#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x7684;API&#xFF0C;Envoy&#x5C06;&#x8C03;&#x7528;&#x8BE5;API&#x6765;&#x52A8;&#x6001;&#x83B7;&#x53D6;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x6210;&#x5458;&#x3002;Envoy &#x8FD8;&#x5C06;&#x6839;&#x636E; API &#x54CD;&#x5E94;&#x534F;&#x8C03;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#xFF0C;&#x6839;&#x636E;&#x9700;&#x8981;&#x5B8C;&#x6210;&#x6DFB;&#x52A0;&#xFF0C;&#x4FEE;&#x6539;&#x6216;&#x5220;&#x9664;&#x5DF2;&#x77E5;&#x7684;&#x96C6;&#x7FA4;&#x3002;</p>
+<blockquote>
+<p><strong>&#x6CE8;&#x610F;</strong></p>
+<p>&#x5728; Envoy &#x914D;&#x7F6E;&#x4E2D;&#x9759;&#x6001;&#x5B9A;&#x4E49;&#x7684;&#x4EFB;&#x4F55;&#x7FA4;&#x96C6;&#x90FD;&#x4E0D;&#x80FD;&#x901A;&#x8FC7; CDS API &#x8FDB;&#x884C;&#x4FEE;&#x6539;&#x6216;&#x5220;&#x9664;&#x3002;</p>
+</blockquote>
 <ul>
-<li><a href="../../api-v1/cluster_manager/cds.md#config-cluster-manager-cds-v1">v1 CDS API</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cds.md#config-cluster-manager-cds-v1" target="_blank">v1 CDS API</a></li>
 <li><a href="../overview/v2_overview.html#v2-grpc-streaming-endpoints">v2 CDS API</a></li>
 </ul>
-<h2 id="statistics">Statistics</h2>
-<p>CDS has a statistics tree rooted at <em>cluster_manager.cds.</em> with the following statistics:</p>
+<h2 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h2>
+<p>CDS &#x7684;&#x7EDF;&#x8BA1;&#x6811;&#x4EE5; <code>cluster_manager.cds.</code> &#x4E3A;&#x6839;&#xFF0C;&#x7EDF;&#x8BA1;&#x5982;&#x4E0B;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x5B57;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>config_reload</td>
-<td>Counter</td>
-<td>Total API fetches that resulted in a config reload due to a different config</td>
+<td>&#x8BA1;&#x6570;&#x5668;</td>
+<td>&#x56E0;&#x914D;&#x7F6E;&#x4E0D;&#x540C;&#x800C;&#x5BFC;&#x81F4;&#x914D;&#x7F6E;&#x91CD;&#x65B0;&#x52A0;&#x8F7D;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>update_attempt</td>
-<td>Counter</td>
-<td>Total API fetches attempted</td>
+<td>&#x8BA1;&#x6570;&#x5668;</td>
+<td>&#x5C1D;&#x8BD5;&#x8C03;&#x7528;&#x914D;&#x7F6E;&#x52A0;&#x8F7D;API&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>update_success</td>
-<td>Counter</td>
-<td>Total API fetches completed successfully</td>
+<td>&#x8BA1;&#x6570;&#x5668;</td>
+<td>&#x8C03;&#x7528;&#x914D;&#x7F6E;&#x52A0;&#x8F7D;API&#x6210;&#x529F;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>update_failure</td>
-<td>Counter</td>
-<td>Total API fetches that failed because of schema errors</td>
+<td>&#x8BA1;&#x6570;&#x5668;</td>
+<td>&#x8C03;&#x7528;&#x914D;&#x7F6E;&#x52A0;&#x8F7D;API&#x5931;&#x8D25;&#x7684;&#x603B;&#x6B21;&#x6570;&#xFF08;&#x7F51;&#x7EDC;&#x6216;&#x53C2;&#x6570;&#x9519;&#x8BEF;&#xFF09;</td>
 </tr>
 <tr>
 <td>version</td>
-<td>Gauge</td>
-<td>Hash of the contents from the last successful API fetch</td>
+<td>&#x6D4B;&#x91CF;</td>
+<td>&#x6765;&#x81EA;&#x4E0A;&#x6B21;&#x6210;&#x529F;&#x8C03;&#x7528;&#x914D;&#x7F6E;&#x52A0;&#x8F7D;API&#x7684;&#x5185;&#x5BB9;&#x54C8;&#x5E0C;</td>
 </tr>
 </tbody>
 </table>
@@ -2270,7 +2272,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"集群发现服务（CDS）","level":"5.8.3","depth":2,"next":{"title":"健康检查","level":"5.8.4","depth":2,"path":"configuration/cluster_manager/cluster_hc.md","ref":"configuration/cluster_manager/cluster_hc.md","articles":[]},"previous":{"title":"运行时","level":"5.8.2","depth":2,"path":"configuration/cluster_manager/cluster_runtime.md","ref":"configuration/cluster_manager/cluster_runtime.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/cluster_manager/cds.md","mtime":"2018-05-15T11:39:06.469Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-18T09:27:04.851Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"集群发现服务（CDS）","level":"5.8.3","depth":2,"next":{"title":"健康检查","level":"5.8.4","depth":2,"path":"configuration/cluster_manager/cluster_hc.md","ref":"configuration/cluster_manager/cluster_hc.md","articles":[]},"previous":{"title":"运行时","level":"5.8.2","depth":2,"path":"configuration/cluster_manager/cluster_runtime.md","ref":"configuration/cluster_manager/cluster_runtime.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/cluster_manager/cds.md","mtime":"2018-05-18T15:35:28.717Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-18T15:45:45.858Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
