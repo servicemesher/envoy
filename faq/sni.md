@@ -1,10 +1,13 @@
 # 如何设置 SNI？
 
-[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) is only supported in the [v2 configuration/API](../configuration/overview/v2_overview.md#config-overview-v2).
+[SNI](https://en.wikipedia.org/wiki/Server_Name_Indication) 仅被 [v2 配置/API](../configuration/overview/v2_overview.md#config-overview-v2) 支持。
 
-The current implementation has the requirement that the [filters](../api-v2/api/v2/listener/listener.proto.md#envoy-api-field-listener-filterchain-filters) in every [FilterChain](../api-v2/api/v2/listener/listener.proto.md#envoy-api-msg-listener-filterchain) must be identical. In a future release, this requirement will be relaxed so that SNI can be used to choose between completely different filter chains. [Domain name matching](../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-virtualhost-domains) can still be used within the HTTP connection manager to choose different routes. This is by far the most common use case for SNI.
+目前的实现中要求所有 [过滤器链](../api-v2/api/v2/listener/listener.proto.md#envoy-api-msg-listener-filterchain) 中的 
+[过滤器](../api-v2/api/v2/listener/listener.proto.md#envoy-api-field-listener-filterchain-filters) 必须是相同的。在以后的发布中,这个约束将会放宽,
+我们将可以将SNI运用到完全不同的过滤器链中。 我们还可以将 [域名匹配](../api-v2/api/v2/route/route.proto.md#envoy-api-field-route-virtualhost-domains) 运用到HTTP 连接管理中去选择不同的路由路线。
+这是截至目前最常见的SNI使用场景。
 
-The following is a YAML example of the above requirement.
+以下是一个如何满足上诉条件的 YAML 范例。
 
 ```yaml
 address:
