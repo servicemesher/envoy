@@ -2182,16 +2182,16 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x5982;&#x4F55;&#x8BBE;&#x7F6E;-zone-&#x53EF;&#x611F;&#x77E5;&#x8DEF;&#x7531;&#xFF1F;">&#x5982;&#x4F55;&#x8BBE;&#x7F6E; zone &#x53EF;&#x611F;&#x77E5;&#x8DEF;&#x7531;&#xFF1F;</h1>
-<p>There are several steps required for enabling <a href="../intro/arch_overview/load_balancing.mdrch-overview-load-balancing-zone-aware-routing">zone aware routing</a> between source service (&#x201C;cluster_a&#x201D;) and destination service (&#x201C;cluster_b&#x201D;).</p>
-<h2 id="envoy-configuration-on-the-source-service">Envoy configuration on the source service</h2>
-<p>This section describes the specific configuration for the Envoy running side by side with the source service. These are the requirements:</p>
+<p>&#x5728;&#x6E90;&#x670D;&#x52A1;&#xFF08;&#x201C;cluster_a&#x201D;&#xFF09;&#x548C;&#x76EE;&#x6807;&#x670D;&#x52A1;&#xFF08;&#x201C;cluster_b&#x201D;&#xFF09;&#x4E4B;&#x95F4;&#x542F;&#x7528;<a href="../intro/arch_overview/load_balancing.mdrch-overview-load-balancing-zone-aware-routing">&#x533A;&#x57DF;&#x611F;&#x77E5;&#x8DEF;&#x7531;</a>&#x9700;&#x8981;&#x6267;&#x884C;&#x51E0;&#x4E2A;&#x6B65;&#x9AA4;&#x3002;</p>
+<h2 id="&#x6E90;&#x670D;&#x52A1;&#x4E0A;&#x7684;-envoy-&#x914D;&#x7F6E;">&#x6E90;&#x670D;&#x52A1;&#x4E0A;&#x7684; Envoy &#x914D;&#x7F6E;</h2>
+<p>&#x672C;&#x8282;&#x4ECB;&#x7ECD;&#x4E0E;&#x6E90;&#x670D;&#x52A1;&#x4E00;&#x8D77;&#x8FD0;&#x884C;&#x7684; Envoy &#x7684;&#x5177;&#x4F53;&#x914D;&#x7F6E;&#x3002;&#x8981;&#x6C42;&#x5982;&#x4E0B;&#xFF1A;</p>
 <ul>
-<li><p>Envoy must be launched with <a href="../operations/cli.html#cmdoption-service-zone"><code>--service-zone</code></a> option which defines the zone for the current host.</p>
+<li><p>Envoy &#x5FC5;&#x987B;&#x4F7F;&#x7528; <a href="../operations/cli.html#cmdoption-service-zone"><code>--service-zone</code></a> &#x9009;&#x9879;&#x542F;&#x52A8;&#xFF0C;&#x8BE5;&#x9009;&#x9879;&#x4E3A;&#x5F53;&#x524D;&#x4E3B;&#x673A;&#x5B9A;&#x4E49;&#x533A;&#x57DF;&#x3002;</p>
 </li>
-<li><p>Both definitions of the source and the destination clusters must have <a href="../api-v1/cluster_manager/cluster.md#config-cluster-manager-type">sds</a> type.</p>
+<li><p>&#x6E90;&#x548C;&#x76EE;&#x7684;&#x5730;&#x96C6;&#x7FA4;&#x7684;&#x5B9A;&#x4E49;&#x90FD;&#x5FC5;&#x987B;&#x5177;&#x6709; <a href="../api-v1/cluster_manager/cluster.md#config-cluster-manager-type">sds</a> &#x7C7B;&#x578B;&#x3002;</p>
 </li>
-<li><p><a href="../api-v1/cluster_manager/cluster_manager.md#config-cluster-manager-local-cluster-name">local_cluster_name</a> must be set to the source cluster.</p>
-<p>Only essential parts are listed in the configuration below for the cluster manager.</p>
+<li><p>&#x5FC5;&#x987B;&#x5C06; <a href="../api-v1/cluster_manager/cluster_manager.md#config-cluster-manager-local-cluster-name">local_cluster_name</a> &#x8BBE;&#x7F6E;&#x4E3A;&#x6E90;&#x96C6;&#x7FA4;&#x3002;</p>
+<p>&#x4EE5;&#x4E0B;&#x914D;&#x7F6E;&#x4E2D;&#x4EC5;&#x5217;&#x51FA;&#x4E86;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x5668;&#x7684;&#x4E3B;&#x8981;&#x90E8;&#x5206;&#x3002;</p>
 </li>
 </ul>
 <pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
@@ -2209,20 +2209,20 @@
   <span class="token punctuation">]</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h2 id="envoy-configuration-on-the-destination-service">Envoy configuration on the destination service</h2>
-<p>It&#x2019;s not necessary to run Envoy side by side with the destination service, but it&#x2019;s important that each host in the destination cluster registers with the discovery service <a href="../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api">queried by the source service Envoy</a>. <a href="../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api-host">Zone</a> information must be available as part of that response.</p>
-<p>Only zone related data is listed in the response below.</p>
+<h2 id="&#x76EE;&#x7684;&#x5730;&#x670D;&#x52A1;&#x4E0A;&#x7684;-envoy-&#x914D;&#x7F6E;">&#x76EE;&#x7684;&#x5730;&#x670D;&#x52A1;&#x4E0A;&#x7684; Envoy &#x914D;&#x7F6E;</h2>
+<p>&#x6CA1;&#x6709;&#x5FC5;&#x8981;&#x4E0E;&#x76EE;&#x7684;&#x5730;&#x670D;&#x52A1;&#x5E76;&#x6392;&#x8FD0;&#x884C; Envoy&#xFF0C;&#x4F46;&#x91CD;&#x8981;&#x7684;&#x662F;&#x76EE;&#x7684;&#x5730;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x6BCF;&#x53F0;&#x4E3B;&#x673A;&#x90FD;&#x6CE8;&#x518C;<a href="../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api">&#x6E90;&#x670D;&#x52A1; Envoy &#x67E5;&#x8BE2;</a>&#x7684;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#x3002;<a href="../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api-host">&#x533A;&#x57DF;</a>&#x4FE1;&#x606F;&#x5FC5;&#x987B;&#x4F5C;&#x4E3A;&#x8BE5;&#x54CD;&#x5E94;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x63D0;&#x4F9B;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x7684;&#x5E94;&#x7B54;&#x4E2D;&#x53EA;&#x5217;&#x51FA;&#x4E86;&#x4E0E;&#x533A;&#x57DF;&#x76F8;&#x5173;&#x7684;&#x6570;&#x636E;&#x3002;</p>
 <pre class="language-"><code class="lang-json"><span class="token punctuation">{</span>
    <span class="token property">&quot;tags&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
        <span class="token property">&quot;az&quot;</span><span class="token operator">:</span> <span class="token string">&quot;us-east-1d&quot;</span>
    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h2 id="infrastructure-setup">Infrastructure setup</h2>
-<p>The above configuration is necessary for zone aware routing, but there are certain conditions when zone aware routing is <a href="../intro/arch_overview/load_balancing.html#arch-overview-load-balancing-zone-aware-routing-preconditions">not performed</a>.</p>
-<h2 id="verification-steps">Verification steps</h2>
+<h2 id="&#x57FA;&#x7840;&#x8BBE;&#x65BD;&#x642D;&#x5EFA;">&#x57FA;&#x7840;&#x8BBE;&#x65BD;&#x642D;&#x5EFA;</h2>
+<p>&#x4E0A;&#x8FF0;&#x914D;&#x7F6E;&#x5BF9;&#x4E8E;&#x533A;&#x57DF;&#x611F;&#x77E5;&#x8DEF;&#x7531;&#x662F;&#x5FC5;&#x9700;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x5728;<a href="../intro/arch_overview/load_balancing.html#arch-overview-load-balancing-zone-aware-routing-preconditions">&#x4E0D;&#x6267;&#x884C;</a>&#x533A;&#x57DF;&#x611F;&#x77E5;&#x8DEF;&#x7531;&#x65F6;&#x5B58;&#x5728;&#x67D0;&#x4E9B;&#x60C5;&#x51B5;&#x3002;</p>
+<h2 id="&#x9A8C;&#x8BC1;&#x6B65;&#x9AA4;">&#x9A8C;&#x8BC1;&#x6B65;&#x9AA4;</h2>
 <ul>
-<li>Use <a href="../configuration/cluster_manager/cluster_stats.html#config-cluster-manager-cluster-per-az-stats">per zone</a> Envoy stats to monitor cross zone traffic.</li>
+<li>&#x4F7F;&#x7528;<a href="../configuration/cluster_manager/cluster_stats.html#config-cluster-manager-cluster-per-az-stats">&#x6BCF;&#x533A;&#x57DF;</a> Envoy &#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x6765;&#x76D1;&#x63A7;&#x8DE8;&#x533A;&#x57DF;&#x6D41;&#x91CF;&#x3002;</li>
 </ul>
 
                                 
@@ -2267,7 +2267,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"如何设置 zone 可感知路由？","level":"8.4","depth":1,"next":{"title":"如何设置 Zipkin 追踪？","level":"8.5","depth":1,"path":"faq/zipkin_tracing.md","ref":"faq/zipkin_tracing.md","articles":[]},"previous":{"title":"如何设置 SNI？","level":"8.3","depth":1,"path":"faq/sni.md","ref":"faq/sni.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"faq/zone_aware_routing.md","mtime":"2018-05-15T10:31:10.350Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-18T04:34:13.962Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"如何设置 zone 可感知路由？","level":"8.4","depth":1,"next":{"title":"如何设置 Zipkin 追踪？","level":"8.5","depth":1,"path":"faq/zipkin_tracing.md","ref":"faq/zipkin_tracing.md","articles":[]},"previous":{"title":"如何设置 SNI？","level":"8.3","depth":1,"path":"faq/sni.md","ref":"faq/sni.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"faq/zone_aware_routing.md","mtime":"2018-05-18T06:45:29.944Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-18T06:46:20.817Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
