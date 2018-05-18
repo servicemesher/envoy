@@ -93,7 +93,7 @@ A log of outlier ejection events can optionally be produced by Envoy. This is ex
 
 ## 参考配置
 
-- Cluster manager [global configuration](../../api-v1/cluster_manager/outlier.md#config-cluster-manager-outlier-detection)
-- Per cluster [configuration](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection)
-- Runtime [settings](../../configuration/cluster_manager/cluster_runtime.md#config-cluster-manager-cluster-runtime-outlier-detection)
-- Statistics [reference](../../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats-outlier-detection)
+- 集群管理器[全局配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/outlier.html#config-cluster-manager-outlier-detection)
+- 单集群[配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection.html#config-cluster-manager-cluster-outlier-detection)
+- 运行时[设置](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_runtime.html#config-cluster-manager-cluster-runtime-outlier-detection)
+- 统计[参考](../../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats-outlier-detection)
