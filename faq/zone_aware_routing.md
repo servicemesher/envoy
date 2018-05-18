@@ -1,18 +1,18 @@
 # 如何设置 zone 可感知路由？
 
-There are several steps required for enabling [zone aware routing](../intro/arch_overview/load_balancing.mdrch-overview-load-balancing-zone-aware-routing) between source service (“cluster_a”) and destination service (“cluster_b”).
+在源服务（“cluster_a”）和目标服务（“cluster_b”）之间启用[区域感知路由](../intro/arch_overview/load_balancing.mdrch-overview-load-balancing-zone-aware-routing)需要执行几个步骤。
 
-## Envoy configuration on the source service
+## 源服务上的 Envoy 配置
 
-This section describes the specific configuration for the Envoy running side by side with the source service. These are the requirements:
+本节介绍与源服务一起运行的 Envoy 的具体配置。要求如下：
 
-- Envoy must be launched with [`--service-zone`](../operations/cli.html#cmdoption-service-zone) option which defines the zone for the current host.
+- Envoy 必须使用 [`--service-zone`](../operations/cli.html#cmdoption-service-zone) 选项启动，该选项为当前主机定义区域。
 
-- Both definitions of the source and the destination clusters must have [sds](../api-v1/cluster_manager/cluster.md#config-cluster-manager-type) type.
+- 源和目的地集群的定义都必须具有 [sds](../api-v1/cluster_manager/cluster.md#config-cluster-manager-type) 类型。
 
-- [local_cluster_name](../api-v1/cluster_manager/cluster_manager.md#config-cluster-manager-local-cluster-name) must be set to the source cluster.
+- 必须将 [local_cluster_name](../api-v1/cluster_manager/cluster_manager.md#config-cluster-manager-local-cluster-name) 设置为源集群。
 
-  Only essential parts are listed in the configuration below for the cluster manager.
+  以下配置中仅列出了集群管理器的主要部分。
 
 ```json
 {
@@ -31,11 +31,11 @@ This section describes the specific configuration for the Envoy running side by 
 }
 ```
 
-## Envoy configuration on the destination service
+## 目的地服务上的 Envoy 配置
 
-It’s not necessary to run Envoy side by side with the destination service, but it’s important that each host in the destination cluster registers with the discovery service [queried by the source service Envoy](../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api). [Zone](../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api-host) information must be available as part of that response.
+没有必要与目的地服务并排运行 Envoy，但重要的是目的地集群中的每台主机都注册  [源服务 Envoy 查询](../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api) 的发现服务。 [区域](../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api-host) 信息必须作为该响应的一部分提供。
 
-Only zone related data is listed in the response below.
+下面的应答中只列出了与区域相关的数据。
 
 ```json
 {
@@ -45,10 +45,10 @@ Only zone related data is listed in the response below.
 }
 ```
 
-## Infrastructure setup
+## 基础设施搭建
 
-The above configuration is necessary for zone aware routing, but there are certain conditions when zone aware routing is [not performed](../intro/arch_overview/load_balancing.md#arch-overview-load-balancing-zone-aware-routing-preconditions).
+上述配置对于区域感知路由是必需的，但是在[不执行](../intro/arch_overview/load_balancing.md#arch-overview-load-balancing-zone-aware-routing-preconditions)区域感知路由时存在某些情况。
 
-## Verification steps
+## 验证步骤
 
-- Use [per zone](../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-per-az-stats) Envoy stats to monitor cross zone traffic.
+- 使用 [每区域](../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-per-az-stats) Envoy 统计信息来监控跨区域流量。
