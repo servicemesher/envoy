@@ -1,22 +1,25 @@
 # 集群发现服务（CDS）
 
-The cluster discovery service (CDS) is an optional API that Envoy will call to dynamically fetch cluster manager members. Envoy will reconcile the API response and add, modify, or remove known clusters depending on what is required.
 
-Note
+集群发现服务（CDS）是一个可选的API，Envoy将调用该API来动态获取集群管理成员。 Envoy还将根据API响应协调集群管理，根据需要完成添加，修改或删除已知的集群。
 
-Any clusters that are statically defined within the Envoy configuration cannot be modified or removed via the CDS API.
+
+> 注意：
+
+> 在Envoy配置中静态定义的任何群集都不能通过CDS API进行修改或删除。
 
 - [v1 CDS API](../../api-v1/cluster_manager/cds.md#config-cluster-manager-cds-v1)
 - [v2 CDS API](../overview/v2_overview.md#v2-grpc-streaming-endpoints)
 
-## Statistics
+## 统计
 
-CDS has a statistics tree rooted at *cluster_manager.cds.* with the following statistics:
+CDS的统计树以**cluster_manager.cds.**为根，统计如下：
 
-| Name           | Type    | Description                                                  |
+| 名字           | 类型    | 描述                                                  |
 | -------------- | ------- | ------------------------------------------------------------ |
-| config_reload  | Counter | Total API fetches that resulted in a config reload due to a different config |
-| update_attempt | Counter | Total API fetches attempted                                  |
-| update_success | Counter | Total API fetches completed successfully                     |
-| update_failure | Counter | Total API fetches that failed because of schema errors       |
-| version        | Gauge   | Hash of the contents from the last successful API fetch      |
+| config_reload  | 计数器 | 因配置不同而导致配置重新加载的总次数 |
+| update_attempt | 计数器 | 尝试调用配置加载API的总次数                                  |
+| update_success | 计数器 | 调用配置加载API成功的总次数                     |
+| update_failure | 计数器 | 调用配置加载API失败的总次数（网络或参数错误）       |
+| version        | 测量   | 来自上次成功调用配置加载API的内容哈希      |
+
