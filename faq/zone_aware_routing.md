@@ -33,7 +33,7 @@
 
 ## 目的地服务上的 Envoy 配置
 
-没有必要与目的地服务并排运行 Envoy，但重要的是目的地集群中的每台主机都注册  [源服务 Envoy 查询](../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api) 的发现服务。 [区域](../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api-host) 信息必须作为该响应的一部分提供。
+没有必要与目的地服务并排运行 Envoy，但重要的是目的地集群中的每台主机都注册[源服务 Envoy 查询](../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api)的发现服务。[区域](../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api-host)信息必须作为该响应的一部分提供。
 
 下面的应答中只列出了与区域相关的数据。
 
@@ -51,4 +51,4 @@
 
 ## 验证步骤
 
-- 使用 [每区域](../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-per-az-stats) Envoy 统计信息来监控跨区域流量。
+- 使用[每区域](../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-per-az-stats) Envoy 统计信息来监控跨区域流量。
