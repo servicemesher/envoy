@@ -2,8 +2,8 @@
 
 Envoy 在本地提供了一个管理界面，可以使用这一界面查询或修改服务器的各种数据。
 
-- [v1 API 参考](../api-v1/admin.md#config-admin-v1)
-- [v2 API 参考](../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-msg-config-bootstrap-v2-admin)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/admin.html#config-admin-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto.html#envoy-api-msg-config-bootstrap-v2-admin)
 
 ## 注意
 目前管理界面可以进行破坏性操作（例如关闭服务器），也可能暴露私有数据（例如统计数据、集群名称、证书信息等）。将管理界面限制到只能在安全网络之内进行访问是 **非常必要** 的。同时还要注意，提供管理界面服务的网络接口只接入到安全网络之中（防止 CSRF 攻击等目的）。要实现这些目标，可以进行相应的防火墙设置，或者只允许 localhost 访问。可以使用如下的 v2 配置来完成：
@@ -208,5 +208,6 @@ address:
 
 通过提交的参数对运行时数值进行添加或修改。要删除一个之前加入的键，只需要使用一个空值即可。注意这种删除操作，只适用于这一端点中使用重载方式加入的值；从磁盘中载入的值是能通过重载进行修改，无法删除。
 
-> 注意
+> **注意**
+>
 > 使用 /runtime_modify 端点要当心，这一变更是即时生效的。保障管理界面的[安全性](../operations/admin#operations-admin-interface-security)至关重要。
