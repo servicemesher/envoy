@@ -1,11 +1,16 @@
 # 热重启
 
-Ease of operation is one of the primary goals of Envoy. In addition to robust statistics and a local administration interface, Envoy has the ability to “hot” or “live” restart itself. This means that Envoy can fully reload itself (both code and configuration) without dropping any connections. The hot restart functionality has the following general architecture:
+易于使用是 Envoy 的一个重要的使命。除了健壮性统计以及本地的管理接口，Envoy 还可以 “热” 或者说是 “活” 重启自己。
+这意味着 Envoy 可以在不需丢失任何连接的情况下完全地重载自己 (包括代码与配置)。 热重启功能实现如下的一些架构：
 
-- Statistics and some locks are kept in a shared memory region. This means that gauges will be consistent across both processes as restart is taking place.
-- The two active processes communicate with each other over unix domain sockets using a basic RPC protocol.
-- The new process fully initializes itself (loads the configuration, does an initial service discovery and health checking phase, etc.) before it asks for copies of the listen sockets from the old process. The new process starts listening and then tells the old process to start draining.
-- During the draining phase, the old process attempts to gracefully close existing connections. How this is done depends on the configured filters. The drain time is configurable via the[`--drain-time-s`](../../operations/cli.md#cmdoption-drain-time-s) option and as more time passes draining becomes more aggressive.
-- After drain sequence, the new Envoy process tells the old Envoy process to shut itself down. This time is configurable via the [`--parent-shutdown-time-s`](../../operations/cli.md#cmdoption-parent-shutdown-time-s) option.
-- Envoy’s hot restart support was designed so that it will work correctly even if the new Envoy process and the old Envoy process are running inside different containers. Communication between the processes takes place only using unix domain sockets.
-- An example restarter/parent process written in Python is included in the source distribution. This parent process is usable with standard process control utilities such as monit/runit/etc.
+- 统计以及部分的锁将被保存在共享内存区。这也就是意味着这些标准即使在重启时还可以在进程间保持持久化。
+- 两个活跃进程间通讯时，会在unix domain socket的基础上使用基础的 RPC 协议。
+- 新进程首先将所有自身的初始化进程完成（包括载入配置、初始化服务发现和健康检查步骤等等），然后再去请求旧的进程取得侦听 socket 的拷贝。
+新进程开始进行侦听并通知旧的线材开始删除动作。
+- 在删除的旧进程的时候，旧进程会尝试优雅地关闭现有的连接。可以怎么去做到这点呢？这取决于配置过滤器。可以使用 
+[`--drain-time-s`](../../operations/cli.md#cmdoption-drain-time-s)参数进行配置删除时间，如果传的时间参数越大，则删除动作会越发激进。
+- 在删除完成后，新的 Envoy 进程将告知旧的 Envoy 进程将自己关掉。这个时间可以通过
+[`--parent-shutdown-time-s`](../../operations/cli.md#cmdoption-parent-shutdown-time-s)参数进行配置。
+- Envoy 的热重启支持时经过精心设计的，重启机制可以在新 Envoy 进程与旧 Envoy 进程在不同容器运行时发挥良好作用。
+进程间通讯只依赖于 unix domain sockets 。
+- 在源码分发包里，你可以找到一个使用 Python 写的重启/父进程的案例。父进程在标准的流程控制工具中大有用武之地，例如monit、runit等等。
