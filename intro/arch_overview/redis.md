@@ -26,11 +26,11 @@ Redis 项目中提供了与 Redis 分区相关的全面参考。请参阅 ”[Pa
 
 有关过滤器配置的详细信息，请参阅 [Redis 代理过滤器配置参考](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy).
 
-相应的集群定义应该配置为 [环哈希负载均衡](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-lb-type).
+相应的集群定义应该配置为 [环哈希负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#arch-overview-load-balancing-types).
 
 如果需要进行主动健康检查，则应该对集群配置使用 [Redis 健康检查](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc).
 
-如果需要被动健康检查，还需要配置 [异常检测](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-outlier-detection-summary).
+如果需要被动健康检查，还需要配置 [异常检测](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection).
 
 为了进行被动健康检查，需要将连接超时，命令超时和连接关闭都映射到 5xx 响应，而来自 Redis 的所有其他响应都视为成功。
 
