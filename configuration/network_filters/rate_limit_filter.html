@@ -2183,61 +2183,61 @@
                                 
                                 <h1 id="&#x901F;&#x7387;&#x9650;&#x5236;">&#x901F;&#x7387;&#x9650;&#x5236;</h1>
 <ul>
-<li>Global rate limiting <a href="../../intro/arch_overview/global_rate_limiting.html#arch-overview-rate-limit">architecture overview</a></li>
-<li><a href="../../api-v1/network_filters/rate_limit_filter.md#config-network-filters-rate-limit-v1">v1 API reference</a></li>
-<li><a href="../../api-v2/config/filter/network/rate_limit/v2/rate_limit.proto.md#envoy-api-msg-config-filter-network-rate-limit-v2-ratelimit">v2 API reference</a></li>
+<li>&#x5168;&#x5C40;&#x901F;&#x7387;&#x9650;&#x5236;<a href="../../intro/arch_overview/global_rate_limiting.html#arch-overview-rate-limit">&#x67B6;&#x6784;&#x6982;&#x8FF0;</a></li>
+<li><a href="../../api-v1/network_filters/rate_limit_filter.md#config-network-filters-rate-limit-v1">v1 API &#x53C2;&#x8003;</a></li>
+<li><a href="../../api-v2/config/filter/network/rate_limit/v2/rate_limit.proto.md#envoy-api-msg-config-filter-network-rate-limit-v2-ratelimit">v2 API &#x53C2;&#x8003;</a></li>
 </ul>
 <h2 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h2>
-<p>Every configured rate limit filter has statistics rooted at <em>ratelimit.<stat_prefix>.</stat_prefix></em> with the following statistics:</p>
+<p>&#x6240;&#x6709;&#x914D;&#x7F6E;&#x7684;&#x7684;&#x901F;&#x7387;&#x9650;&#x5236;&#x8FC7;&#x6EE4;&#x5668;&#x90FD;&#x6709;&#x4EE5; <em>ratelimit.<stat_prefix>.</stat_prefix></em> &#x5F00;&#x5934;&#x7684;&#x7EDF;&#x8BA1;&#xFF0C;&#x4EE5;&#x63D0;&#x4F9B;&#x4EE5;&#x4E0B;&#x7684;&#x7EDF;&#x8BA1;&#x62A5;&#x544A;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>total</td>
 <td>Counter</td>
-<td>Total requests to the rate limit service</td>
+<td>&#x6240;&#x6709;&#x53D1;&#x7ED9;&#x901F;&#x7387;&#x9650;&#x5236;&#x670D;&#x52A1;&#x7684;&#x8BF7;&#x6C42;&#x6570;</td>
 </tr>
 <tr>
 <td>error</td>
 <td>Counter</td>
-<td>Total errors contacting the rate limit service</td>
+<td>&#x6240;&#x6709;&#x8054;&#x7CFB;&#x901F;&#x7387;&#x9650;&#x5236;&#x670D;&#x52A1;&#x7684;&#x9519;&#x8BEF;&#x6570;</td>
 </tr>
 <tr>
 <td>over_limit</td>
 <td>Counter</td>
-<td>Total over limit responses from the rate limit service</td>
+<td>&#x6240;&#x6709;&#x7531;&#x901F;&#x7387;&#x9650;&#x5236;&#x670D;&#x52A1;&#x56DE;&#x590D;&#x7684;&#x8D85;&#x8FC7;&#x901F;&#x7387;&#x9650;&#x5236;&#x7684;&#x54CD;&#x5E94;&#x6570;</td>
 </tr>
 <tr>
 <td>ok</td>
 <td>Counter</td>
-<td>Total under limit responses from the rate limit service</td>
+<td>&#x6240;&#x6709;&#x7531;&#x901F;&#x7387;&#x9650;&#x5236;&#x670D;&#x52A1;&#x56DE;&#x590D;&#x7684;&#x672A;&#x8D85;&#x8FC7;&#x901F;&#x7387;&#x9650;&#x5236;&#x7684;&#x54CD;&#x5E94;&#x6570;</td>
 </tr>
 <tr>
 <td>cx_closed</td>
 <td>Counter</td>
-<td>Total connections closed due to an over limit response from the rate limit service</td>
+<td>&#x6240;&#x6709;&#x56E0;&#x8D85;&#x8FC7;&#x901F;&#x7387;&#x9650;&#x5236;&#x76F8;&#x5E94;&#x800C;&#x88AB;&#x5173;&#x95ED;&#x7684;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>active</td>
 <td>Gauge</td>
-<td>Total active requests to the rate limit service</td>
+<td>&#x6240;&#x6709;&#x53D1;&#x7ED9;&#x901F;&#x7387;&#x9650;&#x5236;&#x670D;&#x52A1;&#x7684;&#x6D3B;&#x8DC3;&#x8BF7;&#x6C42;&#x6570;</td>
 </tr>
 </tbody>
 </table>
 <h2 id="&#x8FD0;&#x884C;&#x65F6;">&#x8FD0;&#x884C;&#x65F6;</h2>
-<p>The network rate limit filter supports the following runtime settings:</p>
+<p>&#x7F51;&#x7EDC;&#x7EA7;&#x522B;&#x901F;&#x7387;&#x9650;&#x5236;&#x8FC7;&#x6EE4;&#x5668;&#x652F;&#x6301;&#x4EE5;&#x4E0B;&#x8FD0;&#x884C;&#x65F6;&#x914D;&#x7F6E;&#xFF1A;</p>
 <ul>
 <li><p>ratelimit.tcp_filter_enabled</p>
-<p>% of connections that will call the rate limit service. Defaults to 100.</p>
+<p>&#x5C06;&#x8C03;&#x7528;&#x901F;&#x7387;&#x9650;&#x5236;&#x670D;&#x52A1;&#x7684;&#x8FDE;&#x63A5;&#x767E;&#x5206;&#x6BD4;&#x3002;&#x7F3A;&#x7701;&#x503C;&#x4E3A;100&#x3002;</p>
 </li>
 <li><p>ratelimit.tcp_filter_enforcing</p>
-<p>% of connections that will call the rate limit service and enforce the decision. Defaults to 100. This can be used to test what would happen before fully enforcing the outcome.</p>
+<p>&#x5C06;&#x8C03;&#x7528;&#x901F;&#x7387;&#x9650;&#x5236;&#x670D;&#x52A1;&#x5E76;&#x5F3A;&#x5236;&#x6267;&#x884C;&#x51B3;&#x5B9A;&#x7684;&#x8FDE;&#x63A5;&#x767E;&#x5206;&#x6BD4;&#x3002;&#x7F3A;&#x7701;&#x503C;&#x4E3A;100&#x3002;&#x8FD9;&#x53EF;&#x4EE5;&#x5728;&#x5B8C;&#x5168;&#x6267;&#x884C;&#x7ED3;&#x679C;&#x4E4B;&#x524D;&#xFF0C;&#x6D4B;&#x8BD5;&#x5C06;&#x4F1A;&#x53D1;&#x751F;&#x4EC0;&#x4E48;&#x3002;</p>
 </li>
 </ul>
 
@@ -2283,7 +2283,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"速率限制","level":"5.5.4","depth":2,"next":{"title":"Redis 代理","level":"5.5.5","depth":2,"path":"configuration/network_filters/redis_proxy_filter.md","ref":"configuration/network_filters/redis_proxy_filter.md","articles":[]},"previous":{"title":"Mongo 代理","level":"5.5.3","depth":2,"path":"configuration/network_filters/mongo_proxy_filter.md","ref":"configuration/network_filters/mongo_proxy_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/network_filters/rate_limit_filter.md","mtime":"2018-05-15T11:10:59.964Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-19T15:36:51.209Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"速率限制","level":"5.5.4","depth":2,"next":{"title":"Redis 代理","level":"5.5.5","depth":2,"path":"configuration/network_filters/redis_proxy_filter.md","ref":"configuration/network_filters/redis_proxy_filter.md","articles":[]},"previous":{"title":"Mongo 代理","level":"5.5.3","depth":2,"path":"configuration/network_filters/mongo_proxy_filter.md","ref":"configuration/network_filters/mongo_proxy_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/network_filters/rate_limit_filter.md","mtime":"2018-05-20T14:28:10.147Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-20T14:28:21.729Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
