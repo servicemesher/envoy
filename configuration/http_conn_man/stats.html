@@ -2182,384 +2182,385 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h1>
-<p>Every connection manager has a statistics tree rooted at <em>http.<stat_prefix>.</stat_prefix></em> with the following statistics:</p>
+<p>&#x6BCF;&#x4E2A;&#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x5668;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x4EE5; <em>http.<stat_prefix>.</stat_prefix></em> &#x4E3A;&#x6839;&#x7684;&#x7EDF;&#x8BA1;&#x6811;&#xFF0C;&#x5176;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5982;&#x4E0B;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>downstream_cx_total</td>
 <td>Counter</td>
-<td>Total connections</td>
+<td>&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_ssl_total</td>
 <td>Counter</td>
-<td>Total TLS connections</td>
+<td>TLS &#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_http1_total</td>
 <td>Counter</td>
-<td>Total HTTP/1.1 connections</td>
+<td>HTTP/1.1 &#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_websocket_total</td>
 <td>Counter</td>
-<td>Total WebSocket connections</td>
+<td>WebSocket &#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_http2_total</td>
 <td>Counter</td>
-<td>Total HTTP/2 connections</td>
+<td>HTTP/2 &#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_destroy</td>
 <td>Counter</td>
-<td>Total connections destroyed</td>
+<td>&#x88AB;&#x7834;&#x574F;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_destroy_remote</td>
 <td>Counter</td>
-<td>Total connections destroyed due to remote close</td>
+<td>&#x7531;&#x4E8E;&#x8FDC;&#x7A0B;&#x5173;&#x95ED;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x7834;&#x574F;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_destroy_local</td>
 <td>Counter</td>
-<td>Total connections destroyed due to local close</td>
+<td>&#x7531;&#x4E8E;&#x672C;&#x5730;&#x5173;&#x95ED;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x7834;&#x574F;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_destroy_active_rq</td>
 <td>Counter</td>
-<td>Total connections destroyed with 1+ active request</td>
+<td>&#x7531;&#x4E8E;&#x8D85;&#x8FC7;&#x4E00;&#x4E2A;&#x6D3B;&#x8DC3;&#x8BF7;&#x6C42;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x7834;&#x574F;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_destroy_local_active_rq</td>
 <td>Counter</td>
-<td>Total connections destroyed locally with 1+ active request</td>
+<td>&#x7531;&#x4E8E;&#x8D85;&#x8FC7;&#x4E00;&#x4E2A;&#x6D3B;&#x8DC3;&#x8BF7;&#x6C42;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x672C;&#x5730;&#x7834;&#x574F;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_destroy_remote_active_rq</td>
 <td>Counter</td>
-<td>Total connections destroyed remotely with 1+ active request</td>
+<td>&#x7531;&#x4E8E;&#x8D85;&#x8FC7;&#x4E00;&#x4E2A;&#x6D3B;&#x8DC3;&#x8BF7;&#x6C42;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x8FDC;&#x7A0B;&#x7834;&#x574F;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_active</td>
 <td>Gauge</td>
-<td>Total active connections</td>
+<td>&#x6D3B;&#x8DC3;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_ssl_active</td>
 <td>Gauge</td>
-<td>Total active TLS connections</td>
+<td>&#x6D3B;&#x8DC3; TLS &#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_http1_active</td>
 <td>Gauge</td>
-<td>Total active HTTP/1.1 connections</td>
+<td>&#x6D3B;&#x8DC3; HTTP/1.1 &#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_websocket_active</td>
 <td>Gauge</td>
-<td>Total active WebSocket connections</td>
+<td>&#x6D3B;&#x8DC3; WebSocket &#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_http2_active</td>
 <td>Gauge</td>
-<td>Total active HTTP/2 connections</td>
+<td>&#x6D3B;&#x8DC3; HTTP/2 &#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_protocol_error</td>
 <td>Counter</td>
-<td>Total protocol errors</td>
+<td>&#x534F;&#x8BAE;&#x9519;&#x8BEF;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_length_ms</td>
 <td>Histogram</td>
-<td>Connection length milliseconds</td>
+<td>&#x8FDE;&#x63A5;&#x957F;&#x5EA6;&#x6BEB;&#x79D2;</td>
 </tr>
 <tr>
 <td>downstream_cx_rx_bytes_total</td>
 <td>Counter</td>
-<td>Total bytes received</td>
+<td>&#x6536;&#x5230;&#x7684;&#x603B;&#x5B57;&#x8282;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_rx_bytes_buffered</td>
 <td>Gauge</td>
-<td>Total received bytes currently buffered</td>
+<td>&#x5F53;&#x524D;&#x6536;&#x5230;&#x5E76;&#x7F13;&#x5B58;&#x7684;&#x603B;&#x5B57;&#x8282;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_tx_bytes_total</td>
 <td>Counter</td>
-<td>Total bytes sent</td>
+<td>&#x53D1;&#x51FA;&#x7684;&#x603B;&#x5B57;&#x8282;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_tx_bytes_buffered</td>
 <td>Gauge</td>
-<td>Total sent bytes currently buffered</td>
+<td>&#x5F53;&#x524D;&#x53D1;&#x51FA;&#x5E76;&#x7F13;&#x5B58;&#x7684;&#x603B;&#x5B57;&#x8282;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_drain_close</td>
 <td>Counter</td>
-<td>Total connections closed due to draining</td>
+<td>&#x7531;&#x4E8E;&#x5220;&#x9664;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x5173;&#x95ED;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_idle_timeout</td>
 <td>Counter</td>
-<td>Total connections closed due to idle timeout</td>
+<td>&#x7531;&#x4E8E;&#x7A7A;&#x95F2;&#x8D85;&#x65F6;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x5173;&#x95ED;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_flow_control_paused_reading_total</td>
 <td>Counter</td>
-<td>Total number of times reads were disabled due to flow control</td>
+<td>&#x7531;&#x4E8E;&#x6D41;&#x91CF;&#x63A7;&#x5236;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x7981;&#x6B62;&#x7684;&#x603B;&#x8BFB;&#x53D6;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_flow_control_resumed_reading_total</td>
 <td>Counter</td>
-<td>Total number of times reads were enabled on the connection due to flow control</td>
+<td>&#x7531;&#x4E8E;&#x6D41;&#x91CF;&#x63A7;&#x5236;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x5728;&#x8FDE;&#x63A5;&#x4E0A;&#x542F;&#x7528;&#x7684;&#x603B;&#x8BFB;&#x53D6;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_total</td>
 <td>Counter</td>
-<td>Total requests</td>
+<td>&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_http1_total</td>
 <td>Counter</td>
-<td>Total HTTP/1.1 requests</td>
+<td>HTTP/1.1 &#x603B;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_http2_total</td>
 <td>Counter</td>
-<td>Total HTTP/2 requests</td>
+<td>HTTP/2 &#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_active</td>
 <td>Gauge</td>
-<td>Total active requests</td>
+<td>&#x6D3B;&#x8DC3;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_response_before_rq_complete</td>
 <td>Counter</td>
-<td>Total responses sent before the request was complete</td>
+<td>&#x5728;&#x8BF7;&#x6C42;&#x5B8C;&#x6210;&#x4E4B;&#x524D;&#x53D1;&#x9001;&#x7684;&#x603B;&#x54CD;&#x5E94;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_rx_reset</td>
 <td>Counter</td>
-<td>Total request resets received</td>
+<td>&#x6536;&#x5230;&#x7684;&#x8BF7;&#x6C42;&#x91CD;&#x7F6E;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_tx_reset</td>
 <td>Counter</td>
-<td>Total request resets sent</td>
+<td>&#x53D1;&#x51FA;&#x7684;&#x8BF7;&#x6C42;&#x91CD;&#x7F6E;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_non_relative_path</td>
 <td>Counter</td>
-<td>Total requests with a non-relative HTTP path</td>
+<td>&#x5E26;&#x6709;&#x975E;&#x76F8;&#x5BF9; HTTP &#x8DEF;&#x5F84;&#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_too_large</td>
 <td>Counter</td>
-<td>Total requests resulting in a 413 due to buffering an overly large body</td>
+<td>&#x7531;&#x4E8E;&#x7F13;&#x5B58;&#x8FC7;&#x5927;&#x6B63;&#x6587;&#xFF0C;&#x800C;&#x5BFC;&#x81F4; 413 &#x54CD;&#x5E94;&#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_1xx</td>
 <td>Counter</td>
-<td>Total 1xx responses</td>
+<td>1xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_2xx</td>
 <td>Counter</td>
-<td>Total 2xx responses</td>
+<td>2xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_3xx</td>
 <td>Counter</td>
-<td>Total 3xx responses</td>
+<td>3xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_4xx</td>
 <td>Counter</td>
-<td>Total 4xx responses</td>
+<td>4xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_5xx</td>
 <td>Counter</td>
-<td>Total 5xx responses</td>
+<td>5xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_ws_on_non_ws_route</td>
 <td>Counter</td>
-<td>Total WebSocket upgrade requests rejected by non WebSocket routes</td>
+<td>&#x7531;&#x4E8E;&#x975E; WebSocket &#x8DEF;&#x7531;&#x800C;&#x88AB;&#x62D2;&#x7EDD;&#x7684; WebSocket &#x5347;&#x7EA7;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_time</td>
 <td>Histogram</td>
-<td>Request time milliseconds</td>
+<td>&#x8BF7;&#x6C42;&#x65F6;&#x95F4;(&#x6BEB;&#x79D2;)</td>
 </tr>
 <tr>
 <td>rs_too_large</td>
 <td>Counter</td>
-<td>Total response errors due to buffering an overly large body</td>
+<td>&#x7531;&#x4E8E;&#x7F13;&#x5B58;&#x8FC7;&#x5927;&#x6B63;&#x6587;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x7684;&#x9519;&#x8BEF;&#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="per-user-agent-statistics">Per user agent statistics</h2>
-<p>Additional per user agent statistics are rooted at <em>http.<stat_prefix>.user_agent.<user_agent>.</user_agent></stat_prefix></em>Currently Envoy matches user agent for both iOS (<em>ios</em>) and Android (<em>android</em>) and produces the following statistics:</p>
+<h2 id="&#x4EE5;-user-agent-&#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;">&#x4EE5; user agent &#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;</h2>
+<p>&#x4EE5; user agent &#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x90FD;&#x4EE5; <em>http.<stat_prefix>.user_agent.<user_agent>.</user_agent></stat_prefix></em> &#x5F00;&#x5934;&#x3002;
+&#x76EE;&#x524D; Envoy &#x5339;&#x914D; iOS (<em>ios</em>) &#x4EE5;&#x53CA; Android (<em>android</em>) &#x7684; user agent &#xFF0C;&#x5E76;&#x4EA7;&#x751F;&#x4EE5;&#x4E0B;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>downstream_cx_total</td>
 <td>Counter</td>
-<td>Total connections</td>
+<td>&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_cx_destroy_remote_active_rq</td>
 <td>Counter</td>
-<td>Total connections destroyed remotely with 1+ active requests</td>
+<td>&#x7531;&#x4E8E;&#x8D85;&#x8FC7;&#x4E00;&#x4E2A;&#x6D3B;&#x8DC3;&#x8BF7;&#x6C42;&#xFF0C;&#x800C;&#x5BFC;&#x81F4;&#x88AB;&#x8FDC;&#x7A0B;&#x7834;&#x574F;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_total</td>
 <td>Counter</td>
-<td>Total requests</td>
+<td>&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="per-listener-statistics">Per listener statistics</h2>
-<p>Additional per listener statistics are rooted at <em>listener.<address>.http.<stat_prefix>.</stat_prefix></address></em> with the following statistics:</p>
+<h2 id="&#x4EE5;&#x76D1;&#x542C;&#x5668;&#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;">&#x4EE5;&#x76D1;&#x542C;&#x5668;&#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;</h2>
+<p>&#x4EE5;&#x76D1;&#x542C;&#x5668;&#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x90FD;&#x4EE5; <em>listener.<address>.http.<stat_prefix>.</stat_prefix></address></em> &#x5F00;&#x5934;&#xFF0C;&#x5E76;&#x6709;&#x4EE5;&#x4E0B;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>downstream_rq_1xx</td>
 <td>Counter</td>
-<td>Total 1xx responses</td>
+<td>1xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_2xx</td>
 <td>Counter</td>
-<td>Total 2xx responses</td>
+<td>2xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_3xx</td>
 <td>Counter</td>
-<td>Total 3xx responses</td>
+<td>3xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_4xx</td>
 <td>Counter</td>
-<td>Total 4xx responses</td>
+<td>4xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>downstream_rq_5xx</td>
 <td>Counter</td>
-<td>Total 5xx responses</td>
+<td>5xx &#x54CD;&#x5E94;&#x603B;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="per-codec-statistics">Per codec statistics</h2>
-<p>Each codec has the option of adding per-codec statistics. Currently only http2 has codec stats.</p>
-<h3 id="http2-codec-statistics">Http2 codec statistics</h3>
-<p>All http2 statistics are rooted at <em>http2.</em></p>
+<h2 id="&#x4EE5;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;">&#x4EE5;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;</h2>
+<p>&#x6BCF;&#x4E00;&#x4E2A;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x90FD;&#x6709;&#x8FDB;&#x884C;&#x6309;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7EF4;&#x5EA6;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;&#x7684;&#x80FD;&#x529B;&#x3002;&#x76EE;&#x524D;&#x53EA;&#x6709; http2 &#x6709;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;</p>
+<h3 id="http2-&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7EDF;&#x8BA1;">Http2 &#x7F16;&#x89E3;&#x7801;&#x5668;&#x7EDF;&#x8BA1;</h3>
+<p>&#x6240;&#x6709;&#x7684; http2 &#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x90FD;&#x4EE5; <em>http2.</em> &#x5F00;&#x5934;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>header_overflow</td>
 <td>Counter</td>
-<td>Total number of connections reset due to the headers being larger than Envoy::Http::Http2::ConnectionImpl::StreamImpl::MAX_HEADER_SIZE (63k)</td>
+<td>&#x7531;&#x4E8E;&#x5934;&#x90E8;&#x5927;&#x4E8E; Envoy :: Http :: Http2 :: ConnectionImpl :: StreamImpl :: MAX_HEADER_SIZE&#xFF08;63k&#xFF09;&#x800C;&#x91CD;&#x7F6E;&#x7684;&#x8FDE;&#x63A5;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>headers_cb_no_stream</td>
 <td>Counter</td>
-<td>Total number of errors where a header callback is called without an associated stream. This tracks an unexpected occurrence due to an as yet undiagnosed bug</td>
+<td>&#x5728;&#x6CA1;&#x6709;&#x5173;&#x8054;&#x6D41;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x8FDB;&#x884C;&#x5934;&#x90E8;&#x56DE;&#x8C03;&#x7684;&#x9519;&#x8BEF;&#x603B;&#x6570;&#x3002; &#x7531;&#x4E8E;&#x5C1A;&#x672A;&#x786E;&#x8BCA;&#x7684; bug&#xFF0C;&#x8FD9;&#x4F1A;&#x5BFC;&#x81F4;&#x4E00;&#x4E9B;&#x610F;&#x5916;&#x4E8B;&#x4EF6;&#x7684;&#x53D1;&#x9001;</td>
 </tr>
 <tr>
 <td>rx_messaging_error</td>
 <td>Counter</td>
-<td>Total number of invalid received frames that violated <a href="https://tools.ietf.org/html/rfc7540#section-8" target="_blank">section 8</a> of the HTTP/2 spec. This will result in a <em>tx_reset</em></td>
+<td>&#x56E0;&#x4E3A;&#x8FDD;&#x80CC; HTTP/2 spec &#x4E2D;&#x7684; <a href="https://tools.ietf.org/html/rfc7540#section-8" target="_blank">section 8</a> &#x800C;&#x5BFC;&#x81F4;&#x7684;&#x65E0;&#x6548;&#x63A5;&#x53D7;&#x5E27;&#x603B;&#x6570;&#x3002; &#x8FD9;&#x5C06;&#x5BFC;&#x81F4; <em>tx_reset</em></td>
 </tr>
 <tr>
 <td>rx_reset</td>
 <td>Counter</td>
-<td>Total number of reset stream frames received by Envoy</td>
+<td>Envoy &#x6536;&#x5230;&#x7684;&#x91CD;&#x7F6E;&#x6D41;&#x5E27;&#x7684;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>too_many_header_frames</td>
 <td>Counter</td>
-<td>Total number of times an HTTP2 connection is reset due to receiving too many headers frames. Envoy currently supports proxying at most one header frame for 100-Continue one non-100 response code header frame and one frame with trailers</td>
+<td>&#x7531;&#x4E8E;&#x63A5;&#x6536;&#x592A;&#x591A;&#x5934;&#x5E27;&#x800C;&#x5BFC;&#x81F4; HTTP2 &#x8FDE;&#x63A5;&#x91CD;&#x7F6E;&#x7684;&#x603B;&#x6B21;&#x6570;&#x3002; Envoy &#x652F;&#x6301;&#x4EE3;&#x7406;&#x6700;&#x591A;&#x4E00;&#x4E2A; 100-Continue &#x5934;&#x90E8;&#x5E27; ,&#x4E00;&#x4E2A; non-100 &#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x5934;&#x90E8;&#x5E27;&#x548C;&#x4E00;&#x4E2A;&#x62E5;&#x6709;&#x5C3E;&#x90E8;&#x7684;&#x5E27;</td>
 </tr>
 <tr>
 <td>trailers</td>
 <td>Counter</td>
-<td>Total number of trailers seen on requests coming from downstream</td>
+<td>&#x7531;&#x4E0B;&#x6E38;&#x8BF7;&#x6C42;&#x6240;&#x770B;&#x5230;&#x7684;&#x5C3E;&#x90E8;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>tx_reset</td>
 <td>Counter</td>
-<td>Total number of reset stream frames transmitted by Envoy</td>
+<td>Envoy &#x53D1;&#x9001;&#x7684;&#x91CD;&#x7F6E;&#x6D41;&#x5E27;&#x603B;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="tracing-statistics">Tracing statistics</h2>
-<p>Tracing statistics are emitted when tracing decisions are made. All tracing statistics are rooted at <em>http.<stat_prefix>.tracing.</stat_prefix></em> with the following statistics:</p>
+<h2 id="&#x8FFD;&#x8E2A;&#x7EDF;&#x8BA1;">&#x8FFD;&#x8E2A;&#x7EDF;&#x8BA1;</h2>
+<p>&#x8FFD;&#x8E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x662F;&#x5728;&#x505A;&#x51FA;&#x8FFD;&#x8E2A;&#x51B3;&#x5B9A;&#x65F6;&#x53D1;&#x51FA;&#x7684;&#x3002;&#x6240;&#x6709;&#x8FFD;&#x8E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x90FD;&#x4EE5; <em>http.<stat_prefix>.tracing.</stat_prefix></em> &#x5F00;&#x5934;&#xFF0C;&#x5E76;&#x5E26;&#x6709;&#x4EE5;&#x4E0B;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>random_sampling</td>
 <td>Counter</td>
-<td>Total number of traceable decisions by random sampling</td>
+<td>&#x901A;&#x8FC7;&#x968F;&#x673A;&#x62BD;&#x6837;&#x53EF;&#x8FFD;&#x8E2A;&#x51B3;&#x7B56;&#x7684;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>service_forced</td>
 <td>Counter</td>
-<td>Total number of traceable decisions by server runtime flag <em>tracing.global_enabled</em></td>
+<td>&#x901A;&#x8FC7;&#x670D;&#x52A1;&#x5668;&#x8FD0;&#x884C;&#x65F6;&#x6807;&#x8BC6;  <em>tracing.global_enabled</em> &#x7684;&#x53EF;&#x8FFD;&#x8E2A;&#x51B3;&#x7B56;&#x7684;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>client_enabled</td>
 <td>Counter</td>
-<td>Total number of traceable decisions by request header <em>x-envoy-force-trace</em></td>
+<td>&#x901A;&#x8FC7;&#x8BF7;&#x6C42;&#x5934;&#x90E8; <em>x-envoy-force-trace</em> &#x8BBE;&#x5B9A;&#x7684;&#x53EF;&#x8FFD;&#x8E2A;&#x51B3;&#x7B56;&#x7684;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>not_traceable</td>
 <td>Counter</td>
-<td>Total number of non-traceable decisions by request id</td>
+<td>&#x901A;&#x8FC7; request id &#x7684;&#x4E0D;&#x53EF;&#x8FFD;&#x8E2A;&#x7684;&#x51B3;&#x7B56;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>health_check</td>
 <td>Counter</td>
-<td>Total number of non-traceable decisions by health check</td>
+<td>&#x901A;&#x8FC7;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x7684;&#x4E0D;&#x53EF;&#x8FFD;&#x8E2A;&#x7684;&#x51B3;&#x7B56;&#x603B;&#x6570;</td>
 </tr>
 </tbody>
 </table>
@@ -2606,7 +2607,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"统计","level":"5.6.5","depth":2,"next":{"title":"运行时","level":"5.6.6","depth":2,"path":"configuration/http_conn_man/runtime.md","ref":"configuration/http_conn_man/runtime.md","articles":[]},"previous":{"title":"HTTP header sanitizing","level":"5.6.4","depth":2,"path":"configuration/http_conn_man/header_sanitizing.md","ref":"configuration/http_conn_man/header_sanitizing.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_conn_man/stats.md","mtime":"2018-05-15T11:21:29.874Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T05:30:08.116Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"统计","level":"5.6.5","depth":2,"next":{"title":"运行时","level":"5.6.6","depth":2,"path":"configuration/http_conn_man/runtime.md","ref":"configuration/http_conn_man/runtime.md","articles":[]},"previous":{"title":"HTTP header sanitizing","level":"5.6.4","depth":2,"path":"configuration/http_conn_man/header_sanitizing.md","ref":"configuration/http_conn_man/header_sanitizing.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_conn_man/stats.md","mtime":"2018-05-21T06:55:32.216Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T07:07:39.246Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
