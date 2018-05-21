@@ -1,50 +1,52 @@
 # DynamoDB
 
-- DynamoDB [architecture overview](../../intro/arch_overview/dynamo.html#arch-overview-dynamo)
-- [v1 API reference](../../api-v1/http_filters/dynamodb_filter.html#config-http-filters-dynamo-v1)
-- [v2 API reference](../../api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto.html#envoy-api-field-config-filter-network-http-connection-manager-v2-httpfilter-name)
+- DynamoDB [架构概述](../../intro/arch_overview/dynamo.html#arch-overview-dynamo)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/dynamodb_filter#config-http-filters-dynamo-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-field-config-filter-network-http-connection-manager-v2-httpfilter-name)
 
-## Statistics
+## 统计
 
-The DynamoDB filter outputs statistics in the *http.<stat_prefix>.dynamodb.* namespace. The [stat prefix](../../api-v1/network_filters/http_conn_man.html#config-http-conn-man-stat-prefix) comes from the owning HTTP connection manager.
+DynamoDB 过滤器在 *http.<stat_prefix>.dynamodb.* 命名空间输出统计信息。[统计前缀](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-stat-prefix) 来自所拥有的 HTTP 连接管理器。
 
-Per operation stats can be found in the *http.<stat_prefix>.dynamodb.operation.<operation_name>.* namespace.
+可以在 *http.<stat_prefix>.dynamodb.operation.<operation_name>.* 命名空间找到按操作为维度的统计信息。
 
-| Name                  | Type      | Description                                                  |
+| 名称                  | 类型      | 描述                                                  |
 | --------------------- | --------- | ------------------------------------------------------------ |
-| upstream_rq_total     | Counter   | Total number of requests with <operation_name>               |
-| upstream_rq_time      | Histogram | Time spent on <operation_name>                               |
-| upstream_rq_total_xxx | Counter   | Total number of requests with <operation_name> per response code (503/2xx/etc) |
-| upstream_rq_time_xxx  | Histogram | Time spent on <operation_name> per response code (400/3xx/etc) |
+| upstream_rq_total     | Counter   | 以 <operation_name> 命名的请求总数               |
+| upstream_rq_time      | Histogram | 在 <operation_name> 上耗费的时间                               |
+| upstream_rq_total_xxx | Counter   | 以 <operation_name> 命名的请求总数，以响应代码为维度统计(503、2xx等) |
+| upstream_rq_time_xxx  | Histogram | 在 <operation_name> 上耗费的时间，以响应代码为维度统计(400、3xx等) |
 
-Per table stats can be found in the *http.<stat_prefix>.dynamodb.table.<table_name>.* namespace. Most of the operations to DynamoDB involve a single table, but BatchGetItem and BatchWriteItem can include several tables, Envoy tracks per table stats in this case only if it is the same table used in all operations from the batch.
+可以在 *http.<stat_prefix>.dynamodb.table.<table_name>.* 命名空间找到按数据库表为维度的统计信息。
+大多数的 DynamoDB 操作仅仅涉及一个数据库表，而 BatchGetItem 以及 BatchWriteItem 会包括多个数据库表。
+只有在该批次的所有操作中使用的数据库表都是相同时，Envoy 才会跟踪每个数据库表的统计数据。
 
-| Name                  | Type      | Description                                                  |
+| 名称                  | 类型      | 描述                                                  |
 | --------------------- | --------- | ------------------------------------------------------------ |
-| upstream_rq_total     | Counter   | Total number of requests on <table_name> table               |
-| upstream_rq_time      | Histogram | Time spent on <table_name> table                             |
-| upstream_rq_total_xxx | Counter   | Total number of requests on <table_name> table per response code (503/2xx/etc) |
-| upstream_rq_time_xxx  | Histogram | Time spent on <table_name> table per response code (400/3xx/etc) |
+| upstream_rq_total     | Counter   | 对数据库表 <table_name> 的请求总数               |
+| upstream_rq_time      | Histogram | 在数据库表 <table_name> 上耗费的时间                             |
+| upstream_rq_total_xxx | Counter   | 对数据库表 <table_name> 的请求总数，以响应代码为维度统计(503、2xx等) |
+| upstream_rq_time_xxx  | Histogram | 在数据库表 <table_name> 上耗费的时间，以响应代码为维度统计(400、3xx等) |
 
-*Disclaimer: Please note that this is a pre-release Amazon DynamoDB feature that is not yet widely available.* Per partition and operation stats can be found in the *http.<stat_prefix>.dynamodb.table.<table_name>.* namespace. For batch operations, Envoy tracks per partition and operation stats only if it is the same table used in all operations.
+*免责声明：请注意，这是尚未广泛使用的预发布 Amazon DynamoDB 功能。* 按每个分区及操作为维度的统计信息可以在 *http.<stat_prefix>.dynamodb.table.<table_name>.* 命名空间中找到。 对于批量操作，只有在该批次的所有操作中使用的数据库表都是相同时，只有在该批次的所有操作中使用的数据库表都是相同时，Envoy 才会按分区及操作追踪统计信息。
 
-| Name                                                         | Type    | Description                                                  |
+| 名称                  | 类型      | 描述                                                  |
 | ------------------------------------------------------------ | ------- | ------------------------------------------------------------ |
-| capacity.<operation_name>.__partition_id=<last_seven_characters_from_partition_id> | Counter | Total number of capacity for <operation_name> on <table_name> table for a given <partition_id> |
+| capacity.<operation_name>.__partition_id=<last_seven_characters_from_partition_id> | Counter | 指定分区 <partition_id> 上的 数据库表 <table_name> 上的操作 <operation_name> 的总容量   |
 
-Additional detailed stats:
+其他详细统计信息:
 
-- For 4xx responses and partial batch operation failures, the total number of failures for a given table and failure are tracked in the *http.<stat_prefix>.dynamodb.error.<table_name>.*namespace.
+- 对于4xx响应和不完整的批处理操作失败，将在 *http.<stat_prefix>.dynamodb.error.<table_name>.* 命名空间内对指定数据库表以及故障的失败总数进行追踪。
 
-| Name                        | Type    | Description                                                  |
+| 名称                  | 类型      | 描述                                                  |
 | --------------------------- | ------- | ------------------------------------------------------------ |
-| <error_type>                | Counter | Total number of specific <error_type> for a given <table_name> |
-| BatchFailureUnprocessedKeys | Counter | Total number of partial batch failures for a given <table_name> |
+| <error_type>                | Counter | 对指定数据库表 <table_name> 发生故障  <error_type> 的总次数 |
+| BatchFailureUnprocessedKeys | Counter | 对指定数据库表 <table_name> 发生不完整的批处理操作失败的次数 |
 
-## Runtime
+## 运行时
 
-The DynamoDB filter supports the following runtime settings:
+DynamoDB 过滤器支持以下运行时设置:
 
 - dynamodb.filter_enabled
 
-  The % of requests for which the filter is enabled. Default is 100%.
+  启用过滤器的请求的百分比。 默认值是100％。
