@@ -88,7 +88,7 @@
 
   某个上游集群能被区域感知尝试的最小值。 默认值是6。如果上游集群数值比 *min_cluster_size*小，区域路由感知将不被执行.
 
-## 短路
+## 断路
 
 - circuit_breakers.<cluster_name>.<priority>.max_connections
 
