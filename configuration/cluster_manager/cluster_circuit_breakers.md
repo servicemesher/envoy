@@ -1,8 +1,8 @@
 # 断路
 
-- 断路 [架构概览](../../intro/arch_overview/circuit_breaking.md#arch-overview-circuit-break).
-- [v1 API 文档](../../api-v1/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers-v1).
-- [v2 API 文档](../../api-v2/api/v2/cluster/circuit_breaker.proto.md#envoy-api-msg-cluster-circuitbreakers).
+- 断路 [架构概览](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/circuit_breaking.html).
+- [v1 API 文档](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_circuit_breakers).
+- [v2 API 文档](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cluster/circuit_breaker.proto).
 
 ## 运行时
 
