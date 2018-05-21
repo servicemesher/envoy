@@ -12,7 +12,7 @@
 
 ## 统计
 
-缓冲区过滤器在 *http.<stat_prefix>.buffer.* 命名空间输出统计信息。 [统计信息前缀](../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix) 来自所属的 HTTP 连接管理器。
+缓冲区过滤器在 *http.<stat_prefix>.buffer.* 命名空间输出统计信息。 [统计信息前缀](../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix) 来自所拥有的 HTTP 连接管理器。
 
 | 名称       | 类型    | 描述                                              |
 | ---------- | ------- | -------------------------------------------------------- |
