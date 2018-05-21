@@ -1,9 +1,12 @@
-# HTTP filter
+# HTTP 过滤器
 
-Much like the [network level filter](network_filters.md#arch-overview-network-filters) stack, Envoy supports an HTTP level filter stack within the connection manager. Filters can be written that operate on HTTP level messages without knowledge of the underlying physical protocol (HTTP/1.1, HTTP/2, etc.) or multiplexing capabilities. There are three types of HTTP level filters:
+比较类似[网络级别过滤器](network_filters.md#arch-overview-network-filters) 栈, Envoy 在连接管理器内支持 HTTP 级别过滤器栈。
+我们可以在不了解底层物理协议（如 HTTP/1.1、HTTP/2等）或多路复用技术相关知识的情况下，写过滤器去操作 HTTP 级的信息。
+有三种类型的 HTTP 级过滤器:
 
-- **Decoder**: Decoder filters are invoked when the connection manager is decoding parts of the request stream (headers, body, and trailers).
-- **Encoder**: Encoder filters are invoked when the connection manager is about to encode parts of the response stream (headers, body, and trailers).
-- **Decoder/Encoder**: Decoder/Encoder filters are invoked both when the connection manager is decoding parts of the request stream and when the connection manager is about to encode parts of the response stream.
+- **解码器**: 解码器过滤器在连接管理器在解码部分请求流(头部、正文和尾部)时被调用。
+- **编码器**: 编码器过滤器在连接管理器即将对响应流(头部、正文和尾部)的部分进行编码时被调用。
+- **解码器/编码器**: 解码器/编码器过滤器在连接管理器在解码请求流时以及当连接管理器将要编码响应流时被调用。
 
-The API for HTTP level filters allows the filters to operate without knowledge of the underlying protocol. Like network level filters, HTTP filters can stop and continue iteration to subsequent filters. This allows for more complex scenarios such as health check handling, calling a rate limiting service, buffering, routing, generating statistics for application traffic such as DynamoDB, etc. Envoy already includes several HTTP level filters that are documented in this architecture overview as well as the [configuration reference](../../configuration/http_filters/http_filters.md#config-http-filters).
+HTTP 级别过滤器的 API 允许过滤器在不知道底层协议的情况下运行。 就如网络级别的过滤器一样，HTTP 过滤器可以停止并继续操作后续过滤器。 由此可以实现更复杂的场景，例如运行状况检查处理、调用速率限制服务、缓冲、路由、为应用程序流量（例如 DynamoDB 等）生成统计数据。Envoy 已包含多个 HTTP 级别过滤器，相关文档可查阅这份体系结构概述以及 
+[配置参考](../../configuration/http_filters/http_filters.md#config-http-filters)。
