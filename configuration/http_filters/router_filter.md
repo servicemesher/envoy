@@ -36,7 +36,7 @@ HTTP 转发是用路由过滤器实现的。在 Envoy 环境中，几乎所有 H
 Envoy 的重试功能，有一些需要注意的：
 
 - 路由超时（通过 [x-envoy-upstream-rq-timeout-ms](#x-envoy-upstream-rq-timeout-ms) 或者[路由配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-timeout)进行设置）是*包含所有重试的*。如果设置请求超时为 3 秒钟，并且第一次请求消耗了 2.7 秒，那么重试（包含补偿）需要在 0.3 秒之内完成。这一设计的目的是避免重试和超时的同步激增。
-- Envoy 使用了一种一种随机的递增算法，以 25 毫秒为基础单位进行补偿。首次重试会随机的选择 0 到 24 毫秒范围内的延时，第二次会在 0 到 74 毫秒之间，第三次就会发生 0 到 175 毫秒之间的延时。
+- Envoy 使用了一种随机的递增算法，以 25 毫秒为基础单位进行补偿。首次重试会随机的选择 0 到 24 毫秒范围内的延时，第二次会在 0 到 74 毫秒之间，第三次就会发生 0 到 175 毫秒之间的延时。
 - 如果最大重试次数同时在 HTTP 头和路由配置中都有设置，那么请求的最大重试次数会使用两个配置之中的最大值作为有效值。
 
 ### x-envoy-retry-on
