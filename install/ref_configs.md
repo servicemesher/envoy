@@ -13,7 +13,7 @@
 
 Envoy 的配置开始变得越发复杂。 在 Lyft 我们用 [jinja](http://jinja.pocoo.org/) 模版让生产以及管理配置的工作变得轻松一些。
 源代码分发包里便包含了其中一个版本的配置生成器，这个版本的配置生成器非常接近我们在 Lyft 使用的版本。
-我们同时为上诉的三种场景都准备了相应的范例配置模版。
+我们同时为上述的三种场景都准备了相应的范例配置模版。
 
 - 脚本生成器: [configs/configgen.py](https://github.com/envoyproxy/envoy/blob/master/configs/configgen.py)
 - 服务间模版: [configs/envoy_service_to_service.template.json](https://github.com/envoyproxy/envoy/blob/master/configs/envoy_service_to_service.template.json)
