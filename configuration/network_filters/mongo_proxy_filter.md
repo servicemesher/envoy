@@ -15,33 +15,34 @@ Mongo 代理过滤器支持故障注入。可以查看 V1 以及 V2 的 API 参�
 
 | 名称                             | 类型    | 描述                                                  |
 | -------------------------------- | ------- | ------------------------------------------------------------ |
-| decoding_error                   | Counter | Number of MongoDB protocol decoding errors                   |
-| delay_injected                   | Counter | Number of times the delay is injected                        |
-| op_get_more                      | Counter | Number of OP_GET_MORE messages                               |
-| op_insert                        | Counter | Number of OP_INSERT messages                                 |
-| op_kill_cursors                  | Counter | Number of OP_KILL_CURSORS messages                           |
-| op_query                         | Counter | Number of OP_QUERY messages                                  |
-| op_query_tailable_cursor         | Counter | Number of OP_QUERY with tailable cursor flag set             |
-| op_query_no_cursor_timeout       | Counter | Number of OP_QUERY with no cursor timeout flag set           |
-| op_query_await_data              | Counter | Number of OP_QUERY with await data flag set                  |
-| op_query_exhaust                 | Counter | Number of OP_QUERY with exhaust flag set                     |
-| op_query_no_max_time             | Counter | Number of queries without maxTimeMS set                      |
-| op_query_scatter_get             | Counter | Number of scatter get queries                                |
-| op_query_multi_get               | Counter | Number of multi get queries                                  |
-| op_query_active                  | Gauge   | Number of active queries                                     |
-| op_reply                         | Counter | Number of OP_REPLY messages                                  |
-| op_reply_cursor_not_found        | Counter | Number of OP_REPLY with cursor not found flag set            |
-| op_reply_query_failure           | Counter | Number of OP_REPLY with query failure flag set               |
-| op_reply_valid_cursor            | Counter | Number of OP_REPLY with a valid cursor                       |
-| cx_destroy_local_with_active_rq  | Counter | Connections destroyed locally with an active query           |
-| cx_destroy_remote_with_active_rq | Counter | Connections destroyed remotely with an active query          |
+| decoding_error                   | Counter | MongoDB 协议解码错误的数量                   |
+| delay_injected                   | Counter | 延迟被注入的次数                            |
+| op_get_more                      | Counter | OP_GET_MORE 消息的数量                               |
+| op_insert                        | Counter | OP_INSERT 消息的数量                                 |
+| op_kill_cursors                  | Counter | OP_KILL_CURSORS 消息的数量                           |
+| op_query                         | Counter | OP_QUERY 消息的数量                                  |
+| op_query_tailable_cursor         | Counter | 设置了 tailable cursor flag 的 OP_QUERY 消息的数量               |
+| op_query_no_cursor_timeout       | Counter | 没有设置 cursor timeout flag 的 OP_QUERY 消息的数量              |
+| op_query_await_data              | Counter | 设置了 await data flag 的 OP_QUERY 消息的数量                    |
+| op_query_exhaust                 | Counter | 设置了 exhaust flag 的 OP_QUERY 消息的数量                       |
+| op_query_no_max_time             | Counter | 没有设置 maxTimeMS 的查询数量                      |
+| op_query_scatter_get             | Counter | 分散获取查询的数量                               |
+| op_query_multi_get               | Counter | 多重查询的次数                                  |
+| op_query_active                  | Gauge   | 活跃查询的数量                                    |
+| op_reply                         | Counter | OP_REPLY 消息的数量                                  |
+| op_reply_cursor_not_found        | Counter | 设置了 cursor not found flag 的 OP_REPLY 消息的数量             |
+| op_reply_query_failure           | Counter | 设置了 query failure flag 的 OP_REPLY 消息的数量              |
+| op_reply_valid_cursor            | Counter | 拥有有效的游标的 OP_REPLY 消息的数量                       |
+| cx_destroy_local_with_active_rq  | Counter | 拥有一个活跃查询并被本地破坏的连接总数           |
+| cx_destroy_remote_with_active_rq | Counter | 拥有一个活跃查询并被远程破坏的连接总数          |
 | cx_drain_close                   | Counter | Connections gracefully closed on reply boundaries during server drain |
+| cx_drain_close                   | Counter | 在服务器关闭期间，在回复边界被优雅关闭的连接总数 |
 
-### Scatter gets
+### 分散获取查询
 
 Envoy defines a *scatter get* as any query that does not use an *_id* field as a query parameter. Envoy looks in both the top level document as well as within a *$query* field for *_id*.
 
-### Multi gets
+### 多重查询
 
 Envoy defines a *multi get* as any query that does use an *_id* field as a query parameter, but where *_id* is not a scalar value (i.e., a document or an array). Envoy looks in both the top level document as well as within a *$query* field for *_id*.
 
@@ -61,7 +62,7 @@ If a query has a top level *$comment* field (typically in addition to a *$query*
 
 ### 按命令统计
 
-The MongoDB filter will gather statistics for commands in the *mongo.<stat_prefix>.cmd.<cmd>.*namespace.
+MongoDB 过滤器将在 *mongo.<stat_prefix>.cmd.<cmd>.* 命名空间为命令收集相应的统计信息。
 
 | 名称            | 类型      | 描述                         |
 | -------------- | --------- | ---------------------------- |
@@ -72,7 +73,7 @@ The MongoDB filter will gather statistics for commands in the *mongo.<stat_prefi
 
 ### 按集合查询统计
 
-The MongoDB filter will gather statistics for queries in the *mongo.<stat_prefix>.collection.<collection>.query.* namespace.
+MongoDB 过滤器将在 *mongo.<stat_prefix>.collection.<collection>.query.* 命名空间为查询收集相应的统计信息。
 
 | 名称            | 类型      | 描述                         |
 | -------------- | --------- | ---------------------------- |
@@ -115,9 +116,9 @@ Mongo 代理过滤器支持如下运行时设置：
 
   The delay duration in milliseconds. Defaults to the *duration_ms* specified in the config.
 
-## 访问记录格式
+## 访问日志格式
 
-The access log format is not customizable and has the following layout:
+访问日志格式不可定制，并具有以下布局：
 
 ```
 {"time": "...", "message": "...", "upstream_host": "..."}
@@ -125,12 +126,12 @@ The access log format is not customizable and has the following layout:
 
 - time
 
-  System time that complete message was parsed, including milliseconds.
+  解析完整信息所需的系统时间，精确度至毫秒。
 
 - message
 
-  Textual expansion of the message. Whether the message is fully expanded depends on the context. Sometimes summary data is presented to avoid extremely large log sizes.
+  文本扩展的消息。 消息是否完全可扩展取决于上下文。 为避免日志超大，有时会提供摘要数据。
 
 - upstream_host
 
-  The upstream host that the connection is proxying to, if available. This is populated if the filter is used along with the [TCP proxy filter](tcp_proxy_filter.md#config-network-filters-tcp-proxy).
+  The upstream host that the connection is proxying to, if available. This is populated if the filter is used along with the [TCP 代理过滤器](tcp_proxy_filter.md#config-network-filters-tcp-proxy).
