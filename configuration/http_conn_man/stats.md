@@ -10,11 +10,11 @@
 | downstream_cx_websocket_total                 | Counter   | WebSocket 连接总数                                  |
 | downstream_cx_http2_total                     | Counter   | HTTP/2 连接总数                                     |
 | downstream_cx_destroy                         | Counter   | 被破坏的连接总数                                  |
-| downstream_cx_destroy_remote                  | Counter   | 由于远程关闭，而被破坏的连接总数              |
-| downstream_cx_destroy_local                   | Counter   | 由于本地关闭，而被破坏的连接总数               |
-| downstream_cx_destroy_active_rq               | Counter   | 由于超过一个活跃请求，而被破坏的连接总数           |
-| downstream_cx_destroy_local_active_rq         | Counter   | 由于超过一个活跃请求，而被本地破坏的连接总数   |
-| downstream_cx_destroy_remote_active_rq        | Counter   | 由于超过一个活跃请求，而被远程破坏的连接总数  |
+| downstream_cx_destroy_remote                  | Counter   | 由于远程关闭，而导致被破坏的连接总数              |
+| downstream_cx_destroy_local                   | Counter   | 由于本地关闭，而导致被破坏的连接总数               |
+| downstream_cx_destroy_active_rq               | Counter   | 由于超过一个活跃请求，而导致被破坏的连接总数           |
+| downstream_cx_destroy_local_active_rq         | Counter   | 由于超过一个活跃请求，而导致被本地破坏的连接总数   |
+| downstream_cx_destroy_remote_active_rq        | Counter   | 由于超过一个活跃请求，而导致被远程破坏的连接总数  |
 | downstream_cx_active                          | Gauge     | 活跃连接总数                                     |
 | downstream_cx_ssl_active                      | Gauge     | 活跃 TLS 连接总数                                 |
 | downstream_cx_http1_active                    | Gauge     | 活跃 HTTP/1.1 连接总数                             |
@@ -26,10 +26,10 @@
 | downstream_cx_rx_bytes_buffered               | Gauge     | 当前收到并缓存的总字节数                     |
 | downstream_cx_tx_bytes_total                  | Counter   | 发出的总字节数                                             |
 | downstream_cx_tx_bytes_buffered               | Gauge     | 当前发出并缓存的总字节数                          |
-| downstream_cx_drain_close                     | Counter   | 由于删除，而被关闭的连接总数                     |
-| downstream_cx_idle_timeout                    | Counter   | 由于空闲超时，而被关闭的连接总数                 |
-| downstream_flow_control_paused_reading_total  | Counter   | 由于流量控制，而被禁止的总读取次数 |
-| downstream_flow_control_resumed_reading_total | Counter   | 由于流量控制，而在连接上启用的总读取次数 |
+| downstream_cx_drain_close                     | Counter   | 由于删除，而导致被关闭的连接总数                     |
+| downstream_cx_idle_timeout                    | Counter   | 由于空闲超时，而导致被关闭的连接总数                 |
+| downstream_flow_control_paused_reading_total  | Counter   | 由于流量控制，而导致被禁止的总读取次数 |
+| downstream_flow_control_resumed_reading_total | Counter   | 由于流量控制，而导致在连接上启用的总读取次数 |
 | downstream_rq_total                           | Counter   | 请求总数                                               |
 | downstream_rq_http1_total                     | Counter   | HTTP/1.1 总请求总数                                      |
 | downstream_rq_http2_total                     | Counter   | HTTP/2 请求总数                                        |
@@ -51,12 +51,12 @@
 ## 以 user agent 维度进行统计
 
 以 user agent 维度进行的统计信息都以 *http.<stat_prefix>.user_agent.<user_agent>.* 开头。
-目前 Envoy 匹配 iOS (*ios*) 以及 Android (*android*) 的user agent ，并产生以下统计信息:
+目前 Envoy 匹配 iOS (*ios*) 以及 Android (*android*) 的 user agent ，并产生以下统计信息:
 
 | 名称                                   | 类型     | 描述                                                         |
 | -------------------------------------- | ------- | ------------------------------------------------------------ |
 | downstream_cx_total                    | Counter | 连接总数                                                      |
-| downstream_cx_destroy_remote_active_rq | Counter | 由于超过一个活跃请求，而被远程破坏的连接总数                     |
+| downstream_cx_destroy_remote_active_rq | Counter | 由于超过一个活跃请求，而导致被远程破坏的连接总数                     |
 | downstream_rq_total                    | Counter | 请求总数                                                      |
 
 ## 以侦听器维度进行统计
@@ -73,7 +73,7 @@
 
 ## 以编解码器维度进行统计
 
-每一个编解码器都有进行按编解码器维度进行统计的能力。目前只有 http2 有 http2 编解码器统计。
+每一个编解码器都有进行按编解码器维度进行统计的能力。目前只有 http2 有编解码器统计信息。
 
 ### Http2 编解码器统计
 
