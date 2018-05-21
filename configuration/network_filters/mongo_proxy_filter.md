@@ -35,20 +35,20 @@ Mongo 代理过滤器支持故障注入。可以查看 V1 以及 V2 的 API 参�
 | op_reply_valid_cursor            | Counter | 拥有有效的游标的 OP_REPLY 消息的数量                       |
 | cx_destroy_local_with_active_rq  | Counter | 拥有一个活跃查询并被本地破坏的连接总数           |
 | cx_destroy_remote_with_active_rq | Counter | 拥有一个活跃查询并被远程破坏的连接总数          |
-| cx_drain_close                   | Counter | Connections gracefully closed on reply boundaries during server drain |
 | cx_drain_close                   | Counter | 在服务器关闭期间，在回复边界被优雅关闭的连接总数 |
 
 ### 分散获取查询
 
-Envoy defines a *scatter get* as any query that does not use an *_id* field as a query parameter. Envoy looks in both the top level document as well as within a *$query* field for *_id*.
+任何不使用  *_id* 作为查询参数的查询，Envoy 将其定义为一个*分散获取查询* 。Envoy 同时在最顶级文档以及 *_id* 的 *$query* 中查找。
 
 ### 多重查询
 
-Envoy defines a *multi get* as any query that does use an *_id* field as a query parameter, but where *_id* is not a scalar value (i.e., a document or an array). Envoy looks in both the top level document as well as within a *$query* field for *_id*.
+任何使用  *_id* 作为查询参数的查询，且 *_id* 不是一个标量值（如文档或数组）， Envoy 定义其为 *多重查询*。
+Envoy 同时在最顶级文档以及 *_id* 的 *$query* 中查找。
 
 ### $comment 解析
 
-If a query has a top level *$comment* field (typically in addition to a *$query* field), Envoy will parse it as JSON and look for the following structure:
+如果一个查询具有顶级的 *$comment* 字段（通常在 *$query* 字段的基础上添加），Envoy 会将其解析为 JSON 格式并查找以下结构：
 
 ```
 {
@@ -58,7 +58,7 @@ If a query has a top level *$comment* field (typically in addition to a *$query*
 
 - callingFunction
 
-  *(required, string)* the function that made the query. If available, the function will be used in [callsite](#config-network-filters-mongo-proxy-callsite-stats) query statistics.
+  *(required, string)* 执行查询的函数。 在可用的情况下，这个函数将会用来做 [callsite](#config-network-filters-mongo-proxy-callsite-stats) 查询统计。
 
 ### 按命令统计
 
@@ -66,10 +66,10 @@ MongoDB 过滤器将在 *mongo.<stat_prefix>.cmd.<cmd>.* 命名空间为命令�
 
 | 名称            | 类型      | 描述                         |
 | -------------- | --------- | ---------------------------- |
-| total          | Counter   | Number of commands           |
-| reply_num_docs | Histogram | Number of documents in reply |
-| reply_size     | Histogram | Size of the reply in bytes   |
-| reply_time_ms  | Histogram | Command time in milliseconds |
+| total          | Counter   | 命令数量          |
+| reply_num_docs | Histogram | 回复中的文档数量 |
+| reply_size     | Histogram | 回复的字节大小   |
+| reply_time_ms  | Histogram | 命令时间（毫秒） |
 
 ### 按集合查询统计
 
@@ -77,16 +77,17 @@ MongoDB 过滤器将在 *mongo.<stat_prefix>.collection.<collection>.query.* 命
 
 | 名称            | 类型      | 描述                         |
 | -------------- | --------- | ---------------------------- |
-| total          | Counter   | Number of queries            |
-| scatter_get    | Counter   | Number of scatter gets       |
-| multi_get      | Counter   | Number of multi gets         |
-| reply_num_docs | Histogram | Number of documents in reply |
-| reply_size     | Histogram | Size of the reply in bytes   |
-| reply_time_ms  | Histogram | Query time in milliseconds   |
+| total          | Counter   | 查询数量            |
+| scatter_get    | Counter   | 分散获取查询数量       |
+| multi_get      | Counter   | 多重查询梳理         |
+| reply_num_docs | Histogram | 回复中的文档数量 |
+| reply_size     | Histogram | 回复的字节大小   |
+| reply_time_ms  | Histogram | 查询时间（毫秒）   |
 
 ### 按集合与现场查询统计
 
-If the application provides the [calling function](#config-network-filters-mongo-proxy-comment-parsing) in the *$comment* field, Envoy will generate per callsite statistics. These statistics match the [per collection statistics](#config-network-filters-mongo-proxy-collection-stats) but are found in the *mongo.<stat_prefix>.collection.<collection>.callsite.<callsite>.query.* namespace.
+如果应用程序在* $ comment *字段中提供[调用函数](#config-network-filters-mongo-proxy-comment-parsing) ，Envoy 将相应生成按调用站点为维度的统计信息。
+这些统计信息与[按集合统计](#config-network-filters-mongo-proxy-collection-stats)相匹配，可在*mongo.<stat_prefix>.collection.<collection>.callsite.<callsite>.query.* 命名空间中找到相关信息。
 
 ## 运行时
 
@@ -94,27 +95,27 @@ Mongo 代理过滤器支持如下运行时设置：
 
 - mongo.connection_logging_enabled
 
-  % of connections that will have logging enabled. Defaults to 100. This allows only a % of connections to have logging, but for all messages on those connections to be logged.
+  启用日志记录的连接百分比。 默认为100。 这将只允许将指定百分比的连接做日志记录, 但这些连接上的所有信息将会做日志记录。
 
 - mongo.proxy_enabled
 
-  % of connections that will have the proxy enabled at all. Defaults to 100.
+  启用代理的连接百分比。默认为100。
 
 - mongo.logging_enabled
 
-  % of messages that will be logged. Defaults to 100. If less than 100, queries may be logged without replies, etc.
+  启用日志记录的消息的百分比。 默认值为100。如果小于100，部分查询可能会在无回复的情况下被记录。
 
 - mongo.mongo.drain_close_enabled
 
-  % of connections that will be drain closed if the server is draining and would otherwise attempt a drain close. Defaults to 100.
+  当服务器正在被删除或尝试做强制关闭时，将被关闭的连接百分比。默认为100。
 
 - mongo.fault.fixed_delay.percent
 
-  Probability of an eligible MongoDB operation to be affected by the injected fault when there is no active fault. Defaults to the *percent* specified in the config.
+  当没有活跃故障时，一个合格的 MongoDB 操作受到注入故障影响的可能性。 默认为配置中指定的 *percent* 。
 
 - mongo.fault.fixed_delay.duration_ms
-
-  The delay duration in milliseconds. Defaults to the *duration_ms* specified in the config.
+  
+  以毫秒为单位的延迟时间。默认为配置中指定的 *duration_ms*。
 
 ## 访问日志格式
 
@@ -134,4 +135,4 @@ Mongo 代理过滤器支持如下运行时设置：
 
 - upstream_host
 
-  The upstream host that the connection is proxying to, if available. This is populated if the filter is used along with the [TCP 代理过滤器](tcp_proxy_filter.md#config-network-filters-tcp-proxy).
+  连接正在被代理的上游主机, 在过滤器配合 [TCP 代理过滤器](tcp_proxy_filter.md#config-network-filters-tcp-proxy)时，此字段将被填充。
