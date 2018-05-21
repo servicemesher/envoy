@@ -1,8 +1,8 @@
 # IP 标签
 
-HTTP IP标签过滤器使用来自可信地址的 [x-forwarded-for](../http_conn_man/headers.md#config-http-conn-man-headers-x-forwarded-for) 的值来设置标签头 *x-envoy-ip-tags*。如果地址没有标签，则不设置。
+HTTP IP 标签过滤器使用来自可信地址的 [x-forwarded-for](../http_conn_man/headers.md#config-http-conn-man-headers-x-forwarded-for)  的值来设置标签头 *x-envoy-ip-tags*。如果地址没有标签，则不设置。
 
-IP标记的实施提供了一种可扩展的方式来高效地将IP地址与大量 CIDR 范围进行比较。用于存储标签和IP地址子网的基础算法在 S.Nilsson 和 G.Karlsson 的[IP-address lookup using LC-tries](https://www.nada.kth.se/~snilsson/publications/IP-address-lookup-using-LC-tries/) 论文中阐述。
+IP 标签的实施提供了一种可扩展的方式来高效地将 IP 地址与大量 CIDR 范围进行比较。用于存储标签和 IP 地址子网的基础算法在 S.Nilsson 和 G.Karlsson 的 [IP-address lookup using LC-tries](https://www.nada.kth.se/~snilsson/publications/IP-address-lookup-using-LC-tries/) 论文中阐述。
 
 ## 配置
 
@@ -14,9 +14,9 @@ IP标签过滤器会在命名空间 *http.<stat_prefix>.ip_tagging.* 中输出�
 
 | 名称            | 类型     | 描述                                                         |
 | -------------- | ------- | ------------------------------------------------------------ |
-| <tag_name>.hit | 计数器 | 已应用 <tag_name> 的请求总数 |
-| no_hit         | 计数器 | 没有适用IP标签的请求总数          |
-| total          | 计数器 | IP标签过滤器运行的请求总数   |
+| <tag_name>.hit | Counter | 已应用 <tag_name> 的请求总数 |
+| no_hit         | Counter | 没有适用IP标签的请求总数          |
+| total          | Counter | IP标签过滤器运行的请求总数   |
 
 ## 运行时
 
