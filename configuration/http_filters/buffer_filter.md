@@ -1,18 +1,19 @@
-# Buffer
+# 缓冲区
 
-The buffer filter is used to stop filter iteration and wait for a fully buffered complete request. This is useful in different situations including protecting some applications from having to deal with partial requests and high network latency.
+缓冲区过滤器用于停止过滤器迭代并等待完全被缓冲的完整请求。 这可以在不同场景下发挥作用，包括确保应用程序不必去处理不完整请求以及高网络延迟。
 
-- [v1 API reference](../../api-v1/http_filters/buffer_filter.md#config-http-filters-buffer-v1)
-- [v2 API reference](../../api-v2/config/filter/http/buffer/v2/buffer.proto.md#envoy-api-msg-config-filter-http-buffer-v2-buffer)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/buffer_filter#config-http-filters-buffer-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/buffer/v2/buffer.proto#envoy-api-msg-config-filter-http-buffer-v2-buffer)
 
-## Per-Route Configuration
+## 单路由配置
 
-The buffer filter configuration can be overridden or disabled on a per-route basis by providing a[BufferPerRoute](../../api-v2/config/filter/http/buffer/v2/buffer.proto.md#envoy-api-msg-config-filter-http-buffer-v2-bufferperroute) configuration on the virtual host, route, or weighted cluster.
+通过在虚拟主机、路由或加权集群上提供 [BufferPerRoute](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/buffer/v2/buffer.proto#envoy-api-msg-config-filter-http-buffer-v2-bufferperroute) 配置，
+可达到在单路由的基础上重写或禁用缓冲区过滤器。
 
-## Statistics
+## 统计
 
-The buffer filter outputs statistics in the *http.<stat_prefix>.buffer.* namespace. The [stat prefix](../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix)comes from the owning HTTP connection manager.
+缓冲区过滤器在 *http.<stat_prefix>.buffer.* 命名空间输出统计信息。 [统计信息前缀](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-stat-prefix) 来自所拥有的 HTTP 连接管理器。
 
-| Name       | Type    | Description                                              |
+| 名称       | 类型    | 描述                                              |
 | ---------- | ------- | -------------------------------------------------------- |
-| rq_timeout | Counter | Total requests that timed out waiting for a full request |
+| rq_timeout | Counter | 因超时等待完整请求的总请求数 |
