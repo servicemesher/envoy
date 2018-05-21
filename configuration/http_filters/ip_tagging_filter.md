@@ -2,7 +2,7 @@
 
 HTTP IP 标签过滤器使用来自可信地址的 [x-forwarded-for](../http_conn_man/headers.md#config-http-conn-man-headers-x-forwarded-for)  的值来设置标签头 *x-envoy-ip-tags*。如果地址没有标签，则不设置。
 
-IP 标签的实施提供了一种可扩展的方式来高效地将 IP 地址与 CIDR 列表进行范围比较。用于存储标签和 IP 地址子网的基础算法在 S.Nilsson 和 G.Karlsson 的 [IP-address lookup using LC-tries](https://www.nada.kth.se/~snilsson/publications/IP-address-lookup-using-LC-tries/) 论文中阐述。
+IP 标签的实施提供了一种可扩展的方式来高效地将 IP 地址与大量的 CIDR 列表进行范围比较。用于存储标签和 IP 地址子网的基础算法在 S.Nilsson 和 G.Karlsson 的 [IP-address lookup using LC-tries](https://www.nada.kth.se/~snilsson/publications/IP-address-lookup-using-LC-tries/) 论文中阐述。
 
 ## 配置
 
