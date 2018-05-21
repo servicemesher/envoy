@@ -2183,123 +2183,125 @@
                                 
                                 <h1 id="dynamodb">DynamoDB</h1>
 <ul>
-<li>DynamoDB <a href="../../intro/arch_overview/dynamo.html#arch-overview-dynamo">architecture overview</a></li>
-<li><a href="../../api-v1/http_filters/dynamodb_filter.html#config-http-filters-dynamo-v1">v1 API reference</a></li>
-<li><a href="../../api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto.html#envoy-api-field-config-filter-network-http-connection-manager-v2-httpfilter-name">v2 API reference</a></li>
+<li>DynamoDB <a href="../../intro/arch_overview/dynamo.html#arch-overview-dynamo">&#x67B6;&#x6784;&#x6982;&#x8FF0;</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/dynamodb_filter#config-http-filters-dynamo-v1" target="_blank">v1 API &#x53C2;&#x8003;</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-field-config-filter-network-http-connection-manager-v2-httpfilter-name" target="_blank">v2 API &#x53C2;&#x8003;</a></li>
 </ul>
-<h2 id="statistics">Statistics</h2>
-<p>The DynamoDB filter outputs statistics in the <em>http.<stat_prefix>.dynamodb.</stat_prefix></em> namespace. The <a href="../../api-v1/network_filters/http_conn_man.html#config-http-conn-man-stat-prefix">stat prefix</a> comes from the owning HTTP connection manager.</p>
-<p>Per operation stats can be found in the <em>http.<stat_prefix>.dynamodb.operation.<operation_name>.</operation_name></stat_prefix></em> namespace.</p>
+<h2 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h2>
+<p>DynamoDB &#x8FC7;&#x6EE4;&#x5668;&#x5728; <em>http.<stat_prefix>.dynamodb.</stat_prefix></em> &#x547D;&#x540D;&#x7A7A;&#x95F4;&#x8F93;&#x51FA;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-stat-prefix" target="_blank">&#x7EDF;&#x8BA1;&#x524D;&#x7F00;</a> &#x6765;&#x81EA;&#x6240;&#x62E5;&#x6709;&#x7684; HTTP &#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x5668;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x5728; <em>http.<stat_prefix>.dynamodb.operation.<operation_name>.</operation_name></stat_prefix></em> &#x547D;&#x540D;&#x7A7A;&#x95F4;&#x627E;&#x5230;&#x6309;&#x64CD;&#x4F5C;&#x4E3A;&#x7EF4;&#x5EA6;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>upstream_rq_total</td>
 <td>Counter</td>
-<td>Total number of requests with <operation_name></operation_name></td>
+<td>&#x4EE5; <operation_name> &#x547D;&#x540D;&#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</operation_name></td>
 </tr>
 <tr>
 <td>upstream_rq_time</td>
 <td>Histogram</td>
-<td>Time spent on <operation_name></operation_name></td>
+<td>&#x5728; <operation_name> &#x4E0A;&#x8017;&#x8D39;&#x7684;&#x65F6;&#x95F4;</operation_name></td>
 </tr>
 <tr>
 <td>upstream_rq_total_xxx</td>
 <td>Counter</td>
-<td>Total number of requests with <operation_name> per response code (503/2xx/etc)</operation_name></td>
+<td>&#x4EE5; <operation_name> &#x547D;&#x540D;&#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;&#xFF0C;&#x4EE5;&#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x4E3A;&#x7EF4;&#x5EA6;&#x7EDF;&#x8BA1;(503&#x3001;2xx&#x7B49;)</operation_name></td>
 </tr>
 <tr>
 <td>upstream_rq_time_xxx</td>
 <td>Histogram</td>
-<td>Time spent on <operation_name> per response code (400/3xx/etc)</operation_name></td>
+<td>&#x5728; <operation_name> &#x4E0A;&#x8017;&#x8D39;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x4EE5;&#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x4E3A;&#x7EF4;&#x5EA6;&#x7EDF;&#x8BA1;(400&#x3001;3xx&#x7B49;)</operation_name></td>
 </tr>
 </tbody>
 </table>
-<p>Per table stats can be found in the <em>http.<stat_prefix>.dynamodb.table.<table_name>.</table_name></stat_prefix></em> namespace. Most of the operations to DynamoDB involve a single table, but BatchGetItem and BatchWriteItem can include several tables, Envoy tracks per table stats in this case only if it is the same table used in all operations from the batch.</p>
+<p>&#x53EF;&#x4EE5;&#x5728; <em>http.<stat_prefix>.dynamodb.table.<table_name>.</table_name></stat_prefix></em> &#x547D;&#x540D;&#x7A7A;&#x95F4;&#x627E;&#x5230;&#x6309;&#x6570;&#x636E;&#x5E93;&#x8868;&#x4E3A;&#x7EF4;&#x5EA6;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;
+&#x5927;&#x591A;&#x6570;&#x7684; DynamoDB &#x64CD;&#x4F5C;&#x4EC5;&#x4EC5;&#x6D89;&#x53CA;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x8868;&#xFF0C;&#x800C; BatchGetItem &#x4EE5;&#x53CA; BatchWriteItem &#x4F1A;&#x5305;&#x62EC;&#x591A;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x8868;&#x3002;
+&#x53EA;&#x6709;&#x5728;&#x8BE5;&#x6279;&#x6B21;&#x7684;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x6570;&#x636E;&#x5E93;&#x8868;&#x90FD;&#x662F;&#x76F8;&#x540C;&#x65F6;&#xFF0C;Envoy &#x624D;&#x4F1A;&#x8DDF;&#x8E2A;&#x6BCF;&#x4E2A;&#x6570;&#x636E;&#x5E93;&#x8868;&#x7684;&#x7EDF;&#x8BA1;&#x6570;&#x636E;&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>upstream_rq_total</td>
 <td>Counter</td>
-<td>Total number of requests on <table_name> table</table_name></td>
+<td>&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x8868; <table_name> &#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</table_name></td>
 </tr>
 <tr>
 <td>upstream_rq_time</td>
 <td>Histogram</td>
-<td>Time spent on <table_name> table</table_name></td>
+<td>&#x5728;&#x6570;&#x636E;&#x5E93;&#x8868; <table_name> &#x4E0A;&#x8017;&#x8D39;&#x7684;&#x65F6;&#x95F4;</table_name></td>
 </tr>
 <tr>
 <td>upstream_rq_total_xxx</td>
 <td>Counter</td>
-<td>Total number of requests on <table_name> table per response code (503/2xx/etc)</table_name></td>
+<td>&#x5BF9;&#x6570;&#x636E;&#x5E93;&#x8868; <table_name> &#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;&#xFF0C;&#x4EE5;&#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x4E3A;&#x7EF4;&#x5EA6;&#x7EDF;&#x8BA1;(503&#x3001;2xx&#x7B49;)</table_name></td>
 </tr>
 <tr>
 <td>upstream_rq_time_xxx</td>
 <td>Histogram</td>
-<td>Time spent on <table_name> table per response code (400/3xx/etc)</table_name></td>
+<td>&#x5728;&#x6570;&#x636E;&#x5E93;&#x8868; <table_name> &#x4E0A;&#x8017;&#x8D39;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x4EE5;&#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x4E3A;&#x7EF4;&#x5EA6;&#x7EDF;&#x8BA1;(400&#x3001;3xx&#x7B49;)</table_name></td>
 </tr>
 </tbody>
 </table>
-<p><em>Disclaimer: Please note that this is a pre-release Amazon DynamoDB feature that is not yet widely available.</em> Per partition and operation stats can be found in the <em>http.<stat_prefix>.dynamodb.table.<table_name>.</table_name></stat_prefix></em> namespace. For batch operations, Envoy tracks per partition and operation stats only if it is the same table used in all operations.</p>
+<p><em>&#x514D;&#x8D23;&#x58F0;&#x660E;&#xFF1A;&#x8BF7;&#x6CE8;&#x610F;&#xFF0C;&#x8FD9;&#x662F;&#x5C1A;&#x672A;&#x5E7F;&#x6CDB;&#x4F7F;&#x7528;&#x7684;&#x9884;&#x53D1;&#x5E03; Amazon DynamoDB &#x529F;&#x80FD;&#x3002;</em> &#x6309;&#x6BCF;&#x4E2A;&#x5206;&#x533A;&#x53CA;&#x64CD;&#x4F5C;&#x4E3A;&#x7EF4;&#x5EA6;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x53EF;&#x4EE5;&#x5728; <em>http.<stat_prefix>.dynamodb.table.<table_name>.</table_name></stat_prefix></em> &#x547D;&#x540D;&#x7A7A;&#x95F4;&#x4E2D;&#x627E;&#x5230;&#x3002; &#x5BF9;&#x4E8E;&#x6279;&#x91CF;&#x64CD;&#x4F5C;&#xFF0C;&#x53EA;&#x6709;&#x5728;&#x8BE5;&#x6279;&#x6B21;&#x7684;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x6570;&#x636E;&#x5E93;&#x8868;&#x90FD;&#x662F;&#x76F8;&#x540C;&#x65F6;&#xFF0C;&#x53EA;&#x6709;&#x5728;&#x8BE5;&#x6279;&#x6B21;&#x7684;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x6570;&#x636E;&#x5E93;&#x8868;&#x90FD;&#x662F;&#x76F8;&#x540C;&#x65F6;&#xFF0C;Envoy &#x624D;&#x4F1A;&#x6309;&#x5206;&#x533A;&#x53CA;&#x64CD;&#x4F5C;&#x8FFD;&#x8E2A;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>capacity.<operation_name>.__partition_id=<last_seven_characters_from_partition_id></last_seven_characters_from_partition_id></operation_name></td>
 <td>Counter</td>
-<td>Total number of capacity for <operation_name> on <table_name> table for a given <partition_id></partition_id></table_name></operation_name></td>
+<td>&#x6307;&#x5B9A;&#x5206;&#x533A; <partition_id> &#x4E0A;&#x7684; &#x6570;&#x636E;&#x5E93;&#x8868; <table_name> &#x4E0A;&#x7684;&#x64CD;&#x4F5C; <operation_name> &#x7684;&#x603B;&#x5BB9;&#x91CF;</operation_name></table_name></partition_id></td>
 </tr>
 </tbody>
 </table>
-<p>Additional detailed stats:</p>
+<p>&#x5176;&#x4ED6;&#x8BE6;&#x7EC6;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;:</p>
 <ul>
-<li>For 4xx responses and partial batch operation failures, the total number of failures for a given table and failure are tracked in the <em>http.<stat_prefix>.dynamodb.error.<table_name>.</table_name></stat_prefix></em>namespace.</li>
+<li>&#x5BF9;&#x4E8E;4xx&#x54CD;&#x5E94;&#x548C;&#x4E0D;&#x5B8C;&#x6574;&#x7684;&#x6279;&#x5904;&#x7406;&#x64CD;&#x4F5C;&#x5931;&#x8D25;&#xFF0C;&#x5C06;&#x5728; <em>http.<stat_prefix>.dynamodb.error.<table_name>.</table_name></stat_prefix></em> &#x547D;&#x540D;&#x7A7A;&#x95F4;&#x5185;&#x5BF9;&#x6307;&#x5B9A;&#x6570;&#x636E;&#x5E93;&#x8868;&#x4EE5;&#x53CA;&#x6545;&#x969C;&#x7684;&#x5931;&#x8D25;&#x603B;&#x6570;&#x8FDB;&#x884C;&#x8FFD;&#x8E2A;&#x3002;</li>
 </ul>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><error_type></error_type></td>
 <td>Counter</td>
-<td>Total number of specific <error_type> for a given <table_name></table_name></error_type></td>
+<td>&#x5BF9;&#x6307;&#x5B9A;&#x6570;&#x636E;&#x5E93;&#x8868; <table_name> &#x53D1;&#x751F;&#x6545;&#x969C;  <error_type> &#x7684;&#x603B;&#x6B21;&#x6570;</error_type></table_name></td>
 </tr>
 <tr>
 <td>BatchFailureUnprocessedKeys</td>
 <td>Counter</td>
-<td>Total number of partial batch failures for a given <table_name></table_name></td>
+<td>&#x5BF9;&#x6307;&#x5B9A;&#x6570;&#x636E;&#x5E93;&#x8868; <table_name> &#x53D1;&#x751F;&#x4E0D;&#x5B8C;&#x6574;&#x7684;&#x6279;&#x5904;&#x7406;&#x64CD;&#x4F5C;&#x5931;&#x8D25;&#x7684;&#x6B21;&#x6570;</table_name></td>
 </tr>
 </tbody>
 </table>
-<h2 id="runtime">Runtime</h2>
-<p>The DynamoDB filter supports the following runtime settings:</p>
+<h2 id="&#x8FD0;&#x884C;&#x65F6;">&#x8FD0;&#x884C;&#x65F6;</h2>
+<p>DynamoDB &#x8FC7;&#x6EE4;&#x5668;&#x652F;&#x6301;&#x4EE5;&#x4E0B;&#x8FD0;&#x884C;&#x65F6;&#x8BBE;&#x7F6E;:</p>
 <ul>
 <li><p>dynamodb.filter_enabled</p>
-<p>The % of requests for which the filter is enabled. Default is 100%.</p>
+<p>&#x542F;&#x7528;&#x8FC7;&#x6EE4;&#x5668;&#x7684;&#x8BF7;&#x6C42;&#x7684;&#x767E;&#x5206;&#x6BD4;&#x3002; &#x9ED8;&#x8BA4;&#x503C;&#x662F;100&#xFF05;&#x3002;</p>
 </li>
 </ul>
 
@@ -2345,7 +2347,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"DynamoDB","level":"5.7.3","depth":2,"next":{"title":"故障注入","level":"5.7.4","depth":2,"path":"configuration/http_filters/fault_filter.md","ref":"configuration/http_filters/fault_filter.md","articles":[]},"previous":{"title":"CORS","level":"5.7.2","depth":2,"path":"configuration/http_filters/cors_filter.md","ref":"configuration/http_filters/cors_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_filters/dynamodb_filter.md","mtime":"2018-05-15T11:24:25.716Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T07:07:39.246Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"DynamoDB","level":"5.7.3","depth":2,"next":{"title":"故障注入","level":"5.7.4","depth":2,"path":"configuration/http_filters/fault_filter.md","ref":"configuration/http_filters/fault_filter.md","articles":[]},"previous":{"title":"CORS","level":"5.7.2","depth":2,"path":"configuration/http_filters/cors_filter.md","ref":"configuration/http_filters/cors_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_filters/dynamodb_filter.md","mtime":"2018-05-21T07:44:51.932Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T07:58:20.439Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
