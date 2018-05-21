@@ -58,7 +58,7 @@ Envoy 同时在最顶级文档以及 *_id* 的 *$query* 中查找。
 
 - callingFunction
 
-  *(required, string)* 执行查询的函数。 在可用的情况下，这个函数将会用来做 [callsite](#config-network-filters-mongo-proxy-callsite-stats) 查询统计。
+  *(required, string)* 执行查询的函数。 在可用的情况下，这个函数将会用来做 [按调用站](#config-network-filters-mongo-proxy-callsite-stats) 查询统计。
 
 ### 按命令统计
 
@@ -86,8 +86,8 @@ MongoDB 过滤器将在 *mongo.<stat_prefix>.collection.<collection>.query.* 命
 
 ### 按集合与现场查询统计
 
-如果应用程序在* $ comment *字段中提供[调用函数](#config-network-filters-mongo-proxy-comment-parsing) ，Envoy 将相应生成按调用站点为维度的统计信息。
-这些统计信息与[按集合统计](#config-network-filters-mongo-proxy-collection-stats)相匹配，可在*mongo.<stat_prefix>.collection.<collection>.callsite.<callsite>.query.* 命名空间中找到相关信息。
+如果应用程序在 *$comment* 字段中提供[调用函数](#config-network-filters-mongo-proxy-comment-parsing) ，Envoy 将相应生成按调用站点为维度的统计信息。
+这些统计信息与[按集合统计](#config-network-filters-mongo-proxy-collection-stats)相匹配，可在 *mongo.<stat_prefix>.collection.<collection>.callsite.<callsite>.query.* 命名空间中找到相关信息。
 
 ## 运行时
 
