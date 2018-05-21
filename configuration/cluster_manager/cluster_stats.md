@@ -86,8 +86,9 @@
 ## 健康检查统计
 
 如果配置了健康检查，则该集群具有根于根*cluster.<name>.health_check.*的附加统计树。有如下统计:
-| 名称         | 类型 | 描述              |
-| --------------- | ------- | ------------------------------------------------------------ |
+
+| 名称          | 类型 | 描述        |
+| ---------------- | ------- | ------------------------------------------------------ 
 | attempt      | Counter | 健康检查次数                              |
 | success      | Counter | 健康检查成功次数                          |
 | failure      | Counter | 立即失效的健康检查（例如HTTP 503）以及网络故障的次数|
@@ -135,7 +136,7 @@
 
 ## 可变树动态HTTP统计
 
-如果配置了可变树统计信息，则它们将存在于 *cluster.<name>.<alt name>.*命名空间。所产生的统计数据与动态HTTP统计部分[以上]](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats.html)所记录的数据相同。
+如果配置了可变树统计信息，则它们将存在于 *cluster.<name>.<alt name>.*命名空间。所产生的统计数据与动态HTTP统计部分[以上](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats.html)所记录的数据相同。
 
 ## 每个服务区域动态 HTTP统计
 
@@ -169,8 +170,8 @@
 
 | 名称                    | 类型   | 描述      |
 | ------------------- | ------- | ---------------------------------------------------------- |
-| lb_subsets_active| Gauge| 当前可用子集的数目          |
-| lb_subsets_created  | Counter | 创建的子集数                         |
-| lb_subsets_removed  | Counter | 由于没有主机而删除的子集数  |
-| lb_subsets_selected | Counter | 选择任何子集的负载平衡次数 |
-| lb_subsets_fallback | Counter | 调用回退策略的次数 |
+| lb_subsets_active   | Gauge   | 当前可用子集的数目          |
+| lb_subsets_created  | Counter | 创建的子集数               |
+| lb_subsets_removed  | Counter | 由于没有主机而删除的子集数   |
+| lb_subsets_selected | Counter | 选择任何子集的负载平衡次数   |
+| lb_subsets_fallback | Counter | 调用回退策略的次数          |
