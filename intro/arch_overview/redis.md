@@ -6,31 +6,31 @@ Redis 项目中提供了与 Redis 分区相关的全面参考。请参阅 ”[Pa
 
 **Envoy Redis 的特点**:
 
-- [Redis 协议](https://redis.io/topics/protocol) 编解码器.
-- 基于散列的分区.
-- Ketama 一致性哈希算法.
-- 详细的命令统计.
-- 主动和被动的健康检查.
+- [Redis 协议](https://redis.io/topics/protocol) 编解码器
+- 基于散列的分区
+- Ketama 一致性哈希算法
+- 详细的命令统计
+- 主动和被动的健康检查
 
 **有计划的未来增强功能**:
 
-- 额外的时间统计.
-- 断路器.
-- 对分散的命令进行请求折叠.
-- 复制.
-- 内置的重试功能.
-- 跟踪.
-- 哈希标记.
+- 额外的时间统计
+- 断路器
+- 对分散的命令进行请求折叠
+- 复制
+- 内置的重试功能
+- 跟踪
+- 哈希标记
 
 ## 配置
 
-有关过滤器配置的详细信息，请参阅 [Redis 代理过滤器配置参考](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy).
+有关过滤器配置的详细信息，请参阅 [Redis 代理过滤器配置参考](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy)。
 
-相应的集群定义应该配置为 [环哈希负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#arch-overview-load-balancing-types).
+相应的集群定义应该配置为 [环哈希负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#arch-overview-load-balancing-types)。
 
-如果需要进行主动健康检查，则应该对集群配置使用 [Redis 健康检查](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc).
+如果需要进行主动健康检查，则应该对集群配置使用 [Redis 健康检查](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)。
 
-如果需要被动健康检查，还需要配置 [异常检测](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection).
+如果需要被动健康检查，还需要配置 [异常检测](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection)。
 
 为了进行被动健康检查，需要将连接超时，命令超时和连接关闭都映射到 5xx 响应，而来自 Redis 的所有其他响应都视为成功。
 
@@ -40,7 +40,7 @@ Redis 项目中提供了与 Redis 分区相关的全面参考。请参阅 ”[Pa
 
 在命令层面，Envoy 仅支持可能的散列到服务器的命令。PING 命令是唯一的例外，Envoy 将立即使用 PONG 作为回复。对 PING 命令使用参数是不被支持的。所有其他支持的命令都必须包含一个键。受支持的命令在功能上与原始的 Redis 命令相同，除非出现了故障情况。
 
-有关每个命令用法的详细信息，请参阅官方的 [Redis 命令参考](https://redis.io/commands).
+有关每个命令用法的详细信息，请参阅官方的 [Redis 命令参考](https://redis.io/commands)。
 
 | Command              | Group      |
 | -------------------- | ---------- |
@@ -149,7 +149,7 @@ Redis 项目中提供了与 Redis 分区相关的全面参考。请参阅 ”[Pa
 
 如果 Redis 抛出了错误，我们会将这个错误作为响应传递给命令。Envoy 将来自 Redis 的响应与错误数据类型视为正常响应，并将它传递给调用者。
 
-Envoy 也会产生自己的错误来响应客户端.
+Envoy 也会产生自己的错误来响应客户端。
 
 | 错误                                 | 含义                                                      |
 | ------------------------------------- | ------------------------------------------------------------ |
