@@ -16,7 +16,8 @@
     "back-to-top-button",
     "github-buttons@2.1.0",
     "-highlight", "prism", "prism-themes",
-    "favicon@^0.0.2"
+    "favicon@^0.0.2",
+    "tbfed-pagefooter@^0.0.1"
   ],
   "pluginsConfig": {
     "edit-link": {
@@ -39,6 +40,11 @@
         "css": [
         "prism-themes/themes/prism-ghcolors.css"
         ]
+    },
+    "tbfed-pagefooter": {
+    "copyright": "Copyright © ServiceMesher 2018",
+    "modify_label": " 最后更新于 ",
+    "modify_format": "YYYY-MM-DD HH:mm:ss"
     }
   }
 }

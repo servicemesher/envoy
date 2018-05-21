@@ -1,6 +1,6 @@
 # 流量捕获
 
-Envoy 当前提供了一个实验性的[传输套接字扩展](../api-v2/api/v2/core/base.proto.mdpi-msg-core-transportsocket)，用于拦截流量并写入一个 [protobuf 文件](../api-v2/extensions/common/tap/v2alpha/capture.proto.html#envoy-api-msg-extensions-common-tap-v2alpha-trace)中。
+Envoy 当前提供了一个实验性的[传输套接字扩展](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto.html#core-transportsocket)，用于拦截流量并写入一个 [protobuf 文件](https://www.envoyproxy.io/docs/envoy/latest/api-v2/extensions/common/tap/v2alpha/capture.proto.html#envoy-api-msg-extensions-common-tap-v2alpha-trace)中。
 
 > **警告**
 >

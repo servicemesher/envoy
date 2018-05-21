@@ -1,8 +1,8 @@
 # 速率限制
 
 - 全局速率限制[架构概述](../../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit)
-- [v1 API 参考](../../api-v1/network_filters/rate_limit_filter.md#config-network-filters-rate-limit-v1)
-- [v2 API 参考](../../api-v2/config/filter/network/rate_limit/v2/rate_limit.proto.md#envoy-api-msg-config-filter-network-rate-limit-v2-ratelimit)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/rate_limit_filter.html#config-network-filters-rate-limit-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/rate_limit/v2/rate_limit.proto.html#envoy-api-msg-config-filter-network-rate-limit-v2-ratelimit)
 
 ## 统计
 

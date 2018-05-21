@@ -16,7 +16,7 @@
 
 除了在数据层面上代理 gRPC 外，Envoy 在控制层面也使用了 gRPC，它从中[获取管理服务器的配置](../../configuration/overview/v2_overview.md#config-overview-v2)以及过滤器中的配置，例如用于[速率限制](../../configuration/http_filters/rate_limit_filter.md#config-http-filters-rate-limit))或授权检查。我们称之为 *gRPC 服务*。
 
-当指定 gRPC 服务时，必须指定使用 [Envoy gRPC](../../api-v2/api/v2/core/grpc_service.proto.md#envoy-api-field-core-grpcservice-envoy-grpc) 客户端或 [Google C ++ gRPC 客户端](../../api-v2/api/v2/core/grpc_service.proto.md#envoy-api-field-core-grpcservice-google-grpc)。我们在下面的这个选择中讨论权衡。
+当指定 gRPC 服务时，必须指定使用 [Envoy gRPC](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/grpc_service.proto.html#envoy-api-field-core-grpcservice-envoy-grpc) 客户端或 [Google C ++ gRPC 客户端](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/grpc_service.proto.html#envoy-api-field-core-grpcservice-google-grpc)。我们在下面的这个选择中讨论权衡。
 
 Envoy gRPC 客户端是使用 Envoy 的 HTTP/2 上行连接管理的 gRPC 的最小自定义实现。服务被指定为常规 Envoy [集群](cluster_manager.md#arch-overview-cluster-manager)，定期处理[超时、重试](http_connection_management.md#arch-overview-http-conn-man)、[终端发现](dynamic_configuration.md#arch-overview-dynamic-config-sds)、[负载平衡、故障转移](load_balancing.md#arch-overview-load-balancing)、负载报告、[断路](circuit_breaking.md#arch-overview-circuit-break)、[健康检查](health_checking.md#arch-overview-health-checking)、[异常检测](connection_pooling.md#arch-overview-conn-pool)。它们与 Envoy 的数据层面共享相同的[连接池](connection_pooling.md#arch-overview-conn-pool)机制。同样，集群[统计信息](statistics.md#arch-overview-statistics)可用于 gRPC 服务。由于客户端是简化版的 gRPC 实现，因此不包括诸如 [OAuth2](https://oauth.net/2/) 或 [gRPC-LB](https://grpc.io/blog/loadbalancing) 之类的高级 gRPC 功能后备。
 
