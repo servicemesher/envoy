@@ -2182,111 +2182,111 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h1>
-<p>A few statistics are emitted to report statistics system behavior:</p>
+<p>&#x53D1;&#x51FA;&#x4E00;&#x4E9B;&#x7EDF;&#x8BA1;&#x6570;&#x636E;&#x6765;&#x7EDF;&#x8BA1;&#x7CFB;&#x7EDF;&#x884C;&#x4E3A;:</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>stats.overflow</td>
 <td>Counter</td>
-<td>Total number of times Envoy cannot allocate a statistic due to a shortage of shared memory</td>
+<td>&#x7531;&#x4E8E;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#x4E0D;&#x8DB3;&#xFF0C;Envoy &#x65E0;&#x6CD5;&#x5206;&#x914D;&#x7EDF;&#x8BA1;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 </tbody>
 </table>
 <h2 id="server">Server</h2>
-<p>Server related statistics are rooted at <em>server.</em> with following statistics:</p>
+<p>&#x6839;&#x690D;&#x4E0E;<em>server.</em> &#x4E0E;&#x670D;&#x52A1;&#x5668;&#x76F8;&#x5173;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x5982;&#x4E0B;:</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>uptime</td>
 <td>Gauge</td>
-<td>Current server uptime in seconds</td>
+<td>&#x5F53;&#x524D; server &#x7684;&#x542F;&#x52A8;&#x65F6;&#x95F4;</td>
 </tr>
 <tr>
 <td>memory_allocated</td>
 <td>Gauge</td>
-<td>Current amount of allocated memory in bytes</td>
+<td>&#x5F53;&#x524D;&#x5206;&#x914D;&#x7684;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#xFF0C;&#x4EE5;&#x5B57;&#x8282;&#x4E3A;&#x5355;&#x4F4D;</td>
 </tr>
 <tr>
 <td>memory_heap_size</td>
 <td>Gauge</td>
-<td>Current reserved heap size in bytes</td>
+<td>&#x5F53;&#x524D;&#x5806;&#x9884;&#x7559;&#x7684;&#x5185;&#x5B58;&#x5927;&#x5C0F;&#xFF0C;&#x4EE5;&#x5B57;&#x8282;&#x4E3A;&#x5355;&#x4F4D;</td>
 </tr>
 <tr>
 <td>live</td>
 <td>Gauge</td>
-<td>1 if the server is not currently draining, 0 otherwise</td>
+<td>1&#xFF1A;&#x5F53;&#x524D;server&#x8FD8;&#x6CA1;&#x6709;&#x8017;&#x5C3D;&#xFF1B;0&#xFF1A;&#x5176;&#x4ED6;</td>
 </tr>
 <tr>
 <td>parent_connections</td>
 <td>Gauge</td>
-<td>Total connections of the old Envoy process on hot restart</td>
+<td>&#x5728;&#x70ED;&#x542F;&#x52A8;&#x4E2D;&#x6240;&#x6709;&#x5C31;&#x7684; Envoy &#x8FDB;&#x7A0B;&#x7684;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>total_connections</td>
 <td>Gauge</td>
-<td>Total connections of both new and old Envoy processes</td>
+<td>&#x6240;&#x6709;&#x7684; Envoy &#x8FDB;&#x7A0B;&#x7684;&#x8FDE;&#x63A5;&#x6570;&#xFF0C;&#x5305;&#x62EC;&#x65B0;&#x7684;&#x3001;&#x65E7;&#x7684;</td>
 </tr>
 <tr>
 <td>version</td>
 <td>Gauge</td>
-<td>Integer represented version number based on SCM revision</td>
+<td>&#x6574;&#x578B;&#x8868;&#x793A;&#x57FA;&#x4E8E; SCM &#x4FEE;&#x8BA2;&#x7684;&#x7248;&#x672C;&#x53F7;</td>
 </tr>
 <tr>
 <td>days_until_first_cert_expiring</td>
 <td>Gauge</td>
-<td>Number of days until the next certificate being managed will expire</td>
+<td>&#x4E0B;&#x4E00;&#x4E2A;&#x8BC1;&#x4E66;&#x5230;&#x671F;&#x7684;&#x5929;&#x6570;</td>
 </tr>
 </tbody>
 </table>
 <h2 id="file-system">File system</h2>
-<p>Statistics related to file system are emitted in the <em>filesystem.</em> namespace.</p>
+<p>&#x5728; <em>filesystem.</em> &#x4E2D;&#x53D1;&#x51FA;&#x7684;&#x4E0E;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x76F8;&#x5173;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x540D;&#x79F0;&#x7A7A;&#x95F4;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>write_buffered</td>
 <td>Counter</td>
-<td>Total number of times file data is moved to Envoy&#x2019;s internal flush buffer</td>
+<td>&#x6587;&#x4EF6;&#x6570;&#x636E;&#x88AB;&#x79FB;&#x52A8;&#x5230; Envoy &#x5185;&#x90E8;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>write_completed</td>
 <td>Counter</td>
-<td>Total number of times a file was written</td>
+<td>&#x6587;&#x4EF6;&#x88AB;&#x5199;&#x5165;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>flushed_by_timer</td>
 <td>Counter</td>
-<td>Total number of times internal flush buffers are written to a file due to flush timeout</td>
+<td>&#x7531;&#x4E8E;&#x5237;&#x65B0;&#x8D85;&#x65F6;&#x800C;&#x5BFC;&#x81F4;&#x5185;&#x90E8;&#x5237;&#x65B0;&#x7F13;&#x51B2;&#x533A;&#x5199;&#x5165;&#x6587;&#x4EF6;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>reopen_failed</td>
 <td>Counter</td>
-<td>Total number of times a file was failed to be opened</td>
+<td>&#x6587;&#x4EF6;&#x88AB;&#x6253;&#x5F00;&#x5931;&#x8D25;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>write_total_buffered</td>
 <td>Gauge</td>
-<td>Current total size of internal flush buffer in bytes</td>
+<td>&#x5F53;&#x524D;&#x5185;&#x90E8;&#x6570;&#x636E;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x603B;&#x5927;&#x5C0F;&#xFF0C;&#x4EE5;&#x5B57;&#x8282;&#x4E3A;&#x5355;&#x4F4D;</td>
 </tr>
 </tbody>
 </table>
@@ -2333,7 +2333,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"统计","level":"5.13","depth":1,"next":{"title":"路由表检查工具","level":"5.14","depth":1,"path":"configuration/tools/router_check.md","ref":"configuration/tools/router_check.md","articles":[]},"previous":{"title":"运行时","level":"5.12","depth":1,"path":"configuration/runtime.md","ref":"configuration/runtime.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/statistics.md","mtime":"2018-05-15T11:42:36.223Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T08:37:09.039Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"统计","level":"5.13","depth":1,"next":{"title":"路由表检查工具","level":"5.14","depth":1,"path":"configuration/tools/router_check.md","ref":"configuration/tools/router_check.md","articles":[]},"previous":{"title":"运行时","level":"5.12","depth":1,"path":"configuration/runtime.md","ref":"configuration/runtime.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/statistics.md","mtime":"2018-05-21T09:11:43.317Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T09:13:31.345Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

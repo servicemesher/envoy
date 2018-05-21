@@ -2182,13 +2182,11 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x8DEF;&#x7531;">&#x8DEF;&#x7531;</h1>
-<p>The router filter implements HTTP forwarding. It will be used in almost all HTTP proxy scenarios that Envoy is deployed for. The filter&#x2019;s main job is to follow the instructions specified in the configured <a href="../../api-v1/route_config/route_config.md#config-http-conn-man-route-table">route table</a>. In addition to forwarding and redirection, the filter also handles retry, statistics, etc.</p>
-<ul>
-<li><a href="../../api-v1/http_filters/router_filter.md#config-http-filters-router-v1">v1 API reference</a></li>
-<li><a href="../../api-v2/config/filter/http/router/v2/router.proto.md#envoy-api-msg-config-filter-http-router-v2-router">v2 API reference</a></li>
-</ul>
-<h2 id="http-headers">HTTP headers</h2>
-<p>The router consumes and sets various HTTP headers both on the egress/request path as well as on the ingress/response path. They are documented in this section.</p>
+<p>HTTP &#x8F6C;&#x53D1;&#x662F;&#x7528;&#x8DEF;&#x7531;&#x8FC7;&#x6EE4;&#x5668;&#x5B9E;&#x73B0;&#x7684;&#x3002;&#x5728; Envoy &#x73AF;&#x5883;&#x4E2D;&#xFF0C;&#x51E0;&#x4E4E;&#x6240;&#x6709; HTTP &#x4EE3;&#x7406;&#x573A;&#x666F;&#x4E0B;&#x90FD;&#x4F1A;&#x4F7F;&#x7528;&#x5230;&#x8FD9;&#x4E00;&#x8FC7;&#x6EE4;&#x5668;&#x3002;&#x8BE5;&#x8FC7;&#x6EE4;&#x5668;&#x7684;&#x4E3B;&#x8981;&#x804C;&#x80FD;&#x5C31;&#x662F;&#x6267;&#x884C;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route_config#config-http-conn-man-route-table" target="_blank">&#x8DEF;&#x7531;&#x8868;</a>&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#x3002;&#x5728;&#x91CD;&#x5B9A;&#x5411;&#x548C;&#x8F6C;&#x53D1;&#x8FD9;&#x4E24;&#x4E2A;&#x4E3B;&#x8981;&#x4EFB;&#x52A1;&#x4E4B;&#x5916;&#xFF0C;&#x8DEF;&#x7531;&#x8FC7;&#x6EE4;&#x5668;&#x8FD8;&#x9700;&#x8981;&#x5904;&#x7406;&#x91CD;&#x8BD5;&#x3001;&#x7EDF;&#x8BA1;&#x4E4B;&#x7C7B;&#x7684;&#x4EFB;&#x52A1;&#x3002;</p>
+<p><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/router_filter#config-http-filters-router-v1" target="_blank">v1 API &#x53C2;&#x8003;</a></p>
+<p><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/router/v2/router.proto#envoy-api-msg-config-filter-http-router-v2-router" target="_blank">v2 API &#x53C2;&#x8003;</a></p>
+<h2 id="http-&#x5934;">HTTP &#x5934;</h2>
+<p>&#x4E0D;&#x7BA1;&#x662F;&#x5916;&#x53D1;/&#x8BF7;&#x6C42;&#xFF0C;&#x8FD8;&#x662F;&#x63A5;&#x6536;/&#x54CD;&#x5E94;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;HTTP &#x5934;&#x90FD;&#x662F;&#x7531;&#x8DEF;&#x7531;&#x8FC7;&#x6EE4;&#x5668;&#x6D88;&#x8D39;&#x548C;&#x8BBE;&#x7F6E;&#x7684;&#xFF0C;&#x4E0B;&#x9762;&#x4F1A;&#x4ECB;&#x7ECD;&#x8FD9;&#x4E9B;&#x5185;&#x5BB9;&#xFF1A;</p>
 <ul>
 <li><a href="#x-envoy-expected-rq-timeout-ms">x-envoy-expected-rq-timeout-ms</a></li>
 <li><a href="#x-envoy-max-retries">x-envoy-max-retries</a></li>
@@ -2206,152 +2204,158 @@
 <li><a href="#x-envoy-decorator-operation">x-envoy-decorator-operation</a></li>
 </ul>
 <h3 id="x-envoy-expected-rq-timeout-ms">x-envoy-expected-rq-timeout-ms</h3>
-<p>This is the time in milliseconds the router expects the request to be completed. Envoy sets this header so that the upstream host receiving the request can make decisions based on the request timeout, e.g., early exit. This is set on internal requests and is either taken from the <a href="#config-http-filters-router-x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a> header or the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-timeout">route timeout</a>, in that order.</p>
+<p>&#x4EE5;&#x6BEB;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x8DEF;&#x7531;&#x5668;&#x8981;&#x6C42;&#x8BF7;&#x6C42;&#x5728;&#x8FD9;&#x4E00;&#x65F6;&#x957F;&#x5185;&#x5B8C;&#x6210;&#x3002;Envoy &#x628A;&#x8FD9;&#x4E2A;&#x4FE1;&#x606F;&#x5199;&#x5165; HTTP Header&#xFF0C;&#x8FD9;&#x6837;&#x88AB;&#x4EE3;&#x7406;&#x7684;&#x4E3B;&#x673A;&#x6536;&#x5230;&#x8FD9;&#x4E00;&#x8BF7;&#x6C42;&#x4E4B;&#x540E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x8FD9;&#x4E00;&#x8282;&#x7684;&#x5185;&#x5BB9;&#x6765;&#x5224;&#x65AD;&#x662F;&#x5426;&#x8D85;&#x65F6;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x5FEB;&#x901F;&#x5931;&#x8D25;&#x3002;&#x8FD9;&#x4E00;&#x4FE1;&#x606F;&#x4F1A;&#x7528;&#x5728;&#x5185;&#x90E8;&#x8BF7;&#x6C42;&#x4E2D;&#xFF0C;&#x6309;&#x7167; <a href="#x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a> &#x5934;&#x6216;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-timeout" target="_blank">&#x8DEF;&#x7531;&#x8D85;&#x65F6;</a>&#x7684;&#x987A;&#x5E8F;&#x6267;&#x884C;&#x3002;</p>
 <h3 id="x-envoy-max-retries">x-envoy-max-retries</h3>
-<p>If a <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">retry policy</a> is in place, Envoy will default to retrying one time unless explicitly specified. The number of retries can be explicitly set in the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">route retry config</a> or by using this header. If a <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">retry policy</a> is not configured and <a href="#config-http-filters-router-x-envoy-retry-on">x-envoy-retry-on</a> or <a href="#config-http-filters-router-x-envoy-retry-grpc-on">x-envoy-retry-grpc-on</a> headers are not specified, Envoy will not retry a failed request.</p>
-<p>A few notes on how Envoy does retries:</p>
+<p>&#x5982;&#x679C;&#x4F7F;&#x7528;&#x4E86;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-retry" target="_blank">&#x91CD;&#x8BD5;&#x7B56;&#x7565;</a>&#xFF0C;&#x4E14;&#x6CA1;&#x6709;&#x6307;&#x5B9A;&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#xFF0C;Envoy &#x7F3A;&#x7701;&#x4F1A;&#x91CD;&#x8BD5;&#x4E00;&#x6B21;&#x3002;&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#x53EF;&#x4EE5;&#x663E;&#x5F0F;&#x7684;&#x5728;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-retry" target="_blank">&#x8DEF;&#x7531;&#x91CD;&#x8BD5;&#x914D;&#x7F6E;</a>&#x6216;&#x8005; <code>x-envoy-max-retries</code> &#x5934;&#x4E2D;&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#x3002;&#x5982;&#x679C;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-retry" target="_blank">&#x91CD;&#x8BD5;&#x7B56;&#x7565;</a>&#x6CA1;&#x6709;&#x914D;&#x7F6E;&#xFF0C;&#x5E76;&#x4E14; <a href="#envoy-retry-on">x-envoy-retry-on</a> &#x6216;&#x8005; <a href="#x-envoy-retry-grpc-on">x-envoy-retry-grpc-on</a> &#x90FD;&#x6CA1;&#x6709;&#x5F00;&#x542F;&#xFF0C;Envoy &#x5C31;&#x4E0D;&#x4F1A;&#x91CD;&#x8BD5;&#x5931;&#x8D25;&#x7684;&#x8BF7;&#x6C42;&#x3002;</p>
+<p>Envoy &#x7684;&#x91CD;&#x8BD5;&#x529F;&#x80FD;&#xFF0C;&#x6709;&#x4E00;&#x4E9B;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#xFF1A;</p>
 <ul>
-<li>The route timeout (set via <a href="#config-http-filters-router-x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a> or the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-timeout">route configuration</a>) <strong>includes</strong>all retries. Thus if the request timeout is set to 3s, and the first request attempt takes 2.7s, the retry (including backoff) has .3s to complete. This is by design to avoid an exponential retry/timeout explosion.</li>
-<li>Envoy uses a fully jittered exponential backoff algorithm for retries with a base time of 25ms. The first retry will be delayed randomly between 0-24ms, the 2nd between 0-74ms, the 3rd between 0-174ms and so on.</li>
-<li>If max retries is set both by header as well as in the route configuration, the maximum value is taken when determining the max retries to use for the request.</li>
+<li>&#x8DEF;&#x7531;&#x8D85;&#x65F6;&#xFF08;&#x901A;&#x8FC7; <a href="#x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a> &#x6216;&#x8005;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-timeout" target="_blank">&#x8DEF;&#x7531;&#x914D;&#x7F6E;</a>&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#xFF09;&#x662F;<em>&#x5305;&#x542B;&#x6240;&#x6709;&#x91CD;&#x8BD5;&#x7684;</em>&#x3002;&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x8BF7;&#x6C42;&#x8D85;&#x65F6;&#x4E3A; 3 &#x79D2;&#x949F;&#xFF0C;&#x5E76;&#x4E14;&#x7B2C;&#x4E00;&#x6B21;&#x8BF7;&#x6C42;&#x6D88;&#x8017;&#x4E86; 2.7 &#x79D2;&#xFF0C;&#x90A3;&#x4E48;&#x91CD;&#x8BD5;&#xFF08;&#x5305;&#x542B;&#x8865;&#x507F;&#xFF09;&#x9700;&#x8981;&#x5728; 0.3 &#x79D2;&#x4E4B;&#x5185;&#x5B8C;&#x6210;&#x3002;&#x8FD9;&#x4E00;&#x8BBE;&#x8BA1;&#x7684;&#x76EE;&#x7684;&#x662F;&#x907F;&#x514D;&#x91CD;&#x8BD5;&#x548C;&#x8D85;&#x65F6;&#x7684;&#x540C;&#x6B65;&#x6FC0;&#x589E;&#x3002;</li>
+<li>Envoy &#x4F7F;&#x7528;&#x4E86;&#x4E00;&#x79CD;&#x968F;&#x673A;&#x7684;&#x9012;&#x589E;&#x7B97;&#x6CD5;&#xFF0C;&#x4EE5; 25 &#x6BEB;&#x79D2;&#x4E3A;&#x57FA;&#x7840;&#x5355;&#x4F4D;&#x8FDB;&#x884C;&#x8865;&#x507F;&#x3002;&#x9996;&#x6B21;&#x91CD;&#x8BD5;&#x4F1A;&#x968F;&#x673A;&#x7684;&#x9009;&#x62E9; 0 &#x5230; 24 &#x6BEB;&#x79D2;&#x8303;&#x56F4;&#x5185;&#x7684;&#x5EF6;&#x65F6;&#xFF0C;&#x7B2C;&#x4E8C;&#x6B21;&#x4F1A;&#x5728; 0 &#x5230; 74 &#x6BEB;&#x79D2;&#x4E4B;&#x95F4;&#xFF0C;&#x7B2C;&#x4E09;&#x6B21;&#x5C31;&#x4F1A;&#x53D1;&#x751F; 0 &#x5230; 175 &#x6BEB;&#x79D2;&#x4E4B;&#x95F4;&#x7684;&#x5EF6;&#x65F6;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x6700;&#x5927;&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#x540C;&#x65F6;&#x5728; HTTP &#x5934;&#x548C;&#x8DEF;&#x7531;&#x914D;&#x7F6E;&#x4E2D;&#x90FD;&#x6709;&#x8BBE;&#x7F6E;&#xFF0C;&#x90A3;&#x4E48;&#x8BF7;&#x6C42;&#x7684;&#x6700;&#x5927;&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#x4F1A;&#x4F7F;&#x7528;&#x4E24;&#x4E2A;&#x914D;&#x7F6E;&#x4E4B;&#x4E2D;&#x7684;&#x6700;&#x5927;&#x503C;&#x4F5C;&#x4E3A;&#x6709;&#x6548;&#x503C;&#x3002;</li>
 </ul>
 <h3 id="x-envoy-retry-on">x-envoy-retry-on</h3>
-<p>Setting this header on egress requests will cause Envoy to attempt to retry failed requests (number of retries defaults to 1 and can be controlled by <a href="#config-http-filters-router-x-envoy-max-retries">x-envoy-max-retries</a> header or the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">route config retry policy</a>). The value to which the x-envoy-retry-on header is set indicates the retry policy. One or more policies can be specified using a &#x2018;,&#x2019; delimited list. The supported policies are:</p>
+<p>&#x5982;&#x679C;&#x5916;&#x53D1;&#x8BF7;&#x6C42;&#x4E2D;&#x8BBE;&#x7F6E;&#x4E86;&#x8FD9;&#x4E2A; Header&#xFF0C;Envoy &#x5C31;&#x4F1A;&#x8BD5;&#x7740;&#x91CD;&#x8BD5;&#x5931;&#x8D25;&#x7684;&#x8BF7;&#x6C42;&#xFF08;&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#x7F3A;&#x7701;&#x4E3A; 1&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <a href="#x-envoy-max-retries">x-envoy-max-retries</a> &#x6216;&#x8005;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-retry" target="_blank">&#x8DEF;&#x7531;&#x91CD;&#x8BD5;&#x914D;&#x7F6E;</a>&#x8FDB;&#x884C;&#x63A7;&#x5236;&#xFF09;&#x3002;<code>x-envoy-retry-on</code> &#x7684;&#x503C;&#x7528;&#x4E8E;&#x8868;&#x8FBE;&#x91CD;&#x8BD5;&#x7B56;&#x7565;&#x3002;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>,</code> &#x4F5C;&#x4E3A;&#x5206;&#x9694;&#x7B26;&#xFF0C;&#x540C;&#x65F6;&#x652F;&#x6301;&#x591A;&#x4E2A;&#x6761;&#x4EF6;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x62EC;&#xFF1A;</p>
 <ul>
-<li><p>5xx</p>
-<p>Envoy will attempt a retry if the upstream server responds with any 5xx response code, or does not respond at all (disconnect/reset/read timeout). (Includes <em>connect-failure</em> and <em>refused-stream</em>)<strong>NOTE:</strong> Envoy will not retry when a request exceeds <a href="#config-http-filters-router-x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a>(resulting in a 504 error code). Use <a href="#config-http-filters-router-x-envoy-upstream-rq-per-try-timeout-ms">x-envoy-upstream-rq-per-try-timeout-ms</a> if you want to retry when individual attempts take too long. <a href="#config-http-filters-router-x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a> is an outer time limit for a request, including any retries that take place.</p>
+<li><p><em>5xx</em></p>
+<p>  &#x5982;&#x679C;&#x4E0A;&#x6E38;&#x670D;&#x52A1;&#x5668;&#x54CD;&#x5E94;&#x4E86; 5xx &#x7684;&#x72B6;&#x6001;&#x7801;&#xFF0C;&#x6216;&#x8005;&#x5B8C;&#x5168;&#x4E0D;&#x54CD;&#x5E94;&#xFF08;&#x65AD;&#x5F00;&#x3001;&#x590D;&#x4F4D;&#x6216;&#x8005;&#x8BFB;&#x8D85;&#x65F6;&#xFF09;&#x3002;&#xFF08;&#x5305;&#x542B; <code>connect-failure</code> &#x4EE5;&#x53CA; <code>refused-stream</code>&#xFF09;&#x3002;</p>
+<ul>
+<li><em>&#x6CE8;&#x610F;</em>&#xFF1A;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x8D85;&#x51FA;&#x4E86; <a href="#x-envoy-expected-rq-timeout-ms">x-envoy-expected-rq-timeout-ms</a>&#xFF08;&#x4F1A;&#x51FA;&#x73B0; 504 &#x9519;&#x8BEF;&#x7801;&#xFF09;&#xFF0C;Envoy &#x662F;&#x4E0D;&#x4F1A;&#x91CD;&#x8BD5;&#x7684;&#x3002;&#x5982;&#x679C;&#x5728;&#x67D0;&#x4E2A;&#x5C1D;&#x8BD5;&#x6D88;&#x8017;&#x592A;&#x591A;&#x65F6;&#x95F4;&#x7684;&#x65F6;&#x5019;&#x7EE7;&#x7EED;&#x91CD;&#x8BD5;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <a href="#x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a>&#xFF0C;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x7684;&#x5916;&#x7F18;&#x65F6;&#x95F4;&#x9650;&#x5236;&#xFF0C;&#x5305;&#x542B;&#x4E86;&#x76F8;&#x5173;&#x7684;&#x91CD;&#x8BD5;&#x65F6;&#x95F4;&#x3002;</li>
+</ul>
 </li>
-<li><p>gateway-error</p>
-<p>This policy is similar to the <em>5xx</em> policy but will only retry requests that result in a 502, 503, or 504.</p>
+<li><p><em>gateway-error</em></p>
+<p>  &#x8FD9;&#x4E2A;&#x7B56;&#x7565;&#x548C; <em>5xx</em> &#x7C7B;&#x4F3C;&#xFF0C;&#x4F46;&#x662F;&#x53EA;&#x4F1A;&#x5728;&#x6536;&#x5230; 502&#x3001;503 &#x6216;&#x8005; 504 &#x65F6;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x3002;</p>
 </li>
-<li><p>connect-failure</p>
-<p>Envoy will attempt a retry if a request is failed because of a connection failure to the upstream server (connect timeout, etc.). (Included in <em>5xx</em>)<strong>NOTE:</strong> A connection failure/timeout is a the TCP level, not the request level. This does not include upstream request timeouts specified via <a href="#config-http-filters-router-x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a> or via <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">route configuration</a>.</p>
+<li><p><em>connect-failure</em></p>
+<p>  Envoy &#x4F1A;&#x5728;&#x8FDE;&#x63A5;&#x4E0A;&#x6E38;&#x670D;&#x52A1;&#x5668;&#x5931;&#x8D25;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#xFF08;&#x8FDE;&#x63A5;&#x8D85;&#x65F6;&#x4E4B;&#x7C7B;&#xFF09;&#xFF08;&#x5305;&#x542B;&#x5728; <em>5xx</em> &#x5185;&#xFF09;&#x3002;</p>
+<ul>
+<li><em>&#x6CE8;&#x610F;</em>&#xFF1A;&#x8FDE;&#x63A5;&#x5931;&#x8D25;/&#x8D85;&#x65F6;&#x662F; TCP &#x5C42;&#x800C;&#x975E;&#x8BF7;&#x6C42;&#x5C42;&#x7684;&#x95EE;&#x9898;&#x3002;&#x5E76;&#x4E0D;&#x5305;&#x542B;&#x4F7F;&#x7528; <a href="#x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a> &#x6216;&#x8005;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-timeout" target="_blank">&#x8DEF;&#x7531;&#x914D;&#x7F6E;</a>&#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#x7684;&#x8BF7;&#x6C42;&#x8D85;&#x65F6;&#x3002;</li>
+</ul>
 </li>
-<li><p>retriable-4xx</p>
-<p>Envoy will attempt a retry if the upstream server responds with a retriable 4xx response code. Currently, the only response code in this category is 409.<strong>NOTE:</strong> Be careful turning on this retry type. There are certain cases where a 409 can indicate that an optimistic locking revision needs to be updated. Thus, the caller should not retry and needs to read then attempt another write. If a retry happens in this type of case it will always fail with another 409.</p>
+<li><p><em>retriable-4xx</em></p>
+<p>  &#x5982;&#x679C;&#x4E0A;&#x6E38;&#x670D;&#x52A1;&#x5668;&#x54CD;&#x5E94;&#x4E86;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x91CD;&#x8BD5;&#x7684; 4xx &#x72B6;&#x6001;&#x7801;&#xFF0C;Envoy &#x5C31;&#x4F1A;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x3002;&#x76EE;&#x524D;&#x8FD9;&#x4E00;&#x7C7B;&#x522B;&#x53EA;&#x5305;&#x542B;&#x4E00;&#x4E2A; 409 &#x72B6;&#x6001;&#x3002;</p>
+<ul>
+<li><em>&#x6CE8;&#x610F;</em>&#xFF1A;&#x8FD9;&#x79CD;&#x7B56;&#x7565;&#x8981;&#x5F53;&#x5FC3;&#x3002;&#x6709;&#x65F6; 409 &#x662F;&#x8BF4;&#x660E;&#x6709;&#x4E50;&#x89C2;&#x9501;&#x9700;&#x8981;&#x66F4;&#x65B0;&#x3002;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x8C03;&#x7528;&#x8005;&#x4E0D;&#x5E94;&#x8BE5;&#x91CD;&#x8BD5;&#xFF0C;&#x800C;&#x662F;&#x5E94;&#x8BE5;&#x8BFB;&#x53D6;&#x7136;&#x540E;&#x91CD;&#x8BD5;&#x5176;&#x4ED6;&#x7684;&#x5199;&#x5165;&#xFF0C;&#x5426;&#x5219;&#x81EA;&#x52A8;&#x91CD;&#x8BD5;&#x53EF;&#x80FD;&#x4F1A;&#x5BFC;&#x81F4; 409 &#x7684;&#x6301;&#x7EED;&#x51FA;&#x73B0;&#x3002;</li>
+</ul>
 </li>
-<li><p>refused-stream</p>
-<p>Envoy will attempt a retry if the upstream server resets the stream with a REFUSED_STREAM error code. This reset type indicates that a request is safe to retry. (Included in <em>5xx</em>)</p>
+<li><p><em>refused-stream</em></p>
+<p>  &#x5982;&#x679C;&#x4E0A;&#x6E38;&#x670D;&#x52A1;&#x5668;&#x4F7F;&#x7528; <code>REFUSED_STREAM</code> &#x9519;&#x8BEF;&#x7801;&#x590D;&#x4F4D;&#x4E86;&#x6570;&#x636E;&#x6D41;&#xFF0C;Envoy &#x5C31;&#x4F1A;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x3002;&#x8FD9;&#x79CD;&#x590D;&#x4F4D;&#x7C7B;&#x578B;&#x7684;&#x610F;&#x4E49;&#x5C31;&#x662F;&#x8BF4;&#x660E;&#x8FD9;&#x79CD;&#x8BF7;&#x6C42;&#x662F;&#x53EF;&#x4EE5;&#x5B89;&#x5168;&#x7684;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x7684;&#xFF08;&#x5305;&#x542B;&#x5728; <em>5xx</em> &#x8303;&#x56F4;&#x4E4B;&#x5185;&#xFF09;</p>
 </li>
 </ul>
-<p>The number of retries can be controlled via the <a href="#config-http-filters-router-x-envoy-max-retries">x-envoy-max-retries</a> header or via the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">route configuration</a>.</p>
-<p>Note that retry policies can also be applied at the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">route level</a>.</p>
-<p>By default, Envoy will <em>not</em> perform retries unless you&#x2019;ve configured them per above.</p>
+<p>&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <a href="#x-envoy-max-retries">x-envoy-max-retries</a> &#x6216;&#x8005;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-retry" target="_blank">&#x91CD;&#x8BD5;&#x7B56;&#x7565;</a>&#x8FDB;&#x884C;&#x63A7;&#x5236;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#x91CD;&#x8BD5;&#x7B56;&#x7565;&#x8FD8;&#x53EF;&#x4EE5;&#x5728;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-retry" target="_blank">&#x8DEF;&#x7531;&#x5C42;</a>&#x4F7F;&#x7528;&#x3002;</p>
+<p>&#x7F3A;&#x7701;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x9664;&#x975E;&#x6309;&#x7167;&#x4E0A;&#x8FF0;&#x65B9;&#x6848;&#x8FDB;&#x884C;&#x914D;&#x7F6E;&#xFF0C;&#x5426;&#x5219; Envoy &#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x64CD;&#x4F5C;&#x3002;</p>
 <h3 id="x-envoy-retry-grpc-on">x-envoy-retry-grpc-on</h3>
-<p>Setting this header on egress requests will cause Envoy to attempt to retry failed requests (number of retries defaults to 1, and can be controlled by <a href="#config-http-filters-router-x-envoy-max-retries">x-envoy-max-retries</a> header or the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">route config retry policy</a>). gRPC retries are currently only supported for gRPC status codes in response headers. gRPC status codes in trailers will not trigger retry logic. One or more policies can be specified using a &#x2018;,&#x2019; delimited list. The supported policies are:</p>
+<p>&#x4E3A;&#x5916;&#x53D1;&#x8BF7;&#x6C42;&#x8BBE;&#x7F6E;&#x8FD9;&#x4E2A; Header&#xFF0C;Envoy &#x5728;&#x8BF7;&#x6C42;&#x5931;&#x8D25;&#x65F6;&#x5C31;&#x4F1A;&#x91CD;&#x8BD5;&#xFF08;&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#x7F3A;&#x7701;&#x4E3A; 1&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <a href="#x-envoy-max-retries">x-envoy-max-retries</a> &#x6216;&#x8005;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-retry" target="_blank">&#x8DEF;&#x7531;&#x91CD;&#x8BD5;&#x914D;&#x7F6E;</a>&#x8FDB;&#x884C;&#x63A7;&#x5236;&#xFF09;&#x3002;gRPC &#x91CD;&#x8BD5;&#x76EE;&#x524D;&#x4EC5;&#x652F;&#x6301;&#x72B6;&#x6001;&#x7801;&#x5305;&#x542B;&#x5728;&#x54CD;&#x5E94;&#x5934;&#x4E2D;&#x7684;&#x60C5;&#x51B5;&#x3002;&#x5728;&#x5C3E;&#x90E8;&#x5305;&#x542B; gRPC &#x72B6;&#x6001;&#x7801;&#x7684;&#x60C5;&#x51B5;&#x4E0D;&#x4F1A;&#x89E6;&#x53D1;&#x91CD;&#x8BD5;&#x903B;&#x8F91;&#x3002;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>,</code> &#x5206;&#x9694;&#x7684;&#x5217;&#x8868;&#x6765;&#x6307;&#x5B9A;&#x591A;&#x4E2A;&#x7B56;&#x7565;&#x3002;&#x652F;&#x6301;&#x7B56;&#x7565;&#x5305;&#x62EC;&#xFF1A;</p>
 <ul>
-<li><p>cancelled</p>
-<p>Envoy will attempt a retry if the gRPC status code in the response headers is &#x201C;cancelled&#x201D; (1)</p>
+<li><p><em>cancelled</em></p>
+<p>  &#x5982;&#x679C; gRPC &#x54CD;&#x5E94;&#x5934;&#x4E2D;&#x7684;&#x72B6;&#x6001;&#x7801;&#x662F; <code>cancelled</code>&#xFF08;1&#xFF09;&#xFF0C;Envoy &#x4F1A;&#x5C1D;&#x8BD5;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x3002;</p>
 </li>
-<li><p>deadline-exceeded</p>
-<p>Envoy will attempt a retry if the gRPC status code in the response headers is &#x201C;deadline-exceeded&#x201D; (4)</p>
+<li><p><em>deadline-exceeded</em></p>
+<p>  &#x5982;&#x679C; gRPC &#x54CD;&#x5E94;&#x5934;&#x4E2D;&#x7684;&#x72B6;&#x6001;&#x7801;&#x662F; <code>deadline-exceeded</code>&#xFF08;4&#xFF09;&#xFF0C;Envoy &#x4F1A;&#x5C1D;&#x8BD5;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x3002;</p>
 </li>
-<li><p>resource-exhausted</p>
-<p>Envoy will attempt a retry if the gRPC status code in the response headers is &#x201C;resource-exhausted&#x201D; (8)</p>
+<li><p><em>resource-exhausted</em></p>
+<p>  &#x5982;&#x679C; gRPC &#x54CD;&#x5E94;&#x5934;&#x4E2D;&#x7684;&#x72B6;&#x6001;&#x7801;&#x662F; <code>resource-exhausted</code>&#xFF08;8&#xFF09;&#xFF0C;Envoy &#x4F1A;&#x5C1D;&#x8BD5;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x3002;</p>
 </li>
 </ul>
-<p>As with the x-envoy-retry-grpc-on header, the number of retries can be controlled via the <a href="#config-http-filters-router-x-envoy-max-retries">x-envoy-max-retries</a> header</p>
-<p>Note that retry policies can also be applied at the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-retry">route level</a>.</p>
-<p>By default, Envoy will <em>not</em> perform retries unless you&#x2019;ve configured them per above.</p>
+<p>&#x5728;&#x4F7F;&#x7528; x-envoy-retry-grpc-on header &#x7684;&#x540C;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <a href="#x-envoy-max-retries">x-envoy-max-retries</a> header &#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x6B21;&#x6570;&#x7684;&#x9650;&#x5236;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#x91CD;&#x8BD5;&#x7B56;&#x7565;&#x8FD8;&#x53EF;&#x4EE5;&#x5728;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-retry" target="_blank">&#x8DEF;&#x7531;&#x5C42;</a>&#x4F7F;&#x7528;&#x3002;</p>
+<p>&#x7F3A;&#x7701;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x9664;&#x975E;&#x6309;&#x7167;&#x4E0A;&#x8FF0;&#x65B9;&#x6848;&#x8FDB;&#x884C;&#x914D;&#x7F6E;&#xFF0C;&#x5426;&#x5219; Envoy &#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x64CD;&#x4F5C;&#x3002;</p>
 <h3 id="x-envoy-upstream-alt-stat-name">x-envoy-upstream-alt-stat-name</h3>
-<p>Setting this header on egress requests will cause Envoy to emit upstream response code/timing statistics to a dual stat tree. This can be useful for application level categories that Envoy doesn&#x2019;t know about. The output tree is documented <a href="../cluster_manager/cluster_stats.html#config-cluster-manager-cluster-stats-alt-tree">here</a>.</p>
-<p>This should not be confused with <a href="../../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-alt-stat-name">alt_stat_name</a> which is specified while defining the cluster and when provided specifies an alternative name for the cluster at the root of the statistic tree.</p>
+<p>&#x5728;&#x5916;&#x53D1;&#x8BF7;&#x6C42;&#x4E2D;&#x8BBE;&#x7F6E;&#x8FD9;&#x4E9B; Header&#xFF0C;&#x8BA9; Envoy &#x5C06;&#x4E0A;&#x6E38;&#x7684;&#x54CD;&#x5E94;&#x7801;&#x548C;&#x8BA1;&#x65F6;&#x7EDF;&#x8BA1;&#x53D1;&#x9001;&#x5230;&#x53E6;&#x5916;&#x7684;&#x7EDF;&#x8BA1;&#x6811;&#x4E2D;&#xFF0C;&#x8FD9;&#x5BF9;&#x4E8E; Envoy &#x4EE5;&#x5916;&#x7684;&#x5E94;&#x7528;&#x7EA7;&#x522B;&#x5206;&#x7C7B;&#x7EDF;&#x8BA1;&#x5F88;&#x6709;&#x5E2E;&#x52A9;&#x3002;&#x8FD9;&#x65B9;&#x9762;&#x7684;&#x7EC6;&#x8282;&#xFF0C;&#x5728;<a href="../cluster_manager/cluster_stats.html#config-cluster-manager-cluster-stats-alt-tree">&#x8F93;&#x51FA;&#x6811;&#x6587;&#x6863;</a>&#x4E2D;&#x6709;&#x8FDB;&#x4E00;&#x6B65;&#x7684;&#x89E3;&#x91CA;&#x3002;</p>
+<p>&#x8FD9;&#x4E2A;&#x6982;&#x5FF5;&#x6BD4;&#x8F83;&#x5BB9;&#x6613;&#x548C;&#x5B9A;&#x4E49;&#x96C6;&#x7FA4;&#x65F6;&#x6307;&#x5B9A;&#x7684; <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-alt-stat-name" target="_blank">alt_stat_name</a> &#x6DF7;&#x6DC6;&#xFF0C;&#x5B83;&#x6307;&#x5B9A;&#x7684;&#x662F;&#x5728;&#x7EDF;&#x8BA1;&#x6811;&#x4E2D;&#x6839;&#x76EE;&#x5F55;&#x4E0B;&#x96C6;&#x7FA4;&#x7684;&#x5907;&#x7528;&#x540D;&#x79F0;&#x3002;</p>
 <h3 id="x-envoy-upstream-canary">x-envoy-upstream-canary</h3>
-<p>If an upstream host sets this header, the router will use it to generate canary specific statistics. The output tree is documented <a href="../cluster_manager/cluster_stats.html#config-cluster-manager-cluster-stats-dynamic-http">here</a>.</p>
+<p>&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x8BBE;&#x7F6E;&#x4E86;&#x8FD9;&#x4E2A; Header&#xFF0C;&#x8DEF;&#x7531;&#x4F1A;&#x751F;&#x6210;&#x91D1;&#x4E1D;&#x96C0;&#x670D;&#x52A1;&#x4E13;&#x7528;&#x7684;&#x7EDF;&#x8BA1;&#x3002;<a href="../cluster_manager/cluster_stats.html#config-cluster-manager-cluster-stats-dynamic-http">&#x8F93;&#x51FA;&#x6811;&#x6587;&#x6863;</a>&#x4E2D;&#x6709;&#x66F4;&#x8BE6;&#x7EC6;&#x7684;&#x8BF4;&#x660E;&#x3002;</p>
 <h3 id="x-envoy-upstream-rq-timeout-alt-response">x-envoy-upstream-rq-timeout-alt-response</h3>
-<p>Setting this header on egress requests will cause Envoy to set a 204 response code (instead of 504) in the event of a request timeout. The actual value of the header is ignored; only its presence is considered. See also <a href="#config-http-filters-router-x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a>.</p>
+<p>&#x5728;&#x5916;&#x53D1;&#x8BF7;&#x6C42;&#x4E2D;&#x8BBE;&#x7F6E;&#x8FD9;&#x4E2A; Header&#xFF0C;&#x5728;&#x8BF7;&#x6C42;&#x8D85;&#x65F6;&#x7684;&#x60C5;&#x51B5;&#x4E0B; Envoy &#x8BBE;&#x7F6E;&#x4E00;&#x4E2A; 204 &#x7684;&#x8FD4;&#x56DE;&#x7801;&#xFF08;&#x800C;&#x4E0D;&#x662F; 504&#xFF09;&#x3002;&#x8FD9;&#x4E2A; Header &#x7684;&#x503C;&#x4F1A;&#x88AB;&#x5FFD;&#x7565;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x53EA;&#x8981; Header &#x5B58;&#x5728;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;&#x3002;&#x53EF;&#x4EE5;&#x53C2;&#x770B; <a href="#x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a>&#x3002;</p>
 <h3 id="x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</h3>
-<p>Setting this header on egress requests will cause Envoy to override the <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-timeout">route configuration</a>. The timeout must be specified in millisecond units. See also <a href="#config-http-filters-router-x-envoy-upstream-rq-per-try-timeout-ms">x-envoy-upstream-rq-per-try-timeout-ms</a>.</p>
+<p>&#x5728;&#x5916;&#x53D1;&#x8BF7;&#x6C42;&#x4E2D;&#x8BBE;&#x7F6E;&#x8FD9;&#x4E2A; Header&#xFF0C;Envoy &#x4F1A;&#x8986;&#x76D6;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-timeout" target="_blank">&#x8DEF;&#x7531;&#x914D;&#x7F6E;</a>&#xFF0C;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#x4F7F;&#x7528;&#x6BEB;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;&#x3002;&#x53C2;&#x770B; <a href="#x-envoy-upstream-rq-per-try-timeout-ms">x-envoy-upstream-rq-per-try-timeout-ms</a>&#x3002;</p>
 <h3 id="x-envoy-upstream-rq-per-try-timeout-ms">x-envoy-upstream-rq-per-try-timeout-ms</h3>
-<p>Setting this header on egress requests will cause Envoy to set a <em>per try</em> timeout on routed requests. This timeout must be &lt;= the global route timeout (see <a href="#config-http-filters-router-x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a>) or it is ignored. This allows a caller to set a tight per try timeout to allow for retries while maintaining a reasonable overall timeout.</p>
+<p>&#x5728;&#x5916;&#x53D1;&#x8BF7;&#x6C42;&#x4E2D;&#x8BBE;&#x7F6E;&#x8FD9;&#x4E2A; Header&#xFF0C;Envoy &#x4F1A;&#x4E3A;&#x8DEF;&#x7531;&#x7684;&#x8BF7;&#x6C42;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x6BCF;&#x6B21;&#x5C1D;&#x8BD5;&#x7684;&#x8D85;&#x65F6;&#xFF0C;&#x8FD9;&#x4E2A;&#x8D85;&#x65F6;&#x5FC5;&#x987B;&#x4E0D;&#x5927;&#x4E8E;&#x5168;&#x5C40;&#x7684;&#x8DEF;&#x7531;&#x8D85;&#x65F6;&#xFF08;&#x53C2;&#x770B; <a href="#x-envoy-upstream-rq-timeout-ms">x-envoy-upstream-rq-timeout-ms</a>&#xFF09;&#xFF0C;&#x5426;&#x5219;&#x5C31;&#x4F1A;&#x88AB;&#x5FFD;&#x7565;&#x3002;&#x8FD9;&#x4F7F;&#x5F97;&#x8C03;&#x7528;&#x8005;&#x53EF;&#x4EE5;&#x5728;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x66F4;&#x52A0;&#x4E25;&#x683C;&#x7684;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF0C;&#x4ECE;&#x800C;&#x63A7;&#x5236;&#x6574;&#x4F53;&#x7684;&#x8D85;&#x65F6;&#x60C5;&#x51B5;&#x3002;</p>
 <h3 id="x-envoy-upstream-service-time">x-envoy-upstream-service-time</h3>
-<p>Contains the time in milliseconds spent by the upstream host processing the request. This is useful if the client wants to determine service time compared to network latency. This header is set on responses.</p>
+<p>&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x5904;&#x7406;&#x8BF7;&#x6C42;&#x6240;&#x6D88;&#x8017;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5355;&#x4F4D;&#x662F;&#x6BEB;&#x79D2;&#x3002;&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;&#x5E0C;&#x671B;&#x77E5;&#x9053;&#x670D;&#x52A1;&#x5904;&#x7406;&#x65F6;&#x95F4;&#x548C;&#x7F51;&#x7EDC;&#x5EF6;&#x8FDF;&#xFF0C;&#x8FD9;&#x4E2A;&#x4FE1;&#x606F;&#x5C31;&#x975E;&#x5E38;&#x6709;&#x7528;&#x4E86;&#x3002;&#x8FD9;&#x4E2A; Header &#x662F;&#x5728;&#x54CD;&#x5E94;&#x4E2D;&#x8BBE;&#x7F6E;&#x7684;&#x3002;</p>
 <h3 id="x-envoy-original-path">x-envoy-original-path</h3>
-<p>If the route utilizes <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-prefix-rewrite">prefix_rewrite</a>, Envoy will put the original path header in this header. This can be useful for logging and debugging.</p>
+<p>&#x5982;&#x679C;&#x8DEF;&#x7531;&#x4F7F;&#x7528;&#x4E86; <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-prefix-rewrite" target="_blank">prefix_rewrite</a>&#xFF0C;Envoy &#x5C31;&#x4F1A;&#x628A;&#x539F;&#x6709;&#x8DEF;&#x5F84;&#x7684; Header &#x4FDD;&#x5B58;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x4EE5;&#x4FBF;&#x8BB0;&#x5F55;&#x548C;&#x9664;&#x9519;&#x3002;</p>
 <h3 id="x-envoy-immediate-health-check-fail">x-envoy-immediate-health-check-fail</h3>
-<p>If the upstream host returns this header (set to any value), Envoy will immediately assume the upstream host has failed <a href="../../intro/arch_overview/health_checking.html#arch-overview-health-checking">active health checking</a> (if the cluster has been <a href="../cluster_manager/cluster_hc.html#config-cluster-manager-cluster-hc">configured</a> for active health checking). This can be used to fast fail an upstream host via standard data plane processing without waiting for the next health check interval. The host can become healthy again via standard active health checks. See the <a href="../../intro/arch_overview/health_checking.html#arch-overview-health-checking">health checking overview</a> for more information.</p>
+<p>&#x5982;&#x679C;&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x8FD4;&#x56DE;&#x4E86;&#x8FD9;&#x4E2A; Header&#xFF08;&#x53EF;&#x4EE5;&#x4F7F;&#x4EFB;&#x4F55;&#x503C;&#xFF09;&#xFF0C;Envoy &#x4F1A;&#x7ACB;&#x523B;&#x5047;&#x8BBE;&#x8FD9;&#x4E2A;&#x4E3B;&#x673A;&#x7684;<a href="../../intro/arch_overview/health_checking.html#arch-overview-health-checking">&#x4E3B;&#x52A8;&#x5065;&#x5EB7;&#x68C0;&#x67E5;</a>&#x5DF2;&#x7ECF;&#x5931;&#x8D25;&#xFF08;&#x5982;&#x679C;&#x96C6;&#x7FA4;&#x5DF2;&#x7ECF;<a href="../cluster_manager/cluster_hc#config-cluster-manager-cluster-hc">&#x914D;&#x7F6E;</a>&#x4E86;&#x4E3B;&#x52A8;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#xFF09;&#x3002;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6807;&#x51C6;&#x6570;&#x636E;&#x9762;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x8BA9;&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x8FDB;&#x5165;&#x6545;&#x969C;&#x72B6;&#x6001;&#xFF0C;&#x800C;&#x65E0;&#x9700;&#x7B49;&#x5F85;&#x4E0B;&#x4E00;&#x6B21;&#x7684;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x3002;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x4F1A;&#x8BA9;&#x4E3B;&#x673A;&#x91CD;&#x65B0;&#x8FDB;&#x5165;&#x5065;&#x5EB7;&#x72B6;&#x6001;&#x3002;<a href="../../intro/arch_overview/health_checking.html#arch-overview-health-checking">&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x6982;&#x8FF0;</a>&#x4E2D;&#x8BB2;&#x8FF0;&#x4E86;&#x66F4;&#x591A;&#x8FD9;&#x65B9;&#x9762;&#x5185;&#x5BB9;&#x3002;</p>
 <h3 id="x-envoy-overloaded">x-envoy-overloaded</h3>
-<p>If this header is set by upstream, Envoy will not retry. Currently the value of the header is not looked at, only its presence. Additionally, Envoy will set this header on the downstream response if a request was dropped due to either <a href="#config-http-filters-router-runtime-maintenance-mode">maintenance mode</a> or upstream <a href="../../intro/arch_overview/circuit_breaking.html#arch-overview-circuit-break">circuit breaking</a>.</p>
+<p>&#x5982;&#x679C;&#x4E0A;&#x6E38;&#x8BBE;&#x7F6E;&#x4E86;&#x8FD9;&#x4E2A; Header&#xFF0C;Envoy &#x5C31;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x4E86;&#x3002;&#x76EE;&#x524D;&#x8FD9;&#x4E2A; Header &#x7684;&#x503C;&#x662F;&#x65E0;&#x610F;&#x4E49;&#x7684;&#xFF0C;&#x53EA;&#x8981; Header &#x672C;&#x8EAB;&#x5B58;&#x5728;&#x5373;&#x53EF;&#x3002;&#x53E6;&#x5916; Envoy &#x5982;&#x679C;&#x9047;&#x5230;<a href="#config-http-filters-router-runtime-maintenance-mode">&#x7BA1;&#x7406;&#x6A21;&#x5F0F;</a>&#x6216;&#x8005;&#x4E0A;&#x6E38;<a href="../../intro/arch_overview/circuit_breaking#arch-overview-circuit-break">&#x7194;&#x65AD;</a>&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5C31;&#x4F1A;&#x5728;&#x4E0B;&#x6E38;&#x54CD;&#x5E94;&#x4E2D;&#x8BBE;&#x7F6E;&#x8FD9;&#x4E2A; Header&#x3002;</p>
 <h3 id="x-envoy-decorator-operation">x-envoy-decorator-operation</h3>
-<p>If this header is present on ingress requests, its value will override any locally defined operation (span) name on the server span generated by the tracing mechanism. Similarly, if this header is present on an egress response, its value will override any locally defined operation (span) name on the client span.</p>
-<h2 id="statistics">Statistics</h2>
-<p>The router outputs many statistics in the cluster namespace (depending on the cluster specified in the chosen route). See <a href="../cluster_manager/cluster_stats.html#config-cluster-manager-cluster-stats">here</a> for more information.</p>
-<p>The router filter outputs statistics in the <em>http.<stat_prefix>.</stat_prefix></em> namespace. The <a href="../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix">stat prefix</a> comes from the owning HTTP connection manager.</p>
+<p>&#x5982;&#x679C;&#x5165;&#x7AD9;&#x8BF7;&#x6C42;&#x4E2D;&#x6709;&#x8FD9;&#x4E2A; Header&#xFF0C;&#x4ED6;&#x7684;&#x503C;&#x4F1A;&#x8986;&#x76D6;&#x4EFB;&#x4F55;&#x672C;&#x5730;&#x7531;&#x8DDF;&#x8E2A;&#x7CFB;&#x7EDF;&#x5B9A;&#x4E49;&#x7684;&#x8FD9;&#x4E00;&#x503C;&#x3002;&#x7C7B;&#x4F3C;&#x7684;&#x5982;&#x679C;&#x8FD9;&#x4E2A; Header &#x5B58;&#x5728;&#x4E8E;&#x4E00;&#x4E2A;&#x5916;&#x53D1;&#x54CD;&#x5E94;&#x4E2D;&#xFF0C;&#x4ED6;&#x7684;&#x503C;&#x4E5F;&#x4F1A;&#x8986;&#x76D6;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x5B9A;&#x4E49;&#x3002;</p>
+<h2 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h2>
+<p>&#x8DEF;&#x7531;&#x5668;&#x4F1A;&#x5728;&#x96C6;&#x7FA4;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#x4E2D;&#xFF08;&#x4F9D;&#x8D56;&#x96C6;&#x7FA4;&#x5728;&#x6240;&#x9009;&#x8DEF;&#x7531;&#x7684;&#x5B9A;&#x4E49;&#xFF09;&#x8F93;&#x51FA;&#x5F88;&#x591A;&#x7EDF;&#x8BA1;&#x6570;&#x636E;&#x3002;&#x53C2;&#x8003;<a href="../configuration/cluster_manager/cluster_stats#config-cluster-manager-cluster-stats">&#x96C6;&#x7FA4;&#x7EDF;&#x8BA1;</a>&#x4E00;&#x8282;&#x6709;&#x66F4;&#x591A;&#x8FD9;&#x65B9;&#x9762;&#x7684;&#x4FE1;&#x606F;&#x3002;</p>
+<p>&#x8DEF;&#x7531;&#x8FC7;&#x6EE4;&#x5668;&#x5728; <code>http.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>stat_prefix</span><span class="token punctuation">&gt;</span></span>.</code> &#x547D;&#x540D;&#x7A7A;&#x95F4;&#x8F93;&#x51FA;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#x3002;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-stat-prefix" target="_blank">&#x524D;&#x7F00;</a>&#x5B9A;&#x4E49;&#x6765;&#x81EA;&#x6240;&#x5C5E;&#x7684; HTTP &#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x5668;&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>no_route</td>
 <td>Counter</td>
-<td>Total requests that had no route and resulted in a 404</td>
+<td>&#x6240;&#x6709;&#x6CA1;&#x6709;&#x8DEF;&#x7531;&#xFF0C;&#x8FD4;&#x56DE; 404 &#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>no_cluster</td>
 <td>Counter</td>
-<td>Total requests in which the target cluster did not exist and resulted in a 404</td>
+<td>&#x76EE;&#x6807;&#x96C6;&#x7FA4;&#x4E0D;&#x5B58;&#x5728;&#x5E76;&#x8FD4;&#x56DE; 404 &#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>rq_redirect</td>
 <td>Counter</td>
-<td>Total requests that resulted in a redirect response</td>
+<td>&#x6536;&#x5230;&#x91CD;&#x5B9A;&#x5411;&#x54CD;&#x5E94;&#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>rq_direct_response</td>
 <td>Counter</td>
-<td>Total requests that resulted in a direct response</td>
+<td>&#x76F4;&#x63A5;&#x54CD;&#x5E94;&#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>rq_total</td>
 <td>Counter</td>
-<td>Total routed requests</td>
+<td>&#x88AB;&#x8DEF;&#x7531;&#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<p>Virtual cluster statistics are output in the <em>vhost.<virtual host="" name="">.vcluster.<virtual cluster="" name="">.</virtual></virtual></em> namespace and include the following statistics:</p>
+<p>&#x865A;&#x62DF;&#x673A;&#x7FA4;&#x7EDF;&#x8BA1;&#x4F1A;&#x88AB;&#x8F93;&#x51FA;&#x5230; <code>vhost.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>virtual</span> <span class="token attr-name">host</span> <span class="token attr-name">name</span><span class="token punctuation">&gt;</span></span>.vcluster.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>virtual</span> <span class="token attr-name">cluster</span> <span class="token attr-name">name</span><span class="token punctuation">&gt;</span></span>.</code> &#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF0C;&#x5305;&#x62EC;&#x4E86;&#x4E0B;&#x5217;&#x5185;&#x5BB9;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>upstream<em>rq</em>&lt;*xx&gt;</td>
 <td>Counter</td>
-<td>Aggregate HTTP response codes (e.g., 2xx, 3xx, etc.)</td>
+<td>HTTP &#x54CD;&#x5E94;&#x7801;&#xFF08;&#x4E5F;&#x5C31;&#x662F; 2xx&#x3001;3xx &#x7B49;&#xFF09;&#x7684;&#x805A;&#x5408;</td>
 </tr>
 <tr>
 <td>upstream<em>rq</em>&lt;*&gt;</td>
 <td>Counter</td>
-<td>Specific HTTP response codes (e.g., 201, 302, etc.)</td>
+<td>&#x6307;&#x5B9A;&#x7684; HTTP &#x54CD;&#x5E94;&#x7801;&#xFF08;&#x4E5F;&#x5C31;&#x662F; 201&#x3001;302 &#x7B49;&#xFF09;</td>
 </tr>
 <tr>
 <td>upstream_rq_time</td>
 <td>Histogram</td>
-<td>Request time milliseconds</td>
+<td>&#x8BF7;&#x6C42;&#x65F6;&#x95F4;&#x7684;&#x6BEB;&#x79D2;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="runtime">Runtime</h2>
-<p>The router filter supports the following runtime settings:</p>
+<h2 id="&#x8FD0;&#x884C;&#x65F6;">&#x8FD0;&#x884C;&#x65F6;</h2>
+<p>&#x8DEF;&#x7531;&#x8FC7;&#x6EE4;&#x5668;&#x652F;&#x6301;&#x4E0B;&#x5217;&#x8FD0;&#x884C;&#x65F6;&#x8BBE;&#x7F6E;&#xFF1A;</p>
 <ul>
-<li><p>upstream.base_retry_backoff_ms</p>
-<p>Base exponential retry back off time. See <a href="../../intro/arch_overview/http_routing.html#arch-overview-http-routing-retry">here</a> for more information. Defaults to 25ms.</p>
-</li>
-<li><p>upstream.maintenance_mode.<cluster name=""></cluster></p>
-<p>% of requests that will result in an immediate 503 response. This overrides any routing behavior for requests that would have been destined for <cluster name="">. This can be used for load shedding, failure injection, etc. Defaults to disabled.</cluster></p>
-</li>
-<li><p>upstream.use_retry</p>
-<p>% of requests that are eligible for retry. This configuration is checked before any other retry configuration and can be used to fully disable retries across all Envoys if needed.</p>
-</li>
+<li><em><code>upstream.base_retry_backoff_ms</code></em>
+  &#x57FA;&#x7840;&#x7684;&#x91CD;&#x8BD5;&#x65F6;&#x95F4;&#x8BA1;&#x6570;&#xFF0C;<a href="../intro/arch_overview/http_routing#arch-overview-http-routing-retry">HTTP &#x8DEF;&#x7531;</a>&#x4E00;&#x8282;&#x6709;&#x66F4;&#x591A;&#x8BB2;&#x8FF0;&#x3002;&#x7F3A;&#x7701;&#x4E3A; 25 &#x6BEB;&#x79D2;&#x3002;</li>
+<li><em><code>upstream.maintenance_mode.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>cluster</span> <span class="token attr-name">name</span><span class="token punctuation">&gt;</span></span></code></em>
+  &#x4F1A;&#x7ACB;&#x5373;&#x5F97;&#x5230; 503 &#x54CD;&#x5E94;&#x7684;&#x8BF7;&#x6C42;&#x7684;&#x767E;&#x5206;&#x6BD4;&#x3002;&#x4ED6;&#x4F1A;&#x8986;&#x76D6;&#x6240;&#x6709;&#x5B9A;&#x4E49;&#x4E86;&#x96C6;&#x7FA4;&#x540D;&#x79F0;&#x7684;&#x8DEF;&#x7531;&#x884C;&#x4E3A;&#x3002;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x8D1F;&#x8F7D;&#x6E05;&#x6D17;&#x3001;&#x6545;&#x969C;&#x6CE8;&#x5165;&#x7B49;&#x3002;&#x7F3A;&#x7701;&#x662F;&#x7981;&#x7528;&#x7684;&#x3002;</li>
+<li><em><code>upstream.use_retry</code></em>
+  &#x8981;&#x8FDB;&#x884C;&#x91CD;&#x8BD5;&#x7684;&#x8BF7;&#x6C42;&#x7684;&#x767E;&#x5206;&#x6BD4;&#x3002;&#x8FD9;&#x4E00;&#x914D;&#x7F6E;&#x4F1A;&#x5728;&#x4EFB;&#x4F55;&#x91CD;&#x8BD5;&#x914D;&#x7F6E;&#x4E4B;&#x524D;&#x68C0;&#x67E5;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x5B8C;&#x5168;&#x7981;&#x6B62;&#x4EFB;&#x4F55;&#x91CD;&#x8BD5;&#x3002;</li>
 </ul>
 
                                 
@@ -2396,7 +2400,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"路由","level":"5.7.13","depth":2,"next":{"title":"Squash","level":"5.7.14","depth":2,"path":"configuration/http_filters/squash_filter.md","ref":"configuration/http_filters/squash_filter.md","articles":[]},"previous":{"title":"速率限制","level":"5.7.12","depth":2,"path":"configuration/http_filters/rate_limit_filter.md","ref":"configuration/http_filters/rate_limit_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_filters/router_filter.md","mtime":"2018-05-15T11:34:57.121Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T08:37:09.039Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"路由","level":"5.7.13","depth":2,"next":{"title":"Squash","level":"5.7.14","depth":2,"path":"configuration/http_filters/squash_filter.md","ref":"configuration/http_filters/squash_filter.md","articles":[]},"previous":{"title":"速率限制","level":"5.7.12","depth":2,"path":"configuration/http_filters/rate_limit_filter.md","ref":"configuration/http_filters/rate_limit_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_filters/router_filter.md","mtime":"2018-05-21T09:12:40.301Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T09:13:31.345Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
