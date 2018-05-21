@@ -1,18 +1,19 @@
 # Mongo 代理
 
-- MongoDB [architecture overview](../../intro/arch_overview/mongo.md#arch-overview-mongo)
-- [v1 API reference](../../api-v1/network_filters/mongo_proxy_filter.md#config-network-filters-mongo-proxy-v1)
-- [v2 API reference](../../api-v2/config/filter/network/mongo_proxy/v2/mongo_proxy.proto.md#envoy-api-msg-config-filter-network-mongo-proxy-v2-mongoproxy)
+- MongoDB [架构概述](../../intro/arch_overview/mongo.md#arch-overview-mongo)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/mongo_proxy_filter#config-network-filters-mongo-proxy-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/mongo_proxy/v2/mongo_proxy.proto#envoy-api-msg-config-filter-network-mongo-proxy-v2-mongoproxy)
 
-## Fault injection
+## 故障注入
 
-The Mongo proxy filter supports fault injection. See the v1 and v2 API reference for how to configure.
+Mongo 代理过滤器支持故障注入。可以查看 V1 以及 V2 的 API 参考文档以了解如何进行相关配置。
 
-## Statistics
+## 统计
 
-Every configured MongoDB proxy filter has statistics rooted at *mongo.<stat_prefix>.* with the following statistics:
+每一个配置的 MongoDB 代理过滤器的统计信息都以 *mongo.<stat_prefix>.* 开头，其统计信息如下：
 
-| Name                             | Type    | Description                                                  |
+
+| 名称                             | 类型    | 描述                                                  |
 | -------------------------------- | ------- | ------------------------------------------------------------ |
 | decoding_error                   | Counter | Number of MongoDB protocol decoding errors                   |
 | delay_injected                   | Counter | Number of times the delay is injected                        |
@@ -44,7 +45,7 @@ Envoy defines a *scatter get* as any query that does not use an *_id* field as a
 
 Envoy defines a *multi get* as any query that does use an *_id* field as a query parameter, but where *_id* is not a scalar value (i.e., a document or an array). Envoy looks in both the top level document as well as within a *$query* field for *_id*.
 
-### $comment parsing
+### $comment 解析
 
 If a query has a top level *$comment* field (typically in addition to a *$query* field), Envoy will parse it as JSON and look for the following structure:
 
@@ -58,22 +59,22 @@ If a query has a top level *$comment* field (typically in addition to a *$query*
 
   *(required, string)* the function that made the query. If available, the function will be used in [callsite](#config-network-filters-mongo-proxy-callsite-stats) query statistics.
 
-### Per command statistics
+### 按命令统计
 
 The MongoDB filter will gather statistics for commands in the *mongo.<stat_prefix>.cmd.<cmd>.*namespace.
 
-| Name           | Type      | Description                  |
+| 名称            | 类型      | 描述                         |
 | -------------- | --------- | ---------------------------- |
 | total          | Counter   | Number of commands           |
 | reply_num_docs | Histogram | Number of documents in reply |
 | reply_size     | Histogram | Size of the reply in bytes   |
 | reply_time_ms  | Histogram | Command time in milliseconds |
 
-### Per collection query statistics
+### 按集合查询统计
 
 The MongoDB filter will gather statistics for queries in the *mongo.<stat_prefix>.collection.<collection>.query.* namespace.
 
-| Name           | Type      | Description                  |
+| 名称            | 类型      | 描述                         |
 | -------------- | --------- | ---------------------------- |
 | total          | Counter   | Number of queries            |
 | scatter_get    | Counter   | Number of scatter gets       |
@@ -82,13 +83,13 @@ The MongoDB filter will gather statistics for queries in the *mongo.<stat_prefix
 | reply_size     | Histogram | Size of the reply in bytes   |
 | reply_time_ms  | Histogram | Query time in milliseconds   |
 
-### Per collection and callsite query statistics
+### 按集合与现场查询统计
 
 If the application provides the [calling function](#config-network-filters-mongo-proxy-comment-parsing) in the *$comment* field, Envoy will generate per callsite statistics. These statistics match the [per collection statistics](#config-network-filters-mongo-proxy-collection-stats) but are found in the *mongo.<stat_prefix>.collection.<collection>.callsite.<callsite>.query.* namespace.
 
-## Runtime
+## 运行时
 
-The Mongo proxy filter supports the following runtime settings:
+Mongo 代理过滤器支持如下运行时设置：
 
 - mongo.connection_logging_enabled
 
@@ -114,7 +115,7 @@ The Mongo proxy filter supports the following runtime settings:
 
   The delay duration in milliseconds. Defaults to the *duration_ms* specified in the config.
 
-## Access log format
+## 访问记录格式
 
 The access log format is not customizable and has the following layout:
 
