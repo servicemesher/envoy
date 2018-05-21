@@ -1,31 +1,31 @@
 # 统计
 
-Every connection manager has a statistics tree rooted at *http.<stat_prefix>.* with the following statistics:
+每个连接管理器都有一个以 * http.<stat_prefix>.* 为根的统计树，其统计信息如下：
 
-| Name                                          | Type      | Description                                                  |
+| 名称                                          | 类型      | 描述                                                  |
 | --------------------------------------------- | --------- | ------------------------------------------------------------ |
-| downstream_cx_total                           | Counter   | Total connections                                            |
-| downstream_cx_ssl_total                       | Counter   | Total TLS connections                                        |
-| downstream_cx_http1_total                     | Counter   | Total HTTP/1.1 connections                                   |
-| downstream_cx_websocket_total                 | Counter   | Total WebSocket connections                                  |
-| downstream_cx_http2_total                     | Counter   | Total HTTP/2 connections                                     |
-| downstream_cx_destroy                         | Counter   | Total connections destroyed                                  |
-| downstream_cx_destroy_remote                  | Counter   | Total connections destroyed due to remote close              |
-| downstream_cx_destroy_local                   | Counter   | Total connections destroyed due to local close               |
-| downstream_cx_destroy_active_rq               | Counter   | Total connections destroyed with 1+ active request           |
-| downstream_cx_destroy_local_active_rq         | Counter   | Total connections destroyed locally with 1+ active request   |
-| downstream_cx_destroy_remote_active_rq        | Counter   | Total connections destroyed remotely with 1+ active request  |
-| downstream_cx_active                          | Gauge     | Total active connections                                     |
-| downstream_cx_ssl_active                      | Gauge     | Total active TLS connections                                 |
-| downstream_cx_http1_active                    | Gauge     | Total active HTTP/1.1 connections                            |
-| downstream_cx_websocket_active                | Gauge     | Total active WebSocket connections                           |
-| downstream_cx_http2_active                    | Gauge     | Total active HTTP/2 connections                              |
-| downstream_cx_protocol_error                  | Counter   | Total protocol errors                                        |
-| downstream_cx_length_ms                       | Histogram | Connection length milliseconds                               |
-| downstream_cx_rx_bytes_total                  | Counter   | Total bytes received                                         |
-| downstream_cx_rx_bytes_buffered               | Gauge     | Total received bytes currently buffered                      |
-| downstream_cx_tx_bytes_total                  | Counter   | Total bytes sent                                             |
-| downstream_cx_tx_bytes_buffered               | Gauge     | Total sent bytes currently buffered                          |
+| downstream_cx_total                           | Counter   | 连接总数                                          |
+| downstream_cx_ssl_total                       | Counter   | TLS 连接总数 |
+| downstream_cx_http1_total                     | Counter   | HTTP/1.1 连接总数                                   |
+| downstream_cx_websocket_total                 | Counter   | WebSocket 连接总数                                  |
+| downstream_cx_http2_total                     | Counter   | HTTP/2 连接总数                                     |
+| downstream_cx_destroy                         | Counter   | 被破坏的连接总数                                  |
+| downstream_cx_destroy_remote                  | Counter   | 因为远程关闭而被破坏的连接总数              |
+| downstream_cx_destroy_local                   | Counter   | 因为本地关闭而被破坏的连接总数               |
+| downstream_cx_destroy_active_rq               | Counter   | 因为超过一个活跃连接而被破坏的连接总数           |
+| downstream_cx_destroy_local_active_rq         | Counter   | 因为超过一个活跃连接而被本地破坏的连接总数   |
+| downstream_cx_destroy_remote_active_rq        | Counter   | 因为超过一个活跃连接而被远程破坏的连接总数  |
+| downstream_cx_active                          | Gauge     | 活跃连接总数                                     |
+| downstream_cx_ssl_active                      | Gauge     | 活跃 TLS 连接总数                                 |
+| downstream_cx_http1_active                    | Gauge     | 活跃 HTTP/1.1 连接总数                             |
+| downstream_cx_websocket_active                | Gauge     | 活跃 WebSocket 连接总数                            |
+| downstream_cx_http2_active                    | Gauge     | 活跃 HTTP/2 连接总数                               |
+| downstream_cx_protocol_error                  | Counter   | 协议错误总数                                        |
+| downstream_cx_length_ms                       | Histogram | 连接长度毫秒                               |
+| downstream_cx_rx_bytes_total                  | Counter   | 收到的总字节数                                         |
+| downstream_cx_rx_bytes_buffered               | Gauge     | 当前收到并缓存的总字节数                     |
+| downstream_cx_tx_bytes_total                  | Counter   | 发出的总字节数                                             |
+| downstream_cx_tx_bytes_buffered               | Gauge     | 当前发出并缓存的总字节数                          |
 | downstream_cx_drain_close                     | Counter   | Total connections closed due to draining                     |
 | downstream_cx_idle_timeout                    | Counter   | Total connections closed due to idle timeout                 |
 | downstream_flow_control_paused_reading_total  | Counter   | Total number of times reads were disabled due to flow control |
