@@ -15,7 +15,7 @@ Jaeger 追踪沙箱展示了 Envoy 的 [请求追踪](../../intro/arch_overview/
 所有传入的请求都通过前端 envoy 进行路由，该 envoy 充当位于 `envoymesh` 网络边缘的反向代理。端口 `80` 被 docker compose 映射到端口 `8000`（参见[/examples/jaeger-native-tracing/docker-compose.yml](https://github.com/envoyproxy/envoy/blob/master//examples/jaeger-native-tracing/docker-compose.yml)）。请注意，所有的 envoy 都被配置为收集请求跟踪信息（例如，[/examples/jaeger-native-tracing/front-envoy-jaeger.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/jaeger-native-tracing/front-envoy-jaeger.yaml) 中配置的 http_connection_manager/config/tracing），并将 Jaeger 追踪器生成的 span 传播到 Jaeger 集群中（跟踪驱动在 [/examples/jaeger-native-tracing/front-envoy-jaeger.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/jaeger-native-tracing/front-envoy-jaeger.yaml) 中配置）。
 
 
-在将请求路由到响应的服务 envoy 或应用之前，Envoy 将负责为追踪生成恰当的 span（父/子上下文 span）。在高层次上，每个 span 将记录上游 API 调用的延迟以及将该 span 与其他相关 span 进行关联所需的信息（例如 trace ID）。
+在将请求路由到相应的服务 envoy 或应用之前，Envoy 将负责为追踪生成恰当的 span（父/子上下文 span）。在高层次上，每个 span 将记录上游 API 调用的延迟以及将该 span 与其他相关 span 进行关联所需的信息（例如 trace ID）。
 
 
 Envoy 追踪最重要的好处之一是它将负责将追踪行为传播到 Jaeger 服务集群中。然而，为了充分利用追踪机制，在对其余服务进行请求时，应用必须传播 Envoy 生成的追踪 header。在我们提供的沙箱中，一个简单的 flask 应用（请参阅追踪函数 [/examples/front-proxy/service.py](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/service.py)）将作为 service1，在对外请求 service2 时传播追踪 header。
