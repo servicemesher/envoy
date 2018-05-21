@@ -1,12 +1,9 @@
 Envoy 有多快？
 ==================
 
-We are frequently asked *how fast is Envoy?* or *how much latency will Envoy add to my requests?*
-The answer is: *it depends*. Performance depends a great deal on which Envoy features are being
-used and the environment in which Envoy is run. In addition, doing accurate performance testing
-is an incredibly difficult task that the project does not currently have resources for.
+我们经常被问到 *到底 Enovy 有多快?* 或是 *Envoy 将在我的请求上加多少的延时?* 答案是：*看情况*。
+性能极度依赖于哪些 Envoy 特性被使用以及 Envoy 运行在如何的环境上。除此之外，运作准确完备的性能测试是一个非常有难度的任务，
+而我们的项目组目前并没有相应的资源去支撑这个任务。
 
-Although we have done quite a bit of performance tuning of Envoy in the critical path and we
-believe it performs extremely well, because of the previous points we do not currently publish
-any official benchmarks. We encourage users to benchmark Envoy in their own environments with a
-configuration similar to what they plan on using in production.
+其实我们在关键路径上对 Envoy 已经做了非常多的性能调优工作，同时我们相信这些调优工作都卓有成效，但因为上诉观点我们并没有
+对此发布一个官方的基准测试报告。我们会希望用户在他们自己的环境对 Envoy 使用类同于他们计划在生产环境的配置，然后做相应的基准测试。
