@@ -1,6 +1,6 @@
 # 运行时
 
-[runtime configuration](../intro/arch_overview/runtime.md#arch-overview-runtime)指定了包含可以重载陪住元素的本地文件系统数的位置。值可以在[/runtime admin endpoint](../operations/admin.md#operations-admin-interface-runtime)查看。值可以在[/runtime_modify admin endpoint](../operations/admin.md#operations-admin-interface-runtime-modify)修改和追加. 如果没用进行运行时配置，则会使用空提供程序，该提供程序会使用代码中内置的除了通过/ runtime_modify添加的值之外的所有缺省值，。
+[runtime configuration](../intro/arch_overview/runtime.md#arch-overview-runtime)指定了包含可以重载配置元素的本地文件系统数的位置。值可以在[/runtime admin endpoint](../operations/admin.md#operations-admin-interface-runtime)查看。值可以在[/runtime_modify admin endpoint](../operations/admin.md#operations-admin-interface-runtime-modify)修改和追加. 如果没用进行运行时配置，则会使用空提供程序，该提供程序会使用代码中内置的除了通过/ runtime_modify添加的值之外的所有缺省值，。
 
 注意
 
