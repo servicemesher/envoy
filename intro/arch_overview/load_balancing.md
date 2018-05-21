@@ -1,12 +1,12 @@
 # 负载均衡
 
-当过滤器需要获取到上游集群中主机的连接时，cluster manager 将使用负载均衡策略来确定选择哪个主机。负载均衡策略是可拔插的，并且在[配置](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster)中以每个上游集群为基础进行指定。请注意，如果没有为集群[配置](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)活动的运行状况检查策略，则所有上游集群成员都认为是健康的。
+当过滤器需要获取到上游集群中主机的连接时，cluster manager 将使用负载均衡策略来确定选择哪个主机。负载均衡策略是可拔插的，并且在[配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster.htmlhttps://www.envoyproxy.io/docs/envoy/latest/#config-cluster-manager-cluster)中以每个上游集群为基础进行指定。请注意，如果没有为集群[配置](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)活动的运行状况检查策略，则所有上游集群成员都认为是健康的。
 
 ## 支持的负载均衡器
 
 ### Round robin
 
-这是一个简单的策略，每个健康的上游主机按循环顺序选择。如果将[权重](../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-field-endpoint-lbendpoint-load-balancing-weight)分配给本地的端点，则使用加权 round robin（循环）调度，其中较高权重的端点将更频繁地出现在循环中以实现有效权重。
+这是一个简单的策略，每个健康的上游主机按循环顺序选择。如果将[权重](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto.html#envoy-api-field-endpoint-lbendpoint-load-balancing-weight)分配给本地的端点，则使用加权 round robin（循环）调度，其中较高权重的端点将更频繁地出现在循环中以实现有效权重。
 
 ### 加权最少请求
 

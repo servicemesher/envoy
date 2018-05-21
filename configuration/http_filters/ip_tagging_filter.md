@@ -6,7 +6,7 @@ IP 标签的实施提供了一种可扩展的方式来高效地将 IP 地址与�
 
 ## 配置
 
-- [v2 API reference](../../api-v2/config/filter/http/ip_tagging/v2/ip_tagging.proto.md#envoy-api-msg-config-filter-http-ip-tagging-v2-iptagging)
+- [v2 API reference](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/ip_tagging/v2/ip_tagging.proto.html#envoy-api-msg-config-filter-http-ip-tagging-v2-iptagging)
 
 ## 统计
 
