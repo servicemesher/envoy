@@ -85,7 +85,7 @@
 
 ## 健康检查统计
 
-如果配置了健康检查，则该集群具有根于根*cluster.<name>.health_check.*的附加统计树。有如下统计:
+如果配置了健康检查，则该集群具有根于根 *cluster.<name>.health_check.* 的附加统计树。有如下统计:
 
 | 名称          | 类型 | 描述        |
 | ---------------- | ------- | ------------------------------------------------------ |
@@ -140,7 +140,7 @@
 
 ## 每个服务区域动态 HTTP统计
 
-如果服务区域可用于本地服务 (通过 [`--service-zone`](https://www.envoyproxy.io/docs/envoy/latest/operations/cli#cmdoption-service-zone)) 和 [上游集群](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/service_discovery#arch-overview-service-discovery-types-sds), Envoy 在将跟踪*cluster.<name>.zone.<from_zone>.<to_zone>.*命名空间的以下统计数据.
+如果服务区域可用于本地服务 (通过 [`--service-zone`](https://www.envoyproxy.io/docs/envoy/latest/operations/cli#cmdoption-service-zone)) 和 [上游集群](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/service_discovery#arch-overview-service-discovery-types-sds), Envoy 在将跟踪 *cluster.<name>.zone.<from_zone>.<to_zone>.* 命名空间的以下统计数据.
 
 | 名称                    | 类型   | 描述  |
 | ----------------- | --------- | ---------------------------------------------------- |
@@ -150,7 +150,7 @@
 
 ## 负载均衡统计
 
-负载平衡器决策监测统计。统计以*cluster.<name>.*为根，包含如下统计: 
+负载平衡器决策监测统计。统计以 *cluster.<name>.* 为根，包含如下统计: 
 
 | 名称          | 类型 | 描述        |
 | ---------------- | ------- | ------------------------------------------------------ |
