@@ -51,7 +51,7 @@
 ## 以 user agent 维度进行统计
 
 以 user agent 维度进行的统计信息都以 *http.<stat_prefix>.user_agent.<user_agent>.* 开头。
-目前 Envoy 匹配 iOS (*ios*) 以及 Android (*android*) 的 user agent ，并产生以下统计信息:
+目前 Envoy 匹配 iOS (*ios*) 以及 Android (*android*) 的 user agent ，并产生以下统计信息：
 
 | 名称                                   | 类型     | 描述                                                         |
 | -------------------------------------- | ------- | ------------------------------------------------------------ |
@@ -59,9 +59,9 @@
 | downstream_cx_destroy_remote_active_rq | Counter | 由于超过一个活跃请求，而导致被远程破坏的连接总数                     |
 | downstream_rq_total                    | Counter | 请求总数                                                      |
 
-## 以侦听器维度进行统计
+## 以监听器维度进行统计
 
-以侦听器维度进行的统计信息都以 *listener.<address>.http.<stat_prefix>.* 开头，并有以下统计信息：
+以监听器维度进行的统计信息都以 *listener.<address>.http.<stat_prefix>.* 开头，并有以下统计信息：
 
 | 名称              | 类型     | 描述                |
 | ----------------- | ------- | ------------------- |
