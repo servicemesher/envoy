@@ -1,8 +1,8 @@
 # 客户端 TLS 身份验证
 
 - 客户端 TLS 认证过滤器[架构概览](../../intro/arch_overview/ssl.md#arch-overview-ssl-auth-filter)
-- [v1 API 参考](../../api-v1/network_filters/client_ssl_auth_filter.md#config-network-filters-client-ssl-auth-v1)
-- [v2 API 参考](../../api-v2/config/filter/network/client_ssl_auth/v2/client_ssl_auth.proto.md#envoy-api-msg-config-filter-network-client-ssl-auth-v2-clientsslauth)
+- [v1 API 参考](https://www.envoyproxy.io/api-v1/network_filters/client_ssl_auth_filter.html#config-network-filters-client-ssl-auth-v1)
+- [v2 API 参考](https://www.envoyproxy.io/api-v2/config/filter/network/client_ssl_auth/v2/client_ssl_auth.proto.html#envoy-api-msg-config-filter-network-client-ssl-auth-v2-clientsslauth)
 
 ## 统计
 
@@ -20,6 +20,31 @@
 
 ## REST API
 
-- `GET /v1/certs/list/approved`
+`GET /v1/certs/list/approved`
 
-  认证过滤器将每隔一段刷新时间间隔调用一次这个API，来获取当前获得批准的证书/主体列表。预期的 JSON 响应如下所示：`{   "certificates": [] }`，certificates*(required, array)* 为批准的证书/主体列表。每个证书对象定义为：`{   "fingerprint_sha256": "...", }`，fingerprint_sha256*(required, string)* 为批准的客户端证书的 SHA256 hash 值。Envoy 会将此 hash 与所提供的客户端证书进行匹配，以确定是否存在摘要匹配
+认证过滤器将每隔一段刷新时间调用一次这个API，来获取当前获得批准的证书/主体列表。预期的 JSON 响应如下所示：
+
+```json
+{
+  "certificates": []
+}
+```
+**certificates**
+
+*(required, array)* 
+
+为批准的证书/主体列表。
+
+每个证书对象定义为：
+
+```json
+{
+  "fingerprint_sha256": "...",
+}
+```
+
+**fingerprint_sha256**
+
+*(required, string)* 
+
+为批准的客户端证书的 SHA256 hash 值。Envoy 会将此 hash 与所提供的客户端证书进行匹配，以确定是否存在摘要匹配。
