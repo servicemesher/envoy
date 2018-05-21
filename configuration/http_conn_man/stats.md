@@ -82,13 +82,12 @@
 | 名称                   | 类型     | 描述                                                         |
 | ---------------------- | ------- | ------------------------------------------------------------ |
 | header_overflow        | Counter | 由于头部大于 Envoy :: Http :: Http2 :: ConnectionImpl :: StreamImpl :: MAX_HEADER_SIZE（63k）而重置的连接总数 |
-| headers_cb_no_stream   | Counter | Total number of errors where a header callback is called without an associated stream. This tracks an unexpected occurrence due to an as yet undiagnosed bug |
 | headers_cb_no_stream   | Counter | 在没有关联流的情况下进行头部回调的错误总数。 由于尚未确诊的 bug，这会导致一些意外事件的发送 |
-| rx_messaging_error     | Counter | Total number of invalid received frames that violated [section 8](https://tools.ietf.org/html/rfc7540#section-8) of the HTTP/2 spec. This will result in a *tx_reset* |
-| rx_reset               | Counter | Total number of reset stream frames received by Envoy        |
-| too_many_header_frames | Counter | Total number of times an HTTP2 connection is reset due to receiving too many headers frames. Envoy currently supports proxying at most one header frame for 100-Continue one non-100 response code header frame and one frame with trailers |
-| trailers               | Counter | Total number of trailers seen on requests coming from downstream |
-| tx_reset               | Counter | Total number of reset stream frames transmitted by Envoy     |
+| rx_messaging_error     | Counter | 因为违背 HTTP/2 spec 中的 [section 8](https://tools.ietf.org/html/rfc7540#section-8) 而导致的无效接受帧总数。 这将导致 *tx_reset* |
+| rx_reset               | Counter | Envoy 收到的重置流帧的总数        |
+| too_many_header_frames | Counter | 由于接收太多头帧而导致 HTTP2 连接重置的总次数。 Envoy 支持代理最多一个 100-Continue 头部帧 ,一个 non-100 响应代码头部帧和一个拥有尾部的帧 |
+| trailers               | Counter | 由下游请求所看到的尾部总数 |
+| tx_reset               | Counter | Envoy 发送的重置流帧总数    |
 
 ## 追踪统计
 
