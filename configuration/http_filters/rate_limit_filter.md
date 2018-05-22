@@ -10,7 +10,7 @@
 
 ## 编写 Action
 
-> 注意：
+> **注意**
 > 这一节是使用 v1 API 进行的，但其中的概念也是适用于 v2 API 的。未来会面向 v2 重写这部分内容。
 
 每个路由或者虚拟主机上的的[频率限制 Action](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/rate_limits#config-http-conn-man-route-table-rate-limit-config) 都会生成一个描述符条目。描述符条目的向量组成一个描述符。Action 可以用任何顺序编写，可以创建更加复杂的频率限制描述符。描述符会按照配置中的 Action 顺序执行。
@@ -93,4 +93,4 @@ HTTP 频率限制过滤器支持如下的运行时配置：
 
 - *`ratelimit.<route_key>.http_filter_enabled`*
 
-    在[频率限制配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/rate_limits#config-http-conn-man-route-table-rate-limit-config)中指定的 `route_key`，利用这个数值调用频率限制的请求的百分比。缺省值为 100.
+    在[频率限制配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/rate_limits#config-http-conn-man-route-table-rate-limit-config)中指定的 `route_key`，利用这个数值调用频率限制的请求的百分比。缺省值为 100。

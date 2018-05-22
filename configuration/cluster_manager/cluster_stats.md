@@ -3,9 +3,9 @@
 - [概要](#general)
 - [健康检查统计](#health-check-statistics)
 - [异常点检测统计](#outlier-detection-statistics)
-- [动态HTTP统计](#dynamic-http-statistics)
-- [可变树动态HTTP统计](#alternate-tree-dynamic-http-statistics)
-- [每个服务区域动态 HTTP统计](#per-service-zone-dynamic-http-statistics)
+- [动态 HTTP 统计](#dynamic-http-statistics)
+- [可变树动态 HTTP 统计](#alternate-tree-dynamic-http-statistics)
+- [每个服务区域动态 HTTP 统计](#per-service-zone-dynamic-http-statistics)
 - [负载均衡统计](#load-balancer-statistics)
 - [负载均衡子集统计](#load-balancer-subset-statistics)
 
@@ -15,11 +15,11 @@
 
 | 名称          | 类型 | 描述        |
 | ---------------- | ------- | ------------------------------------------------------ |
-| cluster_added | Counter | 添加的所有集群数 (通过静态配置或CDS) |
-| cluster_modified | Counter | 修改的所有集群数 (通过CDS)         |
-| cluster_removed  | Counter | 移除的所有集群数 (通过CDS)  |
-| active_clusters  | Gauge| 当前活跃的(预热的)所有集群数 |
-| warming_clusters | Gauge| 当前正在预热的活动(非活跃的)所有集群数 |
+| cluster_added | Counter | 添加的所有集群数 （通过静态配置或 CDS） |
+| cluster_modified | Counter | 修改的所有集群数 （通过 CDS）      |
+| cluster_removed  | Counter | 移除的所有集群数 （通过 CDS） |
+| active_clusters  | Gauge| 当前活跃的（预热的）所有集群数 |
+| warming_clusters | Gauge| 当前正在预热的活动（非活跃的）所有集群数 |
 
 每一个集群有一个以 *cluster.<name>.* 为根的统计树。有以下统计项:
 
@@ -27,8 +27,8 @@
 | ---------------- | ------- | ------------------------------------------------------ |
 | upstream_cx_total                        | Counter | 总连接数      |
 | upstream_cx_active                       | Gauge | 总激活的连接数 |
-| upstream_cx_http1_total                  | Counter | HTTP/1.1总连接数|
-| upstream_cx_http2_total                  | Counter | Total HTTP/2总连接数                                    |
+| upstream_cx_http1_total                  | Counter | HTTP/1.1 总连接数 |
+| upstream_cx_http2_total                  | Counter | Total HTTP/2 总连接数                                   |
 | upstream_cx_connect_fail                 | Counter | 总连接失败数    |
 | upstream_cx_connect_timeout              | Counter | 总连接超时数    |
 | upstream_cx_idle_timeout                 | Counter | 总连接空闲超时  |
@@ -42,7 +42,7 @@
 | upstream_cx_destroy_with_active_rq       | Counter | 用1 +主动请求销毁总连接数                               |
 | upstream_cx_destroy_local_with_active_rq | Counter | 用1 +主动请求销毁本地总连接数                           |
 | upstream_cx_destroy_remote_with_active_rq| Counter | 用1 +主动请求远程销毁总连接                             |
-| upstream_cx_close_notify                 | Counter | 通过HTTP／1.1连接关闭报头或HTTP／2 GOAWAY关闭的总连接数 |
+| upstream_cx_close_notify                 | Counter | 通过 HTTP/1.1 连接关闭报头或HTTP/2 GOAWAY 关闭的总连接数 |
 | upstream_cx_rx_bytes_total               | Counter | 接收到的总连接字节数                                    |
 | upstream_cx_rx_bytes_buffered            | Gauge | 当前缓冲的接收连接字节                                  |
 | upstream_cx_tx_bytes_total               | Counter | 发送的连接字节总数 |
@@ -57,7 +57,7 @@
 | upstream_rq_pending_failure_eject        | Counter | 由于连接池连接失败而导致的总请求失败                    |
 | upstream_rq_pending_active               | Gauge | 挂起连接池连接的全部活动请求                            |
 | upstream_rq_cancelled                    | Counter | 在获得连接池连接之前取消的总请求                        |
-| upstream_rq_maintenance_mode             | Counter | 由于维护模式导致的请求总数为503                         |
+| upstream_rq_maintenance_mode             | Counter | 由于维护模式导致的请求总数为 503                        |
 | upstream_rq_timeout                      | Counter | 等待响应的总请求|
 | upstream_rq_per_try_timeout              | Counter | 每次尝试超时的总请求                                    |
 | upstream_rq_rx_reset                     | Counter | 远程重置的总请求|
@@ -73,13 +73,13 @@
 | membership_healthy                       | Gauge | 当前集群健康总量（包括健康检查和异常值检测）            |
 | membership_total                         | Gauge | 当前群集成员总数|
 | retry_or_shadow_abandoned                | Counter | 由于缓冲区限制，阴影或重试缓冲的总次数被取消。          |
-| config_reload                            | Counter | 由于配置不同，导致的API重新加载导致配置重新加载。       |
+| config_reload                            | Counter | 由于配置不同，导致的 API 重新加载导致配置重新加载。     |
 | update_attempt                           | Counter | 总簇成员更新尝试|
 | update_success                           | Counter | 总簇成员更新成功率 |
 | update_failure                           | Counter | 总簇成员更新失败|
 | update_empty                             | Counter | 使用空集群负载分配结束的总群集成员更新，并继续使用以前配置 |
-| update_no_rebuild                        | Counter | 没有导致任何集群负载平衡结构重建的完全成功的群集成员更新|
-| version                                  | Gauge | 从最后一次成功的API获取内容的哈希                       |
+| update_no_rebuild                        | Counter | 没有导致任何集群负载均衡结构重建的完全成功的群集成员更新|
+| version                                  | Gauge | 从最后一次成功的 API 获取内容的哈希                     |
 | max_host_weight                          | Gauge | 集群中任意主机的最大权重                                |
 | bind_errors                              | Counter | 将套接字绑定到已配置的源地址的总错误                    |
 
@@ -99,58 +99,58 @@
 
 ## 异常点检测统计
 
-如果为集群配置了[异常点检测](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier#arch-overview-outlier-detection) , 统计将以 *cluster.<name>.outlier_detection.* 为根，包含如下:
+如果为集群配置了[异常点检测](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier#arch-overview-outlier-detection)，统计将以 *cluster.<name>.outlier_detection.* 为根，包含如下:
 
 | 名称          | 类型 | 描述        |
 | ---------------- | ------- | ------------------------------------------------------ |
-| ejections_enforced_total                       | Counter | 由于异常值类型强制执行的弹出次数                   |
-| ejections_active                               | Gauge | 当前弹出主机的数量                                 |
-| ejections_overflow                             | Counter | 由于最大弹出率而中止的弹出数                       |
-| ejections_enforced_consecutive_5xx             | Counter | 强制执行的连续5xx弹出数                            |
-| ejections_detected_consecutive_5xx             | Counter | 检测到的连续5xx弹出数（即使未强制执行）            |
+| ejections_enforced_total                       | Counter | 由于异常值类型强制执行的驱逐次数                   |
+| ejections_active                               | Gauge | 当前驱逐主机的数量                                 |
+| ejections_overflow                             | Counter | 由于最大驱逐率而中止的驱逐数                       |
+| ejections_enforced_consecutive_5xx             | Counter | 强制执行的连续 5xx 驱逐数                          |
+| ejections_detected_consecutive_5xx             | Counter | 检测到的连续 5xx 驱逐数（即使未强制执行）          |
 | ejections_enforced_success_rate                | Counter | 强制成功率异常离群数                               |
 | ejections_detected_success_rate                | Counter | 检测成功率离群值的数量（即使未执行）               |
-| ejections_enforced_consecutive_gateway_failure | Counter | 强制连续网关失败弹出数                             |
-| ejections_detected_consecutive_gateway_failure | Counter | 检测到的连续网关故障弹出数目（即使未强制执行）     |
-| ejections_total                                | Counter | 不赞成的由于异常值类型引起的弹出次数（即使未执行） |
-| ejections_consecutive_5xx                      | Counter | 不赞成的连续5xx弹出数（即使未强制执行）            |
+| ejections_enforced_consecutive_gateway_failure | Counter | 强制连续网关失败驱逐数                             |
+| ejections_detected_consecutive_gateway_failure | Counter | 检测到的连续网关故障驱逐数目（即使未强制执行）     |
+| ejections_total                                | Counter | 不赞成的由于异常值类型引起的驱逐次数（即使未执行） |
+| ejections_consecutive_5xx                      | Counter | 不赞成的连续5xx驱逐数（即使未强制执行）            |
 
-## 动态HTTP统计
+## 动态 HTTP 统计
 
-如果使用HTTP，动态HTTP响应代码统计也是可用的。 这些是由各种内部系统发出的，以及一些过滤器，如[路由器过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/router_filter)和[速率限制过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/rate_limit_filter)。统计将以 *cluster.<name>.* 为根，包含如下:
+如果使用 HTTP，动态 HTTP 响应代码统计也是可用的。 这些是由各种内部系统发出的，以及一些过滤器，如[路由器过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/router_filter)和[速率限制过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/rate_limit_filter)。统计将以 *cluster.<name>.* 为根，包含如下:
 
 | 名称                    | 类型   | 描述      |
 | -------------------------- | --------- | ---------------------------------------------------- |
 | upstream_rq_<*xx>          | Counter | HTTP响应代码汇总（例如，2xx 3xx，等。）    |
 | upstream_rq_<*>            | Counter | 特异性的HTTP响应代码（例如，201、302等。） |
 | upstream_rq_time           | Histogram | 请求时间ms|
-| canary.upstream_rq_<*xx>   | Counter | 上游的 canary聚合HTTP响应代码 |
-| canary.upstream_rq_<*>     | Counter | 上游的 canary HTTP特定响应代码 |
-| canary.upstream_rq_time    | Histogram | 上游的canary请求时间ms|
-| internal.upstream_rq_<*xx> | Counter | 内部原始聚合HTTP响应代码|
-| internal.upstream_rq_<*>   | Counter | 内部原始特定HTTP响应代码|
-| internal.upstream_rq_time  | Histogram | 内部原始请求时间ms|
+| canary.upstream_rq_<*xx>   | Counter | 上游的 canary 聚合 HTTP 响应代码 |
+| canary.upstream_rq_<*>     | Counter | 上游的 canary HTTP 特定响应代码 |
+| canary.upstream_rq_time    | Histogram | 上游的 canary 请求时间 ms |
+| internal.upstream_rq_<*xx> | Counter | 内部原始聚合 HTTP 响应代码 |
+| internal.upstream_rq_<*>   | Counter | 内部原始特定 HTTP 响应代码 |
+| internal.upstream_rq_time  | Histogram | 内部原始请求时间 ms |
 | external.upstream_rq_<*xx> | Counter | HTTP响应代码聚集外部性|
 | external.upstream_rq_<*>   | Counter | HTTP响应代码和特异性|
-| external.upstream_rq_time  | Histogram | 外部原始请求时间ms|
+| external.upstream_rq_time  | Histogram | 外部原始请求时间 ms |
 
-## 可变树动态HTTP统计
+## 可变树动态 HTTP 统计
 
-如果配置了可变树统计信息，则它们将存在于 *cluster.<name>.<alt name>.*命名空间。所产生的统计数据与动态HTTP统计部分[以上](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats.html)所记录的数据相同。
+如果配置了可变树统计信息，则它们将存在于 *cluster.<name>.<alt name>.*命名空间。所产生的统计数据与动态 HTTP 统计部分[以上](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats.html)所记录的数据相同。
 
-## 每个服务区域动态 HTTP统计
+## 每个服务区域动态 HTTP 统计
 
 如果服务区域可用于本地服务 (通过 [`--service-zone`](https://www.envoyproxy.io/docs/envoy/latest/operations/cli#cmdoption-service-zone)) 和 [上游集群](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/service_discovery#arch-overview-service-discovery-types-sds), Envoy 在将跟踪 *cluster.<name>.zone.<from_zone>.<to_zone>.* 命名空间的以下统计数据.
 
 | 名称                    | 类型   | 描述  |
 | ----------------- | --------- | ---------------------------------------------------- |
-| upstream_rq_<*xx> | Counter| 聚合HTTP响应代码（例如，2xx 3xx，等。） |
-| upstream_rq_<*>| Counter| 特定的HTTP响应代码（例如，201号等） |
-| upstream_rq_time  | Histogram | 请求时间ms                 |
+| upstream_rq_<*xx> | Counter| 聚合 HTTP 响应代码（例如，2xx 3xx，等。） |
+| upstream_rq_<*>| Counter| 特定的 HTTP 响应代码（例如，201 等） |
+| upstream_rq_time  | Histogram | 请求时间 ms                |
 
 ## 负载均衡统计
 
-负载平衡器决策监测统计。统计以 *cluster.<name>.* 为根，包含如下统计: 
+负载均衡器决策监测统计。统计以 *cluster.<name>.* 为根，包含如下统计: 
 
 | 名称          | 类型 | 描述        |
 | ---------------- | ------- | ------------------------------------------------------ |
@@ -166,7 +166,7 @@
 
 ## 负载均衡子集统计
 
-负载平衡器子集<arch_overview_load_balancer_subsets>决策的统计监测。统计以 *cluster.<name>.* 为根，包含如下统计:
+负载均衡器子集 <arch_overview_load_balancer_subsets> 决策的统计监测。统计以 *cluster.<name>.* 为根，包含如下统计:
 
 | 名称                    | 类型   | 描述      |
 | ------------------- | ------- | ---------------------------------------------------------- |

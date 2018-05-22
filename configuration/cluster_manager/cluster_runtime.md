@@ -6,11 +6,11 @@
 
 - health_check.min_interval
 
-  健康检查的最小值 [interval](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-interval)。默认值是0。健康检查interval的值将位于*min_interval* 和 *max_interval*之间。
+  健康检查的最小值 [interval](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-interval)。默认值是0。健康检查 interval 的值将位于 *min_interval* 和 *max_interval*之间。
 
 - health_check.max_interval
 
-  健康检查的最大值 [interval](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-interval). 默认值是MAX_INT。健康检查interval的值将位于*min_interval* 和 *max_interval*之间。
+  健康检查的最大值 [interval](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-interval)。默认值是 MAX_INT。健康检查interval的值将位于 *min_interval* 和  *max_interval* 之间。
 
 - health_check.verify_cluster
 
@@ -18,7 +18,7 @@
 
 ## 异常点检测
 
-查看异常点检测[架构概览](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier#arch-overview-outlier-detection) 取得更多异常点检测的信息。异常点检测支持的运行时参数和 [静态配置参数](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection)一样, namely:
+查看异常点检测[架构概览](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier#arch-overview-outlier-detection) 取得更多异常点检测的信息。异常点检测支持的运行时参数和 [静态配置参数](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection)一样，分别为：
 
 - outlier_detection.consecutive_5xx
 
@@ -68,25 +68,25 @@
 
 - upstream.healthy_panic_threshold
 
-  设置 [恐慌阈](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#arch-overview-load-balancing-panic-threshold) 百分比. 默认达到50%.
+  设置[恐慌阈](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#arch-overview-load-balancing-panic-threshold)百分比. 默认达到 50%.
 
 - upstream.use_http2
 
-   如果配置的话，集群是否使用*http2*[特征](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster#config-cluster-manager-cluster-features) 。设置为0以禁用HTTP / 2，即使配置了该功能.默认值是关闭。
+   如果配置的话，集群是否使用 *http2* [特征](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster#config-cluster-manager-cluster-features) 。设置为0以禁用HTTP / 2，即使配置了该功能.默认值是关闭。
 
 - upstream.weight_enabled
 
-  用来打开或者关闭权重负载均衡的二级制开关。如果设置成非0数值，按权重负载均衡的功能是打开的. 默认值是打开.
+  用来打开或者关闭权重负载均衡的二级制开关。如果设置成非0数值，按权重负载均衡的功能是打开的。默认值是打开。
 
 ## 区域感知负载均衡
 
 - upstream.zone_routing.enabled
 
-  多大百分比的请求将会被路由到相同上游区域。默认是100%请求
+  多大百分比的请求将会被路由到相同上游区域。默认是 100% 请求。
 
 - upstream.zone_routing.min_cluster_size
 
-  某个上游集群能被区域感知尝试的最小值。 默认值是6。如果上游集群数值比 *min_cluster_size*小，区域路由感知将不被执行.
+  某个上游集群能被区域感知尝试的最小值。 默认值是 6。如果上游集群数值比 *min_cluster_size* 小，区域路由感知将不被执行。
 
 ## 断路
 
