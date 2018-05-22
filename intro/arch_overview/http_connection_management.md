@@ -10,11 +10,11 @@ Envoy 的 HTTP 连接管理器内建支持 HTTP/1.1、WebSockets 和 HTTP/2。�
 
 ## HTTP 头净化
 
-出于安全原因，HTTP 连接管理器执行不同的[头净化](../../configuration/http_conn_man/header_sanitizing.md#config-http-conn-man-header-sanitizing) 操作。
+出于安全原因，HTTP 连接管理器执行不同的[头净化](../../configuration/http_conn_man/header_sanitizing.md#config-http-conn-man-header-sanitizing)操作。
 
 ## 路由表配置
 
-每个[HTTP 连接管理器过滤器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man) 有一个相关的[路由表](http_routing.md#arch-overview-http-routing)。路由表可以两种方式中的一种指定：
+每个 [HTTP 连接管理器过滤器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man)有一个相关的[路由表](http_routing.md#arch-overview-http-routing)。路由表可以两种方式中的一种指定：
 
 - 静态地。
-- 通过 [RDS API](../../configuration/http_conn_man/rds.md#config-http-conn-man-rds)动态地。
+- 通过 [RDS API](../../configuration/http_conn_man/rds.md#config-http-conn-man-rds) 动态地。
