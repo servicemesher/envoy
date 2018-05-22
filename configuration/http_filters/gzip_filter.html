@@ -120,7 +120,16 @@
 <ul class="summary">
     
     
+    
+        
+        <li>
+            <a href="https://servicemesher.github.io" target="_blank" class="custom-link">ServiceMesher主页</a>
+        </li>
+    
+    
 
+    
+    <li class="divider"></li>
     
 
     
@@ -136,7 +145,7 @@
                     
                         <b>1.1.</b>
                     
-                    介绍
+                    说明
             
                 </a>
             
@@ -2186,36 +2195,36 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="gzip">Gzip</h1>
-<p>Gzip is an HTTP filter which enables Envoy to compress dispatched data from an upstream service upon client request. Compression is useful in situations where large payloads need to be transmitted without compromising the response time.</p>
+<p>Gzip &#x662F;&#x4E00;&#x4E2A; http &#x8FC7;&#x6EE4;&#x5668;&#x3002;&#x8BE5;&#x8FC7;&#x6EE4;&#x5668;&#x5141;&#x8BB8; Envoy &#x538B;&#x7F29;&#x4ECE;&#x4E0A;&#x6E38;&#x670D;&#x52A1;&#x57FA;&#x4E8E;&#x5BA2;&#x6237;&#x7AEF;&#x8BF7;&#x6C42;&#x5206;&#x53D1;&#x7684;&#x6570;&#x636E;&#x3002;&#x5728;&#x5927;&#x91CF;&#x6570;&#x636E;&#x9700;&#x8981;&#x4F20;&#x8F93;&#x800C;&#x54CD;&#x5E94;&#x65F6;&#x95F4;&#x88AB;&#x9650;&#x5B9A;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x538B;&#x7F29;&#x64CD;&#x4F5C;&#x662F;&#x6709;&#x7528;&#x7684;&#x3002;</p>
 <h2 id="configuration">Configuration</h2>
 <ul>
-<li><a href="../../api-v2/config/filter/http/gzip/v2/gzip.proto.md#envoy-api-msg-config-filter-http-gzip-v2-gzip">v2 API reference</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/gzip/v2/gzip.proto.html#envoy-api-msg-config-filter-http-gzip-v2-gzip" target="_blank">v2 API reference</a></li>
 </ul>
 <blockquote>
-<p><strong>Attention</strong></p>
-<p>The <em>window bits</em> is a number that tells the compressor how far ahead in the text the algorithm should be looking for repeated sequence of characters. Due to a known bug in the underlying zlib library, <em>window bits</em> with value eight does not work as expected. Therefore any number below that will be automatically set to 9. This issue might be solved in future releases of the library.</p>
+<p><strong>&#x6CE8;&#x610F;</strong></p>
+<p><em>window bits</em> &#x662F;&#x4E00;&#x4E2A;&#x6570;&#x5B57;&#x3002;&#x8FD9;&#x4E2A;&#x6570;&#x5B57;&#x544A;&#x8BC9;&#x538B;&#x7F29;&#x5668;&#xFF0C;&#x7B97;&#x6CD5;&#x5E94;&#x8BE5;&#x5728;&#x6587;&#x672C;&#x4E4B;&#x524D;&#x591A;&#x5927;&#x8303;&#x56F4;&#x6765;&#x5BFB;&#x627E;&#x91CD;&#x590D;&#x7684;&#x5B57;&#x7B26;&#x5E8F;&#x5217;&#x3002;&#x7531;&#x4E8E;&#x5728;zlib&#x5E93;&#x91CC;&#x7684;&#x4E00;&#x4E2A;&#x5DF2;&#x77E5;bug&#xFF0C;<em>window bits</em> &#x7684;&#x503C;&#x5982;&#x679C;&#x662F; 8&#xFF0C;&#x5219;&#x8FD9;&#x4E2A;&#x503C;&#x4E0D;&#x80FD;&#x6309;&#x7167;&#x9884;&#x671F;&#x8FD0;&#x884C;&#x3002;&#x56E0;&#x6B64;&#x4EFB;&#x4F55;&#x5C0F;&#x4E8E; 8 &#x7684;&#x503C;&#xFF0C;&#x5E94;&#x8BE5;&#x88AB;&#x81EA;&#x52A8;&#x7F6E;&#x4E3A; 9&#x3002;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x5728;&#x5E93;&#x7684;&#x672A;&#x6765;&#x7248;&#x672C;&#x5C06;&#x88AB;&#x89E3;&#x51B3;</p>
 </blockquote>
-<h2 id="how-it-works">How it works</h2>
-<p>When gzip filter is enabled, request and response headers are inspected to determine whether or not the content should be compressed. The content is compressed and then sent to the client with the appropriate headers if either response and request allow.</p>
-<p>By <em>default</em> compression will be <em>skipped</em> when:</p>
+<h2 id="&#x5B83;&#x662F;&#x5982;&#x4F55;&#x5DE5;&#x4F5C;&#x7684;">&#x5B83;&#x662F;&#x5982;&#x4F55;&#x5DE5;&#x4F5C;&#x7684;</h2>
+<p>&#x5F53; gzip &#x8FC7;&#x6EE4;&#x5668;&#x88AB;&#x7F6E;&#x4E3A; enabled &#x72B6;&#x6001;&#xFF0C;&#x8BF7;&#x6C42;&#x548C;&#x54CD;&#x5E94;&#x5934;&#x90FD;&#x88AB;&#x68C0;&#x6D4B;&#xFF0C;&#x4ECE;&#x800C;&#x51B3;&#x5B9A;&#x662F;&#x5426;&#x5185;&#x5BB9;&#x9700;&#x8981;&#x88AB;&#x538B;&#x7F29;&#x3002;&#x5982;&#x679C;&#x8BF7;&#x6C42;&#x6216;&#x54CD;&#x5E94;&#x5141;&#x8BB8;&#x7684;&#x8BDD;&#xFF0C;&#x5185;&#x5BB9;&#x88AB;&#x538B;&#x7F29;&#x5E76;&#x968F;&#x540E;&#x5E26;&#x7740;&#x76F8;&#x5E94;&#x7684;http&#x5934;&#x53D1;&#x9001;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;</p>
+<p>&#x5728;<em>&#x9ED8;&#x8BA4;</em>&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x538B;&#x7F29;&#x64CD;&#x4F5C;&#x88AB;&#x5FFD;&#x7565;&#x3002;&#x8FD9;&#x4E9B;&#x60C5;&#x51B5;&#x5982;&#x4E0B;&#x6240;&#x5217;&#xFF1A;</p>
 <ul>
-<li>A request does NOT contain <em>accept-encoding</em> header.</li>
-<li>A request includes <em>accept-encoding</em> header, but it does not contain &#x201C;gzip&#x201D;.</li>
-<li>A response contains a <em>content-encoding</em> header.</li>
-<li>A Response contains a <em>cache-control</em> header whose value includes &#x201C;no-transform&#x201D;.</li>
-<li>A response contains a <em>transfer-encoding</em> header whose value includes &#x201C;gzip&#x201D;.</li>
-<li>A response does not contain a <em>content-type</em> value that matches one of the selected mime-types, which default to <em>application/javascript</em>, <em>application/json</em>, <em>application/xhtml+xml</em>, <em>image/svg+xml</em>, <em>text/css</em>, <em>text/html</em>, <em>text/plain</em>, <em>text/xml</em>.</li>
-<li>Neither <em>content-length</em> nor <em>transfer-encoding</em> headers are present in the response.</li>
-<li>Response size is smaller than 30 bytes (only applicable when <em>transfer-encoding</em> is not chuncked).</li>
+<li>&#x8BF7;&#x6C42;&#x4E0D;&#x5305;&#x542B;&#x5934; <em>accept-encoding</em></li>
+<li>&#x8BF7;&#x6C42;&#x5305;&#x542B;&#x5934; <em>accept-encoding</em>&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x5305;&#x542B; &#x201C;gzip&#x201D;</li>
+<li>&#x54CD;&#x5E94;&#x5305;&#x542B;&#x5934; <em>content-encoding</em></li>
+<li>&#x54CD;&#x5E94;&#x5305;&#x542B;&#x5934; <em>cache-control</em>&#xFF0C;&#x8BE5;&#x5934;&#x7684;&#x503C;&#x5305;&#x542B; &quot;no-transform&quot;</li>
+<li>&#x54CD;&#x5E94;&#x5305;&#x542B;&#x5934; <em>transfer-encoding</em>&#xFF0C;&#x8BE5;&#x5934;&#x7684;&#x503C;&#x5305;&#x542B; &quot;gzip&quot;</li>
+<li>&#x54CD;&#x5E94;&#x7684; <em>content-type</em> &#x503C;&#xFF0C;&#x4E0D;&#x548C;&#x5982;&#x4E0B;&#x7684; mime-type &#x503C;&#x76F8;&#x5339;&#x914D;&#xFF0C;&#x8FD9;&#x4E9B; mime-type &#x503C;&#x5305;&#x542B;&#xFF1A;<em>application/javascript</em>, <em>application/json</em>, <em>application/xhtml+xml</em>, <em>image/svg+xml</em>, <em>text/css</em>, <em>text/html</em>, <em>text/plain</em>, <em>text/xml</em></li>
+<li>&#x54CD;&#x5E94;&#x4E2D;&#x53CA;&#x4E0D;&#x5305;&#x542B; <em>content-type</em> &#x5934;&#xFF0C;&#x4E5F;&#x4E0D;&#x5305;&#x542B; <em>transfer-encoding</em> &#x5934;</li>
+<li>&#x54CD;&#x5E94;&#x957F;&#x5EA6;&#x5C0F;&#x4E8E; 30 &#x4E2A;&#x5B57;&#x8282;&#xFF08;&#x4EC5;&#x5E94;&#x7528;&#x4E8E; <em>transfer-encoding</em> &#x6CA1;&#x6709;&#x88AB;&#x5206;&#x6210;&#x5927;&#x5757;&#xFF09;</li>
 </ul>
-<p>When compression is <em>applied</em>:</p>
+<p>&#x5728;&#x4EE5;&#x4E0B;&#x60C5;&#x51B5;&#xFF0C;&#x538B;&#x7F29;&#x64CD;&#x4F5C;&#x88AB;<em>&#x4F7F;&#x7528;</em>&#xFF1A;</p>
 <ul>
-<li>The <em>content-length</em> is removed from response headers.</li>
-<li>Response headers contain &#x201C;<em>transfer-encoding: chunked</em>&#x201D; and &#x201C;<em>content-encoding: gzip</em>&#x201D;.</li>
-<li>The &#x201C;<em>vary: accept-encoding</em>&#x201D; header is inserted on every response. </li>
+<li><em>content-length</em> &#x88AB;&#x4ECE;&#x54CD;&#x5E94;&#x5934;&#x4E2D;&#x79FB;&#x9664;</li>
+<li>&#x54CD;&#x5E94;&#x5934;&#x5305;&#x542B; &#x201C;<em>transfer-encoding: chunked</em>&#x201D; &#x4EE5;&#x53CA; &#x201C;<em>content-encoding: gzip</em>&#x201D;</li>
+<li>&#x5934; &#x201C;<em>vary: accept-encoding</em>&#x201D;  &#x88AB;&#x63D2;&#x5165;&#x5230;&#x4E86;&#x6BCF;&#x4E00;&#x4E2A;&#x54CD;&#x5E94;&#x4E2D;</li>
 </ul>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; ServiceMesher 2018 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> &#x6700;&#x540E;&#x66F4;&#x65B0;&#x4E8E; 
-2018-05-15 19:28:55
+2018-05-22 21:44:58
 </span></footer>
                                 
                                 </section>
@@ -2259,7 +2268,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Gzip","level":"5.7.8","depth":2,"next":{"title":"健康检查","level":"5.7.9","depth":2,"path":"configuration/http_filters/health_check_filter.md","ref":"configuration/http_filters/health_check_filter.md","articles":[]},"previous":{"title":"gRPC-Web","level":"5.7.7","depth":2,"path":"configuration/http_filters/grpc_web_filter.md","ref":"configuration/http_filters/grpc_web_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/http_filters/gzip_filter.md","mtime":"2018-05-15T11:28:55.799Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-22T11:20:10.391Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Gzip","level":"5.7.8","depth":2,"next":{"title":"健康检查","level":"5.7.9","depth":2,"path":"configuration/http_filters/health_check_filter.md","ref":"configuration/http_filters/health_check_filter.md","articles":[]},"previous":{"title":"gRPC-Web","level":"5.7.7","depth":2,"path":"configuration/http_filters/grpc_web_filter.md","ref":"configuration/http_filters/grpc_web_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/http_filters/gzip_filter.md","mtime":"2018-05-22T13:44:58.236Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-22T14:02:03.555Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
