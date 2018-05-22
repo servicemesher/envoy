@@ -8,7 +8,7 @@
   "generator": "site",
   "links": {
    "sidebar": {
-   "ServiceMesher": "https://servicemesher.github.io"
+   "ServiceMesher主页": "https://servicemesher.github.io"
     }
   },
   "plugins": [
