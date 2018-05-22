@@ -33,7 +33,7 @@ server 标头将在编码期间被设置为 [server_name](https://www.envoyproxy
 
 ### x-client-trace-id
 
-如果外部客户端设置了该标头, Envoy 会将提供的 trace ID 与内部生产的 [x-request-id](#x-request-id)连接起来。x-client-trace-id 需要保持全局的唯一性，并且我们推荐以 uuid4 的方式生产。如果设置了此标头，它与  [x-envoy-force-trace](#x-envoy-force-trace)有类似的效果。 请参看 [tracing.client_enabled](./runtime/#config-http-conn-man-runtime-client-enabled) 运行时设置。
+如果外部客户端设置了该标头, Envoy 会将提供的 trace ID 与内部生产的 [x-request-id](#x-request-id)连接起来。x-client-trace-id 需要保持全局的唯一性，并且我们推荐以 uuid4 的方式生成 id 。如果设置了此标头，它与  [x-envoy-force-trace](#x-envoy-force-trace)有类似的效果。 请参看 [tracing.client_enabled](../runtime.md#config-http-conn-man-runtime-client-enabled) 运行时设置。
 
 ### x-envoy-downstream-service-cluster
 
