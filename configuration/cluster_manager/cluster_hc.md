@@ -1,9 +1,9 @@
 # 健康检查
 健康检查[架构概览](../../intro/arch_overview/health_checking.md#arch-overview-health-checking).
 
-- 如果为集群配置运行状况检查，会有额外的数据发出.他们记录在[here](cluster_stats.md#config-cluster-manager-cluster-stats).
-- [v1 API documentation](../../api-v1/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc-v1).
-- [v2 API documentation](../../api-v2/api/v2/core/health_check.proto.md#envoy-api-msg-core-healthcheck).
+- 如果为集群配置运行状况检查，会有额外的数据发出.他们记录在[这](cluster_stats.md#config-cluster-manager-cluster-stats).
+- [v1 API 参考文档](../../api-v1/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc-v1).
+- [v2 API 参考文档](../../api-v2/api/v2/core/health_check.proto.md#envoy-api-msg-core-healthcheck).
 
 ## TCP 健康检查
 > 注意
