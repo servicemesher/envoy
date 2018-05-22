@@ -53,7 +53,7 @@ Http 错误注入器支持一下全局运行时配置：
 
 故障过滤器使用 *http.<stat_prefix>.fault.* 作为命名空间输出统计结果。这个统计前缀 [stat prefix](../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix) 来源于 HTTP 链接管理器。
 
-| Name                                 | Type    | Description                                             |
+| 名称                                 | 类型    | 描述                                             |
 | ------------------------------------ | ------- | ------------------------------------------------------- |
 | delays_injected                      | Counter | 延迟的总请求数                        |
 | aborts_injected                      | Counter | 中止的总请求数                |
