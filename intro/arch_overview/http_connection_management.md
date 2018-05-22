@@ -1,20 +1,20 @@
 # HTTP 连接管理
 
-HTTP is such a critical component of modern service oriented architectures that Envoy implements a large amount of HTTP specific functionality. Envoy has a built in network level filter called the[HTTP connection manager](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man). This filter translates raw bytes into HTTP level messages and events (e.g., headers received, body data received, trailers received, etc.). It also handles functionality common to all HTTP connections and requests such as [access logging](access_logging.md#arch-overview-access-logs), [request ID generation and tracing](tracing.md#arch-overview-tracing), [request/response header manipulation](../../configuration/http_conn_man/headers.md#config-http-conn-man-headers), [route table](http_routing.md#arch-overview-http-routing) management, and [statistics](../../configuration/http_conn_man/stats.md#config-http-conn-man-stats).
+HTTP 是现代面向服务价格如此关键的一个元素，以至于 Envoy 实现了大量特定于 HTTP 的功能。Envoy 有一个内建的网络层过滤器称为[HTTP 连接管理器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man)。该管理器将原始字节翻译为 HTTP 层消息和事件。(即，收到的头，收到的体数据，收到的尾，等等)。它还处理对所有 HTTP 连接共同的功能和请求，如[访问日志](access_logging.md#arch-overview-access-logs)，[请求 ID 生成和追踪](tracing.md#arch-overview-tracing)，[请求/相应头操控](../../configuration/http_conn_man/headers.md#config-http-conn-man-headers)，[路由表](http_routing.md#arch-overview-http-routing) 管理，以及[统计](../../configuration/http_conn_man/stats.md#config-http-conn-man-stats)。
 
-HTTP connection manager [configuration](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man).
+HTTP 连接管理器[配置](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man)。
 
 ## HTTP 协议
 
-Envoy’s HTTP connection manager has native support for HTTP/1.1, WebSockets, and HTTP/2. It does not support SPDY. Envoy’s HTTP support was designed to first and foremost be an HTTP/2 multiplexing proxy. Internally, HTTP/2 terminology is used to describe system components. For example, an HTTP request and response take place on a *stream*. A codec API is used to translate from different wire protocols into a protocol agnostic form for streams, requests, responses, etc. In the case of HTTP/1.1, the codec translates the serial/pipelining capabilities of the protocol into something that looks like HTTP/2 to higher layers. This means that the majority of the code does not need to understand whether a stream originated on an HTTP/1.1 or HTTP/2 connection.
+Envoy 的 HTTP 连接管理器内建支持 HTTP/1.1、WebSockets 和 HTTP/2。它不支持 SPDY。Envoy 的 HTTP 支持被设计为首先是一个 HTTP/2 多路复用代理。在内部，HTTP/2 这一名词用于描述系统元素。例如，一个 HTTP 请求和响应发生在一个*流*上。一个编解码器 API 被用于为流、请求、响应等等将不同的连线协议翻译为一个与协议不可知的形式。对于 HTTP/1.1，编解码器将协议的串行/流水线能力转换为对更高层看起来像 HTTP/2 的某种东西。这意味着大部分代码不需要理解一个流是否来源于一个 HTTP/1.1 或 HTTP/2 连接。
 
-## HTTP header sanitizing
+## HTTP 头净化
 
-The HTTP connection manager performs various [header sanitizing](../../configuration/http_conn_man/header_sanitizing.md#config-http-conn-man-header-sanitizing) actions for security reasons.路由表
+出于安全原因，HTTP 连接管理器执行不同的[头净化](../../configuration/http_conn_man/header_sanitizing.md#config-http-conn-man-header-sanitizing) 操作。
 
 ## 路由表配置
 
-Each [HTTP connection manager filter](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man) has an associated [route table](http_routing.md#arch-overview-http-routing). The route table can be specified in one of two ways:
+每个[HTTP 连接管理器过滤器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man) 有一个相关的[路由表](http_routing.md#arch-overview-http-routing)。路由表可以两种方式中的一种指定：
 
-- Statically.
-- Dynamically via the [RDS API](../../configuration/http_conn_man/rds.md#config-http-conn-man-rds).
+- 静态地。
+- 通过 [RDS API](../../configuration/http_conn_man/rds.md#config-http-conn-man-rds)动态地。
