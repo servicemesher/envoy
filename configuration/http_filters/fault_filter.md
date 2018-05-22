@@ -1,61 +1,61 @@
 # 故障注入
 
-The fault injection filter can be used to test the resiliency of microservices to different forms of failures. The filter can be used to inject delays and abort requests with user-specified error codes, thereby providing the ability to stage different failure scenarios such as service failures, service overloads, high network latency, network partitions, etc. Faults injection can be limited to a specific set of requests based on the (destination) upstream cluster of a request and/or a set of pre-defined request headers.
+故障注入过滤器可以用来测试弹性的微服务架构中不同的错误形式，过滤器也可用用户自定义的错误代码来延时注入以及终止请求，从而提供了不同的失败场景下处理的能力，例如服务失败、服务过载、服务高延时、网络分区等。故障注入可以限定基于（目的地）上游集群中的一组特定的请求或者一组预定义的请求头。
 
-The scope of failures is restricted to those that are observable by an application communicating over the network. CPU and disk failures on the local host cannot be emulated.
+故障可观察到的范围仅限于通过网络通信的应用程序。无法模拟本地主机上的CPU和磁盘故障。
 
-Currently, the fault injection filter has the following limitations:
+目前，故障注入过滤器有如下局限性：
 
-- Abort codes are restricted to HTTP status codes only
-- Delays are restricted to fixed duration.
+- 中止代码仅限于HTTP状态代码
+- 延时仅限于固定时长
 
-Future versions will include support for restricting faults to specific routes, injecting *gRPC* and *HTTP/2* specific error codes and delay durations based on distributions.
+在未来的版本中将会包括对特殊路由限定故障的支持，基于分布注入*gRPC* 和 *HTTP/2* 的指定错误码和延时的持续时长
 
-## Configuration
+## 配置
 
-Note
+注释
 
-The fault injection filter must be inserted before any other filter, including the router filter.
+故障注入过滤器需要在其他过滤器之前注入，包括路由过滤器。
 
-- [v1 API reference](../../api-v1/http_filters/fault_filter.md#config-http-filters-fault-injection-v1)
-- [v2 API reference](../../api-v2/config/filter/http/fault/v2/fault.proto.md#envoy-api-msg-config-filter-http-fault-v2-httpfault)
+- [v1 API reference](https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/fault_filter#config-http-filters-fault-injection-v1)
+- [v2 API reference](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/fault/v2/fault.proto#envoy-api-msg-config-filter-http-fault-v2-httpfault)
 
-## Runtime
+## 运行时
 
-The HTTP fault injection filter supports the following global runtime settings:
+Http 错误注入器支持一下全局运行时配置：
 
 - fault.http.abort.abort_percent
 
-  % of requests that will be aborted if the headers match. Defaults to the *abort_percent* specified in config. If the config does not contain an *abort* block, then *abort_percent* defaults to 0.
+  如果请求头匹配，将按照百分比终止请求。默认添加 *abort_percent* 的配置。如果配置中不包含 *abort* 语句块，则 *abort_percent* 的默认值为0。
 
 - fault.http.abort.http_status
 
-  HTTP status code that will be used as the of requests that will be aborted if the headers match. Defaults to the HTTP status code specified in the config. If the config does not contain an *abort*block, then *http_status* defaults to 0.
+  如果请求头匹配，HTTP 状态码将作为匹配时中止的状态码。默认添加 HTTP 状态码的配置。如果配置中不包含 *abort* 语句块，则 *http_status* 默认值为 0。
 
 - fault.http.delay.fixed_delay_percent
 
-  % of requests that will be delayed if the headers match. Defaults to the *delay_percent* specified in the config or 0 otherwise.
+  如果请求头匹配，则按照百分比延时请求。默认添加 *delay_percent* 的配置，否则为0。
 
 - fault.http.delay.fixed_duration_ms
 
-  The delay duration in milliseconds. If not specified, the *fixed_duration_ms* specified in the config will be used. If this field is missing from both the runtime and the config, no delays will be injected.
+  延时持续毫秒数。如果不指定值，则 *fixed_duration_ms* 使用默认的配置。如果在运行时和配置中都缺少该字段，则不是用延时。
 
-*Note*, fault filter runtime settings for the specific downstream cluster override the default ones if present. The following are downstream specific runtime keys:
+*备注*，如果存在指定的下游集群的故障过滤器运行时设置，将重写默认的运行时设置。以下是指定下游集群运行时的keys：
 
 - fault.http.<downstream-cluster>.abort.abort_percent
 - fault.http.<downstream-cluster>.abort.http_status
 - fault.http.<downstream-cluster>.delay.fixed_delay_percent
 - fault.http.<downstream-cluster>.delay.fixed_duration_ms
 
-Downstream cluster name is taken from [the HTTP x-envoy-downstream-service-cluster](../http_conn_man/headers.md#config-http-conn-man-headers-downstream-service-cluster) header. If the following settings are not found in the runtime it defaults to the global runtime settings which defaults to the config settings.
+可以通过 [HTTP x-envoy-downstream-service-cluster](../http_conn_man/headers.md#config-http-conn-man-headers-downstream-service-cluster) 的 header 头获取下游集群的名称。如果在运行时中没有找到运行时配置，则使用全局的运行时配置作为当前配置。
 
-## Statistics
+## 统计
 
-The fault filter outputs statistics in the *http.<stat_prefix>.fault.* namespace. The [stat prefix](../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix) comes from the owning HTTP connection manager.
+故障过滤器使用 *http.<stat_prefix>.fault.* 作为命名空间输出统计结果。这个统计前缀 [stat prefix](../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix) 来源于 HTTP 链接管理器。
 
-| Name                                 | Type    | Description                                             |
+| 名称                                 | 类型    | 描述                                             |
 | ------------------------------------ | ------- | ------------------------------------------------------- |
-| delays_injected                      | Counter | Total requests that were delayed                        |
-| aborts_injected                      | Counter | Total requests that were aborted                        |
-| <downstream-cluster>.delays_injected | Counter | Total delayed requests for the given downstream cluster |
-| <downstream-cluster>.aborts_injected | Counter | Total aborted requests for the given downstream cluster |
+| delays_injected                      | Counter | 延迟的总请求数                        |
+| aborts_injected                      | Counter | 中止的总请求数                |
+| <downstream-cluster>.delays_injected | Counter | 指定的下游集群的延迟的总请求数   |
+| <downstream-cluster>.aborts_injected | Counter | 指定的下游集群的中止的总请求数   |
