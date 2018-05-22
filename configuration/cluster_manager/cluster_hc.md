@@ -1,19 +1,15 @@
 # 健康检查
+健康检查[架构概览](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/health_checking#arch-overview-health-checking)。
 
-Health checking [architecture overview](../../intro/arch_overview/health_checking.md#arch-overview-health-checking).
+- 如果为集群配置运行状况检查，会有额外的数据发出。记录在[这里](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats#config-cluster-manager-cluster-stats)。
+- [v1 API 参考文档](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-v1)。
+- [v2 API 参考文档](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/health_check.proto#envoy-api-msg-core-healthcheck)。
 
-- If health checking is configured for a cluster, additional statistics are emitted. They are documented [here](cluster_stats.md#config-cluster-manager-cluster-stats).
-- [v1 API documentation](../../api-v1/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc-v1).
-- [v2 API documentation](../../api-v2/api/v2/core/health_check.proto.md#envoy-api-msg-core-healthcheck).
+## TCP 健康检查
+> **注意**
+本节是为 v1 API 编写的，但这些概念也适用于 v2 API。针对 V2 API 将在未来的正式版中重新定义。
 
-## TCP health checking
-
-Attention
-
-This section is written for the v1 API but the concepts also apply to the v2 API. It will be rewritten to target the v2 API in a future release.
-
-The type of matching performed is the following (this is the MongoDB health check request and response):
-
+执行的匹配类型如下（这是MongoDB运行状况检查请求和响应）：
 ```json
  {
    "send": [
@@ -46,11 +42,10 @@ The type of matching performed is the following (this is the MongoDB health chec
     ]
 }
 ```
+在每个运行状况检查周期中，所有 "send" 字节都会发送到目标服务器。每个二进制块的长度可以是任意的，并且在发送时只是连接在一起。（分离成多个块可用于可读性）。
 
-During each health check cycle, all of the “send” bytes are sent to the target server. Each binary block can be of arbitrary length and is just concatenated together when sent. (Separating into multiple blocks can be useful for readability).
+在检查响应时，执行“模糊”匹配，以便每个二进制块必须被找到，并且按照指定的顺序，但不一定是连续的。因此，在上面的示例中，可以在 “EEEEEEEE” 和 “01000000”  之间的响应中插入 “FFFFFFFF”，并且该检查仍然会通过。这样做是为了支持将非确定性数据（如时间）插入到响应中的协议。
 
-When checking the response, “fuzzy” matching is performed such that each binary block must be found, and in the order specified, but not necessarily contiguous. Thus, in the example above, “FFFFFFFF” could be inserted in the response between “EEEEEEEE” and “01000000” and the check would still pass. This is done to support protocols that insert non-deterministic data, such as time, into the response.
+健康检查需要更复杂的模式，如发送/接收/发送/接收目前不可能。
 
-Health checks that require a more complex pattern such as send/receive/send/receive are not currently possible.
-
-If “receive” is an empty array, Envoy will perform “connect only” TCP health checking. During each cycle, Envoy will attempt to connect to the upstream host, and consider it a success if the connection succeeds. A new connection is created for each health check cycle.
+如果 “receive ” 是一个空数组，则 Envoy 将执行 "connect only" TCP 健康检查。在每个周期中，Envoy 将尝试连接到上游主机，并且如果连接成功，则认为它是成功的。每个健康检查周期都会创建一个新连接。
