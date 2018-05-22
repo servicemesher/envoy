@@ -24,15 +24,16 @@ HTTP 连接管理器在解码时（当接受到请求时）以及编码时（当
 
 ### user-agent
 
-当启用 [add_user_agent](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-add-user-agent) 选项后，连接管理器可能会在解码时设定  user-agent 标头。 The header is only modified if it is not already set. If the connection manager does set the header, the value is determined by the '--service-cluster' command line option.
+当启用 [add_user_agent](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-add-user-agent) 选项后，连接管理器可能会在解码时设定  user-agent 标头。 
+标头只有在尚未设置的情况下才会被修改。 如果连接管理器确实设置了标头，则该值由 `--service-cluster` 命令行选项确定。
 
 ### server
 
-The server header will be set during encoding to the value in the [server_name](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-server-name) option.
+server 标头将在编码期间被设置为 [server_name](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-server-name) 选项中的值。
 
 ### x-client-trace-id
 
-If an external client sets this header, Envoy will join the provided trace ID with the internally generated x-request-id. x-client-trace-id needs to be globally unique and generating a uuid4 is recommended. If this header is set, it has similar effect to x-envoy-force-trace. See the tracing.client_enabled runtime configuration setting.
+如果外部客户端设置了该标头, Envoy 会将提供的 trace ID 与内部生产的 [x-request-id](#x-request-id)连接起来。x-client-trace-id 需要保持全局的唯一性，并且我们推荐以 uuid4 的方式生产。如果设置了此标头，它与  [x-envoy-force-trace](#x-envoy-force-trace)有类似的效果。 请参看 [tracing.client_enabled](./runtime/#config-http-conn-man-runtime-client-enabled) 运行时设置。
 
 ### x-envoy-downstream-service-cluster
 
