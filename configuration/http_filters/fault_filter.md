@@ -1,13 +1,13 @@
 # 故障注入
 
-故障注入过滤器可以用来测试弹性的微服务架构中不同的错误形式，过滤器也可用用户自定义的错误代码来延时注入以及终止请求，从而提供了不同的失败场景下处理的能力，例如服务失败、服务过载、服务高延时、网络分区等。故障注入可以限定基于（目的地）上游集群中的一组特定的请求或者一组预定义的请求头。
+故障注入过滤器可以用来测试弹性的微服务架构中不同的错误形式，过滤器也可用用户自定义的错误代码来延时注入以及终止请求，从而提供了不同的失败场景下处理的能力，例如服务失败、服务过载、服务高延时、网络分区等。故障注入可以限定基于（目的地）上游集群中的一组特定的请求或者一组预定义的请求头。
 
-故障可观察到的范围仅限于通过网络通信的应用程序。无法模拟本地主机上的CPU和磁盘故障。
+故障可观察到的范围仅限于通过网络通信的应用程序。无法模拟本地主机上的CPU和磁盘故障。
 
 目前，故障注入过滤器有如下局限性：
 
 - 中止代码仅限于HTTP状态代码
-- 延时仅限于固定时长
+- 延时仅限于固定时长
 
 在未来的版本中将会包括对特殊路由限定故障的支持，基于分布注入*gRPC* 和 *HTTP/2* 的指定错误码和延时的持续时长
 
@@ -15,18 +15,18 @@
 
 注释
 
-故障注入过滤器需要在其他过滤器之前注入，包括路由过滤器。
+故障注入过滤器需要在其他过滤器之前注入，包括路由过滤器。
 
 - [v1 API reference](https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/fault_filter#config-http-filters-fault-injection-v1)
 - [v2 API reference](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/fault/v2/fault.proto#envoy-api-msg-config-filter-http-fault-v2-httpfault)
 
 ## 运行时
 
-Http 错误注入器支持一下全局运行时配置：
+Http 错误注入器支持一下全局运行时配置：
 
 - fault.http.abort.abort_percent
 
-  如果请求头匹配，将按照百分比终止请求。默认添加 *abort_percent* 的配置。如果配置中不包含 *abort* 语句块，则 *abort_percent* 的默认值为0。
+  如果请求头匹配，将按照百分比终止请求。默认添加 *abort_percent* 的配置。如果配置中不包含 *abort* 语句块，则 *abort_percent* 的默认值为0。
 
 - fault.http.abort.http_status
 
