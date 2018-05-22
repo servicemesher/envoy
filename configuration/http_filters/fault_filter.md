@@ -30,7 +30,7 @@ Http 错误注入器支持一下全局运行时配置：
 
 - fault.http.abort.http_status
 
-  如果请求头匹配，HTTP 状态码将作为匹配时中止的状态码。默认添加 HTTP 状态码的配置。如果配置中不包含 *abort* 语句块，则 *http_status* 默认值为 0。
+  如果请求头匹配，HTTP 状态码将作为匹配时中止的状态码。默认添加 HTTP 状态码的配置。如果配置中不包含 *abort* 语句块，则 *http_status* 默认值为 0。
 
 - fault.http.delay.fixed_delay_percent
 
@@ -56,6 +56,6 @@ Http 错误注入器支持一下全局运行时配置：
 | Name                                 | Type    | Description                                             |
 | ------------------------------------ | ------- | ------------------------------------------------------- |
 | delays_injected                      | Counter | 延迟的总请求数                        |
-| aborts_injected                      | Counter | 中止的总请求数                       |
-| <downstream-cluster>.delays_injected | Counter | 指定的下游集群的延迟的总请求数 |
-| <downstream-cluster>.aborts_injected | Counter | 指定的下游集群的中止的总请求数 |
+| aborts_injected                      | Counter | 中止的总请求数                |
+| <downstream-cluster>.delays_injected | Counter | 指定的下游集群的延迟的总请求数   |
+| <downstream-cluster>.aborts_injected | Counter | 指定的下游集群的中止的总请求数   |
