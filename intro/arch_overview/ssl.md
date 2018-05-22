@@ -1,24 +1,24 @@
 # TLS
 
-Envoy supports both [TLS termination](../../api-v1/listeners/listeners.md#config-listener-ssl-context) in listeners as well as [TLS origination](../../api-v1/cluster_manager/cluster_ssl.md#config-cluster-manager-cluster-ssl) when making connections to upstream clusters. Support is sufficient for Envoy to perform standard edge proxy duties for modern web services as well as to initiate connections with external services that have advanced TLS requirements (TLS1.2, SNI, etc.). Envoy supports the following TLS features:
+Envoy 同时支持监听器中的 [TLS 终止](https://www.envoyproxy.io/docs/envoy/latest/api-v1/listeners/listeners.html#config-listener-ssl-context)和与上游集群建立连接时的 [TLS 发起](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_ssl#config-cluster-manager-cluster-ssl)。不管是为现代 web 服务提供标准的边缘代理功能，还是同具有高级 TLS 要求（TLS1.2, SNI, 等等）的外部服务建立连接，Envoy 都提供了充分的支持。Envoy 支持以下的 TLS 特性：
 
-- **Configurable ciphers**: Each TLS listener and client can specify the ciphers that it supports.
-- **Client certificates**: Upstream/client connections can present a client certificate in addition to server certificate verification.
-- **Certificate verification and pinning**: Certificate verification options include basic chain verification, subject name verification, and hash pinning.
-- **Certificate revocation**: Envoy can check peer certificates against a certificate revocation list (CRL) if one is [provided](../../api-v2/api/v2/auth/cert.proto.md#envoy-api-field-auth-certificatevalidationcontext-crl).
-- **ALPN**: TLS listeners support ALPN. The HTTP connection manager uses this information (in addition to protocol inference) to determine whether a client is speaking HTTP/1.1 or HTTP/2.
-- **SNI**: SNI is supported for both server (listener) and client (upstream) connections.
-- **Session resumption**: Server connections support resuming previous sessions via TLS session tickets (see [RFC 5077](https://www.ietf.org/rfc/rfc5077.txt)). Resumption can be performed across hot restarts and between parallel Envoy instances (typically useful in a front proxy configuration).
+- **加密可配置**: 每个 TLS 监听器和客户端都可以指定它支持的加密算法。
+- **客户端证书**: 除服务器证书验证外，上游/客户端连接还可以提供一个客户端证书。
+- **证书验证和固定**: 证书验证选项包括基本的证书链验证、Subject 名称验证和哈希固定。
+- **证书撤销**: 如果[提供]((https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto#envoy-api-field-auth-certificatevalidationcontext-crl)了证书撤销列表（CRL），Envoy 可以根据它检查对等证书。
+- **ALPN**: TLS 监听器支持 ALPN. HTTP 连接管理器使用这个信息（以及协议接口）来确定客户端使用的是 HTTP/1.1 还是 HTTP/2.
+- **SNI**: SNI 同时支持服务端（监听器）连接和客户端（上游）连接。
+- **会话恢复**: 服务器连接支持通过 TLS 会话票据恢复之前的会话（参见[RFC 5077](https://www.ietf.org/rfc/rfc5077.txt)）。可以在热重启时和并行 Envoy 实例之间执行恢复（通常在前端代理配置中很有用）。
 
 ## 底层实现
 
-Currently Envoy is written to use [BoringSSL](https://boringssl.googlesource.com/boringssl) as the TLS provider.
+目前 Envoy 被编写为使用 [BoringSSL](https://boringssl.googlesource.com/boringssl) 作为 TLS 提供者。
 
-## 启用认证验证
+## 启用证书验证
 
-Certificate verification of both upstream and downstream connections is not enabled unless the validation context specifies one or more trusted authority certificates.
+除非验证上下文指定了一个或多个可信授权证书，否则上游和下游连接的证书验证都不会启用。
 
-### Example configuration
+### 配置示例
 
 ```yaml
 static_resources:
@@ -47,7 +47,7 @@ static_resources:
             filename: /etc/ssl/certs/ca-certificates.crt
 ```
 
-*/etc/ssl/certs/ca-certificates.crt* is the default path for the system CA bundle on Debian systems. This makes Envoy verify the server identity of *127.0.0.2:1234* in the same way as e.g. cURL does on standard Debian installations. Common paths for system CA bundles on Linux and BSD are
+*/etc/ssl/certs/ca-certificates.crt* 是 Debian 系统上 CA 包文件的默认路径。它使得 Envoy 在验证 *127.0.0.2:1234* 的服务器身份时，使用与标准安装的 Debian 系统上的 cURL 等相同的方式。Linux 和 BSD 系统上常见的系统 CA 包文件路径有
 
 - /etc/ssl/certs/ca-certificates.crt (Debian/Ubuntu/Gentoo etc.)
 - /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem (CentOS/RHEL 7)
@@ -56,10 +56,10 @@ static_resources:
 - /usr/local/etc/ssl/cert.pem (FreeBSD)
 - /etc/ssl/cert.pem (OpenBSD)
 
-See the reference for [UpstreamTlsContexts](../../api-v2/api/v2/auth/cert.proto.md#envoy-api-msg-auth-upstreamtlscontext) and [DownstreamTlsContexts](../../api-v2/api/v2/auth/cert.proto.md#envoy-api-msg-auth-downstreamtlscontext) for other TLS options.
+对于其他的 TLS 选项，请参见 [UpstreamTlsContexts](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto#envoy-api-msg-auth-upstreamtlscontext) 和 [DownstreamTlsContexts](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto#envoy-api-msg-auth-downstreamtlscontext) 的参考手册。
 
 ## 身份验证过滤器
 
-Envoy provides a network filter that performs TLS client authentication via principals fetched from a REST VPN service. This filter matches the presented client certificate hash against the principal list to determine whether the connection should be allowed or not. Optional IP white listing can also be configured. This functionality can be used to build edge proxy VPN support for web infrastructure.
+Envoy 提供了一个网络过滤器，通过从 REST VPN 服务拉取的主体来进行 TLS 客户端身份验证。此过滤器将提供的客户端证书哈希与主体列表进行匹配，以确定是否允许连接。另外也可以配置一个可选的 IP 白名单。此功能可用于为 Web 基础架构构建边缘代理 VPN 支持。
 
-Client TLS authentication filter [configuration reference](../../configuration/network_filters/client_ssl_auth_filter.md#config-network-filters-client-ssl-auth).
+这里是客户端 TSL 验证过滤器的[配置参考](../../configuration/network_filters/client_ssl_auth_filter.md#config-network-filters-client-ssl-auth)。
