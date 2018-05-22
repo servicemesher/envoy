@@ -2187,667 +2187,667 @@
                                 
                                 <h1 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h1>
 <ul>
-<li><a href="#general">General</a></li>
-<li><a href="#health-check-statistics">Health check statistics</a></li>
-<li><a href="#outlier-detection-statistics">Outlier detection statistics</a></li>
-<li><a href="#dynamic-http-statistics">Dynamic HTTP statistics</a></li>
-<li><a href="#alternate-tree-dynamic-http-statistics">Alternate tree dynamic HTTP statistics</a></li>
-<li><a href="#per-service-zone-dynamic-http-statistics">Per service zone dynamic HTTP statistics</a></li>
-<li><a href="#load-balancer-statistics">Load balancer statistics</a></li>
-<li><a href="#load-balancer-subset-statistics">Load balancer subset statistics</a></li>
+<li><a href="#general">&#x6982;&#x8981;</a></li>
+<li><a href="#health-check-statistics">&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x7EDF;&#x8BA1;</a></li>
+<li><a href="#outlier-detection-statistics">&#x5F02;&#x5E38;&#x70B9;&#x68C0;&#x6D4B;&#x7EDF;&#x8BA1;</a></li>
+<li><a href="#dynamic-http-statistics">&#x52A8;&#x6001; HTTP &#x7EDF;&#x8BA1;</a></li>
+<li><a href="#alternate-tree-dynamic-http-statistics">&#x53EF;&#x53D8;&#x6811;&#x52A8;&#x6001; HTTP &#x7EDF;&#x8BA1;</a></li>
+<li><a href="#per-service-zone-dynamic-http-statistics">&#x6BCF;&#x4E2A;&#x670D;&#x52A1;&#x533A;&#x57DF;&#x52A8;&#x6001; HTTP &#x7EDF;&#x8BA1;</a></li>
+<li><a href="#load-balancer-statistics">&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x7EDF;&#x8BA1;</a></li>
+<li><a href="#load-balancer-subset-statistics">&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5B50;&#x96C6;&#x7EDF;&#x8BA1;</a></li>
 </ul>
-<h2 id="general">General</h2>
-<p>The cluster manager has a statistics tree rooted at <em>cluster_manager.</em> with the following statistics. Any <code>:</code> character in the stats name is replaced with <code>_</code>.</p>
+<h2 id="&#x6982;&#x8981;">&#x6982;&#x8981;</h2>
+<p>&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x5668;&#x6709;&#x4E00;&#x4E2A;&#x4EE5;  <em>cluster_manager.</em>  &#x4E3A;&#x6839;&#x7684;&#x7EDF;&#x8BA1;&#x6811;&#x3002;&#x6709;&#x4EE5;&#x4E0B;&#x7EDF;&#x8BA1;&#x9879;&#x3002;&#x7EDF;&#x8BA1;&#x540D;&#x79F0;&#x4E2D;&#x7684;&#x4EFB;&#x4F55;<code>:</code> &#x5B57;&#x7B26;&#x5C06;&#x4F1A;&#x88AB;&#x66FF;&#x6362;&#x6210;<code>_</code>&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>cluster_added</td>
 <td>Counter</td>
-<td>Total clusters added (either via static config or CDS)</td>
+<td>&#x6DFB;&#x52A0;&#x7684;&#x6240;&#x6709;&#x96C6;&#x7FA4;&#x6570; &#xFF08;&#x901A;&#x8FC7;&#x9759;&#x6001;&#x914D;&#x7F6E;&#x6216; CDS&#xFF09;</td>
 </tr>
 <tr>
 <td>cluster_modified</td>
 <td>Counter</td>
-<td>Total clusters modified (via CDS)</td>
+<td>&#x4FEE;&#x6539;&#x7684;&#x6240;&#x6709;&#x96C6;&#x7FA4;&#x6570; &#xFF08;&#x901A;&#x8FC7; CDS&#xFF09;</td>
 </tr>
 <tr>
 <td>cluster_removed</td>
 <td>Counter</td>
-<td>Total clusters removed (via CDS)</td>
+<td>&#x79FB;&#x9664;&#x7684;&#x6240;&#x6709;&#x96C6;&#x7FA4;&#x6570; &#xFF08;&#x901A;&#x8FC7; CDS&#xFF09;</td>
 </tr>
 <tr>
 <td>active_clusters</td>
 <td>Gauge</td>
-<td>Number of currently active (warmed) clusters</td>
+<td>&#x5F53;&#x524D;&#x6D3B;&#x8DC3;&#x7684;&#xFF08;&#x9884;&#x70ED;&#x7684;&#xFF09;&#x6240;&#x6709;&#x96C6;&#x7FA4;&#x6570;</td>
 </tr>
 <tr>
 <td>warming_clusters</td>
 <td>Gauge</td>
-<td>Number of currently warming (not active) clusters</td>
+<td>&#x5F53;&#x524D;&#x6B63;&#x5728;&#x9884;&#x70ED;&#x7684;&#x6D3B;&#x52A8;&#xFF08;&#x975E;&#x6D3B;&#x8DC3;&#x7684;&#xFF09;&#x6240;&#x6709;&#x96C6;&#x7FA4;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<p>Every cluster has a statistics tree rooted at <em>cluster.<name>.</name></em> with the following statistics:</p>
+<p>&#x6BCF;&#x4E00;&#x4E2A;&#x96C6;&#x7FA4;&#x6709;&#x4E00;&#x4E2A;&#x4EE5; <em>cluster.<name>.</name></em> &#x4E3A;&#x6839;&#x7684;&#x7EDF;&#x8BA1;&#x6811;&#x3002;&#x6709;&#x4EE5;&#x4E0B;&#x7EDF;&#x8BA1;&#x9879;:</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>upstream_cx_total</td>
 <td>Counter</td>
-<td>Total connections</td>
+<td>&#x603B;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_active</td>
 <td>Gauge</td>
-<td>Total active connections</td>
+<td>&#x603B;&#x6FC0;&#x6D3B;&#x7684;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_http1_total</td>
 <td>Counter</td>
-<td>Total HTTP/1.1 connections</td>
+<td>HTTP/1.1 &#x603B;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_http2_total</td>
 <td>Counter</td>
-<td>Total HTTP/2 connections</td>
+<td>Total HTTP/2 &#x603B;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_connect_fail</td>
 <td>Counter</td>
-<td>Total connection failures</td>
+<td>&#x603B;&#x8FDE;&#x63A5;&#x5931;&#x8D25;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_connect_timeout</td>
 <td>Counter</td>
-<td>Total connection connect timeouts</td>
+<td>&#x603B;&#x8FDE;&#x63A5;&#x8D85;&#x65F6;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_idle_timeout</td>
 <td>Counter</td>
-<td>Total connection idle timeouts</td>
+<td>&#x603B;&#x8FDE;&#x63A5;&#x7A7A;&#x95F2;&#x8D85;&#x65F6;</td>
 </tr>
 <tr>
 <td>upstream_cx_connect_attempts_exceeded</td>
 <td>Counter</td>
-<td>Total consecutive connection failures exceeding configured connection attempts</td>
+<td>&#x8D85;&#x8FC7;&#x914D;&#x7F6E;&#x8FDE;&#x63A5;&#x5C1D;&#x8BD5;&#x7684;&#x603B;&#x8FDE;&#x7EED;&#x8FDE;&#x63A5;&#x5931;&#x8D25;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_overflow</td>
 <td>Counter</td>
-<td>Total times that the cluster&#x2019;s connection circuit breaker overflowed</td>
+<td>&#x673A;&#x7FA4;&#x8FDE;&#x63A5;&#x65AD;&#x8DEF;&#x5668;&#x6EA2;&#x51FA;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_connect_ms</td>
 <td>Histogram</td>
-<td>Connection establishment milliseconds</td>
+<td>&#x8FDE;&#x63A5;&#x5EFA;&#x7ACB;&#x6BEB;&#x79D2;</td>
 </tr>
 <tr>
 <td>upstream_cx_length_ms</td>
 <td>Histogram</td>
-<td>Connection length milliseconds</td>
+<td>&#x8FDE;&#x63A5;&#x957F;&#x5EA6;&#x6BEB;&#x79D2;</td>
 </tr>
 <tr>
 <td>upstream_cx_destroy</td>
 <td>Counter</td>
-<td>Total destroyed connections</td>
+<td>&#x5B8C;&#x5168;&#x7834;&#x574F;&#x8FDE;&#x63A5;</td>
 </tr>
 <tr>
 <td>upstream_cx_destroy_local</td>
 <td>Counter</td>
-<td>Total connections destroyed locally</td>
+<td>&#x672C;&#x5730;&#x8FDE;&#x63A5;&#x7834;&#x574F;</td>
 </tr>
 <tr>
 <td>upstream_cx_destroy_remote</td>
 <td>Counter</td>
-<td>Total connections destroyed remotely</td>
+<td>&#x8FDC;&#x7A0B;&#x8FDE;&#x63A5;&#x5B8C;&#x5168;&#x9500;&#x6BC1;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_destroy_with_active_rq</td>
 <td>Counter</td>
-<td>Total connections destroyed with 1+ active request</td>
+<td>&#x7528;1 +&#x4E3B;&#x52A8;&#x8BF7;&#x6C42;&#x9500;&#x6BC1;&#x603B;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_destroy_local_with_active_rq</td>
 <td>Counter</td>
-<td>Total connections destroyed locally with 1+ active request</td>
+<td>&#x7528;1 +&#x4E3B;&#x52A8;&#x8BF7;&#x6C42;&#x9500;&#x6BC1;&#x672C;&#x5730;&#x603B;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_destroy_remote_with_active_rq</td>
 <td>Counter</td>
-<td>Total connections destroyed remotely with 1+ active request</td>
+<td>&#x7528;1 +&#x4E3B;&#x52A8;&#x8BF7;&#x6C42;&#x8FDC;&#x7A0B;&#x9500;&#x6BC1;&#x603B;&#x8FDE;&#x63A5;</td>
 </tr>
 <tr>
 <td>upstream_cx_close_notify</td>
 <td>Counter</td>
-<td>Total connections closed via HTTP/1.1 connection close header or HTTP/2 GOAWAY</td>
+<td>&#x901A;&#x8FC7; HTTP/1.1 &#x8FDE;&#x63A5;&#x5173;&#x95ED;&#x62A5;&#x5934;&#x6216;HTTP/2 GOAWAY &#x5173;&#x95ED;&#x7684;&#x603B;&#x8FDE;&#x63A5;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_rx_bytes_total</td>
 <td>Counter</td>
-<td>Total received connection bytes</td>
+<td>&#x63A5;&#x6536;&#x5230;&#x7684;&#x603B;&#x8FDE;&#x63A5;&#x5B57;&#x8282;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_rx_bytes_buffered</td>
 <td>Gauge</td>
-<td>Received connection bytes currently buffered</td>
+<td>&#x5F53;&#x524D;&#x7F13;&#x51B2;&#x7684;&#x63A5;&#x6536;&#x8FDE;&#x63A5;&#x5B57;&#x8282;</td>
 </tr>
 <tr>
 <td>upstream_cx_tx_bytes_total</td>
 <td>Counter</td>
-<td>Total sent connection bytes</td>
+<td>&#x53D1;&#x9001;&#x7684;&#x8FDE;&#x63A5;&#x5B57;&#x8282;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_cx_tx_bytes_buffered</td>
 <td>Gauge</td>
-<td>Send connection bytes currently buffered</td>
+<td>&#x53D1;&#x9001;&#x5F53;&#x524D;&#x7F13;&#x51B2;&#x7684;&#x8FDE;&#x63A5;&#x5B57;&#x8282;</td>
 </tr>
 <tr>
 <td>upstream_cx_protocol_error</td>
 <td>Counter</td>
-<td>Total connection protocol errors</td>
+<td>&#x603B;&#x8FDE;&#x63A5;&#x534F;&#x8BAE;&#x9519;&#x8BEF;</td>
 </tr>
 <tr>
 <td>upstream_cx_max_requests</td>
 <td>Counter</td>
-<td>Total connections closed due to maximum requests</td>
+<td>&#x7531;&#x4E8E;&#x6700;&#x5927;&#x8BF7;&#x6C42;&#x5173;&#x95ED;&#x603B;&#x8FDE;&#x63A5;</td>
 </tr>
 <tr>
 <td>upstream_cx_none_healthy</td>
 <td>Counter</td>
-<td>Total times connection not established due to no healthy hosts</td>
+<td>&#x7531;&#x4E8E;&#x6CA1;&#x6709;&#x5065;&#x5EB7;&#x4E3B;&#x673A;&#xFF0C;&#x8FDE;&#x63A5;&#x6CA1;&#x6709;&#x5EFA;&#x7ACB;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_rq_total</td>
 <td>Counter</td>
-<td>Total requests</td>
+<td>&#x603B;&#x8BF7;&#x6C42;&#x91CF;</td>
 </tr>
 <tr>
 <td>upstream_rq_active</td>
 <td>Gauge</td>
-<td>Total active requests</td>
+<td>&#x603B;&#x6D3B;&#x52A8;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_pending_total</td>
 <td>Counter</td>
-<td>Total requests pending a connection pool connection</td>
+<td>&#x7B49;&#x5F85;&#x8FDE;&#x63A5;&#x6C60;&#x8FDE;&#x63A5;&#x7684;&#x603B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_pending_overflow</td>
 <td>Counter</td>
-<td>Total requests that overflowed connection pool circuit breaking and were failed</td>
+<td>&#x6EA2;&#x51FA;&#x8FDE;&#x63A5;&#x6C60;&#x7535;&#x8DEF;&#x4E2D;&#x65AD;&#x548C;&#x5931;&#x8D25;&#x7684;&#x603B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_pending_failure_eject</td>
 <td>Counter</td>
-<td>Total requests that were failed due to a connection pool connection failure</td>
+<td>&#x7531;&#x4E8E;&#x8FDE;&#x63A5;&#x6C60;&#x8FDE;&#x63A5;&#x5931;&#x8D25;&#x800C;&#x5BFC;&#x81F4;&#x7684;&#x603B;&#x8BF7;&#x6C42;&#x5931;&#x8D25;</td>
 </tr>
 <tr>
 <td>upstream_rq_pending_active</td>
 <td>Gauge</td>
-<td>Total active requests pending a connection pool connection</td>
+<td>&#x6302;&#x8D77;&#x8FDE;&#x63A5;&#x6C60;&#x8FDE;&#x63A5;&#x7684;&#x5168;&#x90E8;&#x6D3B;&#x52A8;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_cancelled</td>
 <td>Counter</td>
-<td>Total requests cancelled before obtaining a connection pool connection</td>
+<td>&#x5728;&#x83B7;&#x5F97;&#x8FDE;&#x63A5;&#x6C60;&#x8FDE;&#x63A5;&#x4E4B;&#x524D;&#x53D6;&#x6D88;&#x7684;&#x603B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_maintenance_mode</td>
 <td>Counter</td>
-<td>Total requests that resulted in an immediate 503 due to <a href="../http_filters/router_filter.html#config-http-filters-router-runtime-maintenance-mode">maintenance mode</a></td>
+<td>&#x7531;&#x4E8E;&#x7EF4;&#x62A4;&#x6A21;&#x5F0F;&#x5BFC;&#x81F4;&#x7684;&#x8BF7;&#x6C42;&#x603B;&#x6570;&#x4E3A; 503</td>
 </tr>
 <tr>
 <td>upstream_rq_timeout</td>
 <td>Counter</td>
-<td>Total requests that timed out waiting for a response</td>
+<td>&#x7B49;&#x5F85;&#x54CD;&#x5E94;&#x7684;&#x603B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_per_try_timeout</td>
 <td>Counter</td>
-<td>Total requests that hit the per try timeout</td>
+<td>&#x6BCF;&#x6B21;&#x5C1D;&#x8BD5;&#x8D85;&#x65F6;&#x7684;&#x603B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_rx_reset</td>
 <td>Counter</td>
-<td>Total requests that were reset remotely</td>
+<td>&#x8FDC;&#x7A0B;&#x91CD;&#x7F6E;&#x7684;&#x603B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_tx_reset</td>
 <td>Counter</td>
-<td>Total requests that were reset locally</td>
+<td>&#x672C;&#x5730;&#x91CD;&#x7F6E;&#x7684;&#x603B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_rq_retry</td>
 <td>Counter</td>
-<td>Total request retries</td>
+<td>&#x603B;&#x8BF7;&#x6C42;&#x91CD;&#x8BD5;</td>
 </tr>
 <tr>
 <td>upstream_rq_retry_success</td>
 <td>Counter</td>
-<td>Total request retry successes</td>
+<td>&#x603B;&#x8BF7;&#x6C42;&#x91CD;&#x8BD5;&#x6210;&#x529F;&#x7387;</td>
 </tr>
 <tr>
 <td>upstream_rq_retry_overflow</td>
 <td>Counter</td>
-<td>Total requests not retried due to circuit breaking</td>
+<td>&#x7531;&#x4E8E;&#x7535;&#x8DEF;&#x65AD;&#x5F00;&#x800C;&#x672A;&#x91CD;&#x8BD5;&#x7684;&#x603B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>upstream_flow_control_paused_reading_total</td>
 <td>Counter</td>
-<td>Total number of times flow control paused reading from upstream</td>
+<td>&#x4E0A;&#x6E38;&#x6D41;&#x91CF;&#x63A7;&#x5236;&#x6682;&#x505C;&#x8BFB;&#x53D6;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_flow_control_resumed_reading_total</td>
 <td>Counter</td>
-<td>Total number of times flow control resumed reading from upstream</td>
+<td>&#x4ECE;&#x4E0A;&#x6E38;&#x8BFB;&#x53D6;&#x7684;&#x6D41;&#x91CF;&#x63A7;&#x5236;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>upstream_flow_control_backed_up_total</td>
 <td>Counter</td>
-<td>Total number of times the upstream connection backed up and paused reads from downstream</td>
+<td>&#x4E0A;&#x6E38;&#x8FDE;&#x63A5;&#x5907;&#x4EFD;&#x548C;&#x6682;&#x505C;&#x8BFB;&#x53D6;&#x7684;&#x603B;&#x6B21;&#x6570;&#x4ECE;&#x4E0B;&#x6E38;&#x8BFB;&#x53D6;</td>
 </tr>
 <tr>
 <td>upstream_flow_control_drained_total</td>
 <td>Counter</td>
-<td>Total number of times the upstream connection drained and resumed reads from downstream</td>
+<td>&#x4ECE;&#x4E0A;&#x6E38;&#x8BFB;&#x53D6;&#x548C;&#x6062;&#x590D;&#x4E0A;&#x6E38;&#x8FDE;&#x63A5;&#x7684;&#x603B;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>membership_change</td>
 <td>Counter</td>
-<td>Total cluster membership changes</td>
+<td>&#x603B;&#x7C07;&#x6210;&#x5458;&#x53D8;&#x5316;</td>
 </tr>
 <tr>
 <td>membership_healthy</td>
 <td>Gauge</td>
-<td>Current cluster healthy total (inclusive of both health checking and outlier detection)</td>
+<td>&#x5F53;&#x524D;&#x96C6;&#x7FA4;&#x5065;&#x5EB7;&#x603B;&#x91CF;&#xFF08;&#x5305;&#x62EC;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x548C;&#x5F02;&#x5E38;&#x503C;&#x68C0;&#x6D4B;&#xFF09;</td>
 </tr>
 <tr>
 <td>membership_total</td>
 <td>Gauge</td>
-<td>Current cluster membership total</td>
+<td>&#x5F53;&#x524D;&#x7FA4;&#x96C6;&#x6210;&#x5458;&#x603B;&#x6570;</td>
 </tr>
 <tr>
 <td>retry_or_shadow_abandoned</td>
 <td>Counter</td>
-<td>Total number of times shadowing or retry buffering was canceled due to buffer limits</td>
+<td>&#x7531;&#x4E8E;&#x7F13;&#x51B2;&#x533A;&#x9650;&#x5236;&#xFF0C;&#x9634;&#x5F71;&#x6216;&#x91CD;&#x8BD5;&#x7F13;&#x51B2;&#x7684;&#x603B;&#x6B21;&#x6570;&#x88AB;&#x53D6;&#x6D88;&#x3002;</td>
 </tr>
 <tr>
 <td>config_reload</td>
 <td>Counter</td>
-<td>Total API fetches that resulted in a config reload due to a different config</td>
+<td>&#x7531;&#x4E8E;&#x914D;&#x7F6E;&#x4E0D;&#x540C;&#xFF0C;&#x5BFC;&#x81F4;&#x7684; API &#x91CD;&#x65B0;&#x52A0;&#x8F7D;&#x5BFC;&#x81F4;&#x914D;&#x7F6E;&#x91CD;&#x65B0;&#x52A0;&#x8F7D;&#x3002;</td>
 </tr>
 <tr>
 <td>update_attempt</td>
 <td>Counter</td>
-<td>Total cluster membership update attempts</td>
+<td>&#x603B;&#x7C07;&#x6210;&#x5458;&#x66F4;&#x65B0;&#x5C1D;&#x8BD5;</td>
 </tr>
 <tr>
 <td>update_success</td>
 <td>Counter</td>
-<td>Total cluster membership update successes</td>
+<td>&#x603B;&#x7C07;&#x6210;&#x5458;&#x66F4;&#x65B0;&#x6210;&#x529F;&#x7387;</td>
 </tr>
 <tr>
 <td>update_failure</td>
 <td>Counter</td>
-<td>Total cluster membership update failures</td>
+<td>&#x603B;&#x7C07;&#x6210;&#x5458;&#x66F4;&#x65B0;&#x5931;&#x8D25;</td>
 </tr>
 <tr>
 <td>update_empty</td>
 <td>Counter</td>
-<td>Total cluster membership updates ending with empty cluster load assignment and continuing with previous config</td>
+<td>&#x4F7F;&#x7528;&#x7A7A;&#x96C6;&#x7FA4;&#x8D1F;&#x8F7D;&#x5206;&#x914D;&#x7ED3;&#x675F;&#x7684;&#x603B;&#x7FA4;&#x96C6;&#x6210;&#x5458;&#x66F4;&#x65B0;&#xFF0C;&#x5E76;&#x7EE7;&#x7EED;&#x4F7F;&#x7528;&#x4EE5;&#x524D;&#x914D;&#x7F6E;</td>
 </tr>
 <tr>
 <td>update_no_rebuild</td>
 <td>Counter</td>
-<td>Total successful cluster membership updates that didn&#x2019;t result in any cluster load balancing structure rebuilds</td>
+<td>&#x6CA1;&#x6709;&#x5BFC;&#x81F4;&#x4EFB;&#x4F55;&#x96C6;&#x7FA4;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x7ED3;&#x6784;&#x91CD;&#x5EFA;&#x7684;&#x5B8C;&#x5168;&#x6210;&#x529F;&#x7684;&#x7FA4;&#x96C6;&#x6210;&#x5458;&#x66F4;&#x65B0;</td>
 </tr>
 <tr>
 <td>version</td>
 <td>Gauge</td>
-<td>Hash of the contents from the last successful API fetch</td>
+<td>&#x4ECE;&#x6700;&#x540E;&#x4E00;&#x6B21;&#x6210;&#x529F;&#x7684; API &#x83B7;&#x53D6;&#x5185;&#x5BB9;&#x7684;&#x54C8;&#x5E0C;</td>
 </tr>
 <tr>
 <td>max_host_weight</td>
 <td>Gauge</td>
-<td>Maximum weight of any host in the cluster</td>
+<td>&#x96C6;&#x7FA4;&#x4E2D;&#x4EFB;&#x610F;&#x4E3B;&#x673A;&#x7684;&#x6700;&#x5927;&#x6743;&#x91CD;</td>
 </tr>
 <tr>
 <td>bind_errors</td>
 <td>Counter</td>
-<td>Total errors binding the socket to the configured source address</td>
+<td>&#x5C06;&#x5957;&#x63A5;&#x5B57;&#x7ED1;&#x5B9A;&#x5230;&#x5DF2;&#x914D;&#x7F6E;&#x7684;&#x6E90;&#x5730;&#x5740;&#x7684;&#x603B;&#x9519;&#x8BEF;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="health-check-statistics">Health check statistics</h2>
-<p>If health check is configured, the cluster has an additional statistics tree rooted at <em>cluster.<name>.health_check.</name></em> with the following statistics:</p>
+<h2 id="&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x7EDF;&#x8BA1;">&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x7EDF;&#x8BA1;</h2>
+<p>&#x5982;&#x679C;&#x914D;&#x7F6E;&#x4E86;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#xFF0C;&#x5219;&#x8BE5;&#x96C6;&#x7FA4;&#x5177;&#x6709;&#x6839;&#x4E8E;&#x6839; <em>cluster.<name>.health_check.</name></em> &#x7684;&#x9644;&#x52A0;&#x7EDF;&#x8BA1;&#x6811;&#x3002;&#x6709;&#x5982;&#x4E0B;&#x7EDF;&#x8BA1;:</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>attempt</td>
 <td>Counter</td>
-<td>Number of health checks</td>
+<td>&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>success</td>
 <td>Counter</td>
-<td>Number of successful health checks</td>
+<td>&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x6210;&#x529F;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>failure</td>
 <td>Counter</td>
-<td>Number of immediately failed health checks (e.g. HTTP 503) as well as network failures</td>
+<td>&#x7ACB;&#x5373;&#x5931;&#x6548;&#x7684;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#xFF08;&#x4F8B;&#x5982;HTTP 503&#xFF09;&#x4EE5;&#x53CA;&#x7F51;&#x7EDC;&#x6545;&#x969C;&#x7684;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>passive_failure</td>
 <td>Counter</td>
-<td>Number of health check failures due to passive events (e.g. x-envoy-immediate-health-check-fail)</td>
+<td>&#x7531;&#x4E8E;&#x88AB;&#x52A8;&#x4E8B;&#x4EF6;&#x5F15;&#x8D77;&#x7684;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x5931;&#x8D25;&#x7684;&#x6B21;&#x6570;&#xFF08;&#x4F8B;&#x5982;X-Enviv-&#x5373;&#x65F6;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x5931;&#x8D25;&#xFF09;</td>
 </tr>
 <tr>
 <td>network_failure</td>
 <td>Counter</td>
-<td>Number of health check failures due to network error</td>
+<td>&#x7F51;&#x7EDC;&#x9519;&#x8BEF;&#x5F15;&#x8D77;&#x7684;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x5931;&#x8D25;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>verify_cluster</td>
 <td>Counter</td>
-<td>Number of health checks that attempted cluster name verification</td>
+<td>&#x5C1D;&#x8BD5;&#x7FA4;&#x96C6;&#x540D;&#x79F0;&#x9A8C;&#x8BC1;&#x7684;&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x6570;&#x91CF;</td>
 </tr>
 <tr>
 <td>healthy</td>
 <td>Gauge</td>
-<td>Number of healthy members</td>
+<td>&#x5065;&#x5EB7;&#x4F1A;&#x5458;&#x4EBA;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="outlier-detection-statistics">Outlier detection statistics</h2>
-<p>If <a href="../../intro/arch_overview/outlier.html#arch-overview-outlier-detection">outlier detection</a> is configured for a cluster, statistics will be rooted at <em>cluster.<name>.outlier_detection.</name></em> and contain the following:</p>
+<h2 id="&#x5F02;&#x5E38;&#x70B9;&#x68C0;&#x6D4B;&#x7EDF;&#x8BA1;">&#x5F02;&#x5E38;&#x70B9;&#x68C0;&#x6D4B;&#x7EDF;&#x8BA1;</h2>
+<p>&#x5982;&#x679C;&#x4E3A;&#x96C6;&#x7FA4;&#x914D;&#x7F6E;&#x4E86;<a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier#arch-overview-outlier-detection" target="_blank">&#x5F02;&#x5E38;&#x70B9;&#x68C0;&#x6D4B;</a>&#xFF0C;&#x7EDF;&#x8BA1;&#x5C06;&#x4EE5; <em>cluster.<name>.outlier_detection.</name></em> &#x4E3A;&#x6839;&#xFF0C;&#x5305;&#x542B;&#x5982;&#x4E0B;:</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>ejections_enforced_total</td>
 <td>Counter</td>
-<td>Number of enforced ejections due to any outlier type</td>
+<td>&#x7531;&#x4E8E;&#x5F02;&#x5E38;&#x503C;&#x7C7B;&#x578B;&#x5F3A;&#x5236;&#x6267;&#x884C;&#x7684;&#x9A71;&#x9010;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>ejections_active</td>
 <td>Gauge</td>
-<td>Number of currently ejected hosts</td>
+<td>&#x5F53;&#x524D;&#x9A71;&#x9010;&#x4E3B;&#x673A;&#x7684;&#x6570;&#x91CF;</td>
 </tr>
 <tr>
 <td>ejections_overflow</td>
 <td>Counter</td>
-<td>Number of ejections aborted due to the max ejection %</td>
+<td>&#x7531;&#x4E8E;&#x6700;&#x5927;&#x9A71;&#x9010;&#x7387;&#x800C;&#x4E2D;&#x6B62;&#x7684;&#x9A71;&#x9010;&#x6570;</td>
 </tr>
 <tr>
 <td>ejections_enforced_consecutive_5xx</td>
 <td>Counter</td>
-<td>Number of enforced consecutive 5xx ejections</td>
+<td>&#x5F3A;&#x5236;&#x6267;&#x884C;&#x7684;&#x8FDE;&#x7EED; 5xx &#x9A71;&#x9010;&#x6570;</td>
 </tr>
 <tr>
 <td>ejections_detected_consecutive_5xx</td>
 <td>Counter</td>
-<td>Number of detected consecutive 5xx ejections (even if unenforced)</td>
+<td>&#x68C0;&#x6D4B;&#x5230;&#x7684;&#x8FDE;&#x7EED; 5xx &#x9A71;&#x9010;&#x6570;&#xFF08;&#x5373;&#x4F7F;&#x672A;&#x5F3A;&#x5236;&#x6267;&#x884C;&#xFF09;</td>
 </tr>
 <tr>
 <td>ejections_enforced_success_rate</td>
 <td>Counter</td>
-<td>Number of enforced success rate outlier ejections</td>
+<td>&#x5F3A;&#x5236;&#x6210;&#x529F;&#x7387;&#x5F02;&#x5E38;&#x79BB;&#x7FA4;&#x6570;</td>
 </tr>
 <tr>
 <td>ejections_detected_success_rate</td>
 <td>Counter</td>
-<td>Number of detected success rate outlier ejections (even if unenforced)</td>
+<td>&#x68C0;&#x6D4B;&#x6210;&#x529F;&#x7387;&#x79BB;&#x7FA4;&#x503C;&#x7684;&#x6570;&#x91CF;&#xFF08;&#x5373;&#x4F7F;&#x672A;&#x6267;&#x884C;&#xFF09;</td>
 </tr>
 <tr>
 <td>ejections_enforced_consecutive_gateway_failure</td>
 <td>Counter</td>
-<td>Number of enforced consecutive gateway failure ejections</td>
+<td>&#x5F3A;&#x5236;&#x8FDE;&#x7EED;&#x7F51;&#x5173;&#x5931;&#x8D25;&#x9A71;&#x9010;&#x6570;</td>
 </tr>
 <tr>
 <td>ejections_detected_consecutive_gateway_failure</td>
 <td>Counter</td>
-<td>Number of detected consecutive gateway failure ejections (even if unenforced)</td>
+<td>&#x68C0;&#x6D4B;&#x5230;&#x7684;&#x8FDE;&#x7EED;&#x7F51;&#x5173;&#x6545;&#x969C;&#x9A71;&#x9010;&#x6570;&#x76EE;&#xFF08;&#x5373;&#x4F7F;&#x672A;&#x5F3A;&#x5236;&#x6267;&#x884C;&#xFF09;</td>
 </tr>
 <tr>
 <td>ejections_total</td>
 <td>Counter</td>
-<td>Deprecated. Number of ejections due to any outlier type (even if unenforced)</td>
+<td>&#x4E0D;&#x8D5E;&#x6210;&#x7684;&#x7531;&#x4E8E;&#x5F02;&#x5E38;&#x503C;&#x7C7B;&#x578B;&#x5F15;&#x8D77;&#x7684;&#x9A71;&#x9010;&#x6B21;&#x6570;&#xFF08;&#x5373;&#x4F7F;&#x672A;&#x6267;&#x884C;&#xFF09;</td>
 </tr>
 <tr>
 <td>ejections_consecutive_5xx</td>
 <td>Counter</td>
-<td>Deprecated. Number of consecutive 5xx ejections (even if unenforced)</td>
+<td>&#x4E0D;&#x8D5E;&#x6210;&#x7684;&#x8FDE;&#x7EED;5xx&#x9A71;&#x9010;&#x6570;&#xFF08;&#x5373;&#x4F7F;&#x672A;&#x5F3A;&#x5236;&#x6267;&#x884C;&#xFF09;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="dynamic-http-statistics">Dynamic HTTP statistics</h2>
-<p>If HTTP is used, dynamic HTTP response code statistics are also available. These are emitted by various internal systems as well as some filters such as the <a href="../http_filters/router_filter.html#config-http-filters-router">router filter</a> and <a href="../http_filters/rate_limit_filter.html#config-http-filters-rate-limit">rate limit filter</a>. They are rooted at <em>cluster.<name>.</name></em> and contain the following statistics:</p>
+<h2 id="&#x52A8;&#x6001;-http-&#x7EDF;&#x8BA1;">&#x52A8;&#x6001; HTTP &#x7EDF;&#x8BA1;</h2>
+<p>&#x5982;&#x679C;&#x4F7F;&#x7528; HTTP&#xFF0C;&#x52A8;&#x6001; HTTP &#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x7EDF;&#x8BA1;&#x4E5F;&#x662F;&#x53EF;&#x7528;&#x7684;&#x3002; &#x8FD9;&#x4E9B;&#x662F;&#x7531;&#x5404;&#x79CD;&#x5185;&#x90E8;&#x7CFB;&#x7EDF;&#x53D1;&#x51FA;&#x7684;&#xFF0C;&#x4EE5;&#x53CA;&#x4E00;&#x4E9B;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x5982;<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/router_filter" target="_blank">&#x8DEF;&#x7531;&#x5668;&#x8FC7;&#x6EE4;&#x5668;</a>&#x548C;<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/rate_limit_filter" target="_blank">&#x901F;&#x7387;&#x9650;&#x5236;&#x8FC7;&#x6EE4;&#x5668;</a>&#x3002;&#x7EDF;&#x8BA1;&#x5C06;&#x4EE5; <em>cluster.<name>.</name></em> &#x4E3A;&#x6839;&#xFF0C;&#x5305;&#x542B;&#x5982;&#x4E0B;:</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>upstream<em>rq</em>&lt;*xx&gt;</td>
 <td>Counter</td>
-<td>Aggregate HTTP response codes (e.g., 2xx, 3xx, etc.)</td>
+<td>HTTP&#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x6C47;&#x603B;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;2xx 3xx&#xFF0C;&#x7B49;&#x3002;&#xFF09;</td>
 </tr>
 <tr>
 <td>upstream<em>rq</em>&lt;*&gt;</td>
 <td>Counter</td>
-<td>Specific HTTP response codes (e.g., 201, 302, etc.)</td>
+<td>&#x7279;&#x5F02;&#x6027;&#x7684;HTTP&#x54CD;&#x5E94;&#x4EE3;&#x7801;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;201&#x3001;302&#x7B49;&#x3002;&#xFF09;</td>
 </tr>
 <tr>
 <td>upstream_rq_time</td>
 <td>Histogram</td>
-<td>Request time milliseconds</td>
+<td>&#x8BF7;&#x6C42;&#x65F6;&#x95F4;ms</td>
 </tr>
 <tr>
 <td>canary.upstream<em>rq</em>&lt;*xx&gt;</td>
 <td>Counter</td>
-<td>Upstream canary aggregate HTTP response codes</td>
+<td>&#x4E0A;&#x6E38;&#x7684; canary &#x805A;&#x5408; HTTP &#x54CD;&#x5E94;&#x4EE3;&#x7801;</td>
 </tr>
 <tr>
 <td>canary.upstream<em>rq</em>&lt;*&gt;</td>
 <td>Counter</td>
-<td>Upstream canary specific HTTP response codes</td>
+<td>&#x4E0A;&#x6E38;&#x7684; canary HTTP &#x7279;&#x5B9A;&#x54CD;&#x5E94;&#x4EE3;&#x7801;</td>
 </tr>
 <tr>
 <td>canary.upstream_rq_time</td>
 <td>Histogram</td>
-<td>Upstream canary request time milliseconds</td>
+<td>&#x4E0A;&#x6E38;&#x7684; canary &#x8BF7;&#x6C42;&#x65F6;&#x95F4; ms</td>
 </tr>
 <tr>
 <td>internal.upstream<em>rq</em>&lt;*xx&gt;</td>
 <td>Counter</td>
-<td>Internal origin aggregate HTTP response codes</td>
+<td>&#x5185;&#x90E8;&#x539F;&#x59CB;&#x805A;&#x5408; HTTP &#x54CD;&#x5E94;&#x4EE3;&#x7801;</td>
 </tr>
 <tr>
 <td>internal.upstream<em>rq</em>&lt;*&gt;</td>
 <td>Counter</td>
-<td>Internal origin specific HTTP response codes</td>
+<td>&#x5185;&#x90E8;&#x539F;&#x59CB;&#x7279;&#x5B9A; HTTP &#x54CD;&#x5E94;&#x4EE3;&#x7801;</td>
 </tr>
 <tr>
 <td>internal.upstream_rq_time</td>
 <td>Histogram</td>
-<td>Internal origin request time milliseconds</td>
+<td>&#x5185;&#x90E8;&#x539F;&#x59CB;&#x8BF7;&#x6C42;&#x65F6;&#x95F4; ms</td>
 </tr>
 <tr>
 <td>external.upstream<em>rq</em>&lt;*xx&gt;</td>
 <td>Counter</td>
-<td>External origin aggregate HTTP response codes</td>
+<td>HTTP&#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x805A;&#x96C6;&#x5916;&#x90E8;&#x6027;</td>
 </tr>
 <tr>
 <td>external.upstream<em>rq</em>&lt;*&gt;</td>
 <td>Counter</td>
-<td>External origin specific HTTP response codes</td>
+<td>HTTP&#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x548C;&#x7279;&#x5F02;&#x6027;</td>
 </tr>
 <tr>
 <td>external.upstream_rq_time</td>
 <td>Histogram</td>
-<td>External origin request time milliseconds</td>
+<td>&#x5916;&#x90E8;&#x539F;&#x59CB;&#x8BF7;&#x6C42;&#x65F6;&#x95F4; ms</td>
 </tr>
 </tbody>
 </table>
-<h2 id="alternate-tree-dynamic-http-statistics">Alternate tree dynamic HTTP statistics</h2>
-<p>If alternate tree statistics are configured, they will be present in the <em>cluster.<name>.<alt name="">.</alt></name></em>namespace. The statistics produced are the same as documented in the dynamic HTTP statistics section <a href="#config-cluster-manager-cluster-stats-dynamic-http">above</a>.</p>
-<h2 id="per-service-zone-dynamic-http-statistics">Per service zone dynamic HTTP statistics</h2>
-<p>If the service zone is available for the local service (via <a href="../../operations/cli.html#cmdoption-service-zone"><code>--service-zone</code></a>) and the <a href="../../intro/arch_overview/service_discovery.html#arch-overview-service-discovery-types-sds">upstream cluster</a>, Envoy will track the following statistics in <em>cluster.<name>.zone.<from_zone>.<to_zone>.</to_zone></from_zone></name></em>namespace.</p>
+<h2 id="&#x53EF;&#x53D8;&#x6811;&#x52A8;&#x6001;-http-&#x7EDF;&#x8BA1;">&#x53EF;&#x53D8;&#x6811;&#x52A8;&#x6001; HTTP &#x7EDF;&#x8BA1;</h2>
+<p>&#x5982;&#x679C;&#x914D;&#x7F6E;&#x4E86;&#x53EF;&#x53D8;&#x6811;&#x7EDF;&#x8BA1;&#x4FE1;&#x606F;&#xFF0C;&#x5219;&#x5B83;&#x4EEC;&#x5C06;&#x5B58;&#x5728;&#x4E8E; <em>cluster.<name>.<alt name="">.</alt></name></em>&#x547D;&#x540D;&#x7A7A;&#x95F4;&#x3002;&#x6240;&#x4EA7;&#x751F;&#x7684;&#x7EDF;&#x8BA1;&#x6570;&#x636E;&#x4E0E;&#x52A8;&#x6001; HTTP &#x7EDF;&#x8BA1;&#x90E8;&#x5206;<a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats.html" target="_blank">&#x4EE5;&#x4E0A;</a>&#x6240;&#x8BB0;&#x5F55;&#x7684;&#x6570;&#x636E;&#x76F8;&#x540C;&#x3002;</p>
+<h2 id="&#x6BCF;&#x4E2A;&#x670D;&#x52A1;&#x533A;&#x57DF;&#x52A8;&#x6001;-http-&#x7EDF;&#x8BA1;">&#x6BCF;&#x4E2A;&#x670D;&#x52A1;&#x533A;&#x57DF;&#x52A8;&#x6001; HTTP &#x7EDF;&#x8BA1;</h2>
+<p>&#x5982;&#x679C;&#x670D;&#x52A1;&#x533A;&#x57DF;&#x53EF;&#x7528;&#x4E8E;&#x672C;&#x5730;&#x670D;&#x52A1; (&#x901A;&#x8FC7; <a href="https://www.envoyproxy.io/docs/envoy/latest/operations/cli#cmdoption-service-zone" target="_blank"><code>--service-zone</code></a>) &#x548C; <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/service_discovery#arch-overview-service-discovery-types-sds" target="_blank">&#x4E0A;&#x6E38;&#x96C6;&#x7FA4;</a>, Envoy &#x5728;&#x5C06;&#x8DDF;&#x8E2A; <em>cluster.<name>.zone.<from_zone>.<to_zone>.</to_zone></from_zone></name></em> &#x547D;&#x540D;&#x7A7A;&#x95F4;&#x7684;&#x4EE5;&#x4E0B;&#x7EDF;&#x8BA1;&#x6570;&#x636E;.</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>upstream<em>rq</em>&lt;*xx&gt;</td>
 <td>Counter</td>
-<td>Aggregate HTTP response codes (e.g., 2xx, 3xx, etc.)</td>
+<td>&#x805A;&#x5408; HTTP &#x54CD;&#x5E94;&#x4EE3;&#x7801;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;2xx 3xx&#xFF0C;&#x7B49;&#x3002;&#xFF09;</td>
 </tr>
 <tr>
 <td>upstream<em>rq</em>&lt;*&gt;</td>
 <td>Counter</td>
-<td>Specific HTTP response codes (e.g., 201, 302, etc.)</td>
+<td>&#x7279;&#x5B9A;&#x7684; HTTP &#x54CD;&#x5E94;&#x4EE3;&#x7801;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;201 &#x7B49;&#xFF09;</td>
 </tr>
 <tr>
 <td>upstream_rq_time</td>
 <td>Histogram</td>
-<td>Request time milliseconds</td>
+<td>&#x8BF7;&#x6C42;&#x65F6;&#x95F4; ms</td>
 </tr>
 </tbody>
 </table>
-<h2 id="load-balancer-statistics">Load balancer statistics</h2>
-<p>Statistics for monitoring load balancer decisions. Stats are rooted at <em>cluster.<name>.</name></em> and contain the following statistics:</p>
+<h2 id="&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x7EDF;&#x8BA1;">&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x7EDF;&#x8BA1;</h2>
+<p>&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5668;&#x51B3;&#x7B56;&#x76D1;&#x6D4B;&#x7EDF;&#x8BA1;&#x3002;&#x7EDF;&#x8BA1;&#x4EE5; <em>cluster.<name>.</name></em> &#x4E3A;&#x6839;&#xFF0C;&#x5305;&#x542B;&#x5982;&#x4E0B;&#x7EDF;&#x8BA1;: </p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>lb_recalculate_zone_structures</td>
 <td>Counter</td>
-<td>The number of times locality aware routing structures are regenerated for fast decisions on upstream locality selection</td>
+<td>&#x91CD;&#x65B0;&#x751F;&#x6210;&#x5C40;&#x90E8;&#x611F;&#x77E5;&#x8DEF;&#x7531;&#x7ED3;&#x6784;&#x7684;&#x6B21;&#x6570;&#xFF0C;&#x7528;&#x4E8E;&#x4E0A;&#x6E38;&#x4F4D;&#x7F6E;&#x9009;&#x62E9;&#x7684;&#x5FEB;&#x901F;&#x51B3;&#x7B56;</td>
 </tr>
 <tr>
 <td>lb_healthy_panic</td>
 <td>Counter</td>
-<td>Total requests load balanced with the load balancer in panic mode</td>
+<td>&#x5728;&#x6050;&#x614C;&#x6A21;&#x5F0F;&#x4E0B;&#x4E0E;&#x8D1F;&#x8F7D;&#x5E73;&#x8861;&#x5668;&#x5E73;&#x8861;&#x7684;&#x603B;&#x8BF7;&#x6C42;&#x8D1F;&#x8F7D;</td>
 </tr>
 <tr>
 <td>lb_zone_cluster_too_small</td>
 <td>Counter</td>
-<td>No zone aware routing because of small upstream cluster size</td>
+<td>&#x7531;&#x4E8E;&#x4E0A;&#x6E38;&#x7C07;&#x5927;&#x5C0F;&#x5C0F;&#xFF0C;&#x65E0;&#x533A;&#x57DF;&#x611F;&#x77E5;&#x8DEF;&#x7531;</td>
 </tr>
 <tr>
 <td>lb_zone_routing_all_directly</td>
 <td>Counter</td>
-<td>Sending all requests directly to the same zone</td>
+<td>&#x5C06;&#x6240;&#x6709;&#x8BF7;&#x6C42;&#x76F4;&#x63A5;&#x53D1;&#x9001;&#x5230;&#x540C;&#x4E00;&#x533A;&#x57DF;</td>
 </tr>
 <tr>
 <td>lb_zone_routing_sampled</td>
 <td>Counter</td>
-<td>Sending some requests to the same zone</td>
+<td>&#x5411;&#x540C;&#x4E00;&#x533A;&#x57DF;&#x53D1;&#x9001;&#x4E00;&#x4E9B;&#x8BF7;&#x6C42;</td>
 </tr>
 <tr>
 <td>lb_zone_routing_cross_zone</td>
 <td>Counter</td>
-<td>Zone aware routing mode but have to send cross zone</td>
+<td>&#x533A;&#x57DF;&#x611F;&#x77E5;&#x8DEF;&#x7531;&#x6A21;&#x5F0F;&#xFF0C;&#x4F46;&#x5FC5;&#x987B;&#x53D1;&#x9001;&#x8DE8;&#x533A;&#x57DF;</td>
 </tr>
 <tr>
 <td>lb_local_cluster_not_ok</td>
 <td>Counter</td>
-<td>Local host set is not set or it is panic mode for local cluster</td>
+<td>&#x672C;&#x5730;&#x4E3B;&#x673A;&#x96C6;&#x672A;&#x8BBE;&#x7F6E;&#x6216;&#x662F;&#x672C;&#x5730;&#x96C6;&#x7FA4;&#x7684;&#x6050;&#x614C;&#x6A21;&#x5F0F;</td>
 </tr>
 <tr>
 <td>lb_zone_number_differs</td>
 <td>Counter</td>
-<td>Number of zones in local and upstream cluster different</td>
+<td>&#x672C;&#x5730;&#x548C;&#x4E0A;&#x6E38;&#x96C6;&#x7FA4;&#x7684;&#x533A;&#x57DF;&#x6570;&#x76EE;&#x4E0D;&#x540C;</td>
 </tr>
 <tr>
 <td>lb_zone_no_capacity_left</td>
 <td>Counter</td>
-<td>Total number of times ended with random zone selection due to rounding error</td>
+<td>&#x820D;&#x5165;&#x8BEF;&#x5DEE;&#x5BFC;&#x81F4;&#x968F;&#x673A;&#x533A;&#x57DF;&#x9009;&#x62E9;&#x7ED3;&#x675F;&#x7684;&#x6B21;&#x6570;</td>
 </tr>
 </tbody>
 </table>
-<h2 id="load-balancer-subset-statistics">Load balancer subset statistics</h2>
-<p>Statistics for monitoring load balancer subset <arch_overview_load_balancer_subsets> decisions. Stats are rooted at <em>cluster.<name>.</name></em> and contain the following statistics:</arch_overview_load_balancer_subsets></p>
+<h2 id="&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5B50;&#x96C6;&#x7EDF;&#x8BA1;">&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5B50;&#x96C6;&#x7EDF;&#x8BA1;</h2>
+<p>&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x5668;&#x5B50;&#x96C6; <arch_overview_load_balancer_subsets> &#x51B3;&#x7B56;&#x7684;&#x7EDF;&#x8BA1;&#x76D1;&#x6D4B;&#x3002;&#x7EDF;&#x8BA1;&#x4EE5; <em>cluster.<name>.</name></em> &#x4E3A;&#x6839;&#xFF0C;&#x5305;&#x542B;&#x5982;&#x4E0B;&#x7EDF;&#x8BA1;:</arch_overview_load_balancer_subsets></p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>lb_subsets_active</td>
 <td>Gauge</td>
-<td>Number of currently available subsets</td>
+<td>&#x5F53;&#x524D;&#x53EF;&#x7528;&#x5B50;&#x96C6;&#x7684;&#x6570;&#x76EE;</td>
 </tr>
 <tr>
 <td>lb_subsets_created</td>
 <td>Counter</td>
-<td>Number of subsets created</td>
+<td>&#x521B;&#x5EFA;&#x7684;&#x5B50;&#x96C6;&#x6570;</td>
 </tr>
 <tr>
 <td>lb_subsets_removed</td>
 <td>Counter</td>
-<td>Number of subsets removed due to no hosts</td>
+<td>&#x7531;&#x4E8E;&#x6CA1;&#x6709;&#x4E3B;&#x673A;&#x800C;&#x5220;&#x9664;&#x7684;&#x5B50;&#x96C6;&#x6570;</td>
 </tr>
 <tr>
 <td>lb_subsets_selected</td>
 <td>Counter</td>
-<td>Number of times any subset was selected for load balancing</td>
+<td>&#x9009;&#x62E9;&#x4EFB;&#x4F55;&#x5B50;&#x96C6;&#x7684;&#x8D1F;&#x8F7D;&#x5E73;&#x8861;&#x6B21;&#x6570;</td>
 </tr>
 <tr>
 <td>lb_subsets_fallback</td>
 <td>Counter</td>
-<td>Number of times the fallback policy was invoked</td>
+<td>&#x8C03;&#x7528;&#x56DE;&#x9000;&#x7B56;&#x7565;&#x7684;&#x6B21;&#x6570;</td>
 </tr>
 </tbody>
 </table>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; ServiceMesher 2018 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> &#x6700;&#x540E;&#x66F4;&#x65B0;&#x4E8E; 
-2018-05-15 19:38:06
+2018-05-22 10:30:01
 </span></footer>
                                 
                                 </section>
@@ -2891,7 +2891,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"统计","level":"5.8.1","depth":2,"next":{"title":"运行时","level":"5.8.2","depth":2,"path":"configuration/cluster_manager/cluster_runtime.md","ref":"configuration/cluster_manager/cluster_runtime.md","articles":[]},"previous":{"title":"集群管理器","level":"5.8","depth":1,"path":"configuration/cluster_manager/cluster_manager.md","ref":"configuration/cluster_manager/cluster_manager.md","articles":[{"title":"统计","level":"5.8.1","depth":2,"path":"configuration/cluster_manager/cluster_stats.md","ref":"configuration/cluster_manager/cluster_stats.md","articles":[]},{"title":"运行时","level":"5.8.2","depth":2,"path":"configuration/cluster_manager/cluster_runtime.md","ref":"configuration/cluster_manager/cluster_runtime.md","articles":[]},{"title":"集群发现服务（CDS）","level":"5.8.3","depth":2,"path":"configuration/cluster_manager/cds.md","ref":"configuration/cluster_manager/cds.md","articles":[]},{"title":"健康检查","level":"5.8.4","depth":2,"path":"configuration/cluster_manager/cluster_hc.md","ref":"configuration/cluster_manager/cluster_hc.md","articles":[]},{"title":"断路","level":"5.8.5","depth":2,"path":"configuration/cluster_manager/cluster_circuit_breakers.md","ref":"configuration/cluster_manager/cluster_circuit_breakers.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/cluster_manager/cluster_stats.md","mtime":"2018-05-15T11:38:06.816Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-21T11:42:55.625Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"统计","level":"5.8.1","depth":2,"next":{"title":"运行时","level":"5.8.2","depth":2,"path":"configuration/cluster_manager/cluster_runtime.md","ref":"configuration/cluster_manager/cluster_runtime.md","articles":[]},"previous":{"title":"集群管理器","level":"5.8","depth":1,"path":"configuration/cluster_manager/cluster_manager.md","ref":"configuration/cluster_manager/cluster_manager.md","articles":[{"title":"统计","level":"5.8.1","depth":2,"path":"configuration/cluster_manager/cluster_stats.md","ref":"configuration/cluster_manager/cluster_stats.md","articles":[]},{"title":"运行时","level":"5.8.2","depth":2,"path":"configuration/cluster_manager/cluster_runtime.md","ref":"configuration/cluster_manager/cluster_runtime.md","articles":[]},{"title":"集群发现服务（CDS）","level":"5.8.3","depth":2,"path":"configuration/cluster_manager/cds.md","ref":"configuration/cluster_manager/cds.md","articles":[]},{"title":"健康检查","level":"5.8.4","depth":2,"path":"configuration/cluster_manager/cluster_hc.md","ref":"configuration/cluster_manager/cluster_hc.md","articles":[]},{"title":"断路","level":"5.8.5","depth":2,"path":"configuration/cluster_manager/cluster_circuit_breakers.md","ref":"configuration/cluster_manager/cluster_circuit_breakers.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","gitbook":">=3.2.0","description":"Envoy proxy中文文档","extension":null},"file":{"path":"configuration/cluster_manager/cluster_stats.md","mtime":"2018-05-22T02:30:01.676Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-22T02:55:24.565Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
