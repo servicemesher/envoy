@@ -24,11 +24,11 @@ HTTP 连接管理器在解码时（当接受到请求时）以及编码时（当
 
 ### user-agent
 
-The user-agent header may be set by the connection manager during decoding if the add_user_agent option is enabled. The header is only modified if it is not already set. If the connection manager does set the header, the value is determined by the --service-cluster command line option.
+当启用 [add_user_agent](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-add-user-agent) 选项后，连接管理器可能会在解码时设定  user-agent 标头。 The header is only modified if it is not already set. If the connection manager does set the header, the value is determined by the '--service-cluster' command line option.
 
 ### server
 
-The server header will be set during encoding to the value in the server_name option.
+The server header will be set during encoding to the value in the [server_name](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-server-name) option.
 
 ### x-client-trace-id
 
@@ -36,7 +36,7 @@ If an external client sets this header, Envoy will join the provided trace ID wi
 
 ### x-envoy-downstream-service-cluster
 
-Internal services often want to know which service is calling them. This header is cleaned from external requests, but for internal requests will contain the service cluster of the caller. Note that in the current implementation, this should be considered a hint as it is set by the caller and could be easily spoofed by any internal entity. In the future Envoy will support a mutual authentication TLS mesh which will make this header fully secure. Like user-agent, the value is determined by the --service-cluster command line option. In order to enable this feature you need to set the user_agent option to true.
+Internal services often want to know which service is calling them. This header is cleaned from external requests, but for internal requests will contain the service cluster of the caller. Note that in the current implementation, this should be considered a hint as it is set by the caller and could be easily spoofed by any internal entity. In the future Envoy will support a mutual authentication TLS mesh which will make this header fully secure. Like user-agent, the value is determined by the '--service-cluster' command line option. In order to enable this feature you need to set the [user_agent](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-add-user-agent) option to true.
 
 ### x-envoy-downstream-service-node
 
