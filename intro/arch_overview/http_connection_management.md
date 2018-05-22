@@ -1,6 +1,6 @@
 # HTTP 连接管理
 
-HTTP 是现代面向服务价格如此关键的一个元素，以至于 Envoy 实现了大量特定于 HTTP 的功能。Envoy 有一个内建的网络层过滤器称为 [HTTP 连接管理器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man)。该管理器将原始字节翻译为 HTTP 层消息和事件。(即，收到的头，收到的体数据，收到的尾，等等)。它还处理对所有 HTTP 连接共同的功能和请求，如[访问日志](access_logging.md#arch-overview-access-logs)，[请求 ID 生成和追踪](tracing.md#arch-overview-tracing)，[请求/相应头操控](../../configuration/http_conn_man/headers.md#config-http-conn-man-headers)，[路由表](http_routing.md#arch-overview-http-routing)管理，以及[统计](../../configuration/http_conn_man/stats.md#config-http-conn-man-stats)。
+HTTP 是现代面向服务价格如此关键的一个元素，以至于 Envoy 实现了大量特定于 HTTP 的功能。Envoy 有一个内建的网络层过滤器称为 [HTTP 连接管理器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man)。该管理器将原始字节翻译为 HTTP 层消息和事件。(即，收到的头，收到的体数据，收到的尾，等等)。它还处理对所有 HTTP 连接共同的功能和请求，如[访问日志](access_logging.md#arch-overview-access-logs)、[请求 ID 生成和追踪](tracing.md#arch-overview-tracing)、[请求/相应头操控](../../configuration/http_conn_man/headers.md#config-http-conn-man-headers)、[路由表](http_routing.md#arch-overview-http-routing)管理以及[统计](../../configuration/http_conn_man/stats.md#config-http-conn-man-stats)。
 
 HTTP 连接管理器[配置](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man)。
 

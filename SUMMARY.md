@@ -2,7 +2,7 @@
 
 ### 说明
 
-- [介绍](README.md)
+- [说明](README.md)
 - [关于本文档](about_docs.md)
 
 ### 简介

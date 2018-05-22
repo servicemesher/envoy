@@ -1,11 +1,16 @@
 ﻿{
   "title": "Envoy proxy中文文档",
   "gitbook": ">=3.2.0",
-  "description": "Envoy proxy中文文档",
+  "description": "Envoy proxy中文文档,基于Envoy 1.7最新版",
   "language": "zh-hans",
   "author": "ServiceMesher",
   "extension": null,
   "generator": "site",
+  "links": {
+   "sidebar": {
+   "ServiceMesher": "https://servicemesher.github.io"
+    }
+  },
   "plugins": [
     "splitter",
     "-lunr", "-search", "search-plus",
