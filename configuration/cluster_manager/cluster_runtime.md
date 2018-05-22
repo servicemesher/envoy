@@ -1,107 +1,107 @@
 # 运行时
 
-Upstream clusters support the following runtime settings:
+上游集群支持以下运行时设置：
 
-## Active health checking
+## 主动健康检查
 
 - health_check.min_interval
 
-  Min value for the health checking [interval](../../api-v1/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc-interval). Default value is 0. The health checking interval will be between *min_interval* and *max_interval*.
+  健康检查的最小值 [interval](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-interval)。默认值是0。健康检查 interval 的值将位于 *min_interval* 和 *max_interval*之间。
 
 - health_check.max_interval
 
-  Max value for the health checking [interval](../../api-v1/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc-interval). Default value is MAX_INT. The health checking interval will be between *min_interval* and *max_interval*.
+  健康检查的最大值 [interval](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-interval)。默认值是 MAX_INT。健康检查interval的值将位于 *min_interval* 和  *max_interval* 之间。
 
 - health_check.verify_cluster
 
-  What % of health check requests will be verified against the [expected upstream service](../../api-v1/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc-service-name) as the [health check filter](../../intro/arch_overview/health_checking.md#arch-overview-health-checking-filter) will write the remote service cluster into the response.
+   当[健康检查过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-service-name)将远程服务集群写入响应时，将对[预期的上游服务](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/health_checking#arch-overview-health-checking-filter)验证什么百分比的健康检查请求。
 
-## Outlier detection
+## 异常点检测
 
-See the outlier detection [architecture overview](../../intro/arch_overview/outlier.md#arch-overview-outlier-detection) for more information on outlier detection. The runtime parameters supported by outlier detection are the same as the [static configuration parameters](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection), namely:
+查看异常点检测[架构概览](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier#arch-overview-outlier-detection) 取得更多异常点检测的信息。异常点检测支持的运行时参数和 [静态配置参数](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection)一样，分别为：
 
 - outlier_detection.consecutive_5xx
 
-  [consecutive_5XX](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-consecutive-5xx) setting in outlier detection
+  [consecutive_5XX](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-consecutive-5xx) 在异常点检测中的配置
 
 - outlier_detection.consecutive_gateway_failure
 
-  [consecutive_gateway_failure](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-consecutive-gateway-failure) setting in outlier detection
+  [consecutive_gateway_failure](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-consecutive-gateway-failure) 在异常点检测中的配置
 
 - outlier_detection.interval_ms
 
-  [interval_ms](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-interval-ms) setting in outlier detection
+  [interval_ms](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-interval-ms) 在异常点检测中的配置
 
 - outlier_detection.base_ejection_time_ms
 
-  [base_ejection_time_ms](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-base-ejection-time-ms) setting in outlier detection
+  [base_ejection_time_ms](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-base-ejection-time-ms) 在异常点检测中的配置
 
 - outlier_detection.max_ejection_percent
 
-  [max_ejection_percent](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-max-ejection-percent) setting in outlier detection
+  [max_ejection_percent](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-max-ejection-percent) 在异常点检测中的配置
 
 - outlier_detection.enforcing_consecutive_5xx
 
-  [enforcing_consecutive_5xx](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-enforcing-consecutive-5xx) setting in outlier detection
+  [enforcing_consecutive_5xx](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-enforcing-consecutive-5xx) 在异常点检测中的配置
 
 - outlier_detection.enforcing_consecutive_gateway_failure
 
-  [enforcing_consecutive_gateway_failure](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-enforcing-consecutive-gateway-failure) setting in outlier detection
+  [enforcing_consecutive_gateway_failure](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-enforcing-consecutive-gateway-failure) 在异常点检测中的配置
 
 - outlier_detection.enforcing_success_rate
 
-  [enforcing_success_rate](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-enforcing-success-rate) setting in outlier detection
+  [enforcing_success_rate](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-enforcing-success-rate) 在异常点检测中的配置
 
 - outlier_detection.success_rate_minimum_hosts
 
-  [success_rate_minimum_hosts](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-success-rate-minimum-hosts) setting in outlier detection
+  [success_rate_minimum_hosts](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-success-rate-minimum-hosts) 在异常点检测中的配置
 
 - outlier_detection.success_rate_request_volume
 
-  [success_rate_request_volume](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-success-rate-request-volume) setting in outlier detection
+  [success_rate_request_volume](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-success-rate-request-volume) 在异常点检测中的配置
 
 - outlier_detection.success_rate_stdev_factor
 
-  [success_rate_stdev_factor](../../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-success-rate-stdev-factor) setting in outlier detection
+  [success_rate_stdev_factor](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection-success-rate-stdev-factor) 在异常点检测中的配置
 
-## Core
+## 核心
 
 - upstream.healthy_panic_threshold
 
-  Sets the [panic threshold](../../intro/arch_overview/load_balancing.md#arch-overview-load-balancing-panic-threshold) percentage. Defaults to 50%.
+  设置[恐慌阈](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#arch-overview-load-balancing-panic-threshold)百分比. 默认达到 50%.
 
 - upstream.use_http2
 
-  Whether the cluster utilizes the *http2* [feature](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-features) if configured. Set to 0 to disable HTTP/2 even if the feature is configured. Defaults to enabled.
+   如果配置的话，集群是否使用 *http2* [特征](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster#config-cluster-manager-cluster-features) 。设置为0以禁用HTTP / 2，即使配置了该功能.默认值是关闭。
 
 - upstream.weight_enabled
 
-  Binary switch to turn on or off weighted load balancing. If set to non 0, weighted load balancing is enabled. Defaults to enabled.
+  用来打开或者关闭权重负载均衡的二级制开关。如果设置成非0数值，按权重负载均衡的功能是打开的。默认值是打开。
 
-## Zone aware load balancing
+## 区域感知负载均衡
 
 - upstream.zone_routing.enabled
 
-  % of requests that will be routed to the same upstream zone. Defaults to 100% of requests.
+  多大百分比的请求将会被路由到相同上游区域。默认是 100% 请求。
 
 - upstream.zone_routing.min_cluster_size
 
-  Minimal size of the upstream cluster for which zone aware routing can be attempted. Default value is 6. If the upstream cluster size is smaller than *min_cluster_size* zone aware routing will not be performed.
+  某个上游集群能被区域感知尝试的最小值。 默认值是 6。如果上游集群数值比 *min_cluster_size* 小，区域路由感知将不被执行。
 
-## Circuit breaking
+## 断路
 
 - circuit_breakers.<cluster_name>.<priority>.max_connections
 
-  [Max connections circuit breaker setting](../../api-v1/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers-max-connections)
+  [断路器设置最大连接数](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_circuit_breakers#config-cluster-manager-cluster-circuit-breakers-max-connections)
 
 - circuit_breakers.<cluster_name>.<priority>.max_pending_requests
 
-  [Max pending requests circuit breaker setting](../../api-v1/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers-max-pending-requests)
+  [断路器设置最大等待数](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_circuit_breakers#config-cluster-manager-cluster-circuit-breakers-max-pending-requests)
 
 - circuit_breakers.<cluster_name>.<priority>.max_requests
 
-  [Max requests circuit breaker setting](../../api-v1/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers-max-requests)
+  [断路器设置最大请求数](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_circuit_breakers#config-cluster-manager-cluster-circuit-breakers-max-requests)
 
 - circuit_breakers.<cluster_name>.<priority>.max_retries
 
-  [Max retries circuit breaker setting](../../api-v1/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers-max-retries)
+  [断路器设置最大重试次数](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_circuit_breakers#config-cluster-manager-cluster-circuit-breakers-max-retries)

@@ -1,30 +1,31 @@
 # 速率限制
 
-- Global rate limiting [architecture overview](../../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit)
-- [v1 API reference](../../api-v1/network_filters/rate_limit_filter.md#config-network-filters-rate-limit-v1)
-- [v2 API reference](../../api-v2/config/filter/network/rate_limit/v2/rate_limit.proto.md#envoy-api-msg-config-filter-network-rate-limit-v2-ratelimit)
+- 全局速率限制[架构概述](../../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/rate_limit_filter.html#config-network-filters-rate-limit-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/rate_limit/v2/rate_limit.proto.html#envoy-api-msg-config-filter-network-rate-limit-v2-ratelimit)
 
 ## 统计
 
-Every configured rate limit filter has statistics rooted at *ratelimit.<stat_prefix>.* with the following statistics:
+所有配置的的速率限制过滤器都有以 *ratelimit.<stat_prefix>.* 开头的统计，以提供以下的统计报告：
 
-| Name       | Type    | Description                                                  |
+
+| 名称       | 类型    | 描述                                                 |
 | ---------- | ------- | ------------------------------------------------------------ |
-| total      | Counter | Total requests to the rate limit service                     |
-| error      | Counter | Total errors contacting the rate limit service               |
-| over_limit | Counter | Total over limit responses from the rate limit service       |
-| ok         | Counter | Total under limit responses from the rate limit service      |
-| cx_closed  | Counter | Total connections closed due to an over limit response from the rate limit service |
-| active     | Gauge   | Total active requests to the rate limit service              |
+| total      | Counter | 所有发给速率限制服务的请求数                    |
+| error      | Counter | 所有联系速率限制服务的错误数              |
+| over_limit | Counter | 所有由速率限制服务回复的超过速率限制的响应数       |
+| ok         | Counter | 所有由速率限制服务回复的未超过速率限制的响应数      |
+| cx_closed  | Counter | 所有因超过速率限制相应而被关闭的连接数 |
+| active     | Gauge   | 所有发给速率限制服务的活跃请求数              |
 
 ## 运行时
 
-The network rate limit filter supports the following runtime settings:
+网络级别速率限制过滤器支持以下运行时配置：
 
 - ratelimit.tcp_filter_enabled
 
-  % of connections that will call the rate limit service. Defaults to 100.
+  将调用速率限制服务的连接百分比。缺省值为100。
 
 - ratelimit.tcp_filter_enforcing
 
-  % of connections that will call the rate limit service and enforce the decision. Defaults to 100. This can be used to test what would happen before fully enforcing the outcome.
+  将调用速率限制服务并强制执行决定的连接百分比。缺省值为100。这可以在完全执行结果之前，测试将会发生什么。

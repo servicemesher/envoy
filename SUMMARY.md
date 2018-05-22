@@ -7,24 +7,24 @@
 
 ### 简介
 - [Envoy 是什么？](intro/what_is_envoy.md)
-- [架构概览](intro/what_is_envoy.md)
+- 架构概览
   - [术语](intro/arch_overview/terminology.md)
   - [线程模型](intro/arch_overview/threading_model.md)
   - [监听器](intro/arch_overview/listeners.md)
   - [监听器过滤器](intro/arch_overview/listener_filters.md)
-  - [Network (L3/L4) filter](intro/arch_overview/network_filters.md)
+  - [网络 (L3/L4) 过滤器](intro/arch_overview/network_filters.md)
   - [HTTP 连接管理](intro/arch_overview/http_connection_management.md)
-  - [HTTP filter](intro/arch_overview/http_filters.md)
+  - [HTTP 过滤器](intro/arch_overview/http_filters.md)
   - [HTTP 路由](intro/arch_overview/http_routing.md)
   - [gRPC](intro/arch_overview/grpc.md)
   - [WebSocket 支持](intro/arch_overview/websocket.md)
-  - [Cluster manager](intro/arch_overview/cluster_manager.md)
+  - [集群管理器](intro/arch_overview/cluster_manager.md)
   - [服务发现](intro/arch_overview/service_discovery.md)
   - [健康检查](intro/arch_overview/health_checking.md)
   - [连接池](intro/arch_overview/connection_pooling.md)
   - [负载均衡](intro/arch_overview/load_balancing.md)
   - [异常点检测](intro/arch_overview/outlier.md)
-  - [断路器](intro/arch_overview/circuit_breaking.md)
+  - [断路](intro/arch_overview/circuit_breaking.md)
   - [全局速率限制](intro/arch_overview/global_rate_limiting.md)
   - [TLS](intro/arch_overview/ssl.md)
   - [统计](intro/arch_overview/statistics.md)
@@ -72,29 +72,29 @@
 
 - [v1 API 概览](configuration/overview/v1_overview.md)
 - [v2 API 概览](configuration/overview/v2_overview.md)
-- Listener
+- 监听器
   - [统计](configuration/listeners/stats.md)
   - [运行时](configuration/listeners/runtime.md)
-  - [Listener 发现服务（LDS）](configuration/listeners/lds.md)
-- Listener filter
+  - [监听器发现服务（LDS）](configuration/listeners/lds.md)
+- 监听器过滤器
   - [原始目的地](configuration/listener_filters/original_dst_filter.md)
   - [TLS 检查器](configuration/listener_filters/tls_inspector.md)
-- 网络 filter
+- 网络过滤器
   - [客户端 TLS 身份验证](configuration/network_filters/client_ssl_auth_filter.md)
   - [Echo](configuration/network_filters/echo_filter.md)
   - [Mongo 代理](configuration/network_filters/mongo_proxy_filter.md)
   - [速率限制](configuration/network_filters/rate_limit_filter.md)
   - [Redis 代理](configuration/network_filters/redis_proxy_filter.md)
   - [TCP 代理](configuration/network_filters/tcp_proxy_filter.md)
-- HTTP 连接管理器
+- [HTTP 连接管理器](configuration/http_conn_man/http_conn_man.md)
   - [路由匹配](configuration/http_conn_man/route_matching.md)
-  - [流量转换/切分](configuration/http_conn_man/traffic_splitting.md)
+  - [流量转移/拆分](configuration/http_conn_man/traffic_splitting.md)
   - [HTTP header 操作](configuration/http_conn_man/headers.md)
   - [HTTP header sanitizing](configuration/http_conn_man/header_sanitizing.md)
   - [统计](configuration/http_conn_man/stats.md)
   - [运行时](configuration/http_conn_man/runtime.md)
   - [路由发现服务（RDS）](configuration/http_conn_man/rds.md)
-- HTTP filter
+- HTTP 过滤器
   - [Buffer](configuration/http_filters/buffer_filter.md)
   - [CORS](configuration/http_filters/cors_filter.md)
   - [DynamoDB](configuration/http_filters/dynamodb_filter.md)
@@ -109,7 +109,7 @@
   - [速率限制](configuration/http_filters/rate_limit_filter.md)
   - [路由](configuration/http_filters/router_filter.md)
   - [Squash](configuration/http_filters/squash_filter.md)
-- Cluster Manager
+- [集群管理器](configuration/cluster_manager/cluster_manager.md)
   - [统计](configuration/cluster_manager/cluster_stats.md)
   - [运行时](configuration/cluster_manager/cluster_runtime.md)
   - [集群发现服务（CDS）](configuration/cluster_manager/cds.md)

@@ -1,19 +1,19 @@
 # 排除
 
-Draining is the process by which Envoy attempts to gracefully shed connections in response to various events. Draining occurs at the following times:
+排除是 Envoy 相应各种事件的要求试图优雅地关闭连接的过程。排除发生在以下时机：
 
-- The server has been manually health check failed via the [healthcheck/fail](../../operations/admin.md#operations-admin-interface-healthcheck-fail) admin endpoint. See the [health check filter](health_checking.md#arch-overview-health-checking-filter) architecture overview for more information.
-- The server is being [hot restarted](hot_restart.md#arch-overview-hot-restart).
-- Individual listeners are being modified or removed via [LDS](dynamic_configuration.md#arch-overview-dynamic-config-lds).
+- 服务器通过 [healthcheck/fail](../../operations/admin.md#operations-admin-interface-healthcheck-fail) 管理端点手动设置健康状况检查失败。有关更多信息，请参阅 [健康检查过滤器](health_checking.md#arch-overview-health-checking-filter) 架构概述。
+- 服务器 [热重启](hot_restart.md#arch-overview-hot-restart)。
+- 通过 [LDS](dynamic_configuration.md#arch-overview-dynamic-config-lds) 修改或者移除单个监听器。
 
-Each [configured listener](listeners.md#arch-overview-listeners) has a [drain_type](../../api-v1/listeners/listeners.md#config-listeners-drain-type) setting which controls when draining takes place. The currently supported values are:
+每个 [已配置监听器](listeners.md#arch-overview-listeners) 有 [drain_type](../../api-v1/listeners/listeners.md#config-listeners-drain-type) 设置，用来控制排除何时发生。目前支持的值有：
 
 - default
 
-  Envoy will drain listeners in response to all three cases above (admin drain, hot restart, and LDS update/remove). This is the default setting.
+  对于所有上述三种情况（管理排除，热重启和 LDS 更新/删除），Envoy 将排除监听器。这是默认设置。
 
 - modify_only
 
-  Envoy will drain listeners only in response to the 2nd and 3rd cases above (hot restart and LDS update/remove). This setting is useful if Envoy is hosting both ingress and egress listeners. It may be desirable to set *modify_only* on egress listeners so they only drain during modifications while relying on ingress listener draining to perform full server draining when attempting to do a controlled shutdown.
+  Envoy 只会响应上述第二和第三种情况（热重启和 LDS 更新/删除）而排除监听器。如果 Envoy 同时托管 ingress 和 egress 监听器，此设置很有用。需要在 egress 监听器上设置 *modify_only*，以便在尝试执行受控关闭，依赖  ingress 监听器排除来执行全服务器排除时，它们只在修改期间排除。
 
-Note that although draining is a per-listener concept, it must be supported at the network filter level. Currently the only filters that support graceful draining are [HTTP connection manager](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man), [Redis](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy), and [Mongo](../../configuration/network_filters/mongo_proxy_filter.md#config-network-filters-mongo-proxy).
+请注意，虽然排除是每监听器的概念，但它必须在网络过滤器级别被支持。目前支持优雅排除的过滤器只有 [HTTP 连接管理器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man), [Redis](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy), 和 [Mongo](../../configuration/network_filters/mongo_proxy_filter.md#config-network-filters-mongo-proxy)。

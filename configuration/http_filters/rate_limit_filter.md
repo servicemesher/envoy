@@ -1,31 +1,28 @@
-#速率限制 
+# 频率限制
 
-- Global rate limiting [architecture overview](../../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit)
-- [v1 API reference](../../api-v1/http_filters/rate_limit_filter.md#config-http-filters-rate-limit-v1)
-- [v2 API reference](../../api-v2/config/filter/http/rate_limit/v2/rate_limit.proto.md#envoy-api-msg-config-filter-http-rate-limit-v2-ratelimit)
+- 全局频率限制[架构概览](../../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/rate_limit_filter#config-http-filters-rate-limit-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/rate_limit/v2/rate_limit.proto#envoy-api-msg-config-filter-http-rate-limit-v2-ratelimit)
 
-The HTTP rate limit filter will call the rate limit service when the request’s route or virtual host has one or more [rate limit configurations](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-rate-limits) that match the filter stage setting. The [route](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-include-vh) can optionally include the virtual host rate limit configurations. More than one configuration can apply to a request. Each configuration results in a descriptor being sent to the rate limit service.
+如果一个请求的路由或者虚拟主机中设置了一个或多个符合过滤条件的[频率限制](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-rate-limits)，HTTP 频率限制过滤器会调用频率限制服务。[路由](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-rate-limits)能够可选地包含虚拟主机的频率限制配置。一个请求中可以被施加一个或者多个路由限制。每个配置都会生成一个发给频率限制服务的描述符。
 
-If the rate limit service is called, and the response for any of the descriptors is over limit, a 429 response is returned.
+调用频率限制服务之后，如果任何描述符得到了超限的返回值，那么这个服务就会生成一个 429 的状态码。
 
-## Composing Actions
+## 编写 Action
 
-Attention
+> **注意**
+> 这一节是使用 v1 API 进行的，但其中的概念也是适用于 v2 API 的。未来会面向 v2 重写这部分内容。
 
-This section is written for the v1 API but the concepts also apply to the v2 API. It will be rewritten to target the v2 API in a future release.
+每个路由或者虚拟主机上的的[频率限制 Action](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/rate_limits#config-http-conn-man-route-table-rate-limit-config) 都会生成一个描述符条目。描述符条目的向量组成一个描述符。Action 可以用任何顺序编写，可以创建更加复杂的频率限制描述符。描述符会按照配置中的 Action 顺序执行。
 
-Each [rate limit action](../../api-v1/route_config/rate_limits.md#config-http-conn-man-route-table-rate-limit-config) on the route or virtual host populates a descriptor entry. A vector of descriptor entries compose a descriptor. To create more complex rate limit descriptors, actions can be composed in any order. The descriptor will be populated in the order the actions are specified in the configuration.
+### 例一
 
-### Example 1
+例如，要生成下面的描述符：
 
-For example, to generate the following descriptor:
+    ("generic_key", "some_value")
+    ("source_cluster", "from_cluster")
 
-```
-("generic_key", "some_value")
-("source_cluster", "from_cluster")
-```
-
-The configuration would be:
+就需要编写这样的配置代码：
 
 ```json
 {
@@ -41,11 +38,11 @@ The configuration would be:
 }
 ```
 
-### Example 2
+### 例二
 
-If an action doesn’t append a descriptor entry, no descriptor is generated for the configuration.
+如果一个 Action 没有加入描述符条目，那么这一配置就不会生成描述符。
 
-For the following configuration:
+例如下面的配置：
 
 ```json
 {
@@ -64,38 +61,36 @@ For the following configuration:
 }
 ```
 
-If a request did not set [x-forwarded-for](../http_conn_man/headers.md#config-http-conn-man-headers-x-forwarded-for), no descriptor is generated.
+如果一个请求没有设置 [x-forwarded-for](../../configuration/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for)，不会生成描述符。
 
-If a request sets [x-forwarded-for](../http_conn_man/headers.md#config-http-conn-man-headers-x-forwarded-for), the the following descriptor is generated:
+如果请求中设置了 [x-forwarded-for](../../configuration/http_conn_man/headers#config-http-conn-man-headers-x-forwarded-for)，会生成如下的描述符：
 
-```
-("generic_key", "some_value")
-("remote_address", "<trusted address from x-forwarded-for>")
-("source_cluster", "from_cluster")
-```
+    ("generic_key", "some_value")
+    ("remote_address", "<trusted address from x-forwarded-for>")
+    ("source_cluster", "from_cluster")
 
-## Statistics
+## 统计
 
-The buffer filter outputs statistics in the *cluster.<route target cluster>.ratelimit.* namespace. 429 responses are emitted to the normal cluster [dynamic HTTP statistics](../cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats-dynamic-http).
+缓存过滤器输出会在 `cluster.<route target cluster>.ratelimit.` 命名空间输出统计数据。429 这一响应码也会出现在[动态 HTTP 统计数据](../configuration/cluster_manager/cluster_stats.md#config-cluster-manager-cluster-stats-dynamic-http)中。
 
-| Name       | Type    | Description                                             |
-| ---------- | ------- | ------------------------------------------------------- |
-| ok         | Counter | Total under limit responses from the rate limit service |
-| error      | Counter | Total errors contacting the rate limit service          |
-| over_limit | Counter | total over limit responses from the rate limit service  |
+|名称|类型|描述|
+|---|---|---|
+|ok|Counter|来自于频率限制服务的所有限制内响应数量|
+|error|Counter|联系频率限制服务时的错误总数|
+|over_limit|Counter|来自频率限制服务的所有超限响应数量|
 
-## Runtime
+## 运行时
 
-The HTTP rate limit filter supports the following runtime settings:
+HTTP 频率限制过滤器支持如下的运行时配置：
 
-- ratelimit.http_filter_enabled
+- *`ratelimit.http_filter_enabled`*
 
-  % of requests that will call the rate limit service. Defaults to 100.
+    调用频率限制服务的请求的百分比，缺省为 100。
 
-- ratelimit.http_filter_enforcing
+- *`ratelimit.http_filter_enforcing`*
 
-  % of requests that will call the rate limit service and enforce the decision. Defaults to 100. This can be used to test what would happen before fully enforcing the outcome.
+    调用频率限制服务并实施决策的请求的百分比。缺省为 100。这个选项可以用来在完全实施限制之前进行测试，从而了解频率限制实施产生的后果。
 
-- ratelimit.<route_key>.http_filter_enabled
+- *`ratelimit.<route_key>.http_filter_enabled`*
 
-  % of requests that will call the rate limit service for a given *route_key* specified in the [rate limit configuration](../../api-v1/route_config/rate_limits.md#config-http-conn-man-route-table-rate-limit-config). Defaults to 100.
+    在[频率限制配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/rate_limits#config-http-conn-man-route-table-rate-limit-config)中指定的 `route_key`，利用这个数值调用频率限制的请求的百分比。缺省值为 100。

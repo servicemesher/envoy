@@ -1,46 +1,46 @@
 # Redis
 
-Envoy can act as a Redis proxy, partitioning commands among instances in a cluster. In this mode, the goals of Envoy are to maintain availability and partition tolerance over consistency. This is the key point when comparing Envoy to [Redis Cluster](https://redis.io/topics/cluster-spec). Envoy is designed as a best-effort cache, meaning that it will not try to reconcile inconsistent data or keep a globally consistent view of cluster membership.
+Envoy 可以作为 Redis 的代理，在集群的实例间对命令进行分区。在这种模式下，Envoy 的目标是保持可用性和分区容错的一致性。这是将 Envoy 和 [Redis 集群](https://redis.io/topics/cluster-spec) 进行比较时的重点。Envoy 被设计为尽力而为的缓存，这意味着它不会尝试协调不一致的数据或保持全局一致的集群成员关系视图。
 
-The Redis project offers a thorough reference on partitioning as it relates to Redis. See “[Partitioning: how to split data among multiple Redis instances](https://redis.io/topics/partitioning)”.
+Redis 项目中提供了与 Redis 分区相关的全面参考。请参阅 ”[Partitioning: how to split data among multiple Redis instances](https://redis.io/topics/partitioning)“。
 
-**Features of Envoy Redis**:
+**Envoy Redis 的特点**:
 
-- [Redis protocol](https://redis.io/topics/protocol) codec.
-- Hash-based partitioning.
-- Ketama distribution.
-- Detailed command statistics.
-- Active and passive healthchecking.
+- [Redis 协议](https://redis.io/topics/protocol) 编解码器
+- 基于散列的分区
+- Ketama 一致性哈希算法
+- 详细的命令统计
+- 主动和被动的健康检查
 
-**Planned future enhancements**:
+**有计划的未来增强功能**:
 
-- Additional timing stats.
-- Circuit breaking.
-- Request collapsing for fragmented commands.
-- Replication.
-- Built-in retry.
-- Tracing.
-- Hash tagging.
+- 额外的时间统计
+- 断路器
+- 对分散的命令进行请求折叠
+- 复制
+- 内置的重试功能
+- 跟踪
+- 哈希标记
 
 ## 配置
 
-For filter configuration details, see the Redis proxy filter [configuration reference](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy).
+有关过滤器配置的详细信息，请参阅 [Redis 代理过滤器配置参考](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy)。
 
-The corresponding cluster definition should be configured with [ring hash load balancing](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-lb-type).
+相应的集群定义应该配置为 [环哈希负载均衡](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/load_balancing#arch-overview-load-balancing-types)。
 
-If active healthchecking is desired, the cluster should be configured with a [Redis healthcheck](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc).
+如果需要进行主动健康检查，则应该对集群配置使用 [Redis 健康检查](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)。
 
-If passive healthchecking is desired, also configure [outlier detection](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-outlier-detection-summary).
+如果需要被动健康检查，还需要配置 [异常检测](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_outlier_detection#config-cluster-manager-cluster-outlier-detection)。
 
-For the purposes of passive healthchecking, connect timeouts, command timeouts, and connection close map to 5xx. All other responses from Redis are counted as a success.
+为了进行被动健康检查，需要将连接超时，命令超时和连接关闭都映射到 5xx 响应，而来自 Redis 的所有其他响应都视为成功。
 
 ## 支持的命令
 
-At the protocol level, pipelines are supported. MULTI (transaction block) is not. Use pipelining wherever possible for the best performance.
+在协议层面，支持流水线，但不支持 MULTI(事务块)。应该尽可能的使用流水线以获得最佳性能。
 
-At the command level, Envoy only supports commands that can be reliably hashed to a server. PING is the only exception, which Envoy responds to immediately with PONG. Arguments to PING are not allowed. All other supported commands must contain a key. Supported commands are functionally identical to the original Redis command except possibly in failure scenarios.
+在命令层面，Envoy 仅支持可能的散列到服务器的命令。PING 命令是唯一的例外，Envoy 将立即使用 PONG 作为回复。对 PING 命令使用参数是不被支持的。所有其他支持的命令都必须包含一个键。受支持的命令在功能上与原始的 Redis 命令相同，除非出现了故障情况。
 
-For details on each command’s usage see the official [Redis command reference](https://redis.io/commands).
+有关每个命令用法的详细信息，请参阅官方的 [Redis 命令参考](https://redis.io/commands)。
 
 | Command              | Group      |
 | -------------------- | ---------- |
@@ -147,21 +147,21 @@ For details on each command’s usage see the official [Redis command reference]
 
 ## 失败模式
 
-If Redis throws an error, we pass that error along as the response to the command. Envoy treats a response from Redis with the error datatype as a normal response and passes it through to the caller.
+如果 Redis 抛出了错误，我们会将这个错误作为响应传递给命令。Envoy 将来自 Redis 的响应与错误数据类型视为正常响应，并将它传递给调用者。
 
-Envoy can also generate its own errors in response to the client.
+Envoy 也会产生自己的错误来响应客户端。
 
-| Error                                 | Meaning                                                      |
+| 错误                                 | 含义                                                      |
 | ------------------------------------- | ------------------------------------------------------------ |
-| no upstream host                      | The ring hash load balancer did not have a healthy host available at the ring position chosen for the key. |
-| upstream failure                      | The backend did not respond within the timeout period or closed the connection. |
-| invalid request                       | Command was rejected by the first stage of the command splitter due to datatype or length. |
-| unsupported command                   | The command was not recognized by Envoy and therefore cannot be serviced because it cannot be hashed to a backend server. |
-| finished with n errors                | Fragmented commands which sum the response (e.g. DEL) will return the total number of errors received if any were received. |
-| upstream protocol error               | A fragmented command received an unexpected datatype or a backend responded with a response that not conform to the Redis protocol. |
-| wrong number of arguments for command | Certain commands check in Envoy that the number of arguments is correct. |
+| 没有上游主机                      | 环哈希负载均衡器在为键的选择的位置上没有可用的主机 |
+| 上游主机错误                      | 后端没有在超时期限内进行响应或关闭连接 |
+| 无效的请求                       | 由于数据类型或长度的原因，命令在命令拆分器的第一阶段被拒绝 |
+| 不支持的命令                   | 该命令未被 Envoy 识别，因此不能被服务，因为它不能被哈希到后端的服务器 |
+| 返回了多个错误                | 分段的命令将会组合多个响应(例如 DEL 命令)，将返回接收到的错误总数 |
+| 上游协议错误              | 分段命令收到意外的数据类型或后端响应的数据不符合 Redis 协议 |
+| 命令参数数量错误 | Envoy 中的命令参数数量检查未通过 |
 
-In the case of MGET, each individual key that cannot be fetched will generate an error response. For example, if we fetch five keys and two of the keys’ backends time out, we would get an error response for each in place of the value.
+在 MGET 命令中，每个无法被获取的键都会产生一个错误响应。例如，如果我们获取五个键的指并且其中有两个键出现了后端响应超时的错误，我们将会获得每个值得错误响应信息。
 
 ```bash
 $ redis-cli MGET a b c d e

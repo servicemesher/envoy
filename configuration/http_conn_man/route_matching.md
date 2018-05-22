@@ -1,11 +1,11 @@
 # 路由匹配
 
-> **Attention**
+> **注意**
 >
-> This section is written for the v1 API but the concepts also apply to the v2 API. It will be rewritten to target the v2 API in a future release.
+> 本节为 v1 API编写，但概念也适用于 v2 API。 在未来的版本中将以 v2 API为目标重写为。
 
-When Envoy matches a route, it uses the following procedure:
+当 Envoy 匹配路由时，它使用如下步骤：
 
-1. The HTTP request’s *host* or *:authority* header is matched to a [virtual host](../../api-v1/route_config/vhost.html#config-http-conn-man-route-table-vhost).
-2. Each [route entry](../../api-v1/route_config/route.html#config-http-conn-man-route-table-route) in the virtual host is checked, *in order*. If there is a match, the route is used and no further route checks are made.
-3. Independently, each [virtual cluster](../../api-v1/route_config/vcluster.html#config-http-conn-man-route-table-vcluster) in the virtual host is checked, *in order*. If there is a match, the virtual cluster is used and no further virtual cluster checks are made.
+1. HTTP 请求的 *host* 或者 *:authority* 头匹配到 [虚拟主机](../../api-v1/route_config/vhost.html#config-http-conn-man-route-table-vhost)。
+2. 按顺序检查虚拟主机中的每个 [路由条目](../../api-v1/route_config/route.html#config-http-conn-man-route-table-route) 。如果匹配，则使用该路由而不再进一步检查其他路由。
+3. 独立地，按顺序检查虚拟主机中的每个 [虚拟集群](../../api-v1/route_config/vcluster.html#config-http-conn-man-route-table-vcluster) 。如果匹配，则使用该虚拟集群而不再进一步检查其他虚拟集群。

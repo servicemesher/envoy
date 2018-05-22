@@ -1,177 +1,177 @@
 # 统计
 
-- [General](#general)
-- [Health check statistics](#health-check-statistics)
-- [Outlier detection statistics](#outlier-detection-statistics)
-- [Dynamic HTTP statistics](#dynamic-http-statistics)
-- [Alternate tree dynamic HTTP statistics](#alternate-tree-dynamic-http-statistics)
-- [Per service zone dynamic HTTP statistics](#per-service-zone-dynamic-http-statistics)
-- [Load balancer statistics](#load-balancer-statistics)
-- [Load balancer subset statistics](#load-balancer-subset-statistics)
+- [概要](#general)
+- [健康检查统计](#health-check-statistics)
+- [异常点检测统计](#outlier-detection-statistics)
+- [动态 HTTP 统计](#dynamic-http-statistics)
+- [可变树动态 HTTP 统计](#alternate-tree-dynamic-http-statistics)
+- [每个服务区域动态 HTTP 统计](#per-service-zone-dynamic-http-statistics)
+- [负载均衡统计](#load-balancer-statistics)
+- [负载均衡子集统计](#load-balancer-subset-statistics)
 
-## General
+## 概要
 
-The cluster manager has a statistics tree rooted at *cluster_manager.* with the following statistics. Any `:` character in the stats name is replaced with `_`.
+集群管理器有一个以  *cluster_manager.*  为根的统计树。有以下统计项。统计名称中的任何`:` 字符将会被替换成`_`。
 
-| Name             | Type    | Description                                            |
+| 名称          | 类型 | 描述        |
 | ---------------- | ------- | ------------------------------------------------------ |
-| cluster_added    | Counter | Total clusters added (either via static config or CDS) |
-| cluster_modified | Counter | Total clusters modified (via CDS)                      |
-| cluster_removed  | Counter | Total clusters removed (via CDS)                       |
-| active_clusters  | Gauge   | Number of currently active (warmed) clusters           |
-| warming_clusters | Gauge   | Number of currently warming (not active) clusters      |
+| cluster_added | Counter | 添加的所有集群数 （通过静态配置或 CDS） |
+| cluster_modified | Counter | 修改的所有集群数 （通过 CDS）      |
+| cluster_removed  | Counter | 移除的所有集群数 （通过 CDS） |
+| active_clusters  | Gauge| 当前活跃的（预热的）所有集群数 |
+| warming_clusters | Gauge| 当前正在预热的活动（非活跃的）所有集群数 |
 
-Every cluster has a statistics tree rooted at *cluster.<name>.* with the following statistics:
+每一个集群有一个以 *cluster.<name>.* 为根的统计树。有以下统计项:
 
-| Name                                        | Type      | Description                                                  |
-| ------------------------------------------- | --------- | ------------------------------------------------------------ |
-| upstream_cx_total                           | Counter   | Total connections                                            |
-| upstream_cx_active                          | Gauge     | Total active connections                                     |
-| upstream_cx_http1_total                     | Counter   | Total HTTP/1.1 connections                                   |
-| upstream_cx_http2_total                     | Counter   | Total HTTP/2 connections                                     |
-| upstream_cx_connect_fail                    | Counter   | Total connection failures                                    |
-| upstream_cx_connect_timeout                 | Counter   | Total connection connect timeouts                            |
-| upstream_cx_idle_timeout                    | Counter   | Total connection idle timeouts                               |
-| upstream_cx_connect_attempts_exceeded       | Counter   | Total consecutive connection failures exceeding configured connection attempts |
-| upstream_cx_overflow                        | Counter   | Total times that the cluster’s connection circuit breaker overflowed |
-| upstream_cx_connect_ms                      | Histogram | Connection establishment milliseconds                        |
-| upstream_cx_length_ms                       | Histogram | Connection length milliseconds                               |
-| upstream_cx_destroy                         | Counter   | Total destroyed connections                                  |
-| upstream_cx_destroy_local                   | Counter   | Total connections destroyed locally                          |
-| upstream_cx_destroy_remote                  | Counter   | Total connections destroyed remotely                         |
-| upstream_cx_destroy_with_active_rq          | Counter   | Total connections destroyed with 1+ active request           |
-| upstream_cx_destroy_local_with_active_rq    | Counter   | Total connections destroyed locally with 1+ active request   |
-| upstream_cx_destroy_remote_with_active_rq   | Counter   | Total connections destroyed remotely with 1+ active request  |
-| upstream_cx_close_notify                    | Counter   | Total connections closed via HTTP/1.1 connection close header or HTTP/2 GOAWAY |
-| upstream_cx_rx_bytes_total                  | Counter   | Total received connection bytes                              |
-| upstream_cx_rx_bytes_buffered               | Gauge     | Received connection bytes currently buffered                 |
-| upstream_cx_tx_bytes_total                  | Counter   | Total sent connection bytes                                  |
-| upstream_cx_tx_bytes_buffered               | Gauge     | Send connection bytes currently buffered                     |
-| upstream_cx_protocol_error                  | Counter   | Total connection protocol errors                             |
-| upstream_cx_max_requests                    | Counter   | Total connections closed due to maximum requests             |
-| upstream_cx_none_healthy                    | Counter   | Total times connection not established due to no healthy hosts |
-| upstream_rq_total                           | Counter   | Total requests                                               |
-| upstream_rq_active                          | Gauge     | Total active requests                                        |
-| upstream_rq_pending_total                   | Counter   | Total requests pending a connection pool connection          |
-| upstream_rq_pending_overflow                | Counter   | Total requests that overflowed connection pool circuit breaking and were failed |
-| upstream_rq_pending_failure_eject           | Counter   | Total requests that were failed due to a connection pool connection failure |
-| upstream_rq_pending_active                  | Gauge     | Total active requests pending a connection pool connection   |
-| upstream_rq_cancelled                       | Counter   | Total requests cancelled before obtaining a connection pool connection |
-| upstream_rq_maintenance_mode                | Counter   | Total requests that resulted in an immediate 503 due to [maintenance mode](../http_filters/router_filter.md#config-http-filters-router-runtime-maintenance-mode) |
-| upstream_rq_timeout                         | Counter   | Total requests that timed out waiting for a response         |
-| upstream_rq_per_try_timeout                 | Counter   | Total requests that hit the per try timeout                  |
-| upstream_rq_rx_reset                        | Counter   | Total requests that were reset remotely                      |
-| upstream_rq_tx_reset                        | Counter   | Total requests that were reset locally                       |
-| upstream_rq_retry                           | Counter   | Total request retries                                        |
-| upstream_rq_retry_success                   | Counter   | Total request retry successes                                |
-| upstream_rq_retry_overflow                  | Counter   | Total requests not retried due to circuit breaking           |
-| upstream_flow_control_paused_reading_total  | Counter   | Total number of times flow control paused reading from upstream |
-| upstream_flow_control_resumed_reading_total | Counter   | Total number of times flow control resumed reading from upstream |
-| upstream_flow_control_backed_up_total       | Counter   | Total number of times the upstream connection backed up and paused reads from downstream |
-| upstream_flow_control_drained_total         | Counter   | Total number of times the upstream connection drained and resumed reads from downstream |
-| membership_change                           | Counter   | Total cluster membership changes                             |
-| membership_healthy                          | Gauge     | Current cluster healthy total (inclusive of both health checking and outlier detection) |
-| membership_total                            | Gauge     | Current cluster membership total                             |
-| retry_or_shadow_abandoned                   | Counter   | Total number of times shadowing or retry buffering was canceled due to buffer limits |
-| config_reload                               | Counter   | Total API fetches that resulted in a config reload due to a different config |
-| update_attempt                              | Counter   | Total cluster membership update attempts                     |
-| update_success                              | Counter   | Total cluster membership update successes                    |
-| update_failure                              | Counter   | Total cluster membership update failures                     |
-| update_empty                                | Counter   | Total cluster membership updates ending with empty cluster load assignment and continuing with previous config |
-| update_no_rebuild                           | Counter   | Total successful cluster membership updates that didn’t result in any cluster load balancing structure rebuilds |
-| version                                     | Gauge     | Hash of the contents from the last successful API fetch      |
-| max_host_weight                             | Gauge     | Maximum weight of any host in the cluster                    |
-| bind_errors                                 | Counter   | Total errors binding the socket to the configured source address |
+| 名称          | 类型 | 描述        |
+| ---------------- | ------- | ------------------------------------------------------ |
+| upstream_cx_total                        | Counter | 总连接数      |
+| upstream_cx_active                       | Gauge | 总激活的连接数 |
+| upstream_cx_http1_total                  | Counter | HTTP/1.1 总连接数 |
+| upstream_cx_http2_total                  | Counter | Total HTTP/2 总连接数                                   |
+| upstream_cx_connect_fail                 | Counter | 总连接失败数    |
+| upstream_cx_connect_timeout              | Counter | 总连接超时数    |
+| upstream_cx_idle_timeout                 | Counter | 总连接空闲超时  |
+| upstream_cx_connect_attempts_exceeded    | Counter | 超过配置连接尝试的总连续连接失败数                      |
+| upstream_cx_overflow                     | Counter | 机群连接断路器溢出的总次数                              |
+| upstream_cx_connect_ms                   | Histogram | 连接建立毫秒    |
+| upstream_cx_length_ms                    | Histogram | 连接长度毫秒    |
+| upstream_cx_destroy                      | Counter | 完全破坏连接    |
+| upstream_cx_destroy_local                | Counter | 本地连接破坏    |
+| upstream_cx_destroy_remote               | Counter | 远程连接完全销毁数 |
+| upstream_cx_destroy_with_active_rq       | Counter | 用1 +主动请求销毁总连接数                               |
+| upstream_cx_destroy_local_with_active_rq | Counter | 用1 +主动请求销毁本地总连接数                           |
+| upstream_cx_destroy_remote_with_active_rq| Counter | 用1 +主动请求远程销毁总连接                             |
+| upstream_cx_close_notify                 | Counter | 通过 HTTP/1.1 连接关闭报头或HTTP/2 GOAWAY 关闭的总连接数 |
+| upstream_cx_rx_bytes_total               | Counter | 接收到的总连接字节数                                    |
+| upstream_cx_rx_bytes_buffered            | Gauge | 当前缓冲的接收连接字节                                  |
+| upstream_cx_tx_bytes_total               | Counter | 发送的连接字节总数 |
+| upstream_cx_tx_bytes_buffered            | Gauge | 发送当前缓冲的连接字节                                  |
+| upstream_cx_protocol_error               | Counter | 总连接协议错误  |
+| upstream_cx_max_requests                 | Counter | 由于最大请求关闭总连接                                  |
+| upstream_cx_none_healthy                 | Counter | 由于没有健康主机，连接没有建立的总次数                  |
+| upstream_rq_total                        | Counter | 总请求量        |
+| upstream_rq_active                       | Gauge | 总活动请求    |
+| upstream_rq_pending_total                | Counter | 等待连接池连接的总请求                                  |
+| upstream_rq_pending_overflow             | Counter | 溢出连接池电路中断和失败的总请求                        |
+| upstream_rq_pending_failure_eject        | Counter | 由于连接池连接失败而导致的总请求失败                    |
+| upstream_rq_pending_active               | Gauge | 挂起连接池连接的全部活动请求                            |
+| upstream_rq_cancelled                    | Counter | 在获得连接池连接之前取消的总请求                        |
+| upstream_rq_maintenance_mode             | Counter | 由于维护模式导致的请求总数为 503                        |
+| upstream_rq_timeout                      | Counter | 等待响应的总请求|
+| upstream_rq_per_try_timeout              | Counter | 每次尝试超时的总请求                                    |
+| upstream_rq_rx_reset                     | Counter | 远程重置的总请求|
+| upstream_rq_tx_reset                     | Counter | 本地重置的总请求|
+| upstream_rq_retry                        | Counter | 总请求重试      |
+| upstream_rq_retry_success                | Counter | 总请求重试成功率|
+| upstream_rq_retry_overflow               | Counter | 由于电路断开而未重试的总请求                            |
+| upstream_flow_control_paused_reading_total  | Counter | 上游流量控制暂停读取的总次数                            |
+| upstream_flow_control_resumed_reading_total | Counter | 从上游读取的流量控制的总次数                            |
+| upstream_flow_control_backed_up_total    | Counter | 上游连接备份和暂停读取的总次数从下游读取                |
+| upstream_flow_control_drained_total      | Counter | 从上游读取和恢复上游连接的总次数                        |
+| membership_change                        | Counter | 总簇成员变化    |
+| membership_healthy                       | Gauge | 当前集群健康总量（包括健康检查和异常值检测）            |
+| membership_total                         | Gauge | 当前群集成员总数|
+| retry_or_shadow_abandoned                | Counter | 由于缓冲区限制，阴影或重试缓冲的总次数被取消。          |
+| config_reload                            | Counter | 由于配置不同，导致的 API 重新加载导致配置重新加载。     |
+| update_attempt                           | Counter | 总簇成员更新尝试|
+| update_success                           | Counter | 总簇成员更新成功率 |
+| update_failure                           | Counter | 总簇成员更新失败|
+| update_empty                             | Counter | 使用空集群负载分配结束的总群集成员更新，并继续使用以前配置 |
+| update_no_rebuild                        | Counter | 没有导致任何集群负载均衡结构重建的完全成功的群集成员更新|
+| version                                  | Gauge | 从最后一次成功的 API 获取内容的哈希                     |
+| max_host_weight                          | Gauge | 集群中任意主机的最大权重                                |
+| bind_errors                              | Counter | 将套接字绑定到已配置的源地址的总错误                    |
 
-## Health check statistics
+## 健康检查统计
 
-If health check is configured, the cluster has an additional statistics tree rooted at *cluster.<name>.health_check.* with the following statistics:
+如果配置了健康检查，则该集群具有根于根 *cluster.<name>.health_check.* 的附加统计树。有如下统计:
 
-| Name            | Type    | Description                                                  |
-| --------------- | ------- | ------------------------------------------------------------ |
-| attempt         | Counter | Number of health checks                                      |
-| success         | Counter | Number of successful health checks                           |
-| failure         | Counter | Number of immediately failed health checks (e.g. HTTP 503) as well as network failures |
-| passive_failure | Counter | Number of health check failures due to passive events (e.g. x-envoy-immediate-health-check-fail) |
-| network_failure | Counter | Number of health check failures due to network error         |
-| verify_cluster  | Counter | Number of health checks that attempted cluster name verification |
-| healthy         | Gauge   | Number of healthy members                                    |
+| 名称          | 类型 | 描述        |
+| ---------------- | ------- | ------------------------------------------------------ |
+| attempt      | Counter | 健康检查次数                              |
+| success      | Counter | 健康检查成功次数                          |
+| failure      | Counter | 立即失效的健康检查（例如HTTP 503）以及网络故障的次数|
+| passive_failure | Counter | 由于被动事件引起的健康检查失败的次数（例如X-Enviv-即时健康检查失败） |
+| network_failure | Counter | 网络错误引起的健康检查失败次数                |
+| verify_cluster  | Counter | 尝试群集名称验证的健康检查数量                |
+| healthy      | Gauge | 健康会员人数                               |
 
-## Outlier detection statistics
+## 异常点检测统计
 
-If [outlier detection](../../intro/arch_overview/outlier.md#arch-overview-outlier-detection) is configured for a cluster, statistics will be rooted at *cluster.<name>.outlier_detection.* and contain the following:
+如果为集群配置了[异常点检测](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/outlier#arch-overview-outlier-detection)，统计将以 *cluster.<name>.outlier_detection.* 为根，包含如下:
 
-| Name                                           | Type    | Description                                                  |
-| ---------------------------------------------- | ------- | ------------------------------------------------------------ |
-| ejections_enforced_total                       | Counter | Number of enforced ejections due to any outlier type         |
-| ejections_active                               | Gauge   | Number of currently ejected hosts                            |
-| ejections_overflow                             | Counter | Number of ejections aborted due to the max ejection %        |
-| ejections_enforced_consecutive_5xx             | Counter | Number of enforced consecutive 5xx ejections                 |
-| ejections_detected_consecutive_5xx             | Counter | Number of detected consecutive 5xx ejections (even if unenforced) |
-| ejections_enforced_success_rate                | Counter | Number of enforced success rate outlier ejections            |
-| ejections_detected_success_rate                | Counter | Number of detected success rate outlier ejections (even if unenforced) |
-| ejections_enforced_consecutive_gateway_failure | Counter | Number of enforced consecutive gateway failure ejections     |
-| ejections_detected_consecutive_gateway_failure | Counter | Number of detected consecutive gateway failure ejections (even if unenforced) |
-| ejections_total                                | Counter | Deprecated. Number of ejections due to any outlier type (even if unenforced) |
-| ejections_consecutive_5xx                      | Counter | Deprecated. Number of consecutive 5xx ejections (even if unenforced) |
+| 名称          | 类型 | 描述        |
+| ---------------- | ------- | ------------------------------------------------------ |
+| ejections_enforced_total                       | Counter | 由于异常值类型强制执行的驱逐次数                   |
+| ejections_active                               | Gauge | 当前驱逐主机的数量                                 |
+| ejections_overflow                             | Counter | 由于最大驱逐率而中止的驱逐数                       |
+| ejections_enforced_consecutive_5xx             | Counter | 强制执行的连续 5xx 驱逐数                          |
+| ejections_detected_consecutive_5xx             | Counter | 检测到的连续 5xx 驱逐数（即使未强制执行）          |
+| ejections_enforced_success_rate                | Counter | 强制成功率异常离群数                               |
+| ejections_detected_success_rate                | Counter | 检测成功率离群值的数量（即使未执行）               |
+| ejections_enforced_consecutive_gateway_failure | Counter | 强制连续网关失败驱逐数                             |
+| ejections_detected_consecutive_gateway_failure | Counter | 检测到的连续网关故障驱逐数目（即使未强制执行）     |
+| ejections_total                                | Counter | 不赞成的由于异常值类型引起的驱逐次数（即使未执行） |
+| ejections_consecutive_5xx                      | Counter | 不赞成的连续5xx驱逐数（即使未强制执行）            |
 
-## Dynamic HTTP statistics
+## 动态 HTTP 统计
 
-If HTTP is used, dynamic HTTP response code statistics are also available. These are emitted by various internal systems as well as some filters such as the [router filter](../http_filters/router_filter.md#config-http-filters-router) and [rate limit filter](../http_filters/rate_limit_filter.md#config-http-filters-rate-limit). They are rooted at *cluster.<name>.* and contain the following statistics:
+如果使用 HTTP，动态 HTTP 响应代码统计也是可用的。 这些是由各种内部系统发出的，以及一些过滤器，如[路由器过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/router_filter)和[速率限制过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/rate_limit_filter)。统计将以 *cluster.<name>.* 为根，包含如下:
 
-| Name                       | Type      | Description                                          |
+| 名称                    | 类型   | 描述      |
 | -------------------------- | --------- | ---------------------------------------------------- |
-| upstream_rq_<*xx>          | Counter   | Aggregate HTTP response codes (e.g., 2xx, 3xx, etc.) |
-| upstream_rq_<*>            | Counter   | Specific HTTP response codes (e.g., 201, 302, etc.)  |
-| upstream_rq_time           | Histogram | Request time milliseconds                            |
-| canary.upstream_rq_<*xx>   | Counter   | Upstream canary aggregate HTTP response codes        |
-| canary.upstream_rq_<*>     | Counter   | Upstream canary specific HTTP response codes         |
-| canary.upstream_rq_time    | Histogram | Upstream canary request time milliseconds            |
-| internal.upstream_rq_<*xx> | Counter   | Internal origin aggregate HTTP response codes        |
-| internal.upstream_rq_<*>   | Counter   | Internal origin specific HTTP response codes         |
-| internal.upstream_rq_time  | Histogram | Internal origin request time milliseconds            |
-| external.upstream_rq_<*xx> | Counter   | External origin aggregate HTTP response codes        |
-| external.upstream_rq_<*>   | Counter   | External origin specific HTTP response codes         |
-| external.upstream_rq_time  | Histogram | External origin request time milliseconds            |
+| upstream_rq_<*xx>          | Counter | HTTP响应代码汇总（例如，2xx 3xx，等。）    |
+| upstream_rq_<*>            | Counter | 特异性的HTTP响应代码（例如，201、302等。） |
+| upstream_rq_time           | Histogram | 请求时间ms|
+| canary.upstream_rq_<*xx>   | Counter | 上游的 canary 聚合 HTTP 响应代码 |
+| canary.upstream_rq_<*>     | Counter | 上游的 canary HTTP 特定响应代码 |
+| canary.upstream_rq_time    | Histogram | 上游的 canary 请求时间 ms |
+| internal.upstream_rq_<*xx> | Counter | 内部原始聚合 HTTP 响应代码 |
+| internal.upstream_rq_<*>   | Counter | 内部原始特定 HTTP 响应代码 |
+| internal.upstream_rq_time  | Histogram | 内部原始请求时间 ms |
+| external.upstream_rq_<*xx> | Counter | HTTP响应代码聚集外部性|
+| external.upstream_rq_<*>   | Counter | HTTP响应代码和特异性|
+| external.upstream_rq_time  | Histogram | 外部原始请求时间 ms |
 
-## Alternate tree dynamic HTTP statistics
+## 可变树动态 HTTP 统计
 
-If alternate tree statistics are configured, they will be present in the *cluster.<name>.<alt name>.*namespace. The statistics produced are the same as documented in the dynamic HTTP statistics section [above](#config-cluster-manager-cluster-stats-dynamic-http).
+如果配置了可变树统计信息，则它们将存在于 *cluster.<name>.<alt name>.*命名空间。所产生的统计数据与动态 HTTP 统计部分[以上](https://www.envoyproxy.io/docs/envoy/latest/configuration/cluster_manager/cluster_stats.html)所记录的数据相同。
 
-## Per service zone dynamic HTTP statistics
+## 每个服务区域动态 HTTP 统计
 
-If the service zone is available for the local service (via [`--service-zone`](../../operations/cli.md#cmdoption-service-zone)) and the [upstream cluster](../../intro/arch_overview/service_discovery.md#arch-overview-service-discovery-types-sds), Envoy will track the following statistics in *cluster.<name>.zone.<from_zone>.<to_zone>.*namespace.
+如果服务区域可用于本地服务 (通过 [`--service-zone`](https://www.envoyproxy.io/docs/envoy/latest/operations/cli#cmdoption-service-zone)) 和 [上游集群](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/service_discovery#arch-overview-service-discovery-types-sds), Envoy 在将跟踪 *cluster.<name>.zone.<from_zone>.<to_zone>.* 命名空间的以下统计数据.
 
-| Name              | Type      | Description                                          |
+| 名称                    | 类型   | 描述  |
 | ----------------- | --------- | ---------------------------------------------------- |
-| upstream_rq_<*xx> | Counter   | Aggregate HTTP response codes (e.g., 2xx, 3xx, etc.) |
-| upstream_rq_<*>   | Counter   | Specific HTTP response codes (e.g., 201, 302, etc.)  |
-| upstream_rq_time  | Histogram | Request time milliseconds                            |
+| upstream_rq_<*xx> | Counter| 聚合 HTTP 响应代码（例如，2xx 3xx，等。） |
+| upstream_rq_<*>| Counter| 特定的 HTTP 响应代码（例如，201 等） |
+| upstream_rq_time  | Histogram | 请求时间 ms                |
 
-## Load balancer statistics
+## 负载均衡统计
 
-Statistics for monitoring load balancer decisions. Stats are rooted at *cluster.<name>.* and contain the following statistics:
+负载均衡器决策监测统计。统计以 *cluster.<name>.* 为根，包含如下统计: 
 
-| Name                           | Type    | Description                                                  |
-| ------------------------------ | ------- | ------------------------------------------------------------ |
-| lb_recalculate_zone_structures | Counter | The number of times locality aware routing structures are regenerated for fast decisions on upstream locality selection |
-| lb_healthy_panic               | Counter | Total requests load balanced with the load balancer in panic mode |
-| lb_zone_cluster_too_small      | Counter | No zone aware routing because of small upstream cluster size |
-| lb_zone_routing_all_directly   | Counter | Sending all requests directly to the same zone               |
-| lb_zone_routing_sampled        | Counter | Sending some requests to the same zone                       |
-| lb_zone_routing_cross_zone     | Counter | Zone aware routing mode but have to send cross zone          |
-| lb_local_cluster_not_ok        | Counter | Local host set is not set or it is panic mode for local cluster |
-| lb_zone_number_differs         | Counter | Number of zones in local and upstream cluster different      |
-| lb_zone_no_capacity_left       | Counter | Total number of times ended with random zone selection due to rounding error |
+| 名称          | 类型 | 描述        |
+| ---------------- | ------- | ------------------------------------------------------ |
+| lb_recalculate_zone_structures | Counter | 重新生成局部感知路由结构的次数，用于上游位置选择的快速决策 |
+| lb_healthy_panic               | Counter | 在恐慌模式下与负载平衡器平衡的总请求负载                   |
+| lb_zone_cluster_too_small      | Counter | 由于上游簇大小小，无区域感知路由|
+| lb_zone_routing_all_directly   | Counter | 将所有请求直接发送到同一区域   |
+| lb_zone_routing_sampled        | Counter | 向同一区域发送一些请求        |
+| lb_zone_routing_cross_zone     | Counter | 区域感知路由模式，但必须发送跨区域|
+| lb_local_cluster_not_ok        | Counter | 本地主机集未设置或是本地集群的恐慌模式|
+| lb_zone_number_differs         | Counter | 本地和上游集群的区域数目不同   |
+| lb_zone_no_capacity_left       | Counter | 舍入误差导致随机区域选择结束的次数|
 
-## Load balancer subset statistics
+## 负载均衡子集统计
 
-Statistics for monitoring load balancer subset <arch_overview_load_balancer_subsets> decisions. Stats are rooted at *cluster.<name>.* and contain the following statistics:
+负载均衡器子集 <arch_overview_load_balancer_subsets> 决策的统计监测。统计以 *cluster.<name>.* 为根，包含如下统计:
 
-| Name                | Type    | Description                                                |
+| 名称                    | 类型   | 描述      |
 | ------------------- | ------- | ---------------------------------------------------------- |
-| lb_subsets_active   | Gauge   | Number of currently available subsets                      |
-| lb_subsets_created  | Counter | Number of subsets created                                  |
-| lb_subsets_removed  | Counter | Number of subsets removed due to no hosts                  |
-| lb_subsets_selected | Counter | Number of times any subset was selected for load balancing |
-| lb_subsets_fallback | Counter | Number of times the fallback policy was invoked            |
+| lb_subsets_active   | Gauge   | 当前可用子集的数目          |
+| lb_subsets_created  | Counter | 创建的子集数               |
+| lb_subsets_removed  | Counter | 由于没有主机而删除的子集数   |
+| lb_subsets_selected | Counter | 选择任何子集的负载平衡次数   |
+| lb_subsets_fallback | Counter | 调用回退策略的次数          |

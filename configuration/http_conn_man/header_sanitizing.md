@@ -1,8 +1,9 @@
-# HTTP header sanitizing
+# HTTP 标头清理
 
-For security reasons, Envoy will “sanitize” various incoming HTTP headers depending on whether the request is an internal or external request. The sanitizing action depends on the header and may result in addition, removal, or modification. Ultimately, whether the request is considered internal or external is governed by the [x-forwarded-for](headers.md#config-http-conn-man-headers-x-forwarded-for) header (please read the linked section carefully as how Envoy populates the header is complex and depends on the [use_remote_address](../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-use-remote-address) setting).
+出于安全原因考虑，Envoy 将根据请求是内部请求还是外部请求来 “清理” 各种传入的 HTTP 标头。
+清理行为取决于标头，并可能会导致添加、删除或更改。最终，一个请求被认定为内部或是外部请求都是由 [x-forwarded-for](headers.md#config-http-conn-man-headers-x-forwarded-for) 标头决定（请仔细阅读链接部分，因为 Envoy 填充标头的动作是非常复杂的，并取决于 [use_remote_address](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-use-remote-address) 设置）。
 
-Envoy will potentially sanitize the following headers:
+Envoy 可能会清理以下标头:
 
 - [x-envoy-decorator-operation](../http_filters/router_filter.md#config-http-filters-router-x-envoy-decorator-operation)
 - [x-envoy-downstream-service-cluster](headers.md#config-http-conn-man-headers-downstream-service-cluster)

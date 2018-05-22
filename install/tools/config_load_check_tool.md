@@ -1,19 +1,19 @@
 # 配置负载检查工具
 
-The config load check tool checks that a configuration file in JSON format is written using valid JSON and conforms to the Envoy JSON schema. This tool leverages the configuration test in`test/config_test/config_test.cc`. The test loads the JSON configuration file and runs server configuration initialization with it.
+配置负载检查工具检查 JSON 格式的配置文件是否使用有效的 JSON 编写，并符合 Envoy JSON 模式。
+该工具利用`test / config_test / config_test.cc`中的配置测试。该测试加载 JSON 配置文件并使用它运行服务器配置初始化。
+- 输入
 
-- Input
+  该工具需要一个指向保存 JSON Envoy 配置文件的根目录的 PATH 变量。该工具将以递归方式遍历文件系统树，并对每个找到的文件运行配置测试。请记住，该工具将尝试加载路径中找到的所有文件。
 
-  The tool expects a PATH to the root of a directory that holds JSON Envoy configuration files. The tool will recursively go through the file system tree and run a configuration test for each file found. Keep in mind that the tool will try to load all files found in the path.
+- 输出
 
-- Output
+  该工具使用它当前正在测试的配置初始化服务器配置时，将输出 Enovy 日志。 如果存在 JSON 文件格式错误或不符合Envoy JSON模式的配置文件，则该工具将以状态 EXIT_FAILURE 退出。 如果该工具成功加载找到的所有配置文件，它将以状态EXIT_SUCCESS退出。
 
-  The tool will output Envoy logs as it initializes the server configuration with the config it is currently testing. If there are configuration files where the JSON file is malformed or is does not conform to the Envoy JSON schema, the tool will exit with status EXIT_FAILURE. If the tool successfully loads all configuration files found it will exit with status EXIT_SUCCESS.
+- 构建
 
-- Building
+  我们可以使用 Bazel 在本地构建该工具。 `bazel build //test/tools/config_load_check:config_load_check_tool `
 
-  The tool can be built locally using Bazel.`bazel build //test/tools/config_load_check:config_load_check_tool `
+- 运行
 
-- Running
-
-  The tool takes a path as described above.`bazel-bin/test/tools/config_load_check/config_load_check_tool PATH`
+  该工具将需要如上所述的 PATH 变量。 `bazel-bin/test/tools/config_load_check/config_load_check_tool PATH`

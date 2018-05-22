@@ -1,17 +1,5 @@
-.. _config_cluster_manager:
+# 集群管理器
 
-Cluster manager
-===============
-
-.. toctree::
-  :hidden:
-
-  cluster_stats
-  cluster_runtime
-  cds
-  cluster_hc
-  cluster_circuit_breakers
-
-* Cluster manager :ref:`architecture overview <arch_overview_cluster_manager>`
-* :ref:`v1 API reference <config_cluster_manager_v1>`
-* :ref:`v2 API reference <envoy_api_msg_config.bootstrap.v2.ClusterManager>`
+- 集群管理器 [架构概览](../../intro/arch_overview/cluster_manager.md#arch-overview-cluster-manager)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_manager#config-cluster-manager-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-msg-config-bootstrap-v2-clustermanager)

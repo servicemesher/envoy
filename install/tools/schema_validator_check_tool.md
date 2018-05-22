@@ -1,19 +1,19 @@
 # Schema 验证器检查工具
 
-The schema validator tool validates that the passed in JSON conforms to a schema in the configuration. To validate the entire config, please refer to the [config load check tool](config_load_check_tool.md#install-tools-config-load-check-tool). Currently, only [route config](../../api-v1/route_config/route_config.md#config-http-conn-man-route-table) schema validation is supported.
+Schema 验证器工具验证被传入的 JSON 符合配置中的某个 schema。为验证整个配置，请参考[配置负载检查工具](config_load_check_tool.md#install-tools-config-load-check-tool)。当前，仅[路由配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route_config.html#config-http-conn-man-route-table) schema 验证被支持。
 
-- Input
+- 输入
 
-  The tool expects two inputs:The schema type to check the passed in JSON against. The supported type is:route - for [route configuration](../../api-v1/route_config/route_config.md#config-http-conn-man-route-table) validation.The path to the JSON.
+  工具期望两个输入：检查传入的 JSON 所用的 schema 类型。对于[路由配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route_config.html#config-http-conn-man-route-table) 验证被支持的类型是 :route。JSON 所在的路径。
 
-- Output
+- 输出
 
-  If the JSON conforms to the schema, the tool will exit with status EXIT_SUCCESS. If the JSON does not conform to the schema, an error message is outputted detailing what doesn’t conform to the schema. The tool will exit with status EXIT_FAILURE.
+  如果 JSON 符合 schema，工具将以状态 EXIT_SUCCESS 退出。如果 JSON 不符合 schema，会输出一条错误消息告知不符合 schema 的细节。工具将以 EXIT_FAILURE 状态退出。
 
-- Building
+- 构建
 
-  The tool can be built locally using Bazel.`bazel build //test/tools/schema_validator:schema_validator_tool `
+  工具可以在本地使用 Bazel 构建。`bazel build //test/tools/schema_validator:schema_validator_tool `
 
-- Running
+- 运行
 
-  The tool takes a path as described above.`bazel-bin/test/tools/schema_validator/schema_validator_tool  --schema-type SCHEMA_TYPE  --json-path PATH`
+  工具采用上面描述的一条路径。`bazel-bin/test/tools/schema_validator/schema_validator_tool  --schema-type SCHEMA_TYPE  --json-path PATH`

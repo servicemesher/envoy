@@ -1,93 +1,132 @@
 # 管理接口
 
-Envoy exposes a local administration interface that can be used to query and modify different aspects of the server:
+Envoy 在本地提供了一个管理界面，可以使用这一界面查询或修改服务器的各种数据。
 
-- [v1 API reference](../api-v1/admin.md#config-admin-v1)
-- [v2 API reference](../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-msg-config-bootstrap-v2-admin)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/admin.html#config-admin-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto.html#envoy-api-msg-config-bootstrap-v2-admin)
 
-Attention
-
-The administration interface in its current form both allows destructive operations to be performed (e.g., shutting down the server) as well as potentially exposes private information (e.g., stats, cluster names, cert info, etc.). It is **critical** that access to the administration interface is only allowed via a secure network. It is also **critical** that hosts that access the administration interface are **only** attached to the secure network (i.e., to avoid CSRF attacks). This involves setting up an appropriate firewall or optimally only allowing access to the administration listener via localhost. This can be accomplished with a v2 configuration like the following:
+## 注意
+目前管理界面可以进行破坏性操作（例如关闭服务器），也可能暴露私有数据（例如统计数据、集群名称、证书信息等）。将管理界面限制到只能在安全网络之内进行访问是 **非常必要** 的。同时还要注意，提供管理界面服务的网络接口只接入到安全网络之中（防止 CSRF 攻击等目的）。要实现这些目标，可以进行相应的防火墙设置，或者只允许 localhost 访问。可以使用如下的 v2 配置来完成：
 
 ```yaml
 admin:
-  access_log_path: /tmp/admin_access.log
-  address:
+access_log_path: /tmp/admin_access.log
+address:
     socket_address: { address: 127.0.0.1, port_value: 9901 }
 ```
 
-In the future additional security options will be added to the administration interface. This work is tracked in [this](https://github.com/envoyproxy/envoy/issues/2763) issue.
+未来还会在管理界面中加入更多的安全相关的选项。这部分工作的进度在 [Github Issue #2763](https://github.com/envoyproxy/envoy/issues/2763) 上进行跟踪。
+所有的变更操作都应该通过 HTTP POST 方式进行。一段时间之内还是允许 HTTP GET 访问的，但是会有一条 Warning 日志。
 
-All mutations should be sent as HTTP POST operations. For a limited time, they will continue to work with HTTP GET, with a warning logged.
+## `GET /`
 
-- `GET /`
+渲染一个 HTML 主页，其中包含指向所有可用选项的链接。
 
-  Render an HTML home page with a table of links to all available options.
+## `GET /help`
 
-- `GET /help`
+以字符表格的形式输出所有可用选项。
 
-  Print a textual table of all available options.
+## `GET /certs`
 
-- `GET /certs`
+列出所有载入的 TLS 认证，包括文件名、序列号以及过期时间。
 
-  List out all loaded TLS certificates, including file name, serial number, and days until expiration.
+## `GET /clusters`
 
-- `GET /clusters`
+  列出[集群管理器](../intro/arch_overview/cluster_manager.md#arch-overview-cluster-manager)中配置的所有集群。这种信息中包含了已被发现的每个集群中的所有上游主机，以及每个主机的统计信息。如果服务发现出现问题需要除错，这些信息就很有帮助了。
 
-  List out all configured [cluster manager](../intro/arch_overview/cluster_manager.md#arch-overview-cluster-manager) clusters. This information includes all discovered upstream hosts in each cluster along with per host statistics. This is useful for debugging service discovery issues.Cluster manager information`version_info` string – the version info string of the last loaded [CDS](../configuration/cluster_manager/cds.md#config-cluster-manager-cds) update. If envoy does not have [CDS](../configuration/cluster_manager/cds.md#config-cluster-manager-cds) setup, the output will read `version_info::static`.Cluster wide information[circuit breakers](../configuration/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers) settings for all priority settings.Information about [outlier detection](../intro/arch_overview/outlier.md#arch-overview-outlier-detection) if a detector is installed. Currently [success rate average](../intro/arch_overview/outlier.md#arch-overview-outlier-detection-ejection-event-logging-cluster-success-rate-average), and [ejection threshold](../intro/arch_overview/outlier.md#arch-overview-outlier-detection-ejection-event-logging-cluster-success-rate-ejection-threshold) are presented. Both of these values could be `-1` if there was not enough data to calculate them in the last [interval](../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-interval-ms).`added_via_api` flag – `false` if the cluster was added via static configuration, `true` if it was added via the [CDS](../configuration/cluster_manager/cds.md#config-cluster-manager-cds) api.Per host statisticsNameTypeDescriptioncx_totalCounterTotal connectionscx_activeGaugeTotal active connectionscx_connect_failCounterTotal connection failuresrq_totalCounterTotal requestsrq_timeoutCounterTotal timed out requestsrq_successCounterTotal requests with non-5xx responsesrq_errorCounterTotal requests with 5xx responsesrq_activeGaugeTotal active requestshealthyStringThe health status of the host. See belowweightIntegerLoad balancing weight (1-100)zoneStringService zonecanaryBooleanWhether the host is a canarysuccess_rateDoubleRequest success rate (0-100). -1 if there was not enough [request volume](../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-success-rate-request-volume) in the [interval](../api-v1/cluster_manager/cluster_outlier_detection.md#config-cluster-manager-cluster-outlier-detection-interval-ms) to calculate itHost health statusA host is either healthy or unhealthy because of one or more different failing health states. If the host is healthy the `healthy` output will be equal to *healthy*.If the host is not healthy, the `healthy` output will be composed of one or more of the following strings:*/failed_active_hc*: The host has failed an [active health check](../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc).*/failed_eds_health*: The host was marked unhealthy by EDS.*/failed_outlier_check*: The host has failed an outlier detection check.
+### 集群管理器信息
 
-- `GET /config_dump`
+`version_info`：string，最近载入的 [CDS](../configuration/cluster_manager/cds.md#config-cluster-manager-cds) 的版本信息字符串。如果 Envoy 没有设置 [CDS](../configuration/cluster_manager/cds.md#config-cluster-manager-cds)，则会输出来自于 `version_info::static`。
 
-  Dump currently loaded configuration from various Envoy components as JSON-serialized proto messages. See the [response definition](../api-v2/admin/v2alpha/config_dump.proto.md#envoy-api-msg-admin-v2alpha-configdump) for more information.
+### 集群层信息
 
-- `POST /cpuprofiler`
+- 各优先级的[断路器](../configuration/cluster_manager/cluster_circuit_breakers.md#config-cluster-manager-cluster-circuit-breakers)设置。
+- 如果设置了[外部检测](../intro/arch_overview/outlier.md#arch-overview-outlier-detection)，则显示相关信息。目前包含了[平均成功率](../intro/arch_overview/outlier.md#arch-overview-outlier-detection-ejection-event-logging-cluster-success-rate-average)以及[驱逐阈值](../intro/arch_overview/outlier.md#arch-overview-outlier-detection-ejection-event-logging-cluster-success-rate-ejection-threshold)的检测器。上一个检测周期中所获取的数据量不足，这些变量的值会被设置为`-1`。
+- `added_via_api` 标志：如果是静态配置添加的集群，这个项目的值就是 `false`；如果是使用 [CDS](../configuration/cluster_manager/cds.md#config-cluster-manager-cds) API 添加的集群，这个值就会设置为 `true`。
 
-  Enable or disable the CPU profiler. Requires compiling with gperftools.
+### 主机统计数据
 
-- `POST /healthcheck/fail`
+|名称|类型|描述|
+|---|---|---|
+|cx_total|Counter|连接总数|
+|cx_active|Gauge|活动连接总数|
+|cx_connect_fail|Counter|连接失败总数|
+|rq_total|Counter|请求总数|
+|rq_timeout|Counter|超时请求总数|
+|rq_success|Counter|收到非 5xx 响应的请求总数|
+|rq_error|Counter|收到 5xx 响应的请求总数|
+|rq_active|Gauge|活动请求总数|
+|healthy|String|主机健康状态，下面会有讲解|
+|weight|Integer|负载均衡权重（0-100）|
+|zone|String|服务区域|
+|canary|Boolean|本主机是否为金丝雀|
+|success_rate|Double|请求成功率（0 - 100）。如果统计周期内没有足够的请求量进行运算，则返回 -1|
 
-  Fail inbound health checks. This requires the use of the HTTP [health check filter](../configuration/http_filters/health_check_filter.md#config-http-filters-health-check). This is useful for draining a server prior to shutting it down or doing a full restart. Invoking this command will universally fail health check requests regardless of how the filter is configured (pass through, etc.).
+### 主机健康状态
 
-- `POST /healthcheck/ok`
+- 如果主机是健康的，那么 `healthy` 的输出为 `healthy`。
+- 如果主机不健康，则 `healthy` 返回的是下面几个状态之一：
+  - `/failed_active_hc`：[主动健康监测](../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)失败。
+  - `/failed_eds_health`：EDS 标记该主机不健康。
+  - `/failed_outlier_check`：外部检测失败。
 
-  Negate the effect of [`POST /healthcheck/fail`](#post--healthcheck-fail). This requires the use of the HTTP [health check filter](../configuration/http_filters/health_check_filter.md#config-http-filters-health-check).
+## `GET /config_dump`
 
-- `GET /hot_restart_version`
+用 JSON 序列化格式从多种 Envoy 组件中导出当前的配置。可以延伸阅读 [response definition](https://www.envoyproxy.io/docs/envoy/latest/api-v2/admin/v2alpha/config_dump.proto#envoy-api-msg-admin-v2alpha-configdump) 的内容，来获得更详细的信息。
 
-  See [`--hot-restart-version`](cli.md#cmdoption-hot-restart-version).
+## `POST /cpuprofiler`
 
-- `POST /logging`
+启用或停用 CPU Profiler。编译时需要启用 gperftools。
 
-  Enable/disable different logging levels on different subcomponents. Generally only used during development.
+## `POST /healthcheck/fail`
 
-- `POST /quitquitquit`
+设置健康状况为失败。需要配合 HTTP [健康检查过滤器](../configuration/http_filters/health_check_filter.md#config-http-filters-health-check)来使用。这一功能可以停用一个服务器而无需进行关闭或者重启动操作。这个命令执行之后，不论过滤器如何设置，都会把全局范围内的健康检查设为失败。
 
-  Cleanly exit the server.
+## `POST /healthcheck/ok`
 
-- `POST /reset_counters`
+`POST /healthcheck/fail` 的逆向操作。同样需要配合 HTTP [健康检查过滤器](../configuration/http_filters/health_check_filter.md#config-http-filters-health-check)来使用。
 
-  Reset all counters to zero. This is useful along with [`GET /stats`](#get--stats) during debugging. Note that this does not drop any data sent to statsd. It just effects local output of the [`GET /stats`](#get--stats) command.
+## `GET /hot_restart_version`
 
-- `GET /server_info`
+参考 [`--hot-restart-version`](../operations/cli#cmdoption-hot-restart-version)。
 
-  Outputs information about the running server. Sample output looks like:
+## `POST /logging`
 
-```
-envoy 267724/RELEASE live 1571 1571 0
-```
+在不同的子组件上启用或者禁用不同级别的日志。一般只会在开发期间使用。
 
-The fields are:
+## `POST /quitquitquit`
 
-- Process name
-- Compiled SHA and build type
-- Health check state (live or draining)
-- Current hot restart epoch uptime in seconds
-- Total uptime in seconds (across all hot restarts)
-- Current hot restart epoch
+完全退出服务。
 
-- `GET /stats`
+## `POST /reset_counters`
 
-  Outputs all statistics on demand. This command is very useful for local debugging. Histograms will output the computed quantiles i.e P0,P25,P50,P75,P90,P99,P99.9 and P100. The output for each quantile will be in the form of (interval,cumulative) where interval value represents the summary since last flush interval and cumulative value represents the summary since the start of envoy instance. See [here](stats_overview.md#operations-stats) for more information.`GET /stats?format=json`Outputs /stats in JSON format. This can be used for programmatic access of stats. Counters and Gauges will be in the form of a set of (name,value) pairs. Histograms will be under the element “histograms”, that contains “supported_quantiles” which lists the quantiles supported and an array of computed_quantiles that has the computed quantile for each histogram. Only histograms with recorded values will be exported.If a histogram is not updated during an interval, the ouput will have null for all the quantiles.Example histogram output:
+把所有的计数器复位为 0。这在使用 `GET /stats` 协助调试的时候是很有用的功能。注意这个功能并不会删除任何发送给 statsd 的数据，它只会对 `GET /stats` 命令的输出造成影响。
+
+## `GET /server_info`
+
+输出关于服务器的信息，内容格式类似：
+
+  envoy 267724/RELEASE live 1571 1571 0
+
+其中的字段包括：
+
+- 进程名称
+- 编译的 SHA 以及 Build 类型
+- 当前热启动周期的启动时间
+- 总的启动时间（包括所有的热启动周期）
+- 当前的热启动周期
+
+## `GET /stats`
+
+按需输出所有的统计内容。这个命令对于本地调试非常有用。Histograms 能够计算分位数并进行输出，即 P0，P25，P50，P75，P90，P99，P99.9和P100。每个分位数都是一种（区间值，累计值）的形式，区间值代表的是上次刷新以后的数值，累计值代表的是该实例启动以后的总计值。[统计概览](../operations/stats_overview#operations-stats)章节中提供了更多这方面的内容。
+
+### GET /stats?format=json
+
+使用 JSON 格式输出 `/stats`，编程访问统计信息时可以使用这一格式。Counter 和 Gauge 会以（键，值）的形式出现。Histograms 会放在 "histograms" 节点之下，其中包含了 "supported_quantiles" 节点，其中列出了支持的分位数，以及这些分位数的计算结果。只有包含值的 Histograms 才会输出。
+
+如果一个 Histogram 在这一区间没有更新，那么这一区间的所有分位数输出都是空的。
+
+下面是一个输出样例：
 
 ```json
 {
@@ -129,13 +168,13 @@ The fields are:
 }
 ```
 
-- `GET /stats?format=prometheus`
+### `GET /stats?format=prometheus`
 
-  or alternatively,`GET /stats/prometheus`Outputs /stats in [Prometheus](https://prometheus.io/docs/instrumenting/exposition_formats/) v0.0.4 format. This can be used to integrate with a Prometheus server. Currently, only counters and gauges are output. Histograms will be output in a future update.
+或者换个方式 `GET /stats/prometheus`，使用 [Prometheus](https://prometheus.io/docs/instrumenting/exposition_formats/) v0.0.4 格式输出统计数据。这样就可以和 Prometheus 进行集成了。当前只有 Counter 和 Gauge 会进行输出。未来的更新中会输出 Histogram。
 
-- `GET /runtime`
+### `GET /runtime`
 
-  Outputs all runtime values on demand in JSON format. See [here](../intro/arch_overview/runtime.md#arch-overview-runtime) for more information on how these values are configured and utilized. The output include the list of the active runtime override layers and the stack of layer values for each key. Empty strings indicate no value, and the final active value from the stack also is included in a separate key. Example output:
+使用 JSON 格式按需输出所有运行时数值。[运行时配置](../intro/arch_overview/runtime#arch-overview-runtime)一节中，更详细的讲述了这些值的配置和使用。输出内容包括活动的重载后的运行时数值，以及每个键的堆栈。空字符串代表没有值，来自堆栈的最终有效值会用单独的键来做出标识，例如下面的输出：
 
 ```json
 {
@@ -165,10 +204,10 @@ The fields are:
 }
 ```
 
-- `POST /runtime_modify?key1=value1&key2=value2&keyN=valueN`
+## `POST /runtime_modify?key1=value1&key2=value2&keyN=valueN`
 
-  Adds or modifies runtime values as passed in query parameters. To delete a previously added key, use an empty string as the value. Note that deletion only applies to overrides added via this endpoint; values loaded from disk can be modified via override but not deleted.
+通过提交的参数对运行时数值进行添加或修改。要删除一个之前加入的键，只需要使用一个空值即可。注意这种删除操作，只适用于这一端点中使用重载方式加入的值；从磁盘中载入的值是能通过重载进行修改，无法删除。
 
-> **Attention**
+> **注意**
 >
-> Use the /runtime_modify endpoint with care. Changes are effectively immediately. It is **critical**that the admin interface is [properly secured](#operations-admin-interface-security).
+> 使用 /runtime_modify 端点要当心，这一变更是即时生效的。保障管理界面的[安全性](../operations/admin#operations-admin-interface-security)至关重要。

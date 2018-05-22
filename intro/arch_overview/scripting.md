@@ -1,3 +1,3 @@
 # 脚本
 
-Envoy supports experimental [Lua](https://www.lua.org/) scripting as part of a dedicated [HTTP filter](../../configuration/http_filters/lua_filter.md#config-http-filters-lua).
+Envoy试验性的支持 [Lua](https://www.lua.org/) 脚本作为专用 [HTTP 过滤器](../../configuration/http_filters/lua_filter.md#config-http-filters-lua) 的一部分。

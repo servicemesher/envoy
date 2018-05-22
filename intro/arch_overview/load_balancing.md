@@ -1,89 +1,89 @@
 # 负载均衡
 
-When a filter needs to acquire a connection to a host in an upstream cluster, the cluster manager uses a load balancing policy to determine which host is selected. The load balancing policies are pluggable and are specified on a per upstream cluster basis in the [configuration](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster). Note that if no active health checking policy is [configured](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc) for a cluster, all upstream cluster members are considered healthy.
+当过滤器需要获取到上游集群中主机的连接时，cluster manager 将使用负载均衡策略来确定选择哪个主机。负载均衡策略是可拔插的，并且在[配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster.htmlhttps://www.envoyproxy.io/docs/envoy/latest/#config-cluster-manager-cluster)中以每个上游集群为基础进行指定。请注意，如果没有为集群[配置](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)活动的运行状况检查策略，则所有上游集群成员都认为是健康的。
 
 ## 支持的负载均衡器
 
 ### Round robin
 
-This is a simple policy in which each healthy upstream host is selected in round robin order. If [weights](../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-field-endpoint-lbendpoint-load-balancing-weight) are assigned to endpoints in a locality, then a weighted round robin schedule is used, where higher weighted endpoints will appear more often in the rotation to achieve the effective weighting.
+这是一个简单的策略，每个健康的上游主机按循环顺序选择。如果将[权重](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto.html#envoy-api-field-endpoint-lbendpoint-load-balancing-weight)分配给本地的端点，则使用加权 round robin（循环）调度，其中较高权重的端点将更频繁地出现在循环中以实现有效权重。
 
-### Weighted least request
+### 加权最少请求
 
-The least request load balancer uses an O(1) algorithm which selects two random healthy hosts and picks the host which has fewer active requests ([Research](http://www.eecs.harvard.edu/~michaelm/postscripts/handbook2001.pdf) has shown that this approach is nearly as good as an O(N) full scan). If any host in the cluster has a load balancing weight greater than 1, the load balancer shifts into a mode where it randomly picks a host and then uses that host <weight> times. This algorithm is simple and sufficient for load testing. It should not be used where true weighted least request behavior is desired (generally if request durations are variable and long in length). We may add a true full scan weighted least request variant in the future to cover this use case.
+请求最少的负载均衡器使用 O(1) 算法选择两个随机健康主机，并选择主动请求较少的主机（[研究](http://www.eecs.harvard.edu/~michaelm/postscripts/handbook2001.pdf)表明这种方法几乎与 O(N) 全扫描一样好）。如果集群中的任何主机的负载均衡权重大于1，则负载均衡器将转换为随机选择主机并使用该主机<权重>时间的模式。该算法对于负载测试来说简单且足够。它不应该用于需要真正的加权最小请求的地方（通常请求持续时间可变且较长）。我们可能会在将来添加一个真正的全扫描加权最小请求变体来涵盖此用例。
 
 ### Ring hash
 
-The ring/modulo hash load balancer implements consistent hashing to upstream hosts. The algorithm is based on mapping all hosts onto a circle such that the addition or removal of a host from the host set changes only affect 1/N requests. This technique is also commonly known as [“ketama”](https://github.com/RJ/ketama) hashing. A consistent hashing load balancer is only effective when protocol routing is used that specifies a value to hash on. The minimum ring size governs the replication factor for each host in the ring. For example, if the minimum ring size is 1024 and there are 16 hosts, each host will be replicated 64 times. The ring hash load balancer does not currently support weighting.
+Ring/modulo 哈希负载均衡器实现对上游主机的一致性哈希。该算法基于将所有主机映射到一个环上，使得从主机集添加或移除主机的更改仅影响 1/N 个请求。这种技术通常也被称为“[ketama](https://github.com/RJ/ketama)”哈希。一致的哈希负载均衡器只有在使用指定哈希值的协议路由时才有效。最小环大小控制环中每个主机的复制因子。例如，如果最小环大小为 1024 并且有 16 个主机，则每个主机将被复制 64 次。环哈希负载均衡器当前不支持加权。
 
-When priority based load balancing is in use, the priority level is also chosen by hash, so the endpoint selected will still be consistent when the set of backends is stable.
+当使用基于优先级的负载均衡时，优先级也通过哈希选择，因此当后端集合稳定时，选定的端点仍将保持一致。
 
-Note
-
-The ring hash load balancer does not support [locality weighted load balancing](#arch-overview-load-balancing-locality-weighted-lb).
+> **注意**
+>
+> 环哈希负载均衡器不支持所在地加权负载均衡。
 
 ### Maglev
 
-The Maglev load balancer implements consistent hashing to upstream hosts. It uses the algorithm described in section 3.4 of [this paper](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf) with a fixed table size of 65537 (see section 5.3 of the same paper). Maglev can be used as a drop in replacement for the [ring hash load balancer](#arch-overview-load-balancing-types-ring-hash) any place in which consistent hashing is desired. Like the ring hash load balancer, a consistent hashing load balancer is only effective when protocol routing is used that specifies a value to hash on.
+Maglev（磁悬浮）负载均衡器对上游主机实施一致性的哈希。它使用[本文](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf)第 3.4 节中描述的算法，固定表大小为65537（参见同一论文的第5.3节）。Maglev 可以用作环哈希负载均衡器的替代品，可以在任何需要一致性哈希的地方使用。就像环哈希负载均衡器一样，只有在使用指定哈希值的协议路由时，一致性哈希负载均衡器才有效。
 
-In general, when compared to the ring hash (“ketama”) algorithm, Maglev has substantially faster table lookup build times as well as host selection times (approximately 10x and 5x respectively when using a large ring size of 256K entries). The downside of Maglev is that it is not as stable as ring hash. More keys will move position when hosts are removed (simulations show approximately double the keys will move). With that said, for many applications including Redis, Maglev is very likely a superior drop in replacement for ring hash. The advanced reader can use [this benchmark](https://github.com/envoyproxy/envoy/blob/master//test/common/upstream/load_balancer_benchmark.cc) to compare ring hash versus Maglev with different parameters.
+一般来说，与环形散列（“ketama”）算法相比，Maglev 具有快得多的查表编译时间以及主机选择时间（当使用 256K 条目的大环时大约分别为 10 倍和 5 倍）。Maglev 的缺点是它不像环哈希那样稳定。当主机被移除时，更多的键将移动位置（模拟显示键将移动大约两倍）。据说，对于包括 Redis 在内的许多应用程序来说，Maglev 很可能是环形哈希替代品的一大优势。高级读者可以使用这个 [benchmark](https://github.com/envoyproxy/envoy/blob/master//test/common/upstream/load_balancer_benchmark.cc) 来比较具有不同参数的环形哈希与 Maglev。
 
-### Random
+### 随机
 
-The random load balancer selects a random healthy host. The random load balancer generally performs better than round robin if no health checking policy is configured. Random selection avoids bias towards the host in the set that comes after a failed host.
+随机负载均衡器选择一个随机的健康主机。如果没有配置健康检查策略，则随机负载均衡器通常比 round robin 更好。随机选择可以避免主机出现故障后对集合中的主机造成偏见。
 
-### Original destination
+### 原始目的地
 
-This is a special purpose load balancer that can only be used with [an original destination cluster](service_discovery.md#arch-overview-service-discovery-types-original-destination). Upstream host is selected based on the downstream connection metadata, i.e., connections are opened to the same address as the destination address of the incoming connection was before the connection was redirected to Envoy. New destinations are added to the cluster by the load balancer on-demand, and the cluster [periodically](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-cleanup-interval-ms) cleans out unused hosts from the cluster. No other [load balancing type](../../api-v1/cluster_manager/cluster.md#config-cluster-manager-cluster-lb-type) can be used with original destination clusters.
+这是一种专用的负载均衡器，只能与[原始目的集群](service_discovery.md#arch-overview-service-discovery-types-original-destination)一起使用。上游主机是根据下游连接元数据选择的，即连接被打开到与连接重定向到 envoy 之前传入与连接的目标地址相同的地址。新的目标由负载均衡器按需添加到集群，并且集群会[定期](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster#config-cluster-manager-cluster-cleanup-interval-ms)清除集群中未使用的主机。原始目标集群不能使用其他[负载均衡类型](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster#config-cluster-manager-cluster-lb-type)。
 
 ## 恐慌阈值
 
-During load balancing, Envoy will generally only consider healthy hosts in an upstream cluster. However, if the percentage of healthy hosts in the cluster becomes too low, Envoy will disregard health status and balance amongst all hosts. This is known as the *panic threshold*. The default panic threshold is 50%. This is [configurable](../../configuration/cluster_manager/cluster_runtime.md#config-cluster-manager-cluster-runtime) via runtime as well as in the [cluster configuration](../../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-commonlbconfig-healthy-panic-threshold). The panic threshold is used to avoid a situation in which host failures cascade throughout the cluster as load increases.
+在负载均衡期间，Envoy 通常只会考虑上游集群中健康的主机。但是，如果集群中健康主机的百分比变得过低，envoy 将忽视所有主机中的健康状况和均衡。这被称为*恐慌阈值*。缺省恐慌阈值是 50％。这可以通过运行时以及[集群配置](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-commonlbconfig-healthy-panic-threshold)进行[配置](../../configuration/cluster_manager/cluster_runtime.md#config-cluster-manager-cluster-runtime)。恐慌阈值用于避免在负载增加时主机故障导致整个集群中级联故障的情况。
 
-Note that panic thresholds are *per-priority*. This means that if the percentage of healthy nodes in a single priority goes below the threshold, that priority will enter panic mode. In general it is discouraged to use panic thresholds in conjunction with priorities, as by the time enough nodes are unhealthy to trigger the panic threshold most of the traffic should already have spilled over to the next priority level.
+请注意，恐慌阈值是有*优先级*的。这意味着如果单个优先级中健康节点的百分比低于阈值，该优先级将进入恐慌模式。一般而言，不鼓励将恐慌阈值与优先级结合使用，因为当有足够多的节点的状态不健康触发恐慌阈值时，大部分流量应该已经溢出到下一个优先级。
 
 ## 优先级划分
 
-During load balancing, Envoy will generally only consider hosts configured at the highest priority level. For each EDS [LocalityLbEndpoints](../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-msg-endpoint-localitylbendpoints) an optional priority may also be specified. When endpoints at the highest priority level (P=0) are healthy, all traffic will land on endpoints in that priority level. As endpoints for the highest priority level become unhealthy, traffic will begin to trickle to lower priority levels.
+在负载均衡期间，Envoy 通常只考虑配置为最高优先级的主机。对于每个 EDS [LocalityLbEndpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-msg-endpoint-localitylbendpoints)，还可以指定一个可选的优先级。当最高优先级（P=0）的端点健康时，所有流量将以该优先级落在端点上。由于最高优先级的端点变得不健康，因此流量将开始慢慢降低优先级。
 
-Currently, it is assumed that each priority level is over-provisioned by a (hard-coded) factor of 1.4. So if 80% of the endpoints are healthy, the priority level is still considered healthy because 80*1.4 > 100. As the number of healthy endpoints dips below 72%, the health of the priority level goes below 100. At that point the percent of traffic equivalent to the health of P=0 will go to P=0 and remaining traffic will flow to P=1.
+目前，假定每个优先级级别都由因子 1.4（硬编码）过度配置的。因此，如果 80％ 的端点是健康的，那么优先级仍然被认为是健康的，因为 80*1.4>100。当健康端点的数量下降到 72％ 以下时，优先级的健康状况低于100。此时，相当于到 P=0 健康状态的流量的百分比将转到 P=0，剩余流量将流向 P=1。
 
-Assume a simple set-up with 2 priority levels, P=1 100% healthy.
+假设一个简单的设置有 2 个优先级，P=1 100％ 健康。
 
-| P=0 healthy endpoints | Percent of traffic to P=0 | Percent of traffic to P=1 |
-| --------------------- | ------------------------- | ------------------------- |
-| 100%                  | 100%                      | 0%                        |
-| 72%                   | 100%                      | 0%                        |
-| 71%                   | 99%                       | 1%                        |
-| 50%                   | 70%                       | 30%                       |
-| 25%                   | 35%                       | 65%                       |
-| 0%                    | 0%                        | 100%                      |
+| P=0 健康端点 | 到 P=0 的流量百分比 | 到 P=1 的流量百分比 |
+| ------------ | ------------------- | ------------------- |
+| 100%         | 100%                | 0%                  |
+| 72%          | 100%                | 0%                  |
+| 71%          | 99%                 | 1%                  |
+| 50%          | 70%                 | 30%                 |
+| 25%          | 35%                 | 65%                 |
+| 0%           | 0%                  | 100%                |
 
-If P=1 becomes unhealthy, it will continue to take spilled load from P=0 until the sum of the health P=0 + P=1 goes below 100. At this point the healths will be scaled up to an “effective” health of 100%.
+如果 P=1 变得不健康，它将继续从 P=0 溢出负载，直到健康 P=0 + P=1 的总和低于 100 为止。此时，健康状态将被放大到 100％ 的“有效”健康状态。
 
-| P=0 healthy endpoints | P=1 healthy endpoints | Traffic to P=0 | Traffic to P=1 |
-| --------------------- | --------------------- | -------------- | -------------- |
-| 100%                  | 100%                  | 100%           | 0%             |
-| 72%                   | 72%                   | 100%           | 0%             |
-| 71%                   | 71%                   | 99%            | 1%             |
-| 50%                   | 50%                   | 70%            | 30%            |
-| 25%                   | 100%                  | 35%            | 65%            |
-| 25%                   | 25%                   | 50%            | 50%            |
+| P=0 健康端点 | P=1 健康端点 | Traffic to P=0 | 到 P=1 的流量 |
+| ------------ | ------------ | -------------- | ------------- |
+| 100%         | 100%         | 100%           | 0%            |
+| 72%          | 72%          | 100%           | 0%            |
+| 71%          | 71%          | 99%            | 1%            |
+| 50%          | 50%          | 70%            | 30%           |
+| 25%          | 100%         | 35%            | 65%           |
+| 25%          | 25%          | 50%            | 50%           |
 
-As more priorities are added, each level consumes load equal to its “scaled” effective health, so P=2 would only receive traffic if the combined health of P=0 + P=1 was less than 100.
+随着更多的优先级被添加，每个级别消耗等于其“缩放”有效健康的负载，所以如果 P=0 + P=1 的组合健康度小于 100，则 P=2 将仅接收流量。
 
-| P=0 healthy endpoints | P=1 healthy endpoints | P=2 healthy endpoints | Traffic to P=0 | Traffic to P=1 | Traffic to P=2 |
-| --------------------- | --------------------- | --------------------- | -------------- | -------------- | -------------- |
-| 100%                  | 100%                  | 100%                  | 100%           | 0%             | 0%             |
-| 72%                   | 72%                   | 100%                  | 100%           | 0%             | 0%             |
-| 71%                   | 71%                   | 100%                  | 99%            | 1%             | 0%             |
-| 50%                   | 50%                   | 100%                  | 70%            | 30%            | 0%             |
-| 25%                   | 100%                  | 100%                  | 35%            | 65%            | 0%             |
-| 25%                   | 25%                   | 100%                  | 25%            | 25%            | 50%            |
+| P=0 健康端点 | P=1 健康端点 | P=2 健康端点 | 到 P=0 的流量 | 到 P=1 的流量 | 到 P=2 的流量 |
+| ------------ | ------------ | ------------ | ------------- | ------------- | ------------- |
+| 100%         | 100%         | 100%         | 100%          | 0%            | 0%            |
+| 72%          | 72%          | 100%         | 100%          | 0%            | 0%            |
+| 71%          | 71%          | 100%         | 99%           | 1%            | 0%            |
+| 50%          | 50%          | 100%         | 70%           | 30%           | 0%            |
+| 25%          | 100%         | 100%         | 35%           | 65%           | 0%            |
+| 25%          | 25%          | 100%         | 25%           | 25%           | 50%           |
 
-To sum this up in pseudo algorithms:
+在伪代码中加和：
 
-```
+```bash
 load to P_0 = min(100, health(P_0) * 100 / total_health)
 health(P_X) = 140 * healthy_P_X_backends / total_P_X_backends
 total_health = min(100, Σ(health(P_0)...health(P_X))
@@ -92,89 +92,89 @@ load to P_X = 100 - Σ(percent_load(P_0)..percent_load(P_X-1))
 
 ## Zone 感知路由
 
-We use the following terminology:
+我们使用以下术语：
 
-- **Originating/Upstream cluster**: Envoy routes requests from an originating cluster to an upstream cluster.
-- **Local zone**: The same zone that contains a subset of hosts in both the originating and upstream clusters.
-- **Zone aware routing**: Best effort routing of requests to an upstream cluster host in the local zone.
+- **始发/上游集群**：Envoy 将来自始发集群的请求路由到上游集群中。
+- **本地 zone**：包含始发和上游集群中主机子集的同一区域。
+- **Zone 感知路由**：尽量将请求路由到本地 zone 的上游集群主机上。
 
-In deployments where hosts in originating and upstream clusters belong to different zones Envoy performs zone aware routing. There are several preconditions before zone aware routing can be performed:
+当始发和上游集群中的主机部署不同 zone 时，Envoy 执行 zone 感知路由。在执行 zone 感知路由之前有几个先决条件：
 
-- Both originating and upstream cluster are not in [panic mode](#arch-overview-load-balancing-panic-threshold).
-- Zone aware [routing is enabled](../../configuration/cluster_manager/cluster_runtime.md#config-cluster-manager-cluster-runtime-zone-routing).
-- The originating cluster has the same number of zones as the upstream cluster.
-- The upstream cluster has enough hosts. See [here](../../configuration/cluster_manager/cluster_runtime.md#config-cluster-manager-cluster-runtime-zone-routing) for more information.
+- 始发和上游集群都不处于恐慌模式。
+- Zone [感知路由已启用](../../configuration/cluster_manager/cluster_runtime.md#config-cluster-manager-cluster-runtime-zone-routing)。
+- 始发集群与上游集群具有相同数量的 zone。
+- 上游集群有足够多的主机。浏览[此处](../../configuration/cluster_manager/cluster_runtime.md#config-cluster-manager-cluster-runtime-zone-routing)获取更多信息。
 
-The purpose of zone aware routing is to send as much traffic to the local zone in the upstream cluster as possible while roughly maintaining the same number of requests per second across all upstream hosts (depending on load balancing policy).
+Zone 感知路由的目的是尽可能多地向上游集群的本地 zone 中发送流量，同时大致保持上游集群中的所有主机拥有相同的（取决于负载均衡策略）的每秒请求数量。
 
-Envoy tries to push as much traffic as possible to the local upstream zone as long as roughly the same number of requests per host in the upstream cluster are maintained. The decision of whether Envoy routes to the local zone or performs cross zone routing depends on the percentage of healthy hosts in the originating cluster and upstream cluster in the local zone. There are two cases with regard to percentage relations in the local zone between originating and upstream clusters:
+只要上游集群中每台主机的请求数量保持大致相同，Envoy 就会尝试尽可能多地将流量推送到本地上游区域。Envoy 路由到本地  zone 还是执行跨 zone 路由，这取决于本地 zone 中始发集群和上游集群中健康主机的百分比。关于始发和上游集群之间的本地 zone 百分比关系有以下两种情况：
 
-- The originating cluster local zone percentage is greater than the one in the upstream cluster. In this case we cannot route all requests from the local zone of the originating cluster to the local zone of the upstream cluster because that will lead to request imbalance across all upstream hosts. Instead, Envoy calculates the percentage of requests that can be routed directly to the local zone of the upstream cluster. The rest of the requests are routed cross zone. The specific zone is selected based on the residual capacity of the zone (that zone will get some local zone traffic and may have additional capacity Envoy can use for cross zone traffic).
-- The originating cluster local zone percentage is smaller than the one in upstream cluster. In this case the local zone of the upstream cluster can get all of the requests from the local zone of the originating cluster and also have some space to allow traffic from other zones in the originating cluster (if needed).
+- 始发集群的本地 zone 百分比大于上游集群中本地 zone 的百分比。在这种情况下，我们无法将来自始发集群本地 zone 的所有请求路由到上游集群的本地 zone，因为这会导致所有上游主机请求不均衡。相反，Envoy 计算可以直接路由到上游集群的本地 zone 的请求的百分比。其余的请求被路由到跨 zone。特定 zone 根据 zone 的剩余容量（该 zone 将获得一些本地 zone 流量并且可能具有 Envoy 可用于跨 zone 业务量的额外容量）来选择。
+- 始发集群本地 zone 百分比小于上游集群中的本地 zone 百分比。在这种情况下，上游集群的本地 zone 可以获取来自始发集群本地 zone 的所有请求，并且还有一定空间允许来自集群中其他 zone 的流量（如果有必要的话）。
 
-Note that when using multiple priorities, zone aware routing is currently only supported for P=0.
+请注意，使用多个优先级时，zone 感知路由当前仅支持 P=0。
 
-## 所在地权重负载均衡
+## 所在地加权负载均衡
 
-Another approach to determining how to weight assignments across different zones and geographical locations is by using explicit weights supplied via EDS in the [LocalityLbEndpoints](../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-msg-endpoint-localitylbendpoints)message. This approach is mutually exclusive with the above zone aware routing, since in the case of locality aware LB, we rely on the management server to provide the locality weighting, rather than the Envoy-side heuristics used in zone aware routing.
+另一种用于确定如何在不同 zone 和地理位置之间分配权重的方式是使用[LocalityLbEndpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-msg-endpoint-localitylbendpoints)消息中通过 EDS 提供的显式权重。这种方式与上述 zone 感知路由相互排斥，因为在所在地感知 LB 的情况下，我们通过管理服务器来提供所在地加权，而不是在 zone 感知路由中使用的 Envoy 侧启发式的方式。
 
-When all endpoints are healthy, the locality is picked using a weighted round-robin schedule, where the locality weight is used for weighting. When some endpoints in a locality are unhealthy, we adjust the locality weight to reflect this. As with [priority levels](#arch-overview-load-balancing-priority-levels), we assume an over-provision factor (currently hardcoded at 1.4), which means we do not perform any weight adjustment when only a small number of endpoints in a locality are unhealthy.
+当所有端点健康时，使用加权循环 round-robin 来挑选本地节点，其中地点权重用于加权。当某地的某些端点不健康时，我们通过调整地点的权重来反映这一点。与优先级一样，我们设置了一个过度提供因子（目前硬编码为 1.4），这意味着当一个地区只有少数端点不健康时，我们不会进行任何权重调整。
 
-Assume a simple set-up with 2 localities X and Y, where X has a locality weight of 1 and Y has a locality weight of 2, L=Y 100% healthy.
+假设一个简单的设置，包含 2 个地点 X 和 Y，其中 X 的所在地权重为 1，Y 的所在地权重为 2，L=Y 100％ 健康。
 
-| L=X healthy endpoints | Percent of traffic to L=X | Percent of traffic to L=Y |
-| --------------------- | ------------------------- | ------------------------- |
-| 100%                  | 33%                       | 67%                       |
-| 70%                   | 33%                       | 67%                       |
-| 69%                   | 32%                       | 68%                       |
-| 50%                   | 26%                       | 74%                       |
-| 25%                   | 15%                       | 85%                       |
-| 0%                    | 0%                        | 100%                      |
+| L=X 健康端点 | 到 L=X 的流量百分比 | 到 L=Y 的流量百分比 |
+| ------------ | ------------------- | ------------------- |
+| 100%         | 33%                 | 67%                 |
+| 70%          | 33%                 | 67%                 |
+| 69%          | 32%                 | 68%                 |
+| 50%          | 26%                 | 74%                 |
+| 25%          | 15%                 | 85%                 |
+| 0%           | 0%                  | 100%                |
 
-To sum this up in pseudo algorithms:
+在伪代码中加和：
 
-```
+```bash
 health(L_X) = 140 * healthy_X_backends / total_X_backends
 effective_weight(L_X) = locality_weight_X * min(100, health(L_X))
 load to L_X = effective_weight(L_X) / Σ_c(effective_weight(L_c))
 ```
 
-Note that the locality weighted pick takes place after the priority level is picked. The load balancer follows these steps:
+请注意，在挑选优先级之后进行所在地加权选取。负载均衡器遵循以下步骤：
 
-1. Pick [priority level](#arch-overview-load-balancing-priority-levels).
-2. Pick locality (as described in this section) within priority level from (1).
-3. Pick endpoint using cluster specified load balancer within locality from (2).
+1. 挑选优先级别。
+2. 从（1）中选择优先级别的所在地（如本节所述）。
+3. 从（2）中选择使用集群指定的负载均衡器所在地范围内的端点。
 
-Locality weighted load balancing is configured by setting [locality_weighted_lb_config](../../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-commonlbconfig-locality-weighted-lb-config) in the cluster configuration and providing weights in [LocalityLbEndpoints](../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-msg-endpoint-localitylbendpoints) via [load_balancing_weight](../../api-v2/api/v2/endpoint/endpoint.proto.md#envoy-api-field-endpoint-localitylbendpoints-load-balancing-weight).
+通过在集群配置中设置[locality_weighted_lb_config](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-commonlbconfig-locality-weighted-lb-config)并通过[load_balancing_weight](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-field-endpoint-localitylbendpoints-load-balancing-weight)在[LocalityLbEndpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-msg-endpoint-localitylbendpoints)中提供权重来配置所在地加权负载均衡。
 
-This feature is not compatible with [load balancer subsetting](#arch-overview-load-balancer-subsets), since it is not straightforward to reconcile locality level weighting with sensible weights for individual subsets.
+此功能与负载均衡器子集设置不兼容，因为将个别子集的所在地级权重与显而易见的权重进行协调并不容易。
 
-## Load Balancer Subsets
+## 负载均衡器子集
 
-Envoy may be configured to divide hosts within an upstream cluster into subsets based on metadata attached to the hosts. Routes may then specify the metadata that a host must match in order to be selected by the load balancer, with the option of falling back to a predefined set of hosts, including any host.
+根据附加在主机上的元数据将上游集群中的主机划分为子集，可以这样来配置 Envoy。然后，路由可以指定主机必须匹配的元数据，有了这些元数据负载均衡器才能选择路由，也可以选择回退到预定义的主机集（包括任何主机）。
 
-Subsets use the load balancer policy specified by the cluster. The original destination policy may not be used with subsets because the upstream hosts are not known in advance. Subsets are compatible with zone aware routing, but be aware that the use of subsets may easily violate the minimum hosts condition described above.
+子集使用集群指定的负载均衡器策略。原始目的地策略不能与子集一起使用，因为上游主机预先不知道这些策略。子集与 zone 感知路由兼容，但请注意，子集的使用可能很容易违反上述最小主机条件。
 
-If subsets are [configured](../../api-v2/api/v2/cds.proto.md#envoy-api-field-cluster-lb-subset-config) and a route specifies no metadata or no subset matching the metadata exists, the subset load balancer initiates its fallback policy. The default policy is `NO_ENDPOINT`, in which case the request fails as if the cluster had no hosts. Conversely, the `ANY_ENDPOINT` fallback policy load balances across all hosts in the cluster, without regard to host metadata. Finally, the `DEFAULT_SUBSET` causes fallback to load balance among hosts that match a specific set of metadata.
+如果[已配置的](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-lb-subset-config)子集路由未指定元数据或没有匹配元数据的子集存在，则子集负载均衡器将启动其回退策略。默认策略是`NO_ENDPOINT`，在这种情况下，请求失败，就好像该集群没有主机一样。相反，`ANY_ENDPOINT`后备策略会在集群中的所有主机上进行负载均衡，而不考虑主机元数据。最后，`DEFAULT_SUBSET`会导致回退到与特定元数据集匹配的主机之间进行负载均衡。
 
-Subsets must be predefined to allow the subset load balancer to efficiently select the correct subset of hosts. Each definition is a set of keys, which translates to zero or more subsets. Conceptually, each host that has a metadata value for all of the keys in a definition is added to a subset specific to its key-value pairs. If no host has all the keys, no subsets result from the definition. Multiple definitions may be provided, and a single host may appear in multiple subsets if it matches multiple definitions.
+子集必须被预定义才能让子集负载均衡器有效地选择正确的主机子集。每个定义都是一组密钥，可以转换为零个或多个子集。从概念上讲，具有定义中所有键的元数据值的每个主机都会添加到其键-值对特定的子集。如果所有主机都不拥有密钥，那么定义不会产生子集。可以提供多个定义，并且如果单个主机与多个定义匹配，则可以在多个子集中出现。
 
-During routing, the route’s metadata match configuration is used to find a specific subset. If there is a subset with the exact keys and values specified by the route, the subset is used for load balancing. Otherwise, the fallback policy is used. The cluster’s subset configuration must, therefore, contain a definition that has the same keys as a given route in order for subset load balancing to occur.
+在路由期间，路由的元数据匹配配置将用于查找特定的子集。如果存在具有路由指定的确切密钥和值的子集，则该子集将用于负载均衡。否则，使用回退策略。因此，集群的子集配置必须包含一个与给定路由具有相同密钥的定义才能实现子集负载均衡。
 
-This feature can only be enabled using the V2 configuration API. Furthermore, host metadata is only supported when using the EDS discovery type for clusters. Host metadata for subset load balancing must be placed under the filter name `"envoy.lb"`. Similarly, route metadata match criteria use the `"envoy.lb"` filter name. Host metadata may be hierarchical (e.g., the value for a top-level key may be a structured value or list), but the subset load balancer only compares top-level keys and values. Therefore when using structured values, a route’s match criteria will only match if an identical structured value appears in the host’s metadata.
+此功能只能在 V2 配置 API 中使用。此外，主机元数据仅在集群使用 EDS 发现类型时支持。子集负载均衡的主机元数据必须放在过滤器名称 `"envoy.lb"` 下。同样，路由元数据匹配条件使用 `"envoy.lb"` 过滤器名称。主机元数据可以是分层的（例如，顶级密钥的值可以是结构化值或列表），但子集负载均衡器仅比较顶级密钥和值。因此，在使用结构化值时，如果主机的元数据中出现相同的结构化值，则路由的匹配条件会匹配。
 
-### Examples
+### 示例
 
-We’ll use simple metadata where all values are strings. Assume the following hosts are defined and associated with a cluster:
+我们将使用所有值都是字符串的简单元数据。假设定义了以下主机并将其与集群关联：
 
-| Host  | Metadata               |
+| 主机  | 元数据                 |
 | ----- | ---------------------- |
 | host1 | v: 1.0, stage: prod    |
 | host2 | v: 1.0, stage: prod    |
 | host3 | v: 1.1, stage: canary  |
 | host4 | v: 1.2-pre, stage: dev |
 
-The cluster may enable subset load balancing like this:
+集群可以像这样启用子集负载均衡：
 
 ```yaml
 ---
@@ -198,30 +198,30 @@ lb_subset_config:
     - stage
 ```
 
-The following table describes some routes and the result of their application to the cluster. Typically the match criteria would be used with routes matching specific aspects of the request, such as the path or header information.
+下表描述了一些路由及其对集群的应用结果。通常，匹配标准将与匹配请求的特定方面的路由一起使用，例如路径或 header 信息。
 
-| Match Criteria         | Balances Over | Reason                                     |
-| ---------------------- | ------------- | ------------------------------------------ |
-| stage: canary          | host3         | Subset of hosts selected                   |
-| v: 1.2-pre, stage: dev | host4         | Subset of hosts selected                   |
-| v: 1.0                 | host1, host2  | Fallback: No subset selector for “v” alone |
-| other: x               | host1, host2  | Fallback: No subset selector for “other”   |
-| (none)                 | host1, host2  | Fallback: No subset requested              |
+| 匹配标准               | 负载均衡位于 | 原因                              |
+| ---------------------- | ------------ | --------------------------------- |
+| stage: canary          | host3        | 所选主机的子集                    |
+| v: 1.2-pre, stage: dev | host4        | 所选主机的子集                    |
+| v: 1.0                 | host1, host2 | 回退：没有仅具有 “v” 的子集选择器 |
+| other: x               | host1, host2 | 回退：没有 “other” 子集选择器     |
+| (none)                 | host1, host2 | 回退：未请求子集                  |
 
-Metadata match criteria may also be specified on a route’s weighted clusters. Metadata match criteria from the selected weighted cluster are merged with and override the criteria from the route:
+元数据匹配标准也可以在路由的加权集群上指定。来自选定加权集群的元数据匹配条件将与路由中的条件合并，并覆盖该原路由器中的条件：
 
-| Route Match Criteria | Weighted Cluster Match Criteria | Final Match Criteria  |
-| -------------------- | ------------------------------- | --------------------- |
-| stage: canary        | stage: prod                     | stage: prod           |
-| v: 1.0               | stage: prod                     | v: 1.0, stage: prod   |
-| v: 1.0, stage: prod  | stage: canary                   | v: 1.0, stage: canary |
-| v: 1.0, stage: prod  | v: 1.1, stage: canary           | v: 1.1, stage: canary |
-| (none)               | v: 1.0                          | v: 1.0                |
-| v: 1.0               | (none)                          | v: 1.0                |
+| 路由匹配条件        | 加权集群匹配条件      | 最终匹配条件          |
+| ------------------- | --------------------- | --------------------- |
+| stage: canary       | stage: prod           | stage: prod           |
+| v: 1.0              | stage: prod           | v: 1.0, stage: prod   |
+| v: 1.0, stage: prod | stage: canary         | v: 1.0, stage: canary |
+| v: 1.0, stage: prod | v: 1.1, stage: canary | v: 1.1, stage: canary |
+| (none)              | v: 1.0                | v: 1.0                |
+| v: 1.0              | (none)                | v: 1.0                |
 
-#### Example Host With Metadata
+#### 具有元数据的示例主机
 
-An EDS `LbEndpoint` with host metadata:
+具有主机元数据的EDS `LbEndpoint`：
 
 ```yaml
 ---
@@ -238,9 +238,9 @@ metadata:
       stage: 'prod'
 ```
 
-#### Example Route With Metadata Criteria
+#### 具有元数据匹配标准的示例路由
 
-An RDS `Route` with metadata match criteria:
+具有元数据匹配标准的 RDS `Route`：
 
 ```yaml
 ---
