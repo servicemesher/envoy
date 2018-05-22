@@ -1,44 +1,62 @@
 # Envoy 是什么？
 
-Envoy is an L7 proxy and communication bus designed for large modern service oriented architectures. The project was born out of the belief that:
 
-> *The network should be transparent to applications. When network and application problems do occur it should be easy to determine the source of the problem.*
+Envoy 是专为大型现代服务导向架构设计的 L7 代理和通信总线。该项目源于以下理念：
 
-In practice, achieving the previously stated goal is incredibly difficult. Envoy attempts to do so by providing the following high level features:
+> *网络应该对应用程序透明。当网络和应用程序出现问题时，应该很容易确定问题的根源。*
 
-**Out of process architecture:** Envoy is a self contained process that is designed to run alongside every application server. All of the Envoys form a transparent communication mesh in which each application sends and receives messages to and from localhost and is unaware of the network topology. The out of process architecture has two substantial benefits over the traditional library approach to service to service communication:
 
-- Envoy works with any application language. A single Envoy deployment can form a mesh between Java, C++, Go, PHP, Python, etc. It is becoming increasingly common for service oriented architectures to use multiple application frameworks and languages. Envoy transparently bridges the gap.
-- As anyone that has worked with a large service oriented architecture knows, deploying library upgrades can be incredibly painful. Envoy can be deployed and upgraded quickly across an entire infrastructure transparently.
+实际上，实现上述的目标是非常困难的。 Envoy 通过提供以下高级功能来尝试做到这些：
 
-**Modern C++11 code base:** Envoy is written in C++11. Native code was chosen because we believe that an architectural component such as Envoy should get out of the way as much as possible. Modern application developers already deal with tail latencies that are difficult to reason about due to deployments in shared cloud environments and the use of very productive but not particularly well performing languages such as PHP, Python, Ruby, Scala, etc. Native code provides generally excellent latency properties that don’t add additional confusion to an already confusing situation. Unlike other native code proxy solutions written in C, C++11 provides both excellent developer productivity and performance.
+**进程外体系结构：** Envoy 是一个独立进程，设计为伴随每个应用程序服务运行。所有的 Envoy 形成一个透明的通信网格，每个应用程序发送消息到本地主机或从本地主机接收消息，但不知道网络拓扑。在服务间通信的场景下，进程外架构与传统的代码库方式相比，具有两大优点：
 
-**L3/L4 filter architecture:** At its core, Envoy is an L3/L4 network proxy. A pluggable [filter](arch_overview/network_filters.md#arch-overview-network-filters) chain mechanism allows filters to be written to perform different TCP proxy tasks and inserted into the main server. Filters have already been written to support various tasks such as raw [TCP proxy](arch_overview/tcp_proxy.md#arch-overview-tcp-proxy),[HTTP proxy](arch_overview/http_connection_management.md#arch-overview-http-conn-man), [TLS client certificate authentication](arch_overview/ssl.md#arch-overview-ssl-auth-filter), etc.
 
-**HTTP L7 filter architecture:** HTTP is such a critical component of modern application architectures that Envoy [supports](arch_overview/http_filters.md#arch-overview-http-filters) an additional HTTP L7 filter layer. HTTP filters can be plugged into the HTTP connection management subsystem that perform different tasks such as [buffering](../configuration/http_filters/buffer_filter.md#config-http-filters-buffer), [rate limiting](arch_overview/global_rate_limiting.md#arch-overview-rate-limit), [routing/forwarding](arch_overview/http_routing.md#arch-overview-http-routing), sniffing Amazon’s [DynamoDB](arch_overview/dynamo.md#arch-overview-dynamo), etc.
+-  Envoy 可以使用任何应用程序语言。Envoy 部署可以在 Java、C++、Go、PHP、Python 等之间形成一个网格。面向服务的体系结构使用多个应用程序框架和语言的趋势越来越普遍。Envoy 透明地弥合了其间的差异。
+ - 任何处理过大型面向服务架构的人都知道，部署库升级可能会非常痛苦。 Envoy可以透明地在整个基础架构上快速部署和升级。
 
-**First class HTTP/2 support:** When operating in HTTP mode, Envoy [supports](arch_overview/http_connection_management.md#arch-overview-http-protocols) both HTTP/1.1 and HTTP/2. Envoy can operate as a transparent HTTP/1.1 to HTTP/2 proxy in both directions. This means that any combination of HTTP/1.1 and HTTP/2 clients and target servers can be bridged. The recommended service to service configuration uses HTTP/2 between all Envoys to create a mesh of persistent connections that requests and responses can be multiplexed over. Envoy does not support SPDY as the protocol is being phased out.
 
-**HTTP L7 routing:** When operating in HTTP mode, Envoy supports a [routing](arch_overview/http_routing.md#arch-overview-http-routing) subsystem that is capable of routing and redirecting requests based on path, authority, content type, [runtime](arch_overview/runtime.md#arch-overview-runtime) values, etc. This functionality is most useful when using Envoy as a front/edge proxy but is also leveraged when building a service to service mesh.
+**现代 C++11 代码库：** Envoy 是用 C++11 编写的。选择本地代码是因为我们认为像 Envoy 这样的架构组件应该尽可能避让（资源争用）。由于在共享云环境中部署以及使用了非常有生产力但不是特别高效的语言（如 PHP，Python，Ruby，Scala 等），现代应用程序开发人员已经难以找出尾延迟的原因。本地代码通常提供了优秀的延迟属性而不会对已经混乱的情况增加额外麻烦。与用 C 编写的其他本地代码代理的解决方案不同，C++11 提供了出色的开发生产力和性能。
 
-**gRPC support:** [gRPC](http://www.grpc.io/) is an RPC framework from Google that uses HTTP/2 as the underlying multiplexed transport. Envoy [supports](arch_overview/grpc.md#arch-overview-grpc) all of the HTTP/2 features required to be used as the routing and load balancing substrate for gRPC requests and responses. The two systems are very complementary.
 
-**MongoDB L7 support:** [MongoDB](https://www.mongodb.com/) is a popular database used in modern web applications. Envoy [supports](arch_overview/mongo.md#arch-overview-mongo) L7 sniffing, statistics production, and logging for MongoDB connections.
+**L3/L4 filter 架构：** Envoy 的核心是一个 L3/L4 网络代理。可插入 [filter](arch_overview/network_filters.md#arch-overview-network-filters) 链机制允许编写 filter 来执行不同的 TCP 代理任务并将其插入到主体服务中。已经存在用来支持各种任务的 filter，如原始 [TCP 代理](arch_overview/tcp_proxy.md#arch-overview-tcp-proxy)，[HTTP 代理](arch_overview/http_connection_management.md#arch-overview-http-conn-man)，[TLS 客户端证书认证](arch_overview/ssl.md#arch-overview-ssl-auth-filter)等。
 
-**DynamoDB L7 support**: [DynamoDB](https://aws.amazon.com/dynamodb/) is Amazon’s hosted key/value NOSQL datastore. Envoy [supports](arch_overview/dynamo.md#arch-overview-dynamo) L7 sniffing and statistics production for DynamoDB connections.
 
-**Service discovery:** [Service discovery](arch_overview/service_discovery.md#arch-overview-service-discovery) is a critical component of service oriented architectures. Envoy supports multiple service discovery methods including asynchronous DNS resolution and REST based lookup via a [service discovery service](arch_overview/service_discovery.md#arch-overview-service-discovery-types-sds).
+**HTTP L7 filter 架构：** HTTP 是现代应用程序体系结构的关键组件，Envoy [支持](arch_overview/http_filters.md#arch-overview-http-filters)额外的 HTTP L7 filter 层。可以将 HTTP filter 插入执行不同任务的 HTTP 连接管理子系统，例如[缓存](../configuration/http_filters/buffer_filter.md#config-http-filters-buffer)，[速率限制](arch_overview/global_rate_limiting.md#arch-overview-rate-limit)，[路由/转发](arch_overview/http_routing.md#arch-overview-http-routing)，嗅探 Amazon 的 [DynamoDB](arch_overview/dynamo.md#arch-overview-dynamo) 等等。
 
-**Health checking:** The [recommended](arch_overview/service_discovery.md#arch-overview-service-discovery-eventually-consistent) way of building an Envoy mesh is to treat service discovery as an eventually consistent process. Envoy includes a [health checking](arch_overview/health_checking.md#arch-overview-health-checking) subsystem which can optionally perform active health checking of upstream service clusters. Envoy then uses the union of service discovery and health checking information to determine healthy load balancing targets. Envoy also supports passive health checking via an [outlier detection](arch_overview/outlier.md#arch-overview-outlier-detection) subsystem.
 
-**Advanced load balancing:** [Load balancing](arch_overview/load_balancing.md#arch-overview-load-balancing) among different components in a distributed system is a complex problem. Because Envoy is a self contained proxy instead of a library, it is able to implement advanced load balancing techniques in a single place and have them be accessible to any application. Currently Envoy includes support for [automatic retries](arch_overview/http_routing.md#arch-overview-http-routing-retry), [circuit breaking](arch_overview/circuit_breaking.md#arch-overview-circuit-break), [global rate limiting](arch_overview/global_rate_limiting.md#arch-overview-rate-limit) via an external rate limiting service, [request shadowing](../api-v1/route_config/route.md#config-http-conn-man-route-table-route-shadow), and [outlier detection](arch_overview/outlier.md#arch-overview-outlier-detection). Future support is planned for request racing.
+**顶级 HTTP/2 支持：** 当以 HTTP 模式运行时，Envoy 同时[支持](arch_overview/http_connection_management.md#arch-overview-http-protocols) HTTP/1.1 和 HTTP/2。Envoy 可以作为 HTTP/1.1 和 HTTP/2 之间的双向透明代理。这意味着它可以桥接 HTTP/1.1 和 HTTP/2 客户端以及目标服务器的任意组合。建议在服务之间配置所有 Envoy 使用  HTTP/2 来创建持久连接的网格，以便可以复用请求和响应。随着协议的逐步淘汰，Envoy 将不支持 SPDY。
 
-**Front/edge proxy support:** Although Envoy is primarily designed as a service to service communication system, there is benefit in using the same software at the edge (observability, management, identical service discovery and load balancing algorithms, etc.). Envoy includes enough features to make it usable as an edge proxy for most modern web application use cases. This includes [TLS](arch_overview/ssl.md#arch-overview-ssl) termination, HTTP/1.1 and HTTP/2 [support](arch_overview/http_connection_management.md#arch-overview-http-protocols), as well as HTTP L7 [routing](arch_overview/http_routing.md#arch-overview-http-routing).
 
-**Best in class observability:** As stated above, the primary goal of Envoy is to make the network transparent. However, problems occur both at the network level and at the application level. Envoy includes robust [statistics](arch_overview/statistics.md#arch-overview-statistics) support for all subsystems. [statsd](https://github.com/etsy/statsd) (and compatible providers) is the currently supported statistics sink, though plugging in a different one would not be difficult. Statistics are also viewable via the [administration](../operations/admin.md#operations-admin-interface) port. Envoy also supports distributed [tracing](arch_overview/tracing.md#arch-overview-tracing) via thirdparty providers.
+**HTTP L7 路由：** 当以 HTTP 模式运行时，Envoy 支持一种[路由](arch_overview/http_routing.md#arch-overview-http-routing)子系统，能够根据路径、权限、内容类型、[运行时](arch_overview/runtime.md#arch-overview-runtime)及参数值等对请求进行路由和重定向。这项功能在将Envoy用作前端/边缘代理时非常有用，同时，在构建服务网格时也会使用此功能。
 
-**Dynamic configuration:** Envoy optionally consumes a layered set of [dynamic configuration APIs](arch_overview/dynamic_configuration.md#arch-overview-dynamic-config). Implementors can use these APIs to build complex centrally managed deployments if desired.
+
+**gRPC支持：**[gRPC](http://www.grpc.io/) 是一个来自 Google 的 RPC 框架，它使用 HTTP/2 作为底层多路复用传输协议。 Envoy [支持](arch_overview/grpc.md#arch-overview-grpc)被 gRPC 请求和响应作为路由和负载平衡底层的所有 HTTP/2 功能。这两个系统是非常互补的。
+
+
+**MongoDB L7 支持：**[MongoDB](https://www.mongodb.com/) 是一种用于现代 Web 应用程序的流行数据库。Envoy [支持](arch_overview/mongo.md#arch-overview-mongo)对 MongoDB 连接进行 L7 嗅探、统计和日志记录。
+
+
+**DynamoDB L7 支持**：[DynamoDB](https://aws.amazon.com/dynamodb/) 是亚马逊的托管键/值 NOSQL 数据存储。Envoy [支持](arch_overview/dynamo.md#arch-overview-dynamo)对 DynamoDB 连接进行 L7 嗅探和统计。
+
+
+**服务发现：**[服务发现](arch_overview/service_discovery.md#arch-overview-service-discovery)是面向服务体系结构的关键组件。Envoy 通过一种[服务发现服务（service discovery service）](arch_overview/service_discovery.md#arch-overview-service-discovery-types-sds)的方式支持多种服务发现方法，包括异步 DNS 解析和基于 REST 的查找。
+
+
+**健康检查：** 建立 Envoy 网格的[推荐](arch_overview/service_discovery.md#arch-overview-service-discovery-eventually-consistent)方式是将服务发现视为最终一致的过程。Envoy 包含了一个[健康检查](arch_overview/health_checking.md#arch-overview-health-checking)子系统，可以选择对上游服务集群执行主动健康检查。然后，Envoy 联合使用服务发现和健康检查信息来确定健康的负载均衡目标。Envoy 还通过[异常检测](arch_overview/outlier.md#arch-overview-outlier-detection)子系统支持被动健康检查。
+
+
+ **高级负载均衡：**[负载均衡](arch_overview/load_balancing.md#arch-overview-load-balancing)是分布式系统中不同组件之间的一个复杂问题。由于 Envoy 是一个独立代理而不是库，因此它可以在一个地方实现高级负载负载均衡，并让它们可供任何应用程序访问。目前，Envoy 支持[自动重试](arch_overview/http_routing.md#arch-overview-http-routing-retry), [熔断](arch_overview/circuit_breaking.md#arch-overview-circuit-break)、通过外部速率限制服务的[全局速率限制](arch_overview/global_rate_limiting.md#arch-overview-rate-limit)、[请求映射](../api-v1/route_config/route.md#config-http-conn-man-route-table-route-shadow)和[异常值检测](arch_overview/outlier.md#arch-overview-outlier-detection)。未来还计划支持请求竞争。
+
+
+**前端/边缘代理支持：** 尽管 Envoy 主要设计为一个服务到服务的通信系统，但在边缘使用相同的软件也有益处（可观察性、管理、相同的服务发现和负载均衡算法等）。Envoy 包含足够的功能，使其可作为大多数现代 Web 应用程序用例的边缘代理。这包括 [TLS](arch_overview/ssl.md#arch-overview-ssl) 终止、HTTP/1.1 和 HTTP/2 [支持](arch_overview/http_connection_management.md#arch-overview-http-protocols)，以及 HTTP L7 [路由](arch_overview/http_routing.md#arch-overview-http-routing)。
+
+
+**最佳的可观察性：** 如上所述，Envoy 的主要目标是使网络透明。但是，问题在网络层面和应用层面都可能会出现。 Envoy 包含对所有子系统强大的[统计](arch_overview/statistics.md#arch-overview-statistics)功能支持。目前支持 [statsd](https://github.com/etsy/statsd)（和兼容的提供程序）作为统计信息接收器，但是插入不同的接收器并不困难。统计信息也可以通过[管理](../operations/admin.md#operations-admin-interface) 端口查看。Envoy 还通过第三方提供商支持分布式[追踪](arch_overview/tracing.md#arch-overview-tracing)。
+
+
+**动态配置：** Envoy 可以选择使用[动态配置API](arch_overview/dynamic_configuration.md#arch-overview-dynamic-config) 的分层集合。如果需要，实现者可以使用这些 API 来构建复杂的集中管理部署。
 
 ## 设计目标
 
-A short note on the design goals of the code itself: Although Envoy is by no means slow (we have spent considerable time optimizing certain fast paths), the code has been written to be modular and easy to test versus aiming for the greatest possible absolute performance. It’s our view that this is a more efficient use of time given that typical deployments will be alongside languages and runtimes many times slower and with many times greater memory usage.
+
+关于代码本身的设计目标的简短说明：尽管 Envoy 绝对不慢（我们花费了相当多的时间来优化某些快速路径），相对以最大可能的绝对性能为目标，代码还是按照模块化和易于测试来编写。我们认为这会更有效的利用时间，因为典型部署将和速度慢数倍、内存占用高数倍的语言和运行时在一起。
