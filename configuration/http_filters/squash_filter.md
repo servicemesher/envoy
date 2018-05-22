@@ -1,10 +1,10 @@
 # Squash
 
-*Squash*是 *HTTP* 过滤器，可以允许 *Envoy*整合 Squash 微服务的调试器。具体代码可见：<https://github.com/solo-io/squash>，API Docs：<https://squash.solo.io/>
+*Squash* 是 *HTTP* 过滤器，可以允许 *Envoy* 整合 Squash 微服务的调试器。具体代码可见：<https://github.com/solo-io/squash>，API Docs：<https://squash.solo.io/>
 
 ## 概述
 
-这种过滤器主要使用场景是在service mesh中，例如作为将Envoy作为一个sidecar发布。在 Squash 集群服务中，当一个请求标记为调试模式进入mesh中，Squash Envoy过滤器将会报告请求为‘location’模式，由于 Envoy sidecars 和应用程序之间会存在1-1的映射关系，Squash 服务可以将调试器附加到应用程序中。Squash 过滤器也可以保持请求，直到调试器被附加到应用程序容器中，或发生超时。在不对集群做任何调整的情况下，允许开发者在请求到达应用程序可以将本地调试器附加到请求的容器上。
+这种过滤器主要使用场景是在 service mesh 中，例如作为将 Envoy 作为一个 sidecar 发布。在 Squash 集群服务中，当一个请求标记为调试模式进入 mesh 中，Squash Envoy 过滤器将会报告请求为 ‘location’ 模式，由于 Envoy sidecar 和应用程序之间会存在 1 比 1 的映射关系，Squash 服务可以将调试器附加到应用程序中。Squash 过滤器也可以保持请求，直到调试器被附加到应用程序容器中或发生超时。在不对集群做任何调整的情况下，允许开发者在请求到达应用程序时将本地调试器附加到请求的容器上。
 
 ## 配置
 
