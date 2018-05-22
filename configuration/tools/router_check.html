@@ -2195,93 +2195,109 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x8DEF;&#x7531;&#x8868;&#x68C0;&#x67E5;&#x5DE5;&#x5177;">&#x8DEF;&#x7531;&#x8868;&#x68C0;&#x67E5;&#x5DE5;&#x5177;</h1>
-<p><strong>NOTE: The following configuration is for the route table check tool only and is not part of the Envoy binary. The route table check tool is a standalone binary that can be used to verify Envoy&#x2019;s routing for a given configuration file.</strong></p>
-<p>The following specifies input to the route table check tool. The route table check tool checks if the route returned by a <a href="../../api-v1/route_config/route_config.md#config-http-conn-man-route-table">router</a> matches what is expected. The tool can be used to check cluster name, virtual cluster name, virtual host name, manual path rewrite, manual host rewrite, path redirect, and header field matches. Extensions for other test cases can be added. Details about installing the tool and sample tool input/output can be found at <a href="../../install/tools/route_table_check_tool.html#install-tools-route-table-check-tool">installation</a>.</p>
-<p>The route table check tool config is composed of an array of json test objects. Each test object is composed of three parts.</p>
+<p><strong>&#x6CE8;&#x610F;:&#x4E0B;&#x9762;&#x7684;&#x914D;&#x7F6E;&#x4EC5;&#x7528;&#x4E8E;&#x8DEF;&#x7531;&#x8868;&#x68C0;&#x67E5;&#x5DE5;&#x5177;&#xFF0C;&#x800C;&#x4E0D;&#x662F; Envoy &#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x8DEF;&#x7531;&#x8868;&#x68C0;&#x67E5;&#x5DE5;&#x5177;&#x662F;&#x4E00;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x9A8C;&#x8BC1; Envoy &#x5BF9;&#x7ED9;&#x5B9A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x7531;&#x3002;</strong></p>
+<p>&#x4E0B;&#x9762;&#x6307;&#x5B9A;&#x4E86;&#x8DEF;&#x7531;&#x8868;&#x68C0;&#x67E5;&#x5DE5;&#x5177;&#x7684;&#x8F93;&#x5165;&#x3002;&#x8DEF;&#x7531;&#x8868;&#x68C0;&#x67E5;&#x5DE5;&#x5177;&#x68C0;&#x67E5;<a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route_config#config-http-conn-man-route-table" target="_blank">&#x8DEF;&#x7531;&#x5668;</a>&#x8FD4;&#x56DE;&#x7684;&#x8DEF;&#x7531;&#x4FE1;&#x606F;&#x662F;&#x5426;&#x7B26;&#x5408;&#x9884;&#x671F;&#x3002;&#x8BE5;&#x5DE5;&#x5177;&#x53EF;&#x7528;&#x4E8E;&#x68C0;&#x67E5;&#x96C6;&#x7FA4;&#x540D;&#x79F0;&#x3001;&#x865A;&#x62DF;&#x96C6;&#x7FA4;&#x540D;&#x79F0;&#x3001;&#x865A;&#x62DF;&#x4E3B;&#x673A;&#x540D;&#x3001;&#x624B;&#x52A8;&#x8DEF;&#x5F84;&#x91CD;&#x5199;&#x3001;&#x624B;&#x52A8;&#x4E3B;&#x673A;&#x91CD;&#x5199;&#x3001;&#x8DEF;&#x5F84;&#x91CD;&#x5B9A;&#x5411;&#x548C;&#x5934;&#x5B57;&#x6BB5;&#x5339;&#x914D;&#x3002; &#x53EF;&#x4EE5;&#x6DFB;&#x52A0;&#x5176;&#x5B83;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x7684;&#x6269;&#x5C55;&#x3002;&#x5B89;&#x88C5;&#x5DE5;&#x5177;&#x548C;&#x793A;&#x4F8B;&#x5DE5;&#x5177;&#x8F93;&#x5165;/&#x8F93;&#x51FA;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;&#x53EF;&#x4EE5;&#x5728;<a href="../../install/tools/route_table_check_tool.html#install-tools-route-table-check-tool">&#x8FD9;&#x91CC;</a>&#x627E;&#x5230;&#x3002;</p>
+<p>&#x8DEF;&#x7531;&#x8868;&#x68C0;&#x67E5;&#x5DE5;&#x5177;&#x914D;&#x7F6E;&#x7531;&#x4E00;&#x7CFB;&#x5217; json &#x6D4B;&#x8BD5;&#x5BF9;&#x8C61;&#x7EC4;&#x6210;&#x3002;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x5BF9;&#x8C61;&#x7531;&#x4E09;&#x4E2A;&#x90E8;&#x5206;&#x7EC4;&#x6210;&#x3002;</p>
 <ul>
-<li><p>Test name</p>
-<p>This field specifies the name of each test object.</p>
-</li>
+<li>Test name</li>
+</ul>
+<p>&#x8BE5;&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x6BCF;&#x4E2A;&#x6D4B;&#x8BD5;&#x5BF9;&#x8C61;&#x7684;&#x540D;&#x79F0;&#x3002;</p>
+<ul>
 <li><p>Input values</p>
-<p>The input value fields specify the parameters to be passed to the router. Example input fields include the :authority, :path, and :method header fields. The :authority and :path fields specify the url sent to the router and are required. All other input fields are optional.</p>
+<p>&#x8F93;&#x5165;&#x503C;&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x8981;&#x4F20;&#x9012;&#x7ED9;&#x8DEF;&#x7531;&#x5668;&#x7684;&#x53C2;&#x6570;&#x3002;&#x4F8B;&#x5982;&#x8F93;&#x5165;&#x5B57;&#x6BB5;&#x5305;&#x62EC; <code>:authority</code>&#x3001;<code>:path</code>&#x3001;<code>:method header fields</code>&#x3002;&#x6743;&#x9650;&#xFF1A;<code>path</code>&#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x53D1;&#x9001;&#x5230;&#x8DEF;&#x7531;&#x5668;&#x7684; <code>url</code> &#x5E76;&#x662F;&#x5FC5;&#x987B;&#x8981;&#x6DFB;&#x52A0;&#x7684;&#x3002;&#x6240;&#x6709;&#x5176;&#x4ED6;&#x8F93;&#x5165;&#x5B57;&#x6BB5;&#x90FD;&#x662F;&#x53EF;&#x9009;&#x7684;&#x3002;</p>
 </li>
 <li><p>Validate</p>
-<p>The validate fields specify the expected values and test cases to check. At least one test case is required.</p>
+<p>validate &#x5B57;&#x6BB5;&#x6307;&#x5B9A;&#x8981;&#x68C0;&#x67E5;&#x7684;&#x671F;&#x671B;&#x503C;&#x548C;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x3002;&#x81F3;&#x5C11;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x3002;</p>
+<p>&#x770B;&#x4E0B;&#x9762;&#x7684;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;json&#x5DE5;&#x5177;&#x914D;&#x7F6E;&#x53C2;&#x6570;&#xFF0C;&#x5176;&#x5305;&#x542B;&#x6709;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x3002;&#x6D4B;&#x8BD5;&#x671F;&#x671B;&#x4E0E; &#x201C;instant-server&#x201D; &#x7684;&#x96C6;&#x7FA4;&#x540D;&#x79F0;&#x5339;&#x914D;&#x3002;&#xFF1A;</p>
 </li>
 </ul>
-<p>A simple tool configuration json has one test case and is written as follows. The test expects a cluster name match of &#x201C;instant-server&#x201D;.:</p>
 <pre class="language-"><code class="lang-json"><span class="token punctuation">[</span>
-  <span class="token punctuation">{</span>
-    <span class="token string">&quot;test_name: &quot;</span>Cluster_name_test&quot;<span class="token punctuation">,</span>
-    <span class="token property">&quot;input&quot;</span><span class="token operator">:</span>
-      <span class="token punctuation">{</span>
-        <span class="token property">&quot;:authority&quot;</span><span class="token operator">:</span>&quot;api.lyft.com<span class="token property">&quot;,
-        &quot;</span><span class="token operator">:</span>path&quot;<span class="token operator">:</span> <span class="token string">&quot;/api/locations&quot;</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token property">&quot;validate&quot;</span><span class="token operator">:</span>
-      <span class="token punctuation">{</span>
-        <span class="token property">&quot;cluster_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;instant-server&quot;</span>
-      <span class="token punctuation">}</span>
-   <span class="token punctuation">}</span>
+    <span class="token punctuation">{</span>
+        <span class="token string">&quot;test_name: &quot;</span>Cluster_name_test&quot;<span class="token punctuation">,</span>
+        <span class="token property">&quot;input&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">&quot;:authority&quot;</span><span class="token operator">:</span> &quot;api.lyft.com<span class="token property">&quot;,
+            &quot;</span><span class="token operator">:</span>path&quot;<span class="token operator">:</span> <span class="token string">&quot;/api/locations&quot;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;validate&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">&quot;cluster_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;instant-server&quot;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
 <span class="token punctuation">]</span>
 </code></pre>
 <pre class="language-"><code class="lang-json"><span class="token punctuation">[</span>
-  <span class="token punctuation">{</span>
-    <span class="token property">&quot;test_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-    <span class="token property">&quot;input&quot;</span><span class="token operator">:</span>
-      <span class="token punctuation">{</span>
-        <span class="token property">&quot;:authority&quot;</span><span class="token operator">:</span> &quot;...<span class="token property">&quot;,
-        &quot;</span><span class="token operator">:</span>path&quot;<span class="token operator">:</span> &quot;...<span class="token property">&quot;,
-        &quot;</span><span class="token operator">:</span>method&quot;<span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-        <span class="token property">&quot;internal&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-        <span class="token property">&quot;random_value&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-        <span class="token property">&quot;ssl&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-        <span class="token property">&quot;additional_headers&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
-          <span class="token punctuation">{</span>
-            <span class="token property">&quot;field&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-            <span class="token property">&quot;value&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span>
-          <span class="token punctuation">}</span><span class="token punctuation">,</span>
-          <span class="token punctuation">{</span>
-             <span class="token string">&quot;...&quot;</span>
-          <span class="token punctuation">}</span>
-        <span class="token punctuation">]</span>
-      <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token property">&quot;validate&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
-      <span class="token property">&quot;cluster_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;virtual_cluster_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;virtual_host_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;host_rewrite&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;path_rewrite&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;path_redirect&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-      <span class="token property">&quot;header_fields&quot;</span> <span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span>
-          <span class="token property">&quot;field&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
-          <span class="token property">&quot;value&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">&quot;test_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;input&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">&quot;:authority&quot;</span><span class="token operator">:</span> &quot;...<span class="token property">&quot;,
+            &quot;</span><span class="token operator">:</span>path&quot;<span class="token operator">:</span> &quot;...<span class="token property">&quot;,
+            &quot;</span><span class="token operator">:</span>method&quot;<span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;internal&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;random_value&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;ssl&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;additional_headers&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">&quot;field&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+                    <span class="token property">&quot;value&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span>
+                    <span class="token string">&quot;...&quot;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span>
         <span class="token punctuation">}</span><span class="token punctuation">,</span>
-        <span class="token punctuation">{</span>
-          <span class="token string">&quot;...&quot;</span>
+        <span class="token property">&quot;validate&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token property">&quot;cluster_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;virtual_cluster_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;virtual_host_name&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;host_rewrite&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;path_rewrite&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;path_redirect&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+            <span class="token property">&quot;header_fields&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">&quot;field&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span><span class="token punctuation">,</span>
+                    <span class="token property">&quot;value&quot;</span><span class="token operator">:</span> <span class="token string">&quot;...&quot;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">{</span>
+                    <span class="token string">&quot;...&quot;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span>
         <span class="token punctuation">}</span>
-      <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        <span class="token string">&quot;...&quot;</span>
     <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span><span class="token punctuation">,</span>
-  <span class="token punctuation">{</span>
-    <span class="token string">&quot;...&quot;</span>
-  <span class="token punctuation">}</span>
 <span class="token punctuation">]</span>
 </code></pre>
 <ul>
 <li><p>test_name</p>
-<p><em>(required, string)</em> The name of a test object.</p>
+<p><em>(required, string)</em> &#x6D4B;&#x8BD5;&#x5BF9;&#x8C61;&#x7684;&#x540D;&#x79F0;.</p>
 </li>
-<li><p>input</p>
-<p><em>(required, object)</em> Input values sent to the router that determine the returned route.:authority<em>(required, string)</em> The url authority. This value along with the path parameter define the url to be matched. An example authority value is &#x201C;api.lyft.com&#x201D;.:path<em>(required, string)</em> The url path. An example path value is &#x201C;/foo&#x201D;.:method<em>(optional, string)</em> The request method. If not specified, the default method is GET. The options are GET, PUT, or POST.internal<em>(optional, boolean)</em> A flag that determines whether to set x-envoy-internal to &#x201C;true&#x201D;. If not specified, or if internal is equal to false, x-envoy-internal is not set.random_value<em>(optional, integer)</em> An integer used to identify the target for weighted cluster selection. The default value of random_value is 0.ssl<em>(optional, boolean)</em> A flag that determines whether to set x-forwarded-proto to https or http. By setting x-forwarded-proto to a given protocol, the tool is able to simulate the behavior of a client issuing a request via http or https. By default ssl is false which corresponds to x-forwarded-proto set to http.additional_headers<em>(optional, array)</em> Additional headers to be added as input for route determination. The &#x201C;:authority&#x201D;, &#x201C;:path&#x201D;, &#x201C;:method&#x201D;, &#x201C;x-forwarded-proto&#x201D;, and &#x201C;x-envoy-internal&#x201D; fields are specified by the other config options and should not be set here.field<em>(required, string)</em> The name of the header field to add.value<em>(required, string)</em> The value of the header field to add.</p>
-</li>
-<li><p>validate</p>
-<p><em>(required, object)</em> The validate object specifies the returned route parameters to match. At least one test parameter must be specificed. Use &#x201C;&#x201D; (empty string) to indicate that no return value is expected. For example, to test that no cluster match is expected use {&#x201C;cluster_name&#x201D;: &#x201C;&#x201D;}.cluster_name<em>(optional, string)</em> Match the cluster name.virtual_cluster_name<em>(optional, string)</em> Match the virtual cluster name.virtual_host_name<em>(optional, string)</em> Match the virtual host name.host_rewrite<em>(optional, string)</em> Match the host header field after rewrite.path_rewrite<em>(optional, string)</em> Match the path header field after rewrite.path_redirect<em>(optional, string)</em> Match the returned redirect path.header_fields<em>(optional, array)</em> Match the listed header fields. Examples header fields include the &#x201C;:path&#x201D;, &#x201C;cookie&#x201D;, and &#x201C;date&#x201D; fields. The header fields are checked after all other test cases. Thus, the header fields checked will be those of the redirected or rewriten routes when applicable.field<em>(required, string)</em> The name of the header field to match.value<em>(required, string)</em> The value of the header field to match. </p>
+<li><p>input&#x8DEF;&#x5F84;&#x6CD5;</p>
+<p><em>(required, object)</em> &#x8F93;&#x5165;&#x503C;&#x53D1;&#x9001;&#x5230;&#x8DEF;&#x7531;&#x5668;&#xFF0C;&#x4EE5;&#x786E;&#x5B9A;&#x8FD4;&#x56DE;&#x7684;&#x8DEF;&#x7531;&#x4FE1;&#x606F;&#xFF1A; </p>
 </li>
 </ul>
+<p><code>:authority</code> <em>(required, string)</em> &#xFF1A; <code>url</code>&#x6743;&#x9650;&#x3002;&#x8FD9;&#x4E2A;&#x503C;&#x4E0E;<code>path</code>&#x53C2;&#x6570;&#x4E00;&#x8D77;&#x5B9A;&#x4E49;&#x8981;&#x5339;&#x914D;&#x7684;url&#x3002;&#x4F8B;&#x5982;&#x6743;&#x9650;&#x7684;&#x503C;&#x662F;&#x201C;<code>api.lyft.com</code>&#x201D;&#x3002;</p>
+<p><code>:path</code> <em>(required, string)</em> &#xFF1A; <code>url</code>&#x7684;&#x8DEF;&#x5F84;&#x3002;&#x4F8B;&#x5982;&#x8DEF;&#x5F84;&#x7684;&#x503C;&#x662F; &#x201C;<code>/foo</code>&#x201D;&#x3002;</p>
+<p><code>:method</code> <em>(optional, string)</em> &#xFF1A; &#x8BF7;&#x6C42;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6307;&#x5B9A;&#xFF0C;&#x9ED8;&#x8BA4;&#x91C7;&#x7528;<code>get</code>&#x65B9;&#x6CD5;&#x3002;&#x8FD9;&#x91CC;&#x53EF;&#x4EE5;&#x9009;&#x62E9;<code>GET</code>&#x65B9;&#x6CD5;, <code>PUT</code>&#x65B9;&#x6CD5;&#x6216;&#x8005;<code>POST</code>&#x65B9;&#x6CD5;&#x3002;</p>
+<p>  <code>internal</code> <em>(optional, boolean)</em> &#xFF1A; &#x5B83;&#x662F;&#x662F;&#x5426;&#x5C06;<code>x-envoy-internal</code>&#x8BBE;&#x7F6E;&#x4E3A;&#x201C;true&#x201D;&#x7684;&#x4E00;&#x4E2A;&#x6807;&#x5FD7;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6307;&#x5B9A;&#x6216;&#x8005;&#x6307;&#x5B9A;&#x4E3A;&#x201C;false&#x201D;&#x3002; </p>
+<p>  <code>x-envoy-internal</code>&#x5C31;&#x6CA1;&#x6709;&#x914D;&#x7F6E;&#x3002;<code>random_value</code><em>(optional, integer)</em> &#x7528;&#x4E8E;&#x786E;&#x5B9A;&#x52A0;&#x6743;&#x96C6;&#x7FA4;&#x9009;&#x62E9;&#x76EE;&#x6807;&#x7684;&#x6574;&#x6570;&#x3002;&#x9ED8;&#x8BA4;&#x503C;&#x662F;0&#x3002;</p>
+<p><code>ssl</code> <em>(optional, boolean)</em> &#xFF1A; &#x51B3;&#x5B9A;&#x5C06; <code>x-forwarded-proto</code>&#x8BBE;&#x7F6E;&#x4E3A;<code>http</code>&#x6216;&#x8005;<code>https</code>&#x3002;&#x901A;&#x8FC7;&#x7ED9;&#x5B9A;&#x7684;&#x534F;&#x8BAE;&#x8BBE;&#x7F6E;<code>x-forwarded-proto</code>&#xFF0C;&#x8BE5;&#x5DE5;&#x5177;&#x80FD;&#x591F;&#x6A21;&#x62DF;&#x5BA2;&#x6237;&#x673A;&#x901A;&#x8FC7;<code>http</code>&#x6216;<code>https</code>&#x53D1;&#x51FA;&#x8BF7;&#x6C42;&#x7684;&#x884C;&#x4E3A;&#x3002; &#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;<code>ssl</code>&#x662F;<code>false</code>&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;&#x5C06;<code>x-forwarded-proto</code>&#x8BBE;&#x7F6E;&#x4E3A;<code>http</code>&#x3002;</p>
+<p><code>additional_headers</code><em>(optional, array)</em> &#xFF1A; <code>Additional headers</code>&#x5C06;&#x4F5C;&#x4E3A;&#x8DEF;&#x5F84;&#x786E;&#x5B9A;&#x7684;&#x8F93;&#x5165;&#x6DFB;&#x52A0;&#x3002;</p>
+<p>&#x201C;<code>:authority</code>&#x201D;, &#x201C;<code>:path</code>&#x201D;, &#x201C;<code>:method</code>&#x201D;, &#x201C;<code>x-forwarded-proto</code>&#x201D;&#x4EE5;&#x53CA; &#x201C;<code>x-envoy-internal</code>&#x201D; &#x5B57;&#x6BB5;&#x5E94;&#x8BE5;&#x6709;&#x5176;&#x4ED6;&#x914D;&#x7F6E;&#x9009;&#x9879;&#x6307;&#x5B9A;&#xFF0C;&#x800C;&#x4E0D;&#x5E94;&#x8BE5;&#x5728;&#x8FD9;&#x91CC;&#x914D;&#x7F6E;&#x3002;<code>field</code> <em>(required, string)</em> &#x8981;&#x6DFB;&#x52A0;&#x7684;&#x5934;&#x5B57;&#x6BB5;&#x7684;&#x540D;&#x79F0;&#x3002;<code>value</code> <em>(required, string)</em> &#x8981;&#x6DFB;&#x52A0;&#x7684;&#x6295;&#x5B57;&#x6BB5;&#x7684;&#x503C;&#x3002;</p>
+<ul>
+<li><p>validate</p>
+<p><em>(required, object)</em> <code>validate</code>&#x5BF9;&#x8C61;&#x6307;&#x5B9A;&#x8981;&#x5339;&#x914D;&#x7684;&#x8FD4;&#x56DE;&#x8DEF;&#x7531;&#x53C2;&#x6570;&#x3002;&#x81F3;&#x5C11;&#x9700;&#x8981;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF0C; &#x4F7F;&#x7528;&#x201C;&#x201D; (&#x7A7A;&#x5B57;&#x7B26;&#x4E32;)&#x6765;&#x8868;&#x793A;&#x6CA1;&#x6709;&#x8FD4;&#x56DE;&#x503C;&#x3002; &#x4F8B;&#x5982;, &#x6D4B;&#x8BD5;&#x6CA1;&#x6709;&#x96C6;&#x7FA4;&#x80FD;&#x591F;&#x5339;&#x914D; {&#x201C;<code>cluster_name</code>&#x201D;: &#x201C;&#x201D;}&#x3002;</p>
+</li>
+</ul>
+<p><code>cluster_name</code> <em>(optional, string)</em> &#xFF1A;&#x5339;&#x914D;&#x96C6;&#x7FA4;&#x7684;&#x540D;&#x79F0;&#x3002;  </p>
+<p><code>virtual_cluster_name</code> <em>(optional, string)</em> &#xFF1A; &#x5339;&#x914D;&#x865A;&#x62DF;&#x96C6;&#x7FA4;&#x7684;&#x540D;&#x79F0;&#x3002;</p>
+<p><code>virtual_host_name</code> <em>(optional, string)</em> &#xFF1A; &#x5339;&#x914D;&#x865A;&#x62DF;&#x673A;&#x7684;&#x540D;&#x79F0;&#x3002;</p>
+<p><code>host_rewrite</code> <em>(optional, string)</em> &#xFF1A; &#x5339;&#x914D;&#x91CD;&#x5199;&#x540E;&#x7684;&#x4E3B;&#x673A;&#x5B57;&#x6BB5;&#x5934;&#x3002;</p>
+<p><code>path_rewrite</code> <em>(optional, string)</em> &#xFF1A;&#x5339;&#x914D;&#x91CD;&#x5199;&#x540E;&#x7684;&#x8DEF;&#x5F84;&#x5B57;&#x6BB5;&#x5934;&#x3002;</p>
+<p><code>path_redirect</code> <em>(optional, string)</em> &#xFF1A;&#x5339;&#x914D;&#x8FD4;&#x56DE;&#x7684;&#x91CD;&#x5B9A;&#x5411;&#x8DEF;&#x5F84;&#x3002;</p>
+<p><code>header_fields</code> <em>(optional, array)</em> &#xFF1A; &#x5339;&#x914D;&#x5217;&#x51FA;&#x7684;&#x5934;&#x5B57;&#x6BB5;&#x3002;</p>
+<p>&#x4F8B;&#x5982;&#x5934;&#x5B57;&#x6BB5;&#x5305;&#x62EC; &#x201C;<code>:path</code>&#x201D;, &#x201C;<code>cookie</code>&#x201D;&#xFF0C;&#x4EE5;&#x53CA;  &#x201C;<code>date</code>&#x201D;  &#x5B57;&#x6BB5;&#x3002;&#x5728;&#x5176;&#x5B83;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x4E4B;&#x540E;&#x68C0;&#x67E5;&#x5934;&#x5B57;&#x6BB5;&#x3002;&#x56E0;&#x6B64;, &#x6240;&#x68C0;&#x67E5;&#x7684;&#x5934;&#x5B57;&#x6BB5;&#x5C06;&#x662F;&#x91CD;&#x5B9A;&#x5411;&#x6216;&#x91CD;&#x5199;&#x8DEF;&#x7531;&#x4FE1;&#x606F;&#x3002;<code>field</code> <em>(required, string)</em> &#x8981;&#x5339;&#x914D;&#x7684;&#x5934;&#x5B57;&#x6BB5;&#x7684;&#x540D;&#x79F0;&#x3002;<code>value</code> <em>(required, string)</em> &#x8981;&#x5339;&#x914D;&#x7684;&#x5934;&#x5B57;&#x6BB5;&#x7684;&#x503C;&#x3002; </p>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; ServiceMesher 2018 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> &#x6700;&#x540E;&#x66F4;&#x65B0;&#x4E8E; 
-2018-05-15 19:43:20
+2018-05-22 23:16:34
 </span></footer>
                                 
                                 </section>
@@ -2325,7 +2341,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"路由表检查工具","level":"5.14","depth":1,"next":{"title":"命令行选项","level":"6.1","depth":1,"path":"operations/cli.md","ref":"operations/cli.md","articles":[]},"previous":{"title":"统计","level":"5.13","depth":1,"path":"configuration/statistics.md","ref":"configuration/statistics.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/tools/router_check.md","mtime":"2018-05-15T11:43:20.914Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-22T14:02:03.555Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"路由表检查工具","level":"5.14","depth":1,"next":{"title":"命令行选项","level":"6.1","depth":1,"path":"operations/cli.md","ref":"operations/cli.md","articles":[]},"previous":{"title":"统计","level":"5.13","depth":1,"path":"configuration/statistics.md","ref":"configuration/statistics.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/tools/router_check.md","mtime":"2018-05-22T15:16:34.400Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-22T15:33:10.848Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

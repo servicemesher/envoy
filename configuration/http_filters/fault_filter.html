@@ -2195,80 +2195,80 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x6545;&#x969C;&#x6CE8;&#x5165;">&#x6545;&#x969C;&#x6CE8;&#x5165;</h1>
-<p>The fault injection filter can be used to test the resiliency of microservices to different forms of failures. The filter can be used to inject delays and abort requests with user-specified error codes, thereby providing the ability to stage different failure scenarios such as service failures, service overloads, high network latency, network partitions, etc. Faults injection can be limited to a specific set of requests based on the (destination) upstream cluster of a request and/or a set of pre-defined request headers.</p>
-<p>The scope of failures is restricted to those that are observable by an application communicating over the network. CPU and disk failures on the local host cannot be emulated.</p>
-<p>Currently, the fault injection filter has the following limitations:</p>
+<p>&#x6545;&#x969C;&#x6CE8;&#x5165;&#x8FC7;&#x6EE4;&#x5668;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x6D4B;&#x8BD5;&#x5F39;&#x6027;&#x7684;&#x5FAE;&#x670D;&#x52A1;&#x67B6;&#x6784;&#x4E2D;&#x4E0D;&#x540C;&#x7684;&#x9519;&#x8BEF;&#x5F62;&#x5F0F;&#xFF0C;&#x8FC7;&#x6EE4;&#x5668;&#x4E5F;&#x53EF;&#x7528;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x9519;&#x8BEF;&#x4EE3;&#x7801;&#x6765;&#x5EF6;&#x65F6;&#x6CE8;&#x5165;&#x4EE5;&#x53CA;&#x7EC8;&#x6B62;&#x8BF7;&#x6C42;&#xFF0C;&#x4ECE;&#x800C;&#x63D0;&#x4F9B;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x5931;&#x8D25;&#x573A;&#x666F;&#x4E0B;&#x5904;&#x7406;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x4F8B;&#x5982;&#x670D;&#x52A1;&#x5931;&#x8D25;&#x3001;&#x670D;&#x52A1;&#x8FC7;&#x8F7D;&#x3001;&#x670D;&#x52A1;&#x9AD8;&#x5EF6;&#x65F6;&#x3001;&#x7F51;&#x7EDC;&#x5206;&#x533A;&#x7B49;&#x3002;&#x6545;&#x969C;&#x6CE8;&#x5165;&#x53EF;&#x4EE5;&#x9650;&#x5B9A;&#x57FA;&#x4E8E;&#xFF08;&#x76EE;&#x7684;&#x5730;&#xFF09;&#x4E0A;&#x6E38;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x4E00;&#x7EC4;&#x7279;&#x5B9A;&#x7684;&#x8BF7;&#x6C42;&#x6216;&#x8005;&#x4E00;&#x7EC4;&#x9884;&#x5B9A;&#x4E49;&#x7684;&#x8BF7;&#x6C42;&#x5934;&#x3002;</p>
+<p>&#x6545;&#x969C;&#x53EF;&#x89C2;&#x5BDF;&#x5230;&#x7684;&#x8303;&#x56F4;&#x4EC5;&#x9650;&#x4E8E;&#x901A;&#x8FC7;&#x7F51;&#x7EDC;&#x901A;&#x4FE1;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;&#x65E0;&#x6CD5;&#x6A21;&#x62DF;&#x672C;&#x5730;&#x4E3B;&#x673A;&#x4E0A;&#x7684;CPU&#x548C;&#x78C1;&#x76D8;&#x6545;&#x969C;&#x3002;</p>
+<p>&#x76EE;&#x524D;&#xFF0C;&#x6545;&#x969C;&#x6CE8;&#x5165;&#x8FC7;&#x6EE4;&#x5668;&#x6709;&#x5982;&#x4E0B;&#x5C40;&#x9650;&#x6027;&#xFF1A;</p>
 <ul>
-<li>Abort codes are restricted to HTTP status codes only</li>
-<li>Delays are restricted to fixed duration.</li>
+<li>&#x4E2D;&#x6B62;&#x4EE3;&#x7801;&#x4EC5;&#x9650;&#x4E8E;HTTP&#x72B6;&#x6001;&#x4EE3;&#x7801;</li>
+<li>&#x5EF6;&#x65F6;&#x4EC5;&#x9650;&#x4E8E;&#x56FA;&#x5B9A;&#x65F6;&#x957F;</li>
 </ul>
-<p>Future versions will include support for restricting faults to specific routes, injecting <em>gRPC</em> and <em>HTTP/2</em> specific error codes and delay durations based on distributions.</p>
-<h2 id="configuration">Configuration</h2>
-<p>Note</p>
-<p>The fault injection filter must be inserted before any other filter, including the router filter.</p>
+<p>&#x5728;&#x672A;&#x6765;&#x7684;&#x7248;&#x672C;&#x4E2D;&#x5C06;&#x4F1A;&#x5305;&#x62EC;&#x5BF9;&#x7279;&#x6B8A;&#x8DEF;&#x7531;&#x9650;&#x5B9A;&#x6545;&#x969C;&#x7684;&#x652F;&#x6301;&#xFF0C;&#x57FA;&#x4E8E;&#x5206;&#x5E03;&#x6CE8;&#x5165;<em>gRPC</em> &#x548C; <em>HTTP/2</em> &#x7684;&#x6307;&#x5B9A;&#x9519;&#x8BEF;&#x7801;&#x548C;&#x5EF6;&#x65F6;&#x7684;&#x6301;&#x7EED;&#x65F6;&#x957F;</p>
+<h2 id="&#x914D;&#x7F6E;">&#x914D;&#x7F6E;</h2>
+<p>&#x6CE8;&#x91CA;</p>
+<p>&#x6545;&#x969C;&#x6CE8;&#x5165;&#x8FC7;&#x6EE4;&#x5668;&#x9700;&#x8981;&#x5728;&#x5176;&#x4ED6;&#x8FC7;&#x6EE4;&#x5668;&#x4E4B;&#x524D;&#x6CE8;&#x5165;&#xFF0C;&#x5305;&#x62EC;&#x8DEF;&#x7531;&#x8FC7;&#x6EE4;&#x5668;&#x3002;</p>
 <ul>
-<li><a href="../../api-v1/http_filters/fault_filter.md#config-http-filters-fault-injection-v1">v1 API reference</a></li>
-<li><a href="../../api-v2/config/filter/http/fault/v2/fault.proto.md#envoy-api-msg-config-filter-http-fault-v2-httpfault">v2 API reference</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/fault_filter#config-http-filters-fault-injection-v1" target="_blank">v1 API reference</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/fault/v2/fault.proto#envoy-api-msg-config-filter-http-fault-v2-httpfault" target="_blank">v2 API reference</a></li>
 </ul>
-<h2 id="runtime">Runtime</h2>
-<p>The HTTP fault injection filter supports the following global runtime settings:</p>
+<h2 id="&#x8FD0;&#x884C;&#x65F6;">&#x8FD0;&#x884C;&#x65F6;</h2>
+<p>Http &#x9519;&#x8BEF;&#x6CE8;&#x5165;&#x5668;&#x652F;&#x6301;&#x4E00;&#x4E0B;&#x5168;&#x5C40;&#x8FD0;&#x884C;&#x65F6;&#x914D;&#x7F6E;&#xFF1A;</p>
 <ul>
 <li><p>fault.http.abort.abort_percent</p>
-<p>% of requests that will be aborted if the headers match. Defaults to the <em>abort_percent</em> specified in config. If the config does not contain an <em>abort</em> block, then <em>abort_percent</em> defaults to 0.</p>
+<p>&#x5982;&#x679C;&#x8BF7;&#x6C42;&#x5934;&#x5339;&#x914D;&#xFF0C;&#x5C06;&#x6309;&#x7167;&#x767E;&#x5206;&#x6BD4;&#x7EC8;&#x6B62;&#x8BF7;&#x6C42;&#x3002;&#x9ED8;&#x8BA4;&#x6DFB;&#x52A0; <em>abort_percent</em> &#x7684;&#x914D;&#x7F6E;&#x3002;&#x5982;&#x679C;&#x914D;&#x7F6E;&#x4E2D;&#x4E0D;&#x5305;&#x542B; <em>abort</em> &#x8BED;&#x53E5;&#x5757;&#xFF0C;&#x5219; <em>abort_percent</em> &#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;0&#x3002;</p>
 </li>
 <li><p>fault.http.abort.http_status</p>
-<p>HTTP status code that will be used as the of requests that will be aborted if the headers match. Defaults to the HTTP status code specified in the config. If the config does not contain an <em>abort</em>block, then <em>http_status</em> defaults to 0.</p>
+<p>&#x5982;&#x679C;&#x8BF7;&#x6C42;&#x5934;&#x5339;&#x914D;&#xFF0C;HTTP &#x72B6;&#x6001;&#x7801;&#x5C06;&#x4F5C;&#x4E3A;&#x5339;&#x914D;&#x65F6;&#x4E2D;&#x6B62;&#x7684;&#x72B6;&#x6001;&#x7801;&#x3002;&#x9ED8;&#x8BA4;&#x6DFB;&#x52A0; HTTP &#x72B6;&#x6001;&#x7801;&#x7684;&#x914D;&#x7F6E;&#x3002;&#x5982;&#x679C;&#x914D;&#x7F6E;&#x4E2D;&#x4E0D;&#x5305;&#x542B; <em>abort</em> &#x8BED;&#x53E5;&#x5757;&#xFF0C;&#x5219; <em>http_status</em> &#x9ED8;&#x8BA4;&#x503C;&#x4E3A; 0&#x3002;</p>
 </li>
 <li><p>fault.http.delay.fixed_delay_percent</p>
-<p>% of requests that will be delayed if the headers match. Defaults to the <em>delay_percent</em> specified in the config or 0 otherwise.</p>
+<p>&#x5982;&#x679C;&#x8BF7;&#x6C42;&#x5934;&#x5339;&#x914D;&#xFF0C;&#x5219;&#x6309;&#x7167;&#x767E;&#x5206;&#x6BD4;&#x5EF6;&#x65F6;&#x8BF7;&#x6C42;&#x3002;&#x9ED8;&#x8BA4;&#x6DFB;&#x52A0; <em>delay_percent</em> &#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x5426;&#x5219;&#x4E3A;0&#x3002;</p>
 </li>
 <li><p>fault.http.delay.fixed_duration_ms</p>
-<p>The delay duration in milliseconds. If not specified, the <em>fixed_duration_ms</em> specified in the config will be used. If this field is missing from both the runtime and the config, no delays will be injected.</p>
+<p>&#x5EF6;&#x65F6;&#x6301;&#x7EED;&#x6BEB;&#x79D2;&#x6570;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x6307;&#x5B9A;&#x503C;&#xFF0C;&#x5219; <em>fixed_duration_ms</em> &#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x7684;&#x914D;&#x7F6E;&#x3002;&#x5982;&#x679C;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x548C;&#x914D;&#x7F6E;&#x4E2D;&#x90FD;&#x7F3A;&#x5C11;&#x8BE5;&#x5B57;&#x6BB5;&#xFF0C;&#x5219;&#x4E0D;&#x662F;&#x7528;&#x5EF6;&#x65F6;&#x3002;</p>
 </li>
 </ul>
-<p><em>Note</em>, fault filter runtime settings for the specific downstream cluster override the default ones if present. The following are downstream specific runtime keys:</p>
+<p><em>&#x5907;&#x6CE8;</em>&#xFF0C;&#x5982;&#x679C;&#x5B58;&#x5728;&#x6307;&#x5B9A;&#x7684;&#x4E0B;&#x6E38;&#x96C6;&#x7FA4;&#x7684;&#x6545;&#x969C;&#x8FC7;&#x6EE4;&#x5668;&#x8FD0;&#x884C;&#x65F6;&#x8BBE;&#x7F6E;&#xFF0C;&#x5C06;&#x91CD;&#x5199;&#x9ED8;&#x8BA4;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x8BBE;&#x7F6E;&#x3002;&#x4EE5;&#x4E0B;&#x662F;&#x6307;&#x5B9A;&#x4E0B;&#x6E38;&#x96C6;&#x7FA4;&#x8FD0;&#x884C;&#x65F6;&#x7684;keys&#xFF1A;</p>
 <ul>
 <li>fault.http.<downstream-cluster>.abort.abort_percent</downstream-cluster></li>
 <li>fault.http.<downstream-cluster>.abort.http_status</downstream-cluster></li>
 <li>fault.http.<downstream-cluster>.delay.fixed_delay_percent</downstream-cluster></li>
 <li>fault.http.<downstream-cluster>.delay.fixed_duration_ms</downstream-cluster></li>
 </ul>
-<p>Downstream cluster name is taken from <a href="../http_conn_man/headers.html#config-http-conn-man-headers-downstream-service-cluster">the HTTP x-envoy-downstream-service-cluster</a> header. If the following settings are not found in the runtime it defaults to the global runtime settings which defaults to the config settings.</p>
-<h2 id="statistics">Statistics</h2>
-<p>The fault filter outputs statistics in the <em>http.<stat_prefix>.fault.</stat_prefix></em> namespace. The <a href="../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix">stat prefix</a> comes from the owning HTTP connection manager.</p>
+<p>&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <a href="../http_conn_man/headers.html#config-http-conn-man-headers-downstream-service-cluster">HTTP x-envoy-downstream-service-cluster</a> &#x7684; header &#x5934;&#x83B7;&#x53D6;&#x4E0B;&#x6E38;&#x96C6;&#x7FA4;&#x7684;&#x540D;&#x79F0;&#x3002;&#x5982;&#x679C;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x4E2D;&#x6CA1;&#x6709;&#x627E;&#x5230;&#x8FD0;&#x884C;&#x65F6;&#x914D;&#x7F6E;&#xFF0C;&#x5219;&#x4F7F;&#x7528;&#x5168;&#x5C40;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x914D;&#x7F6E;&#x4F5C;&#x4E3A;&#x5F53;&#x524D;&#x914D;&#x7F6E;&#x3002;</p>
+<h2 id="&#x7EDF;&#x8BA1;">&#x7EDF;&#x8BA1;</h2>
+<p>&#x6545;&#x969C;&#x8FC7;&#x6EE4;&#x5668;&#x4F7F;&#x7528; <em>http.<stat_prefix>.fault.</stat_prefix></em> &#x4F5C;&#x4E3A;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#x8F93;&#x51FA;&#x7EDF;&#x8BA1;&#x7ED3;&#x679C;&#x3002;&#x8FD9;&#x4E2A;&#x7EDF;&#x8BA1;&#x524D;&#x7F00; <a href="../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-stat-prefix">stat prefix</a> &#x6765;&#x6E90;&#x4E8E; HTTP &#x94FE;&#x63A5;&#x7BA1;&#x7406;&#x5668;&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<th>&#x540D;&#x79F0;</th>
+<th>&#x7C7B;&#x578B;</th>
+<th>&#x63CF;&#x8FF0;</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>delays_injected</td>
 <td>Counter</td>
-<td>Total requests that were delayed</td>
+<td>&#x5EF6;&#x8FDF;&#x7684;&#x603B;&#x8BF7;&#x6C42;&#x6570;</td>
 </tr>
 <tr>
 <td>aborts_injected</td>
 <td>Counter</td>
-<td>Total requests that were aborted</td>
+<td>&#x4E2D;&#x6B62;&#x7684;&#x603B;&#x8BF7;&#x6C42;&#x6570;</td>
 </tr>
 <tr>
 <td><downstream-cluster>.delays_injected</downstream-cluster></td>
 <td>Counter</td>
-<td>Total delayed requests for the given downstream cluster</td>
+<td>&#x6307;&#x5B9A;&#x7684;&#x4E0B;&#x6E38;&#x96C6;&#x7FA4;&#x7684;&#x5EF6;&#x8FDF;&#x7684;&#x603B;&#x8BF7;&#x6C42;&#x6570;</td>
 </tr>
 <tr>
 <td><downstream-cluster>.aborts_injected</downstream-cluster></td>
 <td>Counter</td>
-<td>Total aborted requests for the given downstream cluster</td>
+<td>&#x6307;&#x5B9A;&#x7684;&#x4E0B;&#x6E38;&#x96C6;&#x7FA4;&#x7684;&#x4E2D;&#x6B62;&#x7684;&#x603B;&#x8BF7;&#x6C42;&#x6570;</td>
 </tr>
 </tbody>
 </table>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; ServiceMesher 2018 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> &#x6700;&#x540E;&#x66F4;&#x65B0;&#x4E8E; 
-2018-05-15 19:25:15
+2018-05-22 23:29:27
 </span></footer>
                                 
                                 </section>
@@ -2312,7 +2312,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"故障注入","level":"5.7.4","depth":2,"next":{"title":"gRPC HTTP/1.1 bridge","level":"5.7.5","depth":2,"path":"configuration/http_filters/grpc_http1_bridge_filter.md","ref":"configuration/http_filters/grpc_http1_bridge_filter.md","articles":[]},"previous":{"title":"DynamoDB","level":"5.7.3","depth":2,"path":"configuration/http_filters/dynamodb_filter.md","ref":"configuration/http_filters/dynamodb_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/http_filters/fault_filter.md","mtime":"2018-05-15T11:25:15.658Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-22T14:02:03.555Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"故障注入","level":"5.7.4","depth":2,"next":{"title":"gRPC HTTP/1.1 bridge","level":"5.7.5","depth":2,"path":"configuration/http_filters/grpc_http1_bridge_filter.md","ref":"configuration/http_filters/grpc_http1_bridge_filter.md","articles":[]},"previous":{"title":"DynamoDB","level":"5.7.3","depth":2,"path":"configuration/http_filters/dynamodb_filter.md","ref":"configuration/http_filters/dynamodb_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/http_filters/fault_filter.md","mtime":"2018-05-22T15:29:27.634Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-22T15:33:10.848Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
