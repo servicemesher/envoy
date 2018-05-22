@@ -37,15 +37,17 @@ server 标头将在编码期间被设置为 [server_name](https://www.envoyproxy
 
 ### x-envoy-downstream-service-cluster
 
-Internal services often want to know which service is calling them. This header is cleaned from external requests, but for internal requests will contain the service cluster of the caller. Note that in the current implementation, this should be considered a hint as it is set by the caller and could be easily spoofed by any internal entity. In the future Envoy will support a mutual authentication TLS mesh which will make this header fully secure. Like user-agent, the value is determined by the '--service-cluster' command line option. In order to enable this feature you need to set the [user_agent](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-add-user-agent) option to true.
+内部服务通常想知道哪个服务正在调用它们。 外部请求的这个标头被清洗，而内部请求将包含调用者的服务器集群信息。
+请注意在当前的实现中，这被视为调用者设置的提示，同时容易被任意内部的实体进行欺诈。将来，Envoy 将支持相互认证的 TLS 网格，从而让这个标头完全具有安全性。类似 user-agent，该值由 `--service-cluster` 命令行决定。
+为启用此功能，你需要设置 [user_agent](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-add-user-agent) 选项为 true。
 
 ### x-envoy-downstream-service-node
 
-Internal services may want to know the downstream node request comes from. This header is quite similar to x-envoy-downstream-service-cluster, except the value is taken from the --service-node option.
+内部服务可能会想知道请求来自哪个下游节点。这个标头非常类似 [x-envoy-downstream-service-cluster](#x-envoy-downstream-service-cluster)，除了它的值是来自 `--service-node` 选项。
 
 ### x-envoy-external-address
 
-It is a common case where a service wants to perform analytics based on the origin client’s IP address. Per the lengthy discussion on XFF, this can get quite complicated, so Envoy simplifies this by setting x-envoy-external-address to the trusted client address if the request is from an external client. x-envoy-external-address is not set or overwritten for internal requests. This header can be safely forwarded between internal services for analytics purposes without having to deal with the complexities of XFF.
+It is a common case where a service wants to perform analytics based on the origin client’s IP address. Per the lengthy discussion on [XFF](#x-forwarded-for), this can get quite complicated, so Envoy simplifies this by setting x-envoy-external-address to the trusted client address if the request is from an external client. x-envoy-external-address is not set or overwritten for internal requests. This header can be safely forwarded between internal services for analytics purposes without having to deal with the complexities of XFF.
 
 ### x-envoy-force-trace
 
@@ -98,7 +100,7 @@ Attention
 
 In general, use_remote_address should be set to true when Envoy is deployed as an edge node (aka a front proxy), whereas it may need to be set to false when Envoy is used as an internal service node in a mesh deployment.
 
-The value of use_remote_address controls how Envoy determines the trusted client address. Given an HTTP request that has traveled through a series of zero or more proxies to reach Envoy, the trusted client address is the earliest source IP address that is known to be accurate. The source IP address of the immediate downstream node’s connection to Envoy is trusted. XFF sometimes can be trusted. Malicious clients can forge XFF, but the last address in XFF can be trusted if it was put there by a trusted proxy.
+The value of use_remote_address controls how Envoy determines the #### trusted client address. Given an HTTP request that has traveled through a series of zero or more proxies to reach Envoy, the trusted client address is the earliest source IP address that is known to be accurate. The source IP address of the immediate downstream node’s connection to Envoy is trusted. XFF sometimes can be trusted. Malicious clients can forge XFF, but the last address in XFF can be trusted if it was put there by a trusted proxy.
 
 Envoy’s default rules for determining the trusted client address (before appending anything to XFF) are:
 
