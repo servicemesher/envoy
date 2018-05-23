@@ -2216,77 +2216,215 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;">&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;</h1>
-<p>Envoy is driven both by a JSON configuration file as well as a set of command line options. The following are the command line options that Envoy supports.</p>
+<p>Envoy &#x7531; JSON &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x548C;&#x4E00;&#x7EC4;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x4E00;&#x8D77;&#x9A71;&#x52A8;&#x3002;&#x4EE5;&#x4E0B;&#x662F; Envoy &#x652F;&#x6301;&#x7684;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x3002;</p>
 <ul>
 <li><p><code>-c <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">string</span><span class="token punctuation">&gt;</span></span>, --config-path <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The path to the v1 or v2 <a href="../configuration/configuration.md#config">JSON/YAML/proto3 configuration file</a>. If this flag is missing, <a href="#cmdoption-config-yaml"><code>--config-yaml</code></a> is required. This will be parsed as a <a href="../configuration/overview/v2_overview.html#config-overview-v2-bootstrap">v2 bootstrap configuration file</a> and on failure, subject to <a href="#cmdoption-v2-config-only"><code>--v2-config-only</code></a>, will be considered as a <a href="../configuration/overview/v1_overview.html#config-overview-v1">v1 JSON configuration file</a>. For v2 configuration files, valid extensions are <code>.json</code>, <code>.yaml</code>, <code>.pb</code> and <code>.pb_text</code>, which indicate JSON, YAML, <a href="https://developers.google.com/protocol-buffers/docs/encoding" target="_blank">binary proto3</a> and <a href="https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.text_format" target="_blank">text proto3</a> formats respectively.</p>
+<p><em>(&#x53EF;&#x9009;)</em> v1 &#x6216; v2 <a href="../configuration/configuration.md#config">JSON/YAML/proto3 &#x914D;&#x7F6E;&#x6587;&#x4EF6;</a>&#x7684;&#x8DEF;&#x5F84;&#x3002; &#x82E5;&#x672A;&#x8BBE;&#x7F6E;&#x6B64;&#x9009;&#x9879;&#xFF0C;&#x9700;&#x8981;&#x6307;&#x5B9A; <a href="#cmdoption-config-yaml"><code>--config-yaml</code></a> &#x9009;&#x9879;&#x3002;&#x5B83;&#x4F1A;&#x9996;&#x5148;&#x4F5C;&#x4E3A; <a href="../configuration/overview/v2_overview.html#config-overview-v2-bootstrap">v2 &#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</a>&#x8FDB;&#x884C;&#x89E3;&#x6790;&#xFF0C;&#x82E5;&#x89E3;&#x6790;&#x5931;&#x8D25;&#xFF0C;&#x4F1A;&#x6839;&#x636E; [<code>--v2-config-only</code>] &#x9009;&#x9879;&#x51B3;&#x5B9A;&#x662F;&#x5426;&#x4F5C;&#x4E3A; <a href="../configuration/overview/v1_overview.html#config-overview-v1">v1 JSON &#x914D;&#x7F6E;&#x6587;&#x4EF6;</a>&#x8FDB;&#x884C;&#x89E3;&#x6790;&#x3002;&#x5BF9;&#x4E8E; v2 &#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x6709;&#x6548;&#x7684;&#x6269;&#x5C55;&#x540D;&#x5305;&#x62EC; <code>.json</code>&#x3001; <code>.yaml</code>&#x3001; <code>.pb</code> &#x548C; <code>.pb_text</code>&#xFF0C;&#x5206;&#x522B;&#x8868;&#x793A;JSON&#x3001;YAML&#x3001;<a href="https://developers.google.com/protocol-buffers/docs/encoding" target="_blank">&#x4E8C;&#x8FDB;&#x5236; proto3</a> &#x548C; <a href="https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.text_format" target="_blank">&#x6587;&#x672C; proto3</a> &#x683C;&#x5F0F;&#x3002;</p>
 </li>
 <li><p><code>--config-yaml <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>yaml</span> <span class="token attr-name">string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The YAML string for a v2 bootstrap configuration. If <a href="#cmdoption-c"><code>--config-path</code></a> is also set,the values in this YAML string will override and merge with the bootstrap loaded from <a href="#cmdoption-c"><code>--config-path</code></a>. Because YAML is a superset of JSON, a JSON string may also be passed to <a href="#cmdoption-config-yaml"><code>--config-yaml</code></a>. <a href="#cmdoption-config-yaml"><code>--config-yaml</code></a> is not compatible with bootstrap v1.Example overriding the node id on the command line:./envoy -c bootstrap.yaml &#x2013;config-yaml &#x201C;node: {id: &#x2018;node1&#x2019;}&#x201D;</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x4E00;&#x4E2A; YAML &#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x4F5C;&#x4E3A; v2 &#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x3002;&#x82E5;&#x540C;&#x65F6;&#x8BBE;&#x7F6E;&#x4E86; <a href="#cmdoption-c"><code>--config-path</code></a>&#xFF0C;&#x6B64; YAML &#x5B57;&#x7B26;&#x4E32;&#x7684;&#x503C;&#x4F1A;&#x88AB;&#x5408;&#x5E76;&#x5230; <a href="#cmdoption-c"><code>--config-path</code></a> &#x6307;&#x5B9A;&#x7684;&#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x5E76;&#x8986;&#x76D6;&#x76F8;&#x5E94;&#x9009;&#x9879;&#x3002;&#x7531;&#x4E8E; YAML &#x662F; JSON &#x7684;&#x8D85;&#x96C6;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7ED9; <a href="#cmdoption-config-yaml"><code>--config-yaml</code></a> &#x4F20;&#x5165;&#x4E00;&#x4E2A; JSON &#x5B57;&#x7B26;&#x4E32;&#x3002; <a href="#cmdoption-config-yaml"><code>--config-yaml</code></a> &#x4E0E; v1 &#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x4E0D;&#x517C;&#x5BB9;&#x3002;</p>
+<p>&#x4E00;&#x4E2A;&#x901A;&#x8FC7;&#x547D;&#x4EE4;&#x884C;&#x8986;&#x76D6;&#x8282;&#x70B9; id &#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<p> <code>./envoy -c bootstrap.yaml &#x2013;config-yaml &#x201C;node: {id: &#x2018;node1&#x2019;}&#x201D;</code></p>
 </li>
 <li><p><code>--v2-config-only</code></p>
-<p><em>(optional)</em> This flag determines whether the configuration file should only be parsed as a <a href="../configuration/overview/v2_overview.html#config-overview-v2-bootstrap">v2 bootstrap configuration file</a>. If false (default), when a v2 bootstrap config parse fails, a second attempt to parse the config as a <a href="../configuration/overview/v1_overview.html#config-overview-v1">v1 JSON configuration file</a> will be made.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x6B64;&#x6807;&#x8BC6;&#x51B3;&#x5B9A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x5E94;&#x8BE5;&#x53EA;&#x88AB;&#x89E3;&#x6790;&#x4E3A; <a href="../configuration/overview/v2_overview.html#config-overview-v2-bootstrap">v2 &#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</a>&#x3002;&#x82E5;&#x4F20;&#x5165; false&#xFF08;&#x9ED8;&#x8BA4;&#x9009;&#x9879;&#xFF09;&#xFF0C;v2 &#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x89E3;&#x6790;&#x5931;&#x8D25;&#x65F6;&#xFF0C;&#x4F1A;&#x518D;&#x6B21;&#x5C1D;&#x8BD5;&#x5C06;&#x5176;&#x89E3;&#x6790;&#x4E3A; <a href="../configuration/overview/v1_overview.html#config-overview-v1">v1 JSON &#x914D;&#x7F6E;&#x6587;&#x4EF6;</a>&#x3002;</p>
 </li>
 <li><p><code>--mode <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> One of the operating modes for Envoy:<code>serve</code>: <em>(default)</em> Validate the JSON configuration and then serve traffic normally.<code>validate</code>: Validate the JSON configuration and then exit, printing either an &#x201C;OK&#x201D; message (in which case the exit code is 0) or any errors generated by the configuration file (exit code 1). No network traffic is generated, and the hot restart process is not performed, so no other Envoy process on the machine will be disturbed.</p>
+<p><em>(&#x53EF;&#x9009;)</em> Envoy &#x7684;&#x6267;&#x884C;&#x6A21;&#x5F0F;&#x4E4B;&#x4E00;&#xFF1A;</p>
+<ul>
+<li><code>serve</code>: <em>&#xFF08;&#x9ED8;&#x8BA4;&#x9009;&#x9879;&#xFF09;</em> &#x6821;&#x9A8C; JSON &#x914D;&#x7F6E;&#xFF0C;&#x7136;&#x540E;&#x6B63;&#x5E38;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x3002;</li>
+<li><code>validate</code>&#xFF1A;&#x6821;&#x9A8C; JSON &#x914D;&#x7F6E;&#xFF0C;&#x7136;&#x540E;&#x9000;&#x51FA;&#x3002;&#x4F1A;&#x6253;&#x5370;&#x4E00;&#x6761; &#x201C;OK&#x201D; &#x6D88;&#x606F;&#xFF08;&#x82E5;&#x9000;&#x51FA;&#x7801;&#x4E3A; 0&#xFF09;&#x6216;&#x6240;&#x6709;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4EA7;&#x751F;&#x7684;&#x9519;&#x8BEF;&#xFF08;&#x82E5;&#x9000;&#x51FA;&#x7801;&#x4E3A; 1&#xFF09;&#x3002;&#x4E0D;&#x4F1A;&#x4EA7;&#x751F;&#x7F51;&#x7EDC;&#x6D41;&#x91CF;&#xFF0C;&#x70ED;&#x91CD;&#x542F;&#x6D41;&#x7A0B;&#x4E5F;&#x4E0D;&#x4F1A;&#x6267;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;&#x5230;&#x673A;&#x5668;&#x4E0A;&#x5176;&#x4ED6;&#x7684; Envoy &#x8FDB;&#x7A0B;&#x3002;</li>
+</ul>
 </li>
 <li><p><code>--admin-address-path <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The output file path where the admin address and port will be written.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x8F93;&#x51FA;&#x7BA1;&#x7406;&#x5730;&#x5740;&#x548C;&#x7AEF;&#x53E3;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x3002;</p>
 </li>
 <li><p><code>--local-address-ip-version <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The IP address version that is used to populate the server local IP address. This parameter affects various headers including what is appended to the X-Forwarded-For (XFF) header. The options are <code>v4</code> or <code>v6</code>. The default is <code>v4</code>.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x586B;&#x5145;&#x670D;&#x52A1;&#x5668;&#x672C;&#x5730; IP &#x5730;&#x5740;&#x4F7F;&#x7528;&#x7684; IP &#x5730;&#x5740;&#x7248;&#x672C;&#x3002;&#x6B64;&#x53C2;&#x6570;&#x5F71;&#x54CD;&#x5404;&#x79CD;&#x5934;&#x90E8;&#x4FE1;&#x606F;&#xFF0C;&#x5305;&#x62EC;&#x9644;&#x52A0;&#x5230; X-Forwarded-For&#xFF08;XFF&#xFF09;&#x5934;&#x90E8;&#x7684;&#x5185;&#x5BB9;&#x3002;&#x9009;&#x9879;&#x662F; <code>v4</code> &#x6216; <code>v6</code>. &#x9ED8;&#x8BA4;&#x662F; <code>v4</code>.</p>
 </li>
 <li><p><code>--base-id <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>integer</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The base ID to use when allocating shared memory regions. Envoy uses shared memory regions during <a href="../intro/arch_overview/hot_restart.html#arch-overview-hot-restart">hot restart</a>. Most users will never have to set this option. However, if Envoy needs to be run multiple times on the same machine, each running Envoy will need a unique base ID so that the shared memory regions do not conflict.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x5206;&#x914D;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x65F6;&#x4F7F;&#x7528;&#x7684;&#x57FA;&#x672C; ID. Envoy &#x5728;<a href="../intro/arch_overview/hot_restart.html#arch-overview-hot-restart">&#x70ED;&#x91CD;&#x542F;</a>&#x65F6;&#x4F7F;&#x7528;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x3002;&#x5927;&#x90E8;&#x5206;&#x7528;&#x6237;&#x6C38;&#x8FDC;&#x90FD;&#x4E0D;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x82E5;&#x9700;&#x8981;&#x5728;&#x540C;&#x4E00;&#x53F0;&#x673A;&#x5668;&#x4E0A;&#x591A;&#x6B21;&#x8FD0;&#x884C; Envoy, &#x6BCF;&#x4E2A;&#x8FD0;&#x884C;&#x7684; Envoy &#x9700;&#x8981;&#x4E00;&#x4E2A;&#x552F;&#x4E00;&#x7684;&#x57FA;&#x672C; ID&#xFF0C;&#x4EE5;&#x514D;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x4EA7;&#x751F;&#x51B2;&#x7A81;&#x3002;</p>
 </li>
 <li><p><code>--concurrency <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>integer</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The number of <a href="../intro/arch_overview/threading_model.html#arch-overview-threading">worker threads</a> to run. If not specified defaults to the number of hardware threads on the machine.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x542F;&#x52A8;&#x7684; <a href="../intro/arch_overview/threading_model.html#arch-overview-threading">&#x5DE5;&#x4F5C;&#x7EBF;&#x7A0B;&#x6570;</a>&#x3002;&#x82E5;&#x672A;&#x6307;&#x5B9A;&#x5219;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;&#x673A;&#x5668;&#x4E0A;&#x7684;&#x786C;&#x4EF6;&#x7EBF;&#x7A0B;&#x6570;&#x3002;</p>
 </li>
 <li><p><code>-l <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>string</span><span class="token punctuation">&gt;</span></span>, --log-level <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The logging level. Non developers should generally never set this option. See the help text for the available log levels and the default.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x65E5;&#x5FD7;&#x7EA7;&#x522B;&#x3002;&#x975E;&#x5F00;&#x53D1;&#x8005;&#x901A;&#x5E38;&#x4E0D;&#x5E94;&#x8BE5;&#x8BBE;&#x7F6E;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x3002;&#x6709;&#x5173;&#x53EF;&#x7528;&#x7684;&#x65E5;&#x5FD7;&#x7EA7;&#x522B;&#x548C;&#x9ED8;&#x8BA4;&#x503C;&#xFF0C;&#x8BF7;&#x53C2;&#x9605;&#x5E2E;&#x52A9;&#x6587;&#x672C;&#x3002;</p>
 </li>
 <li><p><code>--log-path <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>path</span> <span class="token attr-name">string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The output file path where logs should be written. This file will be re-opened when SIGUSR1 is handled. If this is not set, log to stderr.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x7684;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#x3002;&#x5904;&#x7406; SIGUSR1 &#x65F6;&#xFF0C;&#x8BE5;&#x6587;&#x4EF6;&#x5C06;&#x88AB;&#x91CD;&#x65B0;&#x6253;&#x5F00;&#x3002;&#x82E5;&#x672A;&#x8BBE;&#x7F6E;&#xFF0C;&#x8F93;&#x51FA;&#x5230; stderr&#x3002;</p>
 </li>
 <li><p><code>--log-format <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>format</span> <span class="token attr-name">string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The format string to use for laying out the log message metadata. If this is not set, a default format string <code>&quot;[%Y-%m-%d %T.%e][%t][%l][%n] %v&quot;</code> is used.The supported format flags are (with example output):%v:The actual message to log (&#x201C;some user text&#x201D;)%t:Thread id (&#x201C;1232&#x201D;)%P:Process id (&#x201C;3456&#x201D;)%n:Logger&#x2019;s name (&#x201C;filter&#x201D;)%l:The log level of the message (&#x201C;debug&#x201D;, &#x201C;info&#x201D;, etc.)%L:Short log level of the message (&#x201C;D&#x201D;, &#x201C;I&#x201D;, etc.)%a:Abbreviated weekday name (&#x201C;Tue&#x201D;)%A:Full weekday name (&#x201C;Tuesday&#x201D;)%b:Abbreviated month name (&#x201C;Mar&#x201D;)%B:Full month name (&#x201C;March&#x201D;)%c:Date and time representation (&#x201C;Tue Mar 27 15:25:06 2018&#x201D;)%C:Year in 2 digits (&#x201C;18&#x201D;)%Y:Year in 4 digits (&#x201C;2018&#x201D;)%D, %x:Short MM/DD/YY date (&#x201C;03/27/18&#x201D;)%m:Month 01-12 (&#x201C;03&#x201D;)%d:Day of month 01-31 (&#x201C;27&#x201D;)%H:Hours in 24 format 00-23 (&#x201C;15&#x201D;)%I:Hours in 12 format 01-12 (&#x201C;03&#x201D;)%M:Minutes 00-59 (&#x201C;25&#x201D;)%S:Seconds 00-59 (&#x201C;06&#x201D;)%e:Millisecond part of the current second 000-999 (&#x201C;008&#x201D;)%f:Microsecond part of the current second 000000-999999 (&#x201C;008789&#x201D;)%F:Nanosecond part of the current second 000000000-999999999 (&#x201C;008789123&#x201D;)%p:AM/PM (&#x201C;AM&#x201D;)%r:12-hour clock (&#x201C;03:25:06 PM&#x201D;)%R:24-hour HH:MM time, equivalent to %H:%M (&#x201C;15:25&#x201D;)%T, %X:ISO 8601 time format (HH:MM:SS), equivalent to %H:%M:%S (&#x201C;13:25:06&#x201D;)%z:ISO 8601 offset from UTC in timezone ([+/-]HH:MM) (&#x201C;-07:00&#x201D;)%%:The % sign (&#x201C;%&#x201D;)</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x7528;&#x4E8E;&#x683C;&#x5F0F;&#x5316;&#x65E5;&#x5FD7;&#x6D88;&#x606F;&#x5143;&#x6570;&#x636E;&#x7684;&#x683C;&#x5F0F;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x82E5;&#x672A;&#x8BBE;&#x7F6E;&#xFF0C;&#x4F1A;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x7684;&#x683C;&#x5F0F;&#x5B57;&#x7B26;&#x4E32; &quot;[%Y-%m-%d %T.%e][%t][%l][%n] %v&quot;.</p>
 </li>
+</ul>
+<p>&#x652F;&#x6301;&#x7684;&#x683C;&#x5F0F;&#x5316;&#x6807;&#x8BB0;&#x6709;&#xFF08;&#x5305;&#x62EC;&#x793A;&#x4F8B;&#x8F93;&#x51FA;&#xFF09;&#xFF1A;</p>
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x89E3;&#x91CA;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%v:</td>
+<td>&#x8981;&#x8BB0;&#x5F55;&#x7684;&#x5B9E;&#x9645;&#x6D88;&#x606F; (&#x201C;some user text&#x201D;)</td>
+</tr>
+<tr>
+<td>%t:</td>
+<td>&#x7EBF;&#x7A0B; id (&#x201C;1232&#x201D;)</td>
+</tr>
+<tr>
+<td>%P:</td>
+<td>&#x8FDB;&#x7A0B; id (&#x201C;3456&#x201D;)</td>
+</tr>
+<tr>
+<td>%n:</td>
+<td>&#x8BB0;&#x5F55;&#x5668;&#x540D;&#x79F0; (&#x201C;filter&#x201D;)</td>
+</tr>
+<tr>
+<td>%l:</td>
+<td>&#x6D88;&#x606F;&#x7684;&#x65E5;&#x5FD7;&#x7EA7;&#x522B; &#xFF08;&#x201C;debug&#x201D;&#x3001; &#x201C;info&#x201D;&#xFF09;</td>
+</tr>
+<tr>
+<td>%L:</td>
+<td>&#x6D88;&#x606F;&#x7684;&#x65E5;&#x5FD7;&#x7EA7;&#x522B;&#x7F29;&#x5199; (&#x201C;D&#x201D;&#x3001; &#x201C;I&#x201D;&#x7B49;)</td>
+</tr>
+<tr>
+<td>%a:</td>
+<td>&#x661F;&#x671F;&#x7684;&#x7F29;&#x5199;&#x5448;&#x73B0; (&#x201C;Tue&#x201D;)</td>
+</tr>
+<tr>
+<td>%A:</td>
+<td>&#x661F;&#x671F;&#x7684;&#x5B8C;&#x6574;&#x540D;&#x79F0; (&#x201C;Tuesday&#x201D;)</td>
+</tr>
+<tr>
+<td>%b:</td>
+<td>&#x6708;&#x4EFD;&#x7684;&#x7F29;&#x5199;&#x5448;&#x73B0; (&#x201C;Mar&#x201D;)</td>
+</tr>
+<tr>
+<td>%B:</td>
+<td>&#x6708;&#x4EFD;&#x7684;&#x5B8C;&#x6574;&#x540D;&#x79F0; (&#x201C;March&#x201D;)</td>
+</tr>
+<tr>
+<td>%c:</td>
+<td>&#x65E5;&#x671F;&#x548C;&#x65F6;&#x95F4;&#x7684;&#x5448;&#x73B0; (&#x201C;Tue Mar 27 15:25:06 2018&#x201D;)</td>
+</tr>
+<tr>
+<td>%C:</td>
+<td>&#x5E74;&#x4EFD;&#x7684; 2 &#x4F4D;&#x5448;&#x73B0; (&#x201C;18&#x201D;)</td>
+</tr>
+<tr>
+<td>%Y:</td>
+<td>&#x5E74;&#x4EFD;&#x7684; 4 &#x4F4D;&#x5448;&#x73B0; (&#x201C;2018&#x201D;)</td>
+</tr>
+<tr>
+<td>%D, %x:</td>
+<td>&#x65E5;&#x671F; MM/DD/YY &#x683C;&#x5F0F;&#x7684;&#x7F29;&#x5199;&#x5448;&#x73B0; (&#x201C;03/27/18&#x201D;)</td>
+</tr>
+<tr>
+<td>%m:</td>
+<td>&#x6708;&#x4EFD; 01-12 (&#x201C;03&#x201D;)</td>
+</tr>
+<tr>
+<td>%d:</td>
+<td>&#x6708;&#x4E2D;&#x7684;&#x65E5;&#x671F; 01-31 (&#x201C;27&#x201D;)</td>
+</tr>
+<tr>
+<td>%H:</td>
+<td>24 &#x5C0F;&#x65F6;&#x5236;&#x7684;&#x5C0F;&#x65F6; 00-23 (&#x201C;15&#x201D;)</td>
+</tr>
+<tr>
+<td>%I:</td>
+<td>12 &#x5C0F;&#x65F6;&#x5236;&#x7684;&#x5C0F;&#x65F6; 01-12 (&#x201C;03&#x201D;)</td>
+</tr>
+<tr>
+<td>%M:</td>
+<td>&#x5206;&#x949F; 00-59 (&#x201C;25&#x201D;)</td>
+</tr>
+<tr>
+<td>%S:</td>
+<td>&#x79D2;&#x6570; 00-59 (&#x201C;06&#x201D;)</td>
+</tr>
+<tr>
+<td>%e:</td>
+<td>&#x5F53;&#x524D;&#x79D2;&#x4E2D;&#x7684;&#x6BEB;&#x79D2;&#x90E8;&#x5206; 000-999 (&#x201C;008&#x201D;)</td>
+</tr>
+<tr>
+<td>%f:</td>
+<td>&#x5F53;&#x524D;&#x79D2;&#x4E2D;&#x7684;&#x5FAE;&#x79D2;&#x90E8;&#x5206; 000000-999999 (&#x201C;008789&#x201D;)</td>
+</tr>
+<tr>
+<td>%F:</td>
+<td>&#x5F53;&#x524D;&#x79D2;&#x4E2D;&#x7684;&#x7EB3;&#x79D2;&#x90E8;&#x5206; 000000000-999999999 (&#x201C;008789123&#x201D;)</td>
+</tr>
+<tr>
+<td>%p:</td>
+<td>&#x4E0A;&#x5348;/&#x4E0B;&#x5348; AM/PM (&#x201C;AM&#x201D;)</td>
+</tr>
+<tr>
+<td>%r:</td>
+<td>12 &#x5C0F;&#x65F6;&#x5236;&#x7684;&#x949F;&#x8868;&#x5448;&#x73B0; (&#x201C;03:25:06 PM&#x201D;)</td>
+</tr>
+<tr>
+<td>%R:</td>
+<td>24 &#x5C0F;&#x65F6;&#x5236; HH:MM &#x683C;&#x5F0F;&#x7684;&#x65F6;&#x95F4;, &#x7B49;&#x540C;&#x4E8E; %H:%M (&#x201C;15:25&#x201D;)</td>
+</tr>
+<tr>
+<td>%T, %X:</td>
+<td>ISO 8601 &#x65F6;&#x95F4;&#x683C;&#x5F0F; (HH:MM:SS)&#xFF0C;&#x7B49;&#x540C;&#x4E8E; %H:%M:%S (&#x201C;13:25:06&#x201D;)</td>
+</tr>
+<tr>
+<td>%z:</td>
+<td>ISO 8601 &#x4E0E; UTC &#x7684;&#x65F6;&#x533A;&#x504F;&#x79FB; ([+/-]HH:MM) (&#x201C;-07:00&#x201D;)</td>
+</tr>
+<tr>
+<td>%%:</td>
+<td>% &#x7B26;&#x53F7; (&#x201C;%&#x201D;)</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li><p><code>--restart-epoch <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>integer</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The <a href="../intro/arch_overview/hot_restart.html#arch-overview-hot-restart">hot restart</a> epoch. (The number of times Envoy has been hot restarted instead of a fresh start). Defaults to 0 for the first start. This option tells Envoy whether to attempt to create the shared memory region needed for hot restart, or whether to open an existing one. It should be incremented every time a hot restart takes place. The <a href="hot_restarter.html#operations-hot-restarter">hot restart wrapper</a> sets the <em>RESTART_EPOCH</em> environment variable which should be passed to this option in most cases.</p>
+<p><em>(&#x53EF;&#x9009;)</em> <a href="../intro/arch_overview/hot_restart.html#arch-overview-hot-restart">&#x70ED;&#x91CD;&#x542F;</a>&#x5468;&#x671F;&#xFF08;Envoy &#x88AB;&#x70ED;&#x91CD;&#x542F;&#x800C;&#x4E0D;&#x662F;&#x5168;&#x65B0;&#x542F;&#x52A8;&#x7684;&#x6B21;&#x6570;&#xFF09;&#x3002;&#x5BF9;&#x4E8E;&#x7B2C;&#x4E00;&#x6B21;&#x542F;&#x52A8;&#x9ED8;&#x8BA4;&#x4E3A; 0. &#x6B64;&#x9009;&#x9879;&#x544A;&#x8BC9; Envoy &#x662F;&#x5C1D;&#x8BD5;&#x521B;&#x5EFA;&#xFF0C;&#x8FD8;&#x662F;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x5DF2;&#x5B58;&#x5728;&#x7684;&#x70ED;&#x91CD;&#x542F;&#x6240;&#x9700;&#x7684;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#x533A;&#x57DF;&#x3002;&#x6BCF;&#x6B21;&#x70ED;&#x91CD;&#x542F;&#x540E;&#x5B83;&#x90FD;&#x5E94;&#x8BE5;&#x88AB;&#x589E;&#x52A0;&#x3002;&#x591A;&#x6570;&#x60C5;&#x51B5;&#x4E0B;<a href="hot_restarter.html#operations-hot-restarter">&#x70ED;&#x91CD;&#x542F;&#x5305;&#x88C5;&#x5668;</a>&#x8BBE;&#x7F6E;&#x7684; <em>RESTART_EPOCH</em> &#x73AF;&#x5883;&#x53D8;&#x91CF;&#x5E94;&#x8BE5;&#x88AB;&#x4F20;&#x9012;&#x7ED9;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x3002;</p>
 </li>
 <li><p><code>--hot-restart-version</code></p>
-<p><em>(optional)</em> Outputs an opaque hot restart compatibility version for the binary. This can be matched against the output of the <a href="admin.html#get--hot_restart_version"><code>GET /hot_restart_version</code></a> admin endpoint to determine whether the new binary and the running binary are hot restart compatible.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x4E3A;&#x5F53;&#x524D;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x8F93;&#x51FA;&#x4E00;&#x4E2A;&#x70ED;&#x91CD;&#x542F;&#x517C;&#x5BB9;&#x6027;&#x7248;&#x672C;&#x3002;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x4E0E; <a href="admin.html#get--hot_restart_version"><code>GET /hot_restart_version</code></a> &#x7BA1;&#x7406;&#x63A5;&#x53E3;&#x7684;&#x8F93;&#x51FA;&#x8FDB;&#x884C;&#x6BD4;&#x8F83;&#xFF0C;&#x4EE5;&#x786E;&#x5B9A;&#x65B0;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x548C;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;&#x662F;&#x5426;&#x70ED;&#x91CD;&#x542F;&#x517C;&#x5BB9;&#x3002;</p>
 </li>
 <li><p><code>--service-cluster <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> Defines the local service cluster name where Envoy is running. The local service cluster name is first sourced from the <a href="../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-field-config-bootstrap-v2-bootstrap-node">Bootstrap node</a> message&#x2019;s <a href="../api-v2/api/v2/core/base.proto.md#envoy-api-field-core-node-cluster">cluster</a> field. This CLI option provides an alternative method for specifying this value and will override any value set in bootstrap configuration. It should be set if any of the following features are used: <a href="../intro/arch_overview/statistics.html#arch-overview-statistics">statsd</a>, <a href="../api-v1/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc-service-name">health check cluster verification</a>, <a href="../api-v1/runtime.md#config-runtime-override-subdirectory">runtime override directory</a>, <a href="../api-v1/network_filters/http_conn_man.md#config-http-conn-man-add-user-agent">user agent addition</a>, <a href="../configuration/http_filters/rate_limit_filter.html#config-http-filters-rate-limit">HTTP global rate limiting</a>, <a href="../configuration/cluster_manager/cds.html#config-cluster-manager-cds">CDS</a>, and <a href="../intro/arch_overview/tracing.html#arch-overview-tracing">HTTP tracing</a>, either via this CLI option or in the bootstrap configuration.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x5B9A;&#x4E49; Envoy &#x8FD0;&#x884C;&#x7684;&#x672C;&#x5730;&#x670D;&#x52A1;&#x96C6;&#x7FA4;&#x540D;&#x79F0;&#x3002;&#x672C;&#x5730;&#x670D;&#x52A1;&#x96C6;&#x7FA4;&#x540D;&#x79F0;&#x9996;&#x5148;&#x6765;&#x81EA;<a href="../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-field-config-bootstrap-v2-bootstrap-node">&#x5F15;&#x5BFC;&#x8282;&#x70B9;</a>&#x6D88;&#x606F;&#x7684;<a href="../api-v2/api/v2/core/base.proto.md#envoy-api-field-core-node-cluster">cluster</a>&#x5B57;&#x6BB5;&#x3002;&#x6B64;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x4E3A;&#x6307;&#x5B9A;&#x6B64;&#x503C;&#x63D0;&#x4F9B;&#x4E86;&#x53E6;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#xFF0C;&#x5E76;&#x5C06;&#x8986;&#x76D6;&#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x4E2D;&#x8BBE;&#x7F6E;&#x7684;&#x4EFB;&#x4F55;&#x503C;&#x3002;&#x82E5;&#x4F7F;&#x7528;&#x4E86;&#x4EE5;&#x4E0B;&#x4EFB;&#x4F55;&#x529F;&#x80FD;&#xFF0C;&#x5219;&#x5E94;&#x8BE5;&#x901A;&#x8FC7;&#x6B64;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x6216;&#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x6765;&#x8BBE;&#x7F6E;&#x5B83;&#xFF1A;<a href="../intro/arch_overview/statistics.html#arch-overview-statistics">statsd</a>, <a href="../api-v1/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc-service-name">&#x5065;&#x5EB7;&#x68C0;&#x67E5;&#x96C6;&#x7FA4;&#x9A8C;&#x8BC1;</a>, <a href="../api-v1/runtime.md#config-runtime-override-subdirectory">&#x8FD0;&#x884C;&#x65F6;&#x8986;&#x76D6;&#x76EE;&#x5F55;</a>, <a href="../api-v1/network_filters/http_conn_man.md#config-http-conn-man-add-user-agent">User Agent &#x6DFB;&#x52A0;</a>, <a href="../configuration/http_filters/rate_limit_filter.html#config-http-filters-rate-limit">HTTP &#x5168;&#x5C40;&#x901F;&#x7387;&#x9650;&#x5236;</a>, <a href="../configuration/cluster_manager/cds.html#config-cluster-manager-cds">CDS</a>, &#x548C; <a href="../intro/arch_overview/tracing.html#arch-overview-tracing">HTTP &#x8DDF;&#x8E2A;</a>.</p>
 </li>
 <li><p><code>--service-node <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> Defines the local service node name where Envoy is running. The local service node name is first sourced from the <a href="../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-field-config-bootstrap-v2-bootstrap-node">Bootstrap node</a> message&#x2019;s <a href="../api-v2/api/v2/core/base.proto.md#envoy-api-field-core-node-id">id</a> field. This CLI option provides an alternative method for specifying this value and will override any value set in bootstrap configuration. It should be set if any of the following features are used: <a href="../intro/arch_overview/statistics.html#arch-overview-statistics">statsd</a>, <a href="../configuration/cluster_manager/cds.html#config-cluster-manager-cds">CDS</a>, and <a href="../intro/arch_overview/tracing.html#arch-overview-tracing">HTTP tracing</a>, either via this CLI option or in the bootstrap configuration.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x5B9A;&#x4E49; Envoy &#x8FD0;&#x884C;&#x7684;&#x672C;&#x5730;&#x670D;&#x52A1;&#x8282;&#x70B9;&#x540D;&#x79F0;&#x3002;&#x672C;&#x5730;&#x670D;&#x52A1;&#x8282;&#x70B9;&#x540D;&#x79F0;&#x9996;&#x5148;&#x6765;&#x81EA;<a href="../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-field-config-bootstrap-v2-bootstrap-node">&#x5F15;&#x5BFC;&#x8282;&#x70B9;</a>&#x6D88;&#x606F;&#x7684;&#x6D88;&#x606F;&#x7684; id &#x5B57;&#x6BB5;&#x3002;&#x6B64;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x4E3A;&#x6307;&#x5B9A;&#x6B64;&#x503C;&#x63D0;&#x4F9B;&#x4E86;&#x53E6;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#xFF0C;&#x5E76;&#x5C06;&#x8986;&#x76D6;&#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x4E2D;&#x8BBE;&#x7F6E;&#x7684;&#x4EFB;&#x4F55;&#x503C;&#x3002;&#x82E5;&#x4F7F;&#x7528;&#x4E86;&#x4EE5;&#x4E0B;&#x4EFB;&#x4F55;&#x529F;&#x80FD;&#xFF0C;&#x5219;&#x5E94;&#x8BE5;&#x901A;&#x8FC7;&#x6B64;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x6216;&#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x6765;&#x8BBE;&#x7F6E;&#x5B83;&#xFF1A;<a href="../intro/arch_overview/statistics.html#arch-overview-statistics">statsd</a>, <a href="../configuration/cluster_manager/cds.html#config-cluster-manager-cds">CDS</a> &#x548C; <a href="../intro/arch_overview/tracing.html#arch-overview-tracing">HTTP &#x8DDF;&#x8E2A;</a>&#x3002;</p>
 </li>
 <li><p><code>--service-zone <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>string</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> Defines the local service zone where Envoy is running. The local service zone is first sourced from the <a href="../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-field-config-bootstrap-v2-bootstrap-node">Bootstrap node</a> message&#x2019;s <a href="../api-v2/api/v2/core/base.proto.md#envoy-api-field-core-locality-zone">locality.zone</a> field. This CLI option provides an alternative method for specifying this value and will override any value set in bootstrap configuration. It should be set if discovery service routing is used and the discovery service exposes <a href="../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api-host-az">zone data</a>, either via this CLI option or in the bootstrap configuration. The meaning of zone is context dependent, e.g. <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.md" target="_blank">Availability Zone (AZ)</a> on AWS, <a href="https://cloud.google.com/compute/docs/regions-zones/" target="_blank">Zone</a> on GCP, etc.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x5B9A;&#x4E49; Envoy &#x8FD0;&#x884C;&#x7684;&#x672C;&#x5730;&#x670D;&#x52A1;&#x533A;&#x57DF;&#x540D;&#x79F0;&#x3002;&#x672C;&#x5730;&#x670D;&#x52A1;&#x533A;&#x57DF;&#x540D;&#x79F0;&#x9996;&#x5148;&#x6765;&#x81EA;<a href="../api-v2/config/bootstrap/v2/bootstrap.proto.md#envoy-api-field-config-bootstrap-v2-bootstrap-node">&#x5F15;&#x5BFC;&#x8282;&#x70B9;</a>&#x6D88;&#x606F;&#x7684;&#x6D88;&#x606F;&#x7684; <a href="../api-v2/api/v2/core/base.proto.md#envoy-api-field-core-locality-zone">locality.zone</a> &#x5B57;&#x6BB5;&#x3002;&#x6B64;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x4E3A;&#x6307;&#x5B9A;&#x6B64;&#x503C;&#x63D0;&#x4F9B;&#x4E86;&#x53E6;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#xFF0C;&#x5E76;&#x5C06;&#x8986;&#x76D6;&#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x4E2D;&#x8BBE;&#x7F6E;&#x7684;&#x4EFB;&#x4F55;&#x503C;&#x3002;&#x82E5;&#x4F7F;&#x7528;&#x4E86;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#x8DEF;&#x7531;&#x4E14;&#x53D1;&#x73B0;&#x670D;&#x52A1;&#x66B4;&#x9732;&#x51FA;<a href="../api-v1/cluster_manager/sds.md#config-cluster-manager-sds-api-host-az">&#x533A;&#x57DF;&#x6570;&#x636E;</a>&#xFF0C;&#x5219;&#x5E94;&#x8BE5;&#x901A;&#x8FC7;&#x6B64;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x6216;&#x5F15;&#x5BFC;&#x914D;&#x7F6E;&#x6765;&#x8BBE;&#x7F6E;&#x5B83;&#x3002;&#x533A;&#x57DF;&#x7684;&#x542B;&#x4E49;&#x662F;&#x4F9D;&#x8D56;&#x4E8E;&#x4E0A;&#x4E0B;&#x6587;&#x7684;&#xFF0C;&#x5982; AWS &#x4E0A;&#x7684;<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html" target="_blank">&#x53EF;&#x7528;&#x6027;&#x533A;&#x57DF;&#xFF08;AZ &#xFF09;</a>&#xFF0C;GCP &#x4E0A;&#x7684;<a href="https://cloud.google.com/compute/docs/regions-zones/" target="_blank">&#x533A;&#x57DF;</a>&#xFF0C;&#x7B49;&#x7B49;&#x3002;</p>
 </li>
 <li><p><code>--file-flush-interval-msec <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>integer</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The file flushing interval in milliseconds. Defaults to 10 seconds. This setting is used during file creation to determine the duration between flushes of buffers to files. The buffer will flush every time it gets full, or every time the interval has elapsed, whichever comes first. Adjusting this setting is useful when tailing <a href="../intro/arch_overview/access_logging.html#arch-overview-access-logs">access logs</a> in order to get more (or less) immediate flushing.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x6587;&#x4EF6;&#x7F13;&#x51B2;&#x533A;&#x5237;&#x65B0;&#x95F4;&#x9694;&#xFF08;&#x6BEB;&#x79D2;&#xFF09;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A; 10 &#x79D2;&#x3002;&#x6B64;&#x8BBE;&#x7F6E;&#x5728;&#x6587;&#x4EF6;&#x521B;&#x5EFA;&#x671F;&#x95F4;&#x7528;&#x4E8E;&#x786E;&#x5B9A;&#x7F13;&#x51B2;&#x533A;&#x5237;&#x65B0;&#x5230;&#x6587;&#x4EF6;&#x7684;&#x95F4;&#x9694;&#x65F6;&#x95F4;&#x3002;&#x7F13;&#x51B2;&#x533A;&#x5728;&#x6BCF;&#x6B21;&#x5199;&#x6EE1;&#x65F6;&#x6216;&#x6BCF;&#x6B21;&#x95F4;&#x9694;&#x8FC7;&#x540E;&#x90FD;&#x4F1A;&#x5237;&#x65B0;&#xFF0C;&#x4EE5;&#x5148;&#x5230;&#x8005;&#x4E3A;&#x51C6;&#x3002;&#x8C03;&#x6574;&#x6B64;&#x8BBE;&#x7F6E;&#x5728;&#x8DDF;&#x8E2A;&#x8F93;&#x51FA;<a href="../intro/arch_overview/access_logging.html#arch-overview-access-logs">&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;</a>&#x65F6;&#x5F88;&#x6709;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x66F4;&#x591A;&#xFF08;&#x6216;&#x66F4;&#x5C11;&#xFF09;&#x7684;&#x5373;&#x65F6;&#x5237;&#x65B0;&#x3002;</p>
 </li>
 <li><p><code>--drain-time-s <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>integer</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The time in seconds that Envoy will drain connections during a hot restart. See the<a href="../intro/arch_overview/hot_restart.html#arch-overview-hot-restart">hot restart overview</a> for more information. Defaults to 600 seconds (10 minutes). Generally the drain time should be less than the parent shutdown time set via the <a href="#cmdoption-parent-shutdown-time-s"><code>--parent-shutdown-time-s</code></a>option. How the two settings are configured depends on the specific deployment. In edge scenarios, it might be desirable to have a very long drain time. In service to service scenarios, it might be possible to make the drain and shutdown time much shorter (e.g., 60s/90s).</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x70ED;&#x91CD;&#x542F;&#x671F;&#x95F4; Envoy &#x5C06;&#x8017;&#x5C3D;&#x8FDE;&#x63A5;&#x7684;&#x65F6;&#x95F4;&#xFF08;&#x79D2;&#xFF09;&#x3002;&#x8BF7;&#x53C2;&#x9605;<a href="../intro/arch_overview/hot_restart.html#arch-overview-hot-restart">&#x70ED;&#x91CD;&#x542F;&#x6982;&#x8FF0;</a>&#x4E86;&#x89E3;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A; 600 &#x79D2;&#xFF08;10 &#x5206;&#x949F;&#xFF09;&#x3002;&#x901A;&#x5E38;&#x8017;&#x5C3D;&#x65F6;&#x95F4;&#x5E94;&#x5C0F;&#x4E8E;&#x901A;&#x8FC7; <a href="#cmdoption-parent-shutdown-time-s"><code>--parent-shutdown-time-s</code></a> &#x9009;&#x9879;&#x8BBE;&#x7F6E;&#x7684;&#x7236;&#x8FDB;&#x7A0B;&#x5173;&#x95ED;&#x65F6;&#x95F4;&#x3002;&#x5982;&#x4F55;&#x914D;&#x7F6E;&#x8FD9;&#x4E24;&#x4E2A;&#x8BBE;&#x7F6E;&#x53D6;&#x51B3;&#x4E8E;&#x5177;&#x4F53;&#x7684;&#x90E8;&#x7F72;&#x3002;&#x5728;&#x8FB9;&#x7F18;&#x7684;&#x573A;&#x666F;&#x4E0B;&#xFF0C;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x8017;&#x8D39;&#x5F88;&#x957F;&#x65F6;&#x95F4;&#x3002;&#x5728;&#x670D;&#x52A1;&#x5230;&#x670D;&#x52A1;&#x7684;&#x573A;&#x666F;&#x4E0B;&#xFF0C;&#x8017;&#x5C3D;&#x548C;&#x5173;&#x95ED;&#x7684;&#x65F6;&#x95F4;&#x53EF;&#x80FD;&#x7F29;&#x77ED;&#x5F88;&#x591A;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;60s/90s&#xFF09;&#x3002;</p>
 </li>
 <li><p><code>--parent-shutdown-time-s <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>integer</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The time in seconds that Envoy will wait before shutting down the parent process during a hot restart. See the <a href="../intro/arch_overview/hot_restart.html#arch-overview-hot-restart">hot restart overview</a> for more information. Defaults to 900 seconds (15 minutes).</p>
+<p><em>(&#x53EF;&#x9009;)</em> Envoy &#x5728;&#x70ED;&#x91CD;&#x542F;&#x65F6;&#x5173;&#x95ED;&#x7236;&#x8FDB;&#x7A0B;&#x4E4B;&#x524D;&#x7B49;&#x5F85;&#x7684;&#x65F6;&#x95F4;&#xFF08;&#x79D2;&#xFF09;&#x3002;&#x8BF7;&#x53C2;&#x9605;<a href="../intro/arch_overview/hot_restart.html#arch-overview-hot-restart">&#x70ED;&#x91CD;&#x542F;&#x6982;&#x8FF0;</a>&#x4E86;&#x89E3;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A; 900 &#x79D2;&#xFF08;15 &#x5206;&#x949F;&#xFF09;&#x3002;</p>
 </li>
 <li><p><code>--max-obj-name-len <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>uint64_t</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The maximum name length (in bytes) of the name field in a cluster/route_config/listener. This setting is typically used in scenarios where the cluster names are auto generated, and often exceed the built-in limit of 60 characters. Defaults to 60.AttentionThis setting affects the output of <a href="#cmdoption-hot-restart-version"><code>--hot-restart-version</code></a>. If you started envoy with this option set to a non default value, you should use the same option (and same value) for subsequent hot restarts.</p>
+<p><em>(&#x53EF;&#x9009;)</em> cluster/route_config/listener &#x4E2D;&#x540D;&#x79F0;&#x5B57;&#x6BB5;&#x7684;&#x6700;&#x5927;&#x957F;&#x5EA6;&#xFF08;&#x4EE5;&#x5B57;&#x8282;&#x4E3A;&#x5355;&#x4F4D;&#xFF09;&#x3002;&#x6B64;&#x9009;&#x9879;&#x901A;&#x5E38;&#x7528;&#x4E8E;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x96C6;&#x7FA4;&#x540D;&#x79F0;&#x7684;&#x573A;&#x666F;&#xFF0C;&#x901A;&#x5E38;&#x8D85;&#x8FC7;&#x4F1A; 60 &#x5B57;&#x7B26;&#x7684;&#x5185;&#x90E8;&#x9650;&#x5236;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A; 60&#x3002;</p>
+<blockquote>
+<p><em>&#x6CE8;&#x610F;&#xFF1A;&#x6B64;&#x8BBE;&#x7F6E;&#x4F1A;&#x5F71;&#x54CD; <a href="#cmdoption-hot-restart-version"><code>--hot-restart-version</code></a> &#x7684;&#x8F93;&#x51FA;&#x3002;&#x82E5;&#x60A8;&#x5F00;&#x59CB;&#x4F7F;&#x7528;&#x6B64;&#x9009;&#x9879;&#x5E76;&#x8BBE;&#x7F6E;&#x4E3A;&#x975E;&#x9ED8;&#x8BA4;&#x503C;&#xFF0C;&#x5219;&#x5E94;&#x8BE5;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x503C;&#x914D;&#x7F6E;&#x5230;&#x70ED;&#x91CD;&#x542F;&#x7684;&#x65B0;&#x8FDB;&#x7A0B;&#x3002;</em></p>
+</blockquote>
 </li>
 <li><p><code>--max-stats <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>uint64_t</span><span class="token punctuation">&gt;</span></span></code></p>
-<p><em>(optional)</em> The maximum number of stats that can be shared between hot-restarts. This setting affects the output of <a href="#cmdoption-hot-restart-version"><code>--hot-restart-version</code></a>; the same value must be used to hot restart. Defaults to 16384.</p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x70ED;&#x91CD;&#x542F;&#x95F4;&#x53EF;&#x4EE5;&#x5171;&#x4EAB;&#x7EDF;&#x8BA1;&#x7684;&#x6700;&#x5927;&#x6570;&#x91CF;&#x3002;&#x6B64;&#x8BBE;&#x7F6E;&#x4F1A;&#x5F71;&#x54CD; <a href="#cmdoption-hot-restart-version"><code>--hot-restart-version</code></a> &#x7684;&#x8F93;&#x51FA;&#xFF1B;&#x70ED;&#x91CD;&#x542F;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684;&#x503C;&#x3002;&#x9ED8;&#x8BA4;&#x4E3A; 16384.</p>
 </li>
 <li><p><code>--disable-hot-restart</code></p>
-<p><em>(optional)</em> This flag disables Envoy hot restart for builds that have it enabled. By default, hot restart is enabled. </p>
+<p><em>(&#x53EF;&#x9009;)</em> &#x6B64;&#x6807;&#x8BC6;&#x7981;&#x7528;&#x5DF2;&#x542F;&#x7528;&#x70ED;&#x91CD;&#x542F;&#x7684; Envoy &#x7248;&#x672C;&#x7684;&#x70ED;&#x91CD;&#x542F;&#x3002; &#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x70ED;&#x91CD;&#x542F;&#x662F;&#x542F;&#x7528;&#x7684;&#x3002;</p>
 </li>
 </ul>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; ServiceMesher 2018 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> &#x6700;&#x540E;&#x66F4;&#x65B0;&#x4E8E; 
-2018-05-20 22:49:46
+2018-05-23 21:23:06
 </span></footer>
                                 
                                 </section>
@@ -2330,7 +2468,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"命令行选项","level":"6.1","depth":1,"next":{"title":"热重启 Python 包装器","level":"6.2","depth":1,"path":"operations/hot_restarter.md","ref":"operations/hot_restarter.md","articles":[]},"previous":{"title":"路由表检查工具","level":"5.14","depth":1,"path":"configuration/tools/router_check.md","ref":"configuration/tools/router_check.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"operations/cli.md","mtime":"2018-05-20T14:49:46.638Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-23T10:28:28.507Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"命令行选项","level":"6.1","depth":1,"next":{"title":"热重启 Python 包装器","level":"6.2","depth":1,"path":"operations/hot_restarter.md","ref":"operations/hot_restarter.md","articles":[]},"previous":{"title":"路由表检查工具","level":"5.14","depth":1,"path":"configuration/tools/router_check.md","ref":"configuration/tools/router_check.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"operations/cli.md","mtime":"2018-05-23T13:23:06.572Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-23T13:34:18.504Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
