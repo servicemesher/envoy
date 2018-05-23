@@ -231,19 +231,24 @@ Envoy 的 Zipkin 追踪器使用 x-b3-traceid HTTP 标头。TraceId 的长度为
 
 ### x-b3-spanid
 
-The x-b3-spanid HTTP header is used by the Zipkin tracer in Envoy. The SpanId is 64-bit in length and indicates the position of the current operation in the trace tree. The value should not be interpreted: it may or may not be derived from the value of the TraceId. See more on zipkin tracing here <https://github.com/openzipkin/b3-propagation>.
+Envoy 的 Zipkin 追踪器使用 x-b3-spanid HTTP 标头。
+SpanId 的长度为64字节，并反映当前操作在追踪树中的位置。该值不应被解释：它可能会或也有可能不会由 TraceId 的值派生出来。
+可在 <https://github.com/openzipkin/b3-propagation> 查阅 zipkin 追踪的更多信息。
 
 ### x-b3-parentspanid
 
-The x-b3-parentspanid HTTP header is used by the Zipkin tracer in Envoy. The ParentSpanId is 64-bit in length and indicates the position of the parent operation in the trace tree. When the span is the root of the trace tree, the ParentSpanId is absent. See more on zipkin tracing here <https://github.com/openzipkin/b3-propagation>.
+Envoy 的 Zipkin 追踪器使用 x-b3-parentspanid 标头。 
+ParentSpanId 的长度为64字节，并反映父操作在追踪树中的位置。 当 span 为追踪树的根节点时，不存在 ParentSpanId。 可在 <https://github.com/openzipkin/b3-propagation> 查阅 zipkin 追踪的更多信息。
 
 ### x-b3-sampled
-
-The x-b3-sampled HTTP header is used by the Zipkin tracer in Envoy. When the Sampled flag is either not specified or set to 1, the span will be reported to the tracing system. Once Sampled is set to 0 or 1, the same value should be consistently sent downstream. See more on zipkin tracing here <https://github.com/openzipkin/b3-propagation>.
+ 
+当 Sampled flag 标志未被指定或设置为1时，跨度将被报告给跟踪系统。 一旦 Sampled 设置为0或1，将始终向下游发送同样的值。
+可在 <https://github.com/openzipkin/b3-propagation> 查阅 zipkin 追踪的更多信息。
 
 ### x-b3-flags
 
-The x-b3-flags HTTP header is used by the Zipkin tracer in Envoy. The encode one or more options. For example, Debug is encoded as X-B3-Flags: 1. See more on zipkin tracing here <https://github.com/openzipkin/b3-propagation>.
+Envoy 的 Zipkin 追踪器使用 x-b3-flags 标头。 编码一个或多个选项。 例如，Debug 被编码为 `X-B3-Flags: 1`。
+可在 <https://github.com/openzipkin/b3-propagation> 查阅 zipkin 追踪的更多信息。
 
 ### custom-request-response-headers
 
