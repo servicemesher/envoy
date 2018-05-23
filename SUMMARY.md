@@ -62,6 +62,7 @@
 ### 构建和安装
 
 - [构建](install/building.md)
+  - [构建 Envoy Docker 镜像](install/sandboxes/local_docker_build.md)
 - [参考配置](install/ref_configs.md)
 - 工具
   - [配置负载检查工具](install/tools/config_load_check_tool.md)
