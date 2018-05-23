@@ -226,7 +226,8 @@ Envoy 依靠应用程序将出口调用的 x-ot-span-context 传播到上游。�
 
 ### x-b3-traceid
 
-The x-b3-traceid HTTP header is used by the Zipkin tracer in Envoy. The TraceId is 64-bit in length and indicates the overall ID of the trace. Every span in a trace shares this ID. See more on zipkin tracing here <https://github.com/openzipkin/b3-propagation>.
+Envoy 的 Zipkin 追踪器使用 x-b3-traceid HTTP 标头。TraceId 的长度为64字节，并反映追踪的总体 ID。
+追踪中的每个跨度都共享此 ID。可在 <https://github.com/openzipkin/b3-propagation> 查阅 zipkin 追踪的更多信息。 
 
 ### x-b3-spanid
 
