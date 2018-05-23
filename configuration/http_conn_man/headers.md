@@ -33,7 +33,7 @@ server 标头将在编码期间被设置为 [server_name](https://www.envoyproxy
 
 ### x-client-trace-id
 
-如果外部客户端设置了该标头, Envoy 会将提供的 trace ID 与内部生产的 [x-request-id](#x-request-id)连接起来。x-client-trace-id 需要保持全局的唯一性，并且我们推荐以 uuid4 的方式生成 id 。如果设置了此标头，它与  [x-envoy-force-trace](#x-envoy-force-trace)有类似的效果。 请参看 [tracing.client_enabled](../runtime.md#config-http-conn-man-runtime-client-enabled) 运行时设置。
+如果外部客户端设置了该标头, Envoy 会将提供的 trace ID 与内部生产的 [x-request-id](#x-request-id) 连接起来。x-client-trace-id 需要保持全局的唯一性，并且我们推荐以 uuid4 的方式生成 id 。如果设置了此标头，它与  [x-envoy-force-trace](#x-envoy-force-trace)有类似的效果。 请参看 [tracing.client_enabled](../runtime.md#config-http-conn-man-runtime-client-enabled) 运行时设置。
 
 ### x-envoy-downstream-service-cluster
 
@@ -47,17 +47,19 @@ server 标头将在编码期间被设置为 [server_name](https://www.envoyproxy
 
 ### x-envoy-external-address
 
-It is a common case where a service wants to perform analytics based on the origin client’s IP address. Per the lengthy discussion on [XFF](#x-forwarded-for), this can get quite complicated, so Envoy simplifies this by setting x-envoy-external-address to the trusted client address if the request is from an external client. x-envoy-external-address is not set or overwritten for internal requests. This header can be safely forwarded between internal services for analytics purposes without having to deal with the complexities of XFF.
+服务希望根据原始客户端的IP地址做分析，这是一种常见的需求。 
+然后根据对 [XFF](#x-forwarded-for) 的冗长讨论，这事情可以变得非常复杂，因此，在请求来自外部客户端时，Envoy 通过将 x-envoy-external-address 设置为可信客户端地址来简化此操作。 内部请求未设置或覆盖 x-envoy-external-address 。 
+为了达到分析目的，可以在内部服务之间安全地转发此头文件，而无需处理复杂的 XFF。
 
 ### x-envoy-force-trace
 
-If an internal request sets this header, Envoy will modify the generated x-request-id such that it forces traces to be collected. This also forces x-request-id to be returned in the response headers. If this request ID is then propagated to other hosts, traces will also be collected on those hosts which will provide a consistent trace for an entire request flow. See the tracing.global_enabled and tracing.random_sampling runtime configuration settings.
+如果内部请求设置了这个标头，Envoy会修改生成的  [x-request-id](#x-request-id)，这样它就会强制收集跟踪信息。 这也迫使  [x-request-id](#x-request-id) 在响应标头中返回。 如果此请求标识随后传播到其他主机，那么这些主机上也会收集跟踪，由此这些主机将为整个请求流提供一致的跟踪。
+请参看  [tracing.global_enabled](../runtime.md#config-http-conn-man-runtime-global-enabled) 与 [tracing.random_sampling](../runtime.md#config-http-conn-man-runtime-random-sampling) 运行时设置。
 
 ### x-envoy-internal
 
-It is a common case where a service wants to know whether a request is internal origin or not. Envoy uses XFF to determine this and then will set the header value to true.
-
-This is a convenience to avoid having to parse and understand XFF.
+服务想知道请求是否来自内部来源是一种常见的情况。 Envoy使用 [XFF](#x-forwarded-for) 来确定这一点，然后将标头值设置为 true 。
+这有利于避免解析和理解 XFF。
 
 ### x-forwarded-client-cert
 
@@ -206,7 +208,7 @@ A few very important notes about XFF:
 
 ### x-forwarded-proto
 
-It is a common case where a service wants to know what the originating protocol (HTTP or HTTPS) was of the connection terminated by front/edge Envoy. x-forwarded-proto contains this information. It will be set to either http or https.
+服务想要知道始发协议（HTTP 或 HTTPS）是由 前端/边缘 Enovy 终止的连接，这是一种场景的情况。 x-forwarded-proto 包含这些信息。 它将被设置为 http 或 https 。
 
 ### x-request-id
 
@@ -218,7 +220,9 @@ The x-request-id header is used by Envoy to uniquely identify a request as well 
 
 ### x-ot-span-context
 
-The x-ot-span-context HTTP header is used by Envoy to establish proper parent-child relationships between tracing spans when used with the LightStep tracer. For example, an egress span is a child of an ingress span (if the ingress span was present). Envoy injects the x-ot-span-context header on ingress requests and forwards it to the local service. Envoy relies on the application to propagate x-ot-span-context on the egress call to an upstream. See more on tracing here.
+x-ot-span-context HTTP 标头用于在 Envoy 与 LightStep 追踪器间跟踪跨度时建立适当的父-子关系。 
+例如，出口跨度是入口跨度的子节点（如果入口跨度存在）。Envoy 在入口请求注入 x-ot-span-context 标头并将其转发给本地服务。
+Envoy 依靠应用程序将出口调用的 x-ot-span-context 传播到上游。在[这里](../../intro/arch_overview/tracing.md##arch-overview-tracing)可查看更多信息。
 
 ### x-b3-traceid
 
