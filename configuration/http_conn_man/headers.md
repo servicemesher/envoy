@@ -58,25 +58,28 @@ server 标头将在编码期间被设置为 [server_name](https://www.envoyproxy
 
 ### x-envoy-internal
 
-服务想知道请求是否来自内部来源是一种常见的情况。 Envoy使用 [XFF](#x-forwarded-for) 来确定这一点，然后将标头值设置为 true 。
+服务想知道请求是否来自内部来源是一种常见的情况。 Envoy 使用 [XFF](#x-forwarded-for) 来确定这一点，然后将标头值设置为 true 。
 这有利于避免解析和理解 XFF。
 
 ### x-forwarded-client-cert
 
-x-forwarded-client-cert (XFCC) is a proxy header which indicates certificate information of part or all of the clients or proxies that a request has flowed through, on its way from the client to the server. A proxy may choose to sanitize/append/forward the XFCC header before proxying the request.
+*x-forwarded-client-cert* (XFCC)是一个代理标头，代表从客户端到服务器的路径中的部分或全部客户端以及代理服务器的证书信息。
+ 代理可以选择在代理请求之前清理/追加/转发 XFCC 标头。
 
-The XFCC header value is a comma (“,”) separated string. Each substring is an XFCC element, which holds information added by a single proxy. A proxy can append the current client certificate information as an XFCC element, to the end of the request’s XFCC header after a comma.
+XFCC 标头值是逗号（“，”）分隔的字符串。 每个子字符串都是 XFCC 元素，它保存由单个代理添加的信息。
+代理可以将当前客户端证书信息作为 XFCC 元素附加到请求的 XFCC 头后面的逗号后面。
 
-Each XFCC element is a semicolon “;” separated string. Each substring is a key-value pair, grouped together by an equals (“=”) sign. The keys are case-insensitive, the values are case-sensitive. If “,”, “;” or “=” appear in a value, the value should be double-quoted. Double-quotes in the value should be replaced by backslash-double-quote (“).
+Each XFCC element is a semicolon “;” separated string. Each substring is a key-value pair, grouped together by an equals (“=”) sign. The keys are 
+每个XFCC元素都是分号“;”分隔的字符串。 每个子字符串都是一个键值对，由一个等号（“=”）组成。 密钥不区分大小写，值区分大小写。 如果“，”，“;”或“=”出现在一个值中，则该值应该用双引号。 值中的双引号应该用反斜杠双引号（\"）替换。
 
-The following keys are supported:
+支持以下键值：
 
-    By The Subject Alternative Name (URI type) of the current proxy’s certificate.
-    Hash The SHA 256 diguest of the current client certificate.
-    Cert The entire client certificate in URL encoded PEM format.
-    Subject The Subject field of the current client certificate. The value is always double-quoted.
-    URI The URI type Subject Alternative Name field of the current client certificate.
-    DNS The DNS type Subject Alternative Name field of the current client certificate. A client certificate may contain multiple DNS type Subject Alternative Names, each will be a separate key-value pair.
+1. `By` The Subject Alternative Name (URI type) of the current proxy’s certificate.
+2. `Hash` The SHA 256 diguest of the current client certificate.
+3. `Cert` The entire client certificate in URL encoded PEM format.
+4. `Subject` The Subject field of the current client certificate. The value is always double-quoted.
+5. `URI` The URI type Subject Alternative Name field of the current client certificate.
+6. `DNS` The DNS type Subject Alternative Name field of the current client certificate. A client certificate may contain multiple DNS type Subject Alternative Names, each will be a separate key-value pair.
 
 A client certificate may contain multiple Subject Alternative Name types. For details on different Subject Alternative Name types, please refer RFC 2459.
 
@@ -214,8 +217,8 @@ A few very important notes about XFF:
 
 The x-request-id header is used by Envoy to uniquely identify a request as well as perform stable access logging and tracing. Envoy will generate an x-request-id header for all external origin requests (the header is sanitized). It will also generate an x-request-id header for internal requests that do not already have one. This means that x-request-id can and should be propagated between client applications in order to have stable IDs across the entire mesh. Due to the out of process architecture of Envoy, the header can not be automatically forwarded by Envoy itself. This is one of the few areas where a thin client library is needed to perform this duty. How that is done is out of scope for this documentation. If x-request-id is propagated across all hosts, the following features are available:
 
-    Stable [access logging] via the [v1 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v1/access_log#config-http-con-manager-access-log-filters-runtime-v1) or the [v2 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/accesslog/v2/accesslog.proto#envoy-api-field-config-filter-accesslog-v2-accesslogfilter-runtime-filter).
-    Stable tracing when performing random sampling via the [tracing.random_sampling] runtime setting or via forced tracing using the [x-envoy-force-trace](#x-envoy-force-trace) and [x-client-trace-id](#x-client-trace-id) headers.
+- Stable [access logging] via the [v1 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v1/access_log#config-http-con-manager-access-log-filters-runtime-v1) or the [v2 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/accesslog/v2/accesslog.proto#envoy-api-field-config-filter-accesslog-v2-accesslogfilter-runtime-filter).
+- Stable tracing when performing random sampling via the [tracing.random_sampling] runtime setting or via forced tracing using the [x-envoy-force-trace](#x-envoy-force-trace) and [x-client-trace-id](#x-client-trace-id) headers.
 
 
 ### x-ot-span-context
