@@ -208,14 +208,14 @@ A few very important notes about XFF:
 
 ### x-forwarded-proto
 
-服务想要知道始发协议（HTTP 或 HTTPS）是由 前端/边缘 Enovy 终止的连接，这是一种场景的情况。 x-forwarded-proto 包含这些信息。 它将被设置为 http 或 https 。
+服务想要知道由 前端/边缘 Enovy 终止的连接的始发协议（HTTP 或 HTTPS），这是一种常见的情况。 x-forwarded-proto 包含这些信息。 它将被设置为 http 或 https 。
 
 ### x-request-id
 
 The x-request-id header is used by Envoy to uniquely identify a request as well as perform stable access logging and tracing. Envoy will generate an x-request-id header for all external origin requests (the header is sanitized). It will also generate an x-request-id header for internal requests that do not already have one. This means that x-request-id can and should be propagated between client applications in order to have stable IDs across the entire mesh. Due to the out of process architecture of Envoy, the header can not be automatically forwarded by Envoy itself. This is one of the few areas where a thin client library is needed to perform this duty. How that is done is out of scope for this documentation. If x-request-id is propagated across all hosts, the following features are available:
 
-    Stable access logging via the v1 API runtime filter or the v2 API runtime filter.
-    Stable tracing when performing random sampling via the tracing.random_sampling runtime setting or via forced tracing using the x-envoy-force-trace and x-client-trace-id headers.
+    Stable [access logging] via the [v1 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v1/access_log#config-http-con-manager-access-log-filters-runtime-v1) or the [v2 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/accesslog/v2/accesslog.proto#envoy-api-field-config-filter-accesslog-v2-accesslogfilter-runtime-filter).
+    Stable tracing when performing random sampling via the [tracing.random_sampling] runtime setting or via forced tracing using the [x-envoy-force-trace](#x-envoy-force-trace) and [x-client-trace-id](#x-client-trace-id) headers.
 
 
 ### x-ot-span-context
