@@ -218,10 +218,9 @@ Envoy 使用可信的客户端地址内容来确定请求是发起于外部还�
 
 - 注意： 如果内部服务调用转发到其他内部服务（保留XFF），Envoy 将不会认为这是一个内部服务。 这是一个已知的 "bug"，
 缘自 XFF 将解析以及判定一个请求是否来自内部的工作进行了简化。在此场景下，请不要将 XFF 转发并允许 Envoy 使用一个内部原始 IP 生成一个新的。
- 
--    
-3. Testing IPv6 in a large multi-hop system can be difficult from a change management perspective. For testing IPv6 compatibility of upstream services which parse XFF header values, represent_ipv4_remote_address_as_ipv4_mapped_ipv6 can be enabled in the v2 API. Envoy will append an IPv4 address in mapped IPv6 format, e.g. ::FFFF:50.0.0.1. This change will also apply to x-envoy-external-address.
-
+   
+3. 由变更管理的角度来看，在大型多跳系统中测试 IPv6 可能非常困难。为了测试解析 XFF 标头的上游服务的 IPv6 兼容性，可以在 v2 API 中启用
+[represent_ipv4_remote_address_as_ipv4_mapped_ipv6](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-field-config-filter-network-http-connection-manager-v2-httpconnectionmanager-represent-ipv4-remote-address-as-ipv4-mapped-ipv6)。Envoy 将以映射的 IPv6 格式附加 IPv4 地址，例如： ::FFFF:50.0.0.1 。此更改同样适用于[x-envoy-external-address](#x-envoy-external-address)。
 
 ### x-forwarded-proto
 
@@ -303,6 +302,3 @@ Envoy 已将其添加为原始协议作为 [x-forwarded-proto](#x-forwarded-prot
 #### %UPSTREAM_METADATA([“namespace”, “key”, …])%
 用来自路由器选择的上游主机的 [EDS端点元数据](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-field-endpoint-lbendpoint-metadata) 填充报头。元数据可以从任何名称空间中选择。通常，元数据值可以是字符串，数字，布尔值，列表，嵌套结构或空值。可以通过指定多个键从嵌套结构中选择上游元数据值。
 否则，只支持字符串，布尔值和数值。如果未找到命名空间或键值，或者所选值不是受支持的类型，则不会发出标头。命名空间和键被指定为 JSON 字符串数组。
-
-
-See https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/headers
