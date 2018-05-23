@@ -278,23 +278,23 @@ Envoy 支持将变量添加到请求以及响应标头。百分号(%)用于分�
 
 支持的变量名有：
 
-%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%
+#### %DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%
 
-    Remote address of the downstream connection. If the address is an IP address the output does not include port.
+下游连接的远程地址。如果地址是 IP 地址，则输出不包含端口。
 
-    Note
+    注意
 
-    This may not be the physical remote address of the peer if the address has been inferred from proxy proto or x-forwarded-for.
-%DOWNSTREAM_LOCAL_ADDRESS%
-    Local address of the downstream connection. If the address is an IP address it includes both address and port. If the original connection was redirected by iptables REDIRECT, this represents the original destination address restored by the Original Destination Filter using SO_ORIGINAL_DST socket option. If the original connection was redirected by iptables TPROXY, and the listener’s transparent option was set to true, this represents the original destination address and port.
-%DOWNSTREAM_LOCAL_ADDRESS_WITHOUT_PORT%
-    Same as %DOWNSTREAM_LOCAL_ADDRESS% excluding port if the address is an IP address.
-%PROTOCOL%
-    The original protocol which is already added by Envoy as a x-forwarded-proto request header.
-%UPSTREAM_METADATA([“namespace”, “key”, …])%
-    Populates the header with EDS endpoint metadata from the upstream host selected by the router. Metadata may be selected from any namespace. In general, metadata values may be strings, numbers, booleans, lists, nested structures, or null. Upstream metadata values may be selected from nested structs by specifying multiple keys. Otherwise, only string, boolean, and numeric values are supported. If the namespace or key(s) are not found, or if the selected value is not a supported type, then no header is emitted. The namespace and key(s) are specified as a JSON array of strings. Finally, percent symbols in the parameters do not need to be escaped by doubling them. 
+    如果从 [proxy proto](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto#envoy-api-field-listener-filterchain-use-proxy-proto) 或 [x-forwarded-for](#x-forwarded-for) 推断出地址，这非常可能不是对方的物理远程地址。
+#### %DOWNSTREAM_LOCAL_ADDRESS%
 
-
+下游连接的本地地址，如果地址是 IP 地址，则它包括地址和端口。如果原始连接被 iptables REDIRECT 重定向，则表示[原始目标过滤器](../../configuration/listener_filters/original_dst_filter.md#config-listener-filters-original-dst) 使用 SO_ORIGINAL_DST Socket 选项恢复的原始目标地址。如果原始连接被 iptables TPROXY 重定向，且侦听器的透明选项设置为 true，则表示原始目标地址和端口。
+#### %DOWNSTREAM_LOCAL_ADDRESS_WITHOUT_PORT%    
+与  %DOWNSTREAM_LOCAL_ADDRESS% 类同，但如果地址是 IP 地址时排除端口。
+#### %PROTOCOL%    
+Envoy 已将其添加为原始协议作为 [x-forwarded-proto](#x-forwarded-proto) 请求标头。
+#### %UPSTREAM_METADATA([“namespace”, “key”, …])%
+用来自路由器选择的上游主机的 [EDS端点元数据](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-field-endpoint-lbendpoint-metadata) 填充报头。元数据可以从任何名称空间中选择。通常，元数据值可以是字符串，数字，布尔值，列表，嵌套结构或空值。可以通过指定多个键从嵌套结构中选择上游元数据值。
+否则，只支持字符串，布尔值和数值。如果未找到命名空间或键值，或者所选值不是受支持的类型，则不会发出标头。命名空间和键被指定为 JSON 字符串数组。
 
 
 See https://www.envoyproxy.io/docs/envoy/latest/configuration/http_conn_man/headers
