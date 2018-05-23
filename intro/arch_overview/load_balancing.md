@@ -14,7 +14,7 @@
 
 ### Ring hash
 
-Ring/modulo 哈希负载均衡器实现对上游主机的一致性哈希。该算法基于将所有主机映射到一个环上，使得从主机集添加或移除主机的更改仅影响 1/N 个请求。这种技术通常也被称为“[ketama](https://github.com/RJ/ketama)”哈希。一致的哈希负载均衡器只有在使用指定哈希值的协议路由时才有效。最小环大小控制环中每个主机的复制因子。例如，如果最小环大小为 1024 并且有 16 个主机，则每个主机将被复制 64 次。环哈希负载均衡器当前不支持加权。
+Ring/modulo 哈希负载均衡器实现对上游主机的一致性哈希。该算法基于将所有主机映射到一个环上，使得从主机集添加或移除主机的更改仅影响 1/N 个请求。这种技术通常也被称为 “[ketama](https://github.com/RJ/ketama)” 哈希。一致的哈希负载均衡器只有在使用指定哈希值的协议路由时才有效。最小环大小控制环中每个主机的复制因子。例如，如果最小环大小为 1024 并且有 16 个主机，则每个主机将被复制 64 次。环哈希负载均衡器当前不支持加权。
 
 当使用基于优先级的负载均衡时，优先级也通过哈希选择，因此当后端集合稳定时，选定的端点仍将保持一致。
 
@@ -26,7 +26,7 @@ Ring/modulo 哈希负载均衡器实现对上游主机的一致性哈希。该�
 
 Maglev（磁悬浮）负载均衡器对上游主机实施一致性的哈希。它使用[本文](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf)第 3.4 节中描述的算法，固定表大小为65537（参见同一论文的第5.3节）。Maglev 可以用作环哈希负载均衡器的替代品，可以在任何需要一致性哈希的地方使用。就像环哈希负载均衡器一样，只有在使用指定哈希值的协议路由时，一致性哈希负载均衡器才有效。
 
-一般来说，与环形散列（“ketama”）算法相比，Maglev 具有快得多的查表编译时间以及主机选择时间（当使用 256K 条目的大环时大约分别为 10 倍和 5 倍）。Maglev 的缺点是它不像环哈希那样稳定。当主机被移除时，更多的键将移动位置（模拟显示键将移动大约两倍）。据说，对于包括 Redis 在内的许多应用程序来说，Maglev 很可能是环形哈希替代品的一大优势。高级读者可以使用这个 [benchmark](https://github.com/envoyproxy/envoy/blob/master//test/common/upstream/load_balancer_benchmark.cc) 来比较具有不同参数的环形哈希与 Maglev。
+一般来说，与环形散列（“ketama”）算法相比，Maglev 具有快得多的查表编译时间以及主机选择时间（当使用 256K 条目的大环时大约分别为 10 倍和 5 倍）。Maglev 的缺点是它不像环哈希那样稳定。当主机被移除时，更多的键将移动位置（模拟显示键将移动大约两倍）。据说，对于包括 Redis 在内的许多应用程序来说，Maglev 很可能是环形哈希替代品的一大优势。高级读者可以使用这个 [benchmark](https://github.com/envoyproxy/envoy/blob/master//test/common/upstream/load_balancer_benchmark.cc) 来比较具有不同参数的环形哈希与  Maglev。
 
 ### 随机
 
@@ -107,7 +107,7 @@ load to P_X = 100 - Σ(percent_load(P_0)..percent_load(P_X-1))
 
 Zone 感知路由的目的是尽可能多地向上游集群的本地 zone 中发送流量，同时大致保持上游集群中的所有主机拥有相同的（取决于负载均衡策略）的每秒请求数量。
 
-只要上游集群中每台主机的请求数量保持大致相同，Envoy 就会尝试尽可能多地将流量推送到本地上游区域。Envoy 路由到本地  zone 还是执行跨 zone 路由，这取决于本地 zone 中始发集群和上游集群中健康主机的百分比。关于始发和上游集群之间的本地 zone 百分比关系有以下两种情况：
+只要上游集群中每台主机的请求数量保持大致相同，Envoy 就会尝试尽可能多地将流量推送到本地上游区域。Envoy 路由到本地 zone 还是执行跨 zone 路由，这取决于本地 zone 中始发集群和上游集群中健康主机的百分比。关于始发和上游集群之间的本地 zone 百分比关系有以下两种情况：
 
 - 始发集群的本地 zone 百分比大于上游集群中本地 zone 的百分比。在这种情况下，我们无法将来自始发集群本地 zone 的所有请求路由到上游集群的本地 zone，因为这会导致所有上游主机请求不均衡。相反，Envoy 计算可以直接路由到上游集群的本地 zone 的请求的百分比。其余的请求被路由到跨 zone。特定 zone 根据 zone 的剩余容量（该 zone 将获得一些本地 zone 流量并且可能具有 Envoy 可用于跨 zone 业务量的额外容量）来选择。
 - 始发集群本地 zone 百分比小于上游集群中的本地 zone 百分比。在这种情况下，上游集群的本地 zone 可以获取来自始发集群本地 zone 的所有请求，并且还有一定空间允许来自集群中其他 zone 的流量（如果有必要的话）。
@@ -116,7 +116,7 @@ Zone 感知路由的目的是尽可能多地向上游集群的本地 zone 中发
 
 ## 所在地加权负载均衡
 
-另一种用于确定如何在不同 zone 和地理位置之间分配权重的方式是使用[LocalityLbEndpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-msg-endpoint-localitylbendpoints)消息中通过 EDS 提供的显式权重。这种方式与上述 zone 感知路由相互排斥，因为在所在地感知 LB 的情况下，我们通过管理服务器来提供所在地加权，而不是在 zone 感知路由中使用的 Envoy 侧启发式的方式。
+另一种用于确定如何在不同 zone 和地理位置之间分配权重的方式是使用 [LocalityLbEndpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-msg-endpoint-localitylbendpoints) 消息中通过 EDS 提供的显式权重。这种方式与上述 zone 感知路由相互排斥，因为在所在地感知 LB 的情况下，我们通过管理服务器来提供所在地加权，而不是在 zone 感知路由中使用的 Envoy 侧启发式的方式。
 
 当所有端点健康时，使用加权循环 round-robin 来挑选本地节点，其中地点权重用于加权。当某地的某些端点不健康时，我们通过调整地点的权重来反映这一点。与优先级一样，我们设置了一个过度提供因子（目前硬编码为 1.4），这意味着当一个地区只有少数端点不健康时，我们不会进行任何权重调整。
 
@@ -145,7 +145,7 @@ load to L_X = effective_weight(L_X) / Σ_c(effective_weight(L_c))
 2. 从（1）中选择优先级别的所在地（如本节所述）。
 3. 从（2）中选择使用集群指定的负载均衡器所在地范围内的端点。
 
-通过在集群配置中设置[locality_weighted_lb_config](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-commonlbconfig-locality-weighted-lb-config)并通过[load_balancing_weight](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-field-endpoint-localitylbendpoints-load-balancing-weight)在[LocalityLbEndpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-msg-endpoint-localitylbendpoints)中提供权重来配置所在地加权负载均衡。
+通过在集群配置中设置 [locality_weighted_lb_config](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-commonlbconfig-locality-weighted-lb-config) 并通过 [load_balancing_weight](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-field-endpoint-localitylbendpoints-load-balancing-weight) 在 [LocalityLbEndpoints](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-msg-endpoint-localitylbendpoints) 中提供权重来配置所在地加权负载均衡。
 
 此功能与负载均衡器子集设置不兼容，因为将个别子集的所在地级权重与显而易见的权重进行协调并不容易。
 
@@ -155,7 +155,7 @@ load to L_X = effective_weight(L_X) / Σ_c(effective_weight(L_c))
 
 子集使用集群指定的负载均衡器策略。原始目的地策略不能与子集一起使用，因为上游主机预先不知道这些策略。子集与 zone 感知路由兼容，但请注意，子集的使用可能很容易违反上述最小主机条件。
 
-如果[已配置的](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-lb-subset-config)子集路由未指定元数据或没有匹配元数据的子集存在，则子集负载均衡器将启动其回退策略。默认策略是`NO_ENDPOINT`，在这种情况下，请求失败，就好像该集群没有主机一样。相反，`ANY_ENDPOINT`后备策略会在集群中的所有主机上进行负载均衡，而不考虑主机元数据。最后，`DEFAULT_SUBSET`会导致回退到与特定元数据集匹配的主机之间进行负载均衡。
+如果[已配置的](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-lb-subset-config)子集路由未指定元数据或没有匹配元数据的子集存在，则子集负载均衡器将启动其回退策略。默认策略是`NO_ENDPOINT`，在这种情况下，请求失败，就好像该集群没有主机一样。相反，`ANY_ENDPOINT` 后备策略会在集群中的所有主机上进行负载均衡，而不考虑主机元数据。最后，`DEFAULT_SUBSET` 会导致回退到与特定元数据集匹配的主机之间进行负载均衡。
 
 子集必须被预定义才能让子集负载均衡器有效地选择正确的主机子集。每个定义都是一组密钥，可以转换为零个或多个子集。从概念上讲，具有定义中所有键的元数据值的每个主机都会添加到其键-值对特定的子集。如果所有主机都不拥有密钥，那么定义不会产生子集。可以提供多个定义，并且如果单个主机与多个定义匹配，则可以在多个子集中出现。
 
