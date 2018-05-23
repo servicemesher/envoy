@@ -4,15 +4,15 @@ Envoy 由 JSON 配置文件和一组命令行选项一起驱动。以下是 Envo
 
 - `-c <path string>, --config-path <path string>`
 
-  *(可选)* v1 或 v2 [JSON/YAML/proto3 配置文件](../configuration/configuration.md#config)的路径。 若未设置此选项，需要指定 [`--config-yaml`](#cmdoption-config-yaml) 选项。它会首先作为 [v2 引导配置文件](../configuration/overview/v2_overview.md#config-overview-v2-bootstrap)进行解析，若解析失败，会根据 [`--v2-config-only`] 选项决定是否作为 [v1 JSON 配置文件](../configuration/overview/v1_overview.md#config-overview-v1)进行解析。对于 v2 的配置文件，有效的扩展名包括 `.json`, `.yaml`, `.pb` 和 `.pb_text`，分别表示JSON, YAML, [二进制 proto3](https://developers.google.com/protocol-buffers/docs/encoding) 和 [文本 proto3](https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.text_format) 格式。
+  *(可选)* v1 或 v2 [JSON/YAML/proto3 配置文件](../configuration/configuration.md#config)的路径。 若未设置此选项，需要指定 [`--config-yaml`](#cmdoption-config-yaml) 选项。它会首先作为 [v2 引导配置文件](../configuration/overview/v2_overview.md#config-overview-v2-bootstrap)进行解析，若解析失败，会根据 [`--v2-config-only`] 选项决定是否作为 [v1 JSON 配置文件](../configuration/overview/v1_overview.md#config-overview-v1)进行解析。对于 v2 的配置文件，有效的扩展名包括 `.json`、 `.yaml`、 `.pb` 和 `.pb_text`，分别表示JSON、YAML、[二进制 proto3](https://developers.google.com/protocol-buffers/docs/encoding) 和 [文本 proto3](https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.text_format) 格式。
 
 - `--config-yaml <yaml string>`
 
   *(可选)* 一个 YAML 字符串，作为 v2 引导配置。若同时设置了 [`--config-path`](#cmdoption-c)，此 YAML 字符串的值会被合并到 [`--config-path`](#cmdoption-c) 指定的引导配置并覆盖相应选项。由于 YAML 是 JSON 的超集，也可以给 [`--config-yaml`](#cmdoption-config-yaml) 传入一个 JSON 字符串。 [`--config-yaml`](#cmdoption-config-yaml) 与 v1 引导配置不兼容。
-  
+
   一个通过命令行覆盖节点 id 的例子：
-  
-    ./envoy -c bootstrap.yaml –config-yaml “node: {id: ‘node1’}”
+
+   `./envoy -c bootstrap.yaml –config-yaml “node: {id: ‘node1’}”`
 
 - `--v2-config-only`
 
@@ -23,7 +23,7 @@ Envoy 由 JSON 配置文件和一组命令行选项一起驱动。以下是 Envo
   *(可选)* Envoy 的执行模式之一：
 
   * `serve`: *（默认选项）* 校验 JSON 配置，然后正常提供服务。
-  * `validate`: 校验 JSON 配置，然后退出。会打印一条 “OK” 消息（若退出码为 0）或所有配置文件产生的错误（若退出码为 1）。不会产生网络流量，热重启流程也不会执行，所以不会影响到机器上其他的 Envoy 进程。
+  * `validate`：校验 JSON 配置，然后退出。会打印一条 “OK” 消息（若退出码为 0）或所有配置文件产生的错误（若退出码为 1）。不会产生网络流量，热重启流程也不会执行，所以不会影响到机器上其他的 Envoy 进程。
 
 - `--admin-address-path <path string>`
 
@@ -53,39 +53,39 @@ Envoy 由 JSON 配置文件和一组命令行选项一起驱动。以下是 Envo
 
   *(可选)* 用于格式化日志消息元数据的格式字符串。若未设置，会使用一个默认的格式字符串 "[%Y-%m-%d %T.%e][%t][%l][%n] %v".
 
-  支持的格式化标记有（包括示例输出）：
-  
-  |||
-  |-|-|
-  %v: | 要记录的实际消息 (“some user text”)
-  %t: | 线程 id (“1232”)
-  %P: | 进程 id (“3456”)
-  %n: | 记录器名称 (“filter”)
-  %l: | 消息的日志级别 (“debug”, “info”, etc.)
-  %L: | 消息的日志级别缩写 (“D”, “I”, etc.)
-  %a: | 星期的缩写呈现 (“Tue”)
-  %A: | 星期的完整名称 (“Tuesday”)
-  %b: | 月份的缩写呈现 (“Mar”)
-  %B: | 月份的完整名称 (“March”)
-  %c: | 日期和时间的呈现 (“Tue Mar 27 15:25:06 2018”)
-  %C: | 年份的 2 位呈现 (“18”)
-  %Y: | 年份的 4 位呈现 (“2018”)
-  %D, %x: | 日期 MM/DD/YY 格式的缩写呈现 (“03/27/18”)
-  %m: | 月份 01-12 (“03”)
-  %d: | 月中的日期 01-31 (“27”)
-  %H: | 24 小时制的小时 00-23 (“15”)
-  %I: | 12 小时制的小时 01-12 (“03”)
-  %M: | 分钟 00-59 (“25”)
-  %S: | 秒数 00-59 (“06”)
-  %e: | 当前秒中的毫秒部分 000-999 (“008”)
-  %f: | 当前秒中的微秒部分 000000-999999 (“008789”)
-  %F: | 当前秒中的纳秒部分 000000000-999999999 (“008789123”)
-  %p: | 上午/下午 AM/PM (“AM”)
-  %r: | 12 小时制的钟表呈现 (“03:25:06 PM”)
-  %R: | 24 小时制 HH:MM 格式的时间, 等同于 %H:%M (“15:25”)
-  %T, %X: | ISO 8601 时间格式 (HH:MM:SS), 等同于 %H:%M:%S (“13:25:06”)
-  %z: | ISO 8601 与 UTC 的时区偏移 ([+/-]HH:MM) (“-07:00”)
-  %%: | % 符号 (“%”)
+支持的格式化标记有（包括示例输出）：
+
+| 参数  | 解释 |
+|---- | ---- |
+| %v: | 要记录的实际消息 (“some user text”) |
+|%t: | 线程 id (“1232”)|
+|%P: | 进程 id (“3456”)|
+|%n: | 记录器名称 (“filter”)|
+|%l: | 消息的日志级别 （“debug”、 “info”） |
+|%L: | 消息的日志级别缩写 (“D”、 “I”等) |
+|%a: | 星期的缩写呈现 (“Tue”)|
+|%A: | 星期的完整名称 (“Tuesday”)|
+|%b: | 月份的缩写呈现 (“Mar”)|
+|%B: | 月份的完整名称 (“March”)|
+|%c: | 日期和时间的呈现 (“Tue Mar 27 15:25:06 2018”)|
+|%C: | 年份的 2 位呈现 (“18”)|
+|%Y: | 年份的 4 位呈现 (“2018”)|
+|%D, %x: | 日期 MM/DD/YY 格式的缩写呈现 (“03/27/18”)|
+|%m: | 月份 01-12 (“03”)|
+|%d: | 月中的日期 01-31 (“27”)|
+|%H: | 24 小时制的小时 00-23 (“15”)|
+|%I: | 12 小时制的小时 01-12 (“03”)|
+|%M: | 分钟 00-59 (“25”)|
+|%S: | 秒数 00-59 (“06”)|
+|%e: | 当前秒中的毫秒部分 000-999 (“008”)|
+|%f: | 当前秒中的微秒部分 000000-999999 (“008789”)|
+|%F: | 当前秒中的纳秒部分 000000000-999999999 (“008789123”)|
+|%p: | 上午/下午 AM/PM (“AM”)|
+|%r: | 12 小时制的钟表呈现 (“03:25:06 PM”)|
+|%R: | 24 小时制 HH:MM 格式的时间, 等同于 %H:%M (“15:25”)|
+|%T, %X: | ISO 8601 时间格式 (HH:MM:SS)，等同于 %H:%M:%S (“13:25:06”) |
+|%z: | ISO 8601 与 UTC 的时区偏移 ([+/-]HH:MM) (“-07:00”)|
+|%%: | % 符号 (“%”)|
 
 - `--restart-epoch <integer>`
 
