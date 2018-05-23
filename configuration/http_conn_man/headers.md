@@ -207,11 +207,19 @@ Envoy 使用可信的客户端地址内容来确定请求是发起于外部还�
 
 关于 XFF 的一些非常重要的点:
 
-1. If use_remote_address is set to true, Envoy sets the x-envoy-external-address header to the trusted client address.
+1. 如果 use_remote_address 设置为 true，Envoy会将 x-envoy-external-address 标头设置为受信任的客户端地址。
 
-2.  XFF is what Envoy uses to determine whether a request is internal origin or external origin. If use_remote_address is set to true, the request is internal if and only if the request contains no XFF and the immediate downstream node’s connection to Envoy has an internal (RFC1918 or RFC4193) source address. If use_remote_address is false, the request is internal if and only if XFF contains a single RFC1918 or RFC4193 address.
-    - NOTE: If an internal service proxies an external request to another internal service, and includes the original XFF header, Envoy will append to it on egress if use_remote_address is set. This will cause the other side to think the request is external. Generally, this is what is intended if XFF is being forwarded. If it is not intended, do not forward XFF, and forward x-envoy-internal instead.
-    - NOTE: If an internal service call is forwarded to another internal service (preserving XFF), Envoy will not consider it internal. This is a known “bug” due to the simplification of how XFF is parsed to determine if a request is internal. In this scenario, do not forward XFF and allow Envoy to generate a new one with a single internal origin IP.
+2. XFF 是Envoy 用来确定请求是内部源还是外部源的。 
+如果 use_remote_address 设置为 true，当且仅当请求不包含 XFF 并且直接下游节点与 Envoy 的连接具有内部（RFC1918或RFC4193）源地址时，该请求为内部请求。
+如果 use_remote_address 为 false，则当且仅当 XFF 包含单个 RFC1918 或 RFC4193 地址时，该请求才是内部请求。
+
+-注意：如果内部服务代理到另一个内部服务的外部请求，并且包含原始 XFF 头，则在设置了 [use_remote_address](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-use-remote-address) 的情况下，Envoy 将在出口附加它。 这会导致对方认为请求是外部的。 一般来说，这是 XFF 被转发的意图。 如果没有这个意图，请不要转发 XFF，而是转发
+[x-envoy-internal](#x-envoy-internal)。
+
+- 注意： 如果内部服务调用转发到其他内部服务（保留XFF），Envoy 将不会认为这是一个内部服务。 这是一个已知的 "bug"，
+缘自 XFF 将解析以及判定一个请求是否来自内部的工作进行了简化。在此场景下，请不要将 XFF 转发并允许 Envoy 使用一个内部原始 IP 生成一个新的。
+ 
+-    
 3. Testing IPv6 in a large multi-hop system can be difficult from a change management perspective. For testing IPv6 compatibility of upstream services which parse XFF header values, represent_ipv4_remote_address_as_ipv4_mapped_ipv6 can be enabled in the v2 API. Envoy will append an IPv4 address in mapped IPv6 format, e.g. ::FFFF:50.0.0.1. This change will also apply to x-envoy-external-address.
 
 
