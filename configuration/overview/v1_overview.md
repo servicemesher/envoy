@@ -2,9 +2,9 @@
 
 > **注意**
 >
-> v1 配置/API 现在被认为是过时了而且宣布了[折旧时间表](https://groups.google.com/forum/#!topic/envoy-announce/Lb1QZcSclGQ)。请升级并使用[v2 配置/API](v2_overview.md#config-overview-v2)。
+> v1 配置 API 现在被认为是过时了而且宣布了[废弃时间表](https://groups.google.com/forum/#!topic/envoy-announce/Lb1QZcSclGQ)。请升级并使用 [v2  配置 API](v2_overview.md#config-overview-v2)。
 
-Envoy 配置格式是 JSON 的并用一个 JSON schema 验证。Schema 可以在[source/common/json/config_schemas.cc](https://github.com/envoyproxy/envoy/blob/master/source/common/json/config_schemas.cc)找到。服务器的主配置被包含在监听器和集群管理器部分。其他顶级元素指定各种配置。
+Envoy 配置格式是 JSON 的并用一个 JSON schema 验证。Schema 可以在 [source/common/json/config_schemas.cc](https://github.com/envoyproxy/envoy/blob/master/source/common/json/config_schemas.cc) 找到。服务器的主配置被包含在监听器和集群管理器部分。其他顶级元素指定各种配置。
 
 为语法方便，也为手写的配置提供了 YAML 支持。如果一个文件路径的结尾是 .yaml，Envoy 将在内部将 YAML 转换为 JSON。在配置文档的剩余部分，我们仅指 JSON。Envoy 期望一个清晰的 YAML 标量，因此，如果一个集群名字（应该是一个字符串）被称为 *true*，它应该在配置 YAML 写为 *“true”*。同样适用于整数和浮点值(即 *1* vs. *1.0* vs. *“1.0”*)。
 
@@ -36,7 +36,7 @@ Envoy 配置格式是 JSON 的并用一个 JSON schema 验证。Schema 可以在
 
   *(optional, object)* 对监听器发现服务(LDS)的配置。如果没有指定，仅静态监听器被加载。
 
-- [admin](../../api-v1/admin.md#config-admin-v1)
+- [admin](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v1_overview/api-v1/admin#config-admin-v1)
 
   *(required, object)* [本地管理 HTTP 服务器](../../operations/admin.md#operations-admin-interface)配置。
 
@@ -76,7 +76,7 @@ Envoy 配置格式是 JSON 的并用一个 JSON schema 验证。Schema 可以在
 
   *(optional, integer)* 如果至少两个被观察的线程在至少这么多微秒的时间内没有响应，则假设一个真正的死锁并杀掉整个 Envoy 进程。设为 0 以关掉整个行为。如果未指定，默认为 0 (关掉的)。
 
-- [tracing](../../api-v1/tracing.md#config-tracing-v1)
+- [tracing](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v1_overview/api-v1/tracing#config-tracing-v1)
 
   *(optional, object)* 外部[追踪](../../intro/arch_overview/tracing.md#arch-overview-tracing)提供者的配置。 如果未指定，将不执行追踪。
 
@@ -84,7 +84,7 @@ Envoy 配置格式是 JSON 的并用一个 JSON schema 验证。Schema 可以在
 
   *(optional, object)* 外部[速率限制服务](../../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit)提供者的配置。如果未指定，任何对速率限制服务的调用将立即返回成功。
 
-- [runtime](../../api-v1/runtime.md#config-runtime-v1)
+- [runtime](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/v1_overview/api-v1/runtime#config-runtime-v1)
 
   *(optional, object)* [运行时配置](../../intro/arch_overview/runtime.md#arch-overview-runtime) 提供者的配置。如果没有被指定，一个 “null” 提供者将被使用，这将导致使用所有的默认值。
 配置
