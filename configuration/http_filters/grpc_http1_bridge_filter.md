@@ -1,33 +1,40 @@
-# gRPC HTTP/1.1 bridge
+# gRPC HTTP/1.1 桥接
 
-- gRPC [architecture overview](../../intro/arch_overview/grpc.md#arch-overview-grpc)
-- [v1 API reference](../../api-v1/http_filters/grpc_http1_bridge_filter.md#config-http-filters-grpc-bridge-v1)
-- [v2 API reference](../../api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto.md#envoy-api-field-config-filter-network-http-connection-manager-v2-httpfilter-name)
+- gRPC [架构简述](../../intro/arch_overview/grpc.md#arch-overview-grpc)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/grpc_http1_bridge_filter#config-http-filters-grpc-bridge-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/network/http_connection_manager/v2/http_connection_manager.proto#envoy-api-field-config-filter-network-http-connection-manager-v2-httpfilter-name)
 
-This is a simple filter which enables the bridging of an HTTP/1.1 client which does not support response trailers to a compliant gRPC server. It works by doing the following:
 
-- When a request is sent, the filter sees if the connection is HTTP/1.1 and the request content type is *application/grpc*.
-- If so, when the response is received, the filter buffers it and waits for trailers and then checks the *grpc-status* code. If it is not zero, the filter switches the HTTP response code to 503. It also copies the *grpc-status* and *grpc-message* trailers into the response headers so that the client can look at them if it wishes.
-- The client should send HTTP/1.1 requests that translate to the following pseudo headers:
+这是一个简单的过滤器，对于不支持复杂 gRPC 服务响应尾部的 HTTP/1.1 客户端，该过滤器可以实现桥接功能。它通过以下的步骤工作:
+
+- 当发送一个请求时，过滤器会检查该链接是否是 HTTP/1.1 以及该请求的内容类型是否是 *application/grpc* 。
+
+- 如果符合上面的条件，当收到响应时，过滤器会缓存它并等待响应的尾部，然后检查 *grpc-status* 状态码。如果状态码不为零，过滤器把 HTTP 状态码转换为503。 同时复制 *grpc-status* 和 *grpc-message* 的尾部到响应的头部，以便客户端在需要的时候可以查看他们。
+
+- 客户端应该发送可以转换为以下伪头部的 HTTP/1.1 请求:
   - *:method*: POST
   - *:path*: <gRPC-METHOD-NAME>
   - *content-type*: application/grpc
-- The body should be the serialized grpc body which is:
-  - 1 byte of zero (not compressed).
-  - network order 4 bytes of proto message length.
-  - serialized proto message.
-- Because this scheme must buffer the response to look for the *grpc-status* trailer it will only work with unary gRPC APIs.
+- 请求的主体部分应该是以下格式的序列化的 grpc 主体:
+  - 一个字节的零字符(没有压缩)
+  - 网络顺序的4字节的原型消息长度
+  - 序列化后的原型消息
+  
+- 因为这个模式必须缓存响应以查找 *grpc-status* 尾部，因此它只对一元模式的 gRPC 接口有效。
 
-This filter also collects stats for all gRPC requests that transit, even if those requests are normal gRPC requests over HTTP/2.
 
-More info: wire format in [gRPC over HTTP/2](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md).
+这个过滤器同时收集所有传输的 gRPC 请求，即使这些请求是正常通过 HTTP/2 传输的 gRPC 请求。 
 
-## Statistics
+更多的信息：有线格式地址 [gRPC 通过 HTTP/2](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md).
 
-The filter emits statistics in the *cluster.<route target cluster>.grpc.* namespace.
 
-| Name                                 | Type    | Description                           |
+## 统计
+
+过滤器在 *cluster.<route target cluster>.grpc.* 命名空间中输出统计信息。
+
+
+| 名称                                  | 类型    | 描述                                  |
 | ------------------------------------ | ------- | ------------------------------------- |
-| <grpc service>.<grpc method>.success | Counter | Total successful service/method calls |
-| <grpc service>.<grpc method>.failure | Counter | Total failed service/method calls     |
-| <grpc service>.<grpc method>.total   | Counter | Total service/method calls            |
+| <grpc service>.<grpc method>.success | Counter | 完全成功的服务或方法调用                 |
+| <grpc service>.<grpc method>.failure | Counter | 完全失败的服务或方法调用                 |
+| <grpc service>.<grpc method>.total   | Counter | 完全服务或方法调用                      |
