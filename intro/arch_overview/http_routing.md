@@ -1,6 +1,6 @@
 # HTTP路由
 
-Envoy 包括一个 HTTP [路由器过滤器](../../configuration/http_filters/router_filter.md#config-http-filters-router)，它可以被安装来执行高级路由任务。这对于处理边缘流量（传统的反向代理请求处理）以及为服务 Envoy  网格构建服务（通常是通过主机/授权 HTTP 头的路由到达特定的上游服务集群）非常有用。Envoy 也可以被配置为转发代理。在正向代理配置中，网格客户端可以通过适当地配置他们的 http 代理来作为 Envoy。在较高的级路由接受一个传入的 HTTP 请求，将其与上游集群相匹配，在上游集群中获得一个[连接池](../../intro/arch_overview/connection_pooling.md#arch-overview-conn-pool)，并转发请求。路由过滤器支持以下特性：
+Envoy 包括一个 HTTP [路由器过滤器](../../configuration/http_filters/router_filter.md#config-http-filters-router)，可以安装它来执行高级路由任务。这对于处理边缘流量（传统的反向代理请求处理）以及为服务 Envoy 网格构建服务（通常是通过主机/授权 HTTP 头的路由到达特定的上游服务集群）非常有用。Envoy 也可以被配置为转发代理。在正向代理配置中，网格客户端可以通过适当地配置他们的 http 代理来成为 Envoy。路由在一个高层级接受一个传入的 HTTP 请求，将其与上游集群相匹配，在上游集群中获得一个[连接池](../../intro/arch_overview/connection_pooling.md#arch-overview-conn-pool)，并转发请求。路由过滤器支持以下特性：
 
 - 将域/授权映射到一组路由规则的虚拟主机。
 - 前缀和精确路径匹配规则（包括[大小写敏感](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-case-sensitive)和大小写不敏感）。目前还不支持正则/ slug 匹配，这主要是因为难以用编程方式确定路由规则是否相互冲突。因此我们并不建议在反向代理级别使用正则/ slug 路由，但是我们将来可能会根据用户需求量增加对这个特性的支持。
