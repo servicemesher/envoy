@@ -1,12 +1,12 @@
 # v1 API 概览
 
-> **Attention**
+> **注意**
 >
-> The v1 configuration/API is now considered legacy and the [deprecation schedule](https://groups.google.com/forum/#!topic/envoy-announce/Lb1QZcSclGQ) has been announced. Please upgrade and use the [v2 configuration/API](v2_overview.md#config-overview-v2).
+> v1 配置/API 现在被认为是过时了而且宣布了[折旧时间表](https://groups.google.com/forum/#!topic/envoy-announce/Lb1QZcSclGQ)。请升级并使用[v2 配置/API](v2_overview.md#config-overview-v2)。
 
-The Envoy configuration format is written in JSON and is validated against a JSON schema. The schema can be found in [source/common/json/config_schemas.cc](https://github.com/envoyproxy/envoy/blob/master/source/common/json/config_schemas.cc). The main configuration for the server is contained within the listeners and cluster manager sections. The other top level elements specify miscellaneous configuration.
+Envoy 配置格式是 JSON 的并用一个 JSON schema 验证。Schema 可以在[source/common/json/config_schemas.cc](https://github.com/envoyproxy/envoy/blob/master/source/common/json/config_schemas.cc)找到。服务器的主配置被包含在监听器和集群管理器部分。其他顶级元素指定各种配置。
 
-YAML support is also provided as a syntactic convenience for hand-written configurations. Envoy will internally convert YAML to JSON if a file path ends with .yaml. In the rest of the configuration documentation, we refer exclusively to JSON. Envoy expects unambiguous YAML scalars, so if a cluster name (which should be a string) is called *true*, it should be written in the configuration YAML as *“true”*. The same applies to integer and floating point values (e.g. *1* vs. *1.0* vs. *“1.0”*).
+为语法方便，也为手写的配置提供了 YAML 支持。如果一个文件路径的结尾是 .yaml，Envoy 将在内部将 YAML 转换为 JSON。在配置文档的剩余部分，我们仅指 JSON。Envoy 期望一个清晰的 YAML 标量，因此，如果一个集群名字（应该是一个字符串）被称为 *true*，它应该在配置 YAML 写为 *“true”*。同样适用于整数和浮点值(即 *1* vs. *1.0* vs. *“1.0”*)。
 
 ```json
 {
@@ -30,60 +30,61 @@ YAML support is also provided as a syntactic convenience for hand-written config
 
 - [listeners](../listeners/listeners.md#config-listeners)
 
-  *(required, array)* An array of [listeners](../../intro/arch_overview/listeners.md#arch-overview-listeners) that will be instantiated by the server. A single Envoy process can contain any number of listeners.
+  *(required, array)* [监听器](../../intro/arch_overview/listeners.md#arch-overview-listeners) 的数组会被服务器实例化。一个单独的 Envoy 进程可以包含任意数量的监听器。
 
 - [lds](../listeners/lds.md#config-listeners-lds)
 
-  *(optional, object)* Configuration for the Listener Discovery Service (LDS). If not specified only static listeners are loaded.
+  *(optional, object)* 对监听器发现服务(LDS)的配置。如果没有指定，仅静态监听器被加载。
 
 - [admin](../../api-v1/admin.md#config-admin-v1)
 
-  *(required, object)* Configuration for the [local administration HTTP server](../../operations/admin.md#operations-admin-interface).
+  *(required, object)* [本地管理 HTTP 服务器](../../operations/admin.md#operations-admin-interface)配置。
 
 - [cluster_manager](../cluster_manager/cluster_manager.md#config-cluster-manager)
 
-  *(required, object)* Configuration for the [cluster manager](../../intro/arch_overview/cluster_manager.md#arch-overview-cluster-manager) which owns all upstream clusters within the server.
+  *(required, object)* [集群管理器](../../intro/arch_overview/cluster_manager.md#arch-overview-cluster-manager) 配置，它拥有服务器内所有上游集群。
 
 - flags_path
 
-  *(optional, string)* The file system path to search for [startup flag files](../../operations/fs_flags.md#operations-file-system-flags).
+  *(optional, string)* 搜索[启动标志文件](../../operations/fs_flags.md#operations-file-system-flags)的文件系统路径。
 
 - statsd_udp_ip_address
 
-  *(optional, string)* The UDP address of a running statsd compliant listener. If specified, [statistics](../../intro/arch_overview/statistics.md#arch-overview-statistics)will be flushed to this address. IPv4 addresses should have format host:port (ex: 127.0.0.1:855). IPv6 addresses should have URL format [host]:port (ex: [::1]:855).
+  *(optional, string)* 一个运行中的 遵循 statsd 的 监听器的 UDP 地址。如果被指定，[统计数据](../../intro/arch_overview/statistics.md#arch-overview-statistics)将被写入到这个地址。IPv4 地址应该具有主机:端口 (例如：127.0.0.1:855)的格式。IPv6 地址应该具有 URL 格式 [主机]:端口 (例如： [::1]:855)。
 
 - statsd_tcp_cluster_name
 
-  *(optional, string)* The name of a cluster manager cluster that is running a TCP statsd compliant listener. If specified, Envoy will connect to this cluster to flush [statistics](../../intro/arch_overview/statistics.md#arch-overview-statistics).
+  *(optional, string)* 一个运行遵循 TCP statsd 的监听器的集群管理器集群的名字。如果被指定，Envoy 将连接到这个集群以写入[统计数据](../../intro/arch_overview/statistics.md#arch-overview-statistics)。
 
 - stats_flush_interval_ms
 
-  *(optional, integer)* The time in milliseconds between flushes to configured stats sinks. For performance reasons Envoy latches counters and only flushes counters and gauges at a periodic interval. If not specified the default is 5000ms (5 seconds).
+  *(optional, integer)* 两次写入到配置好的统计池之间以毫秒计的时间。出于性能原因，Envoy 锁定了计数器，仅周期性写入计数器和仪表的数据。如果未指定，默认为 5000ms (5 秒)。
 
 - watchdog_miss_timeout_ms
 
-  *(optional, integer)* The time in milliseconds after which Envoy counts a nonresponsive thread in the “server.watchdog_miss” statistic. If not specified the default is 200ms.
+  *(optional, integer)* Envoy 在 “server.watchdog_miss” 统计中计数一个无响应的线程后以毫秒计的时间。如果未指定，默认为 200ms。
 
 - watchdog_megamiss_timeout_ms
 
-  *(optional, integer)* The time in milliseconds after which Envoy counts a nonresponsive thread in the “server.watchdog_mega_miss” statistic. If not specified the default is 1000ms.
+  *(optional, integer)* Envoy 在 “server.watchdog_mega_miss” 统计中计数一个无响应的线程后以毫秒计的时间。如果未指定，默认为 1000ms。
 
 - watchdog_kill_timeout_ms
 
-  *(optional, integer)* If a watched thread has been nonresponsive for this many milliseconds assume a programming error and kill the entire Envoy process. Set to 0 to disable kill behavior. If not specified the default is 0 (disabled).
+  *(optional, integer)* 如果一个被观察的线程在这么多微秒的时间内没有响应，则假设一个编程错误并杀掉整个 Envoy 进程。设为 0 以关掉整个行为。如果未指定，默认为 0 (关掉的)。
 
 - watchdog_multikill_timeout_ms
 
-  *(optional, integer)* If at least two watched threads have been nonresponsive for at least this many milliseconds assume a true deadlock and kill the entire Envoy process. Set to 0 to disable this behavior. If not specified the default is 0 (disabled).
+  *(optional, integer)* 如果至少两个被观察的线程在至少这么多微秒的时间内没有响应，则假设一个真正的死锁并杀掉整个 Envoy 进程。设为 0 以关掉整个行为。如果未指定，默认为 0 (关掉的)。
 
 - [tracing](../../api-v1/tracing.md#config-tracing-v1)
 
-  *(optional, object)* Configuration for an external [tracing](../../intro/arch_overview/tracing.md#arch-overview-tracing) provider. If not specified, no tracing will be performed.
+  *(optional, object)* 外部[追踪](../../intro/arch_overview/tracing.md#arch-overview-tracing)提供者的配置。 如果未指定，将不执行追踪。
 
 - [rate_limit_service](../rate_limit.md#config-rate-limit-service)
 
-  *(optional, object)* Configuration for an external [rate limit service](../../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit) provider. If not specified, any calls to the rate limit service will immediately return success.
+  *(optional, object)* 外部[速率限制服务](../../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit)提供者的配置。如果未指定，任何对速率限制服务的调用将立即返回成功。
 
 - [runtime](../../api-v1/runtime.md#config-runtime-v1)
 
-  *(optional, object)* Configuration for the [runtime configuration](../../intro/arch_overview/runtime.md#arch-overview-runtime) provider. If not specified, a “null” provider will be used which will result in all defaults being used.
+  *(optional, object)* [运行时配置](../../intro/arch_overview/runtime.md#arch-overview-runtime) 提供者的配置。如果没有被指定，一个 “null” 提供者将被使用，这将导致使用所有的默认值。
+配置
