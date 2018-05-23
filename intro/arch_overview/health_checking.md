@@ -10,7 +10,7 @@
 
 Envoy 还支持通过[异常值检测](outlier.md#arch-overview-outlier-detection)进行被动健康检查。
 
-## 链接池交互
+## 连接池交互
 
 请参阅[此处](connection_pooling.md#arch-overview-conn-pool-health-checking)了解更多信息
 
