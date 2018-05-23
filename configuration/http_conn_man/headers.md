@@ -69,7 +69,6 @@ server 标头将在编码期间被设置为 [server_name](https://www.envoyproxy
 XFCC 标头值是逗号（“，”）分隔的字符串。 每个子字符串都是 XFCC 元素，它保存由单个代理添加的信息。
 代理可以将当前客户端证书信息作为 XFCC 元素附加到请求的 XFCC 头后面的逗号后面。
 
-Each XFCC element is a semicolon “;” separated string. Each substring is a key-value pair, grouped together by an equals (“=”) sign. The keys are 
 每个XFCC元素都是分号“;”分隔的字符串。 每个子字符串都是一个键值对，由一个等号（“=”）组成。 密钥不区分大小写，值区分大小写。 如果“，”，“;”或“=”出现在一个值中，则该值应该用双引号。 值中的双引号应该用反斜杠双引号（\\"）替换。
 
 支持以下键值：
@@ -81,7 +80,7 @@ Each XFCC element is a semicolon “;” separated string. Each substring is a k
 5. `URI` 当前客户端证书的主题备用名称（ URI 类型）。
 6. `DNS` 当前客户端证书的主题备用名称字段（URI 类型）。 客户端证书可能包含多个DNS类型的主题备用名称，每个名称都将是一个单独的键值对。
 
-客户端证书可能包含多个主题备用名称类型。 关于不同主题备用名称类型的详细信息，请参阅 [RFC 2459](https://tools.ietf.org/html/rfc2459#section-4.2.1.7)。
+客户端证书可能包含多个主题备用名称类型。关于不同主题备用名称类型的详细信息，请参阅 [RFC 2459](https://tools.ietf.org/html/rfc2459#section-4.2.1.7)。
 
 以下为 XFCC 标头的一些例子：
 
@@ -96,7 +95,8 @@ Envoy 处理 XFCC 的方式由 [forward_client_cert](https://www.envoyproxy.io/d
 
 ### x-forwarded-for
 
-x-forwarded-for (XFF) is a standard proxy header which indicates the IP addresses that a request has flowed through on its way from the client to the server. A compliant proxy will append the IP address of the nearest client to the XFF list before proxying the request. Some examples of XFF are:
+x-forwarded-for (XFF) 是一个标准的代理标头，它表示请求在从客户端到服务器的路上经过的 IP 地址。
+ 在代理请求之前，兼容代理会将最近客户端的 IP 地址附加到 XFF 列表中。 XFF 的一些例子是：
 
 1. `x-forwarded-for: 50.0.0.1` (单客户端)
 2. `x-forwarded-for: 50.0.0.1, 40.0.0.1` (外部代理跳)
@@ -104,25 +104,28 @@ x-forwarded-for (XFF) is a standard proxy header which indicates the IP addresse
 
 仅在 [use_remote_address](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-use-remote-address) HTTP 连接管理选项设置为 true 时，Envoy 才会追加到 XFF 。 这意味着如果 *use_remote_address* 为 false（这是默认值），则连接管理器将以不修改 XFF 的透明模式运行。
 
-    ### 注意
+#### 注意
 
     通常，当 Envoy 作为边缘节点（又名前端代理）进行部署时，应将 *use_remote_address* 设置为 true，而将 Envoy 用作网格部署中的内部服务节点时，可能需要将其设置为false。
 
-use_remote_address 的值控制 Envoy 如何确定####可信客户端地址。 如果 HTTP 请求已经通过一系列代理(零个或多个)传到 Envoy，则可信的客户端地址是已知准确的最早的源IP地址。 直接下游节点与 Envoy 连接的源 IP 地址是可信的。 XFF 有时可以被信任。 恶意客户可以伪造 XFF，但如果 XFF 中的最后一个地址由可信代理放在那里，则可以信任它。
+use_remote_address 的值控制 Envoy 如何确定可信客户端地址。 如果 HTTP 请求已经通过一系列代理(零个或多个)传到 Envoy，则可信的客户端地址是已知准确的最早的源IP地址。 直接下游节点与 Envoy 连接的源 IP 地址是可信的。 XFF 有时可以被信任。恶意客户可以伪造 XFF，但如果 XFF 中的最后一个地址由可信代理放在那里，则可以信任它。
 
 Envoy 用于确定可信客户端地址的默认规则（在向 XFF 添加任何内容之前）是：
 
 - 如果 use_remote_address 为 false 且包含至少一个 IP 地址的 XFF 出现在请求中，则可信客户端地址是 XFF 中的最后（最右边）IP 地址。
 - 否则，可信客户端地址是直接下游节点与 Envoy 连接的源 IP 地址。
 
-In an environment where there are one or more trusted proxies in front of an edge Envoy instance, the xff_num_trusted_hops configuration option can be used to trust additional addresses from XFF:
+在边缘 Envoy 实例前有一个或多个可信代理的环境中，xff_num_trusted_hops 配置选项可以用于信任来自 XFF 的其他地址：
 
-    If use_remote_address is false and xff_num_trusted_hops is set to a value N that is greater than zero, the trusted client address is the (N+1)th address from the right end of XFF. (If the XFF contains fewer than N+1 addresses, Envoy falls back to using the immediate downstream connection’s source address as trusted client address.)
-    If use_remote_address is true and xff_num_trusted_hops is set to a value N that is greater than zero, the trusted client address is the Nth address from the right end of XFF. (If the XFF contains fewer than N addresses, Envoy falls back to using the immediate downstream connection’s source address as trusted client address.)
+- 如果 use_remote_address 为 false 且 xff_num_trusted_hops 设置为大于零的值N，则可信客户端地址为距XFF右端第（N+1）个地址。 
+（如果 XFF 包含的地址少于 N+1 个，Envoy 就会使用直接下行连接的源地址作为可信客户端地址。）
 
-Envoy uses the trusted client address contents to determine whether a request originated externally or internally. This influences whether the x-envoy-internal header is set.
+- 如果 use_remote_address 为 true 并且 xff_num_trusted_hops 设置为大于零的值 N，则可信客户端地址是 XFF 右端的第 N 个地址。
+（如果 XFF 包含的地址少于 N 个，Envoy 就会使用直接下行连接的源地址作为可信客户端地址。）
 
-Example 1: Envoy as edge proxy, without a trusted proxy in front of it
+Envoy 使用可信的客户端地址内容来确定请求是发起于外部还是内部。 这会影响是否设置了 x-envoy-internal 标头。
+
+示例 1: Envoy 作为边缘代理，在它前面没有可信代理
 
     Settings:
         use_remote_address = true
@@ -136,7 +139,7 @@ Example 1: Envoy as edge proxy, without a trusted proxy in front of it
         XFF is changed to “203.0.113.128, 203.0.113.10, 203.0.113.1, 192.0.2.5”
         X-Envoy-Internal is removed (if it was present in the incoming request)
 
-Example 2: Envoy as internal proxy, with the Envoy edge proxy from Example 1 in front of it
+示例 2: Envoy 作为内部代理，在它前面有一个如示例1一般的边缘代理
 
     Settings:
         use_remote_address = false
@@ -149,7 +152,7 @@ Example 2: Envoy as internal proxy, with the Envoy edge proxy from Example 1 in 
         X-Envoy-External-Address is not modified
         X-Envoy-Internal is removed (if it was present in the incoming request)
 
-Example 3: Envoy as edge proxy, with two trusted external proxies in front of it
+示例 3: Envoy 作为边缘代理，在它前面有两个信任的外部代理
 
     Settings:
         use_remote_address = true
@@ -163,7 +166,7 @@ Example 3: Envoy as edge proxy, with two trusted external proxies in front of it
         XFF is changed to “203.0.113.128, 203.0.113.10, 203.0.113.1, 192.0.2.5”
         X-Envoy-Internal is removed (if it was present in the incoming request)
 
-Example 4: Envoy as internal proxy, with the edge proxy from Example 3 in front of it
+示例 4: Envoy 作为内部代理, 它前面有一个如示例3一般的边缘代理
 
     Settings:
         use_remote_address = false
@@ -176,7 +179,7 @@ Example 4: Envoy as internal proxy, with the edge proxy from Example 3 in front 
         X-Envoy-External-Address is not modified
         X-Envoy-Internal is removed (if it was present in the incoming request)
 
-Example 5: Envoy as an internal proxy, receiving a request from an internal client
+示例 5: Envoy 作为内部代理，接收来自一个内部客户的请求
 
     Settings:
         use_remote_address = false
@@ -189,7 +192,7 @@ Example 5: Envoy as an internal proxy, receiving a request from an internal clie
         X-Envoy-External-Address remains unset
         X-Envoy-Internal is set to “true”
 
-Example 6: The internal Envoy from Example 5, receiving a request proxied by another Envoy
+示例 6: 来自示例5的内部 Envoy，接收由另外一个 Envoy 代理的请求
 
     Settings:
         use_remote_address = false
@@ -202,14 +205,14 @@ Example 6: The internal Envoy from Example 5, receiving a request proxied by ano
         X-Envoy-External-Address remains unset
         X-Envoy-Internal is set to “true”
 
-A few very important notes about XFF:
+关于 XFF 的一些非常重要的点:
 
-    If use_remote_address is set to true, Envoy sets the x-envoy-external-address header to the trusted client address.
+1. If use_remote_address is set to true, Envoy sets the x-envoy-external-address header to the trusted client address.
 
-    XFF is what Envoy uses to determine whether a request is internal origin or external origin. If use_remote_address is set to true, the request is internal if and only if the request contains no XFF and the immediate downstream node’s connection to Envoy has an internal (RFC1918 or RFC4193) source address. If use_remote_address is false, the request is internal if and only if XFF contains a single RFC1918 or RFC4193 address.
-        NOTE: If an internal service proxies an external request to another internal service, and includes the original XFF header, Envoy will append to it on egress if use_remote_address is set. This will cause the other side to think the request is external. Generally, this is what is intended if XFF is being forwarded. If it is not intended, do not forward XFF, and forward x-envoy-internal instead.
-        NOTE: If an internal service call is forwarded to another internal service (preserving XFF), Envoy will not consider it internal. This is a known “bug” due to the simplification of how XFF is parsed to determine if a request is internal. In this scenario, do not forward XFF and allow Envoy to generate a new one with a single internal origin IP.
-    Testing IPv6 in a large multi-hop system can be difficult from a change management perspective. For testing IPv6 compatibility of upstream services which parse XFF header values, represent_ipv4_remote_address_as_ipv4_mapped_ipv6 can be enabled in the v2 API. Envoy will append an IPv4 address in mapped IPv6 format, e.g. ::FFFF:50.0.0.1. This change will also apply to x-envoy-external-address.
+2.  XFF is what Envoy uses to determine whether a request is internal origin or external origin. If use_remote_address is set to true, the request is internal if and only if the request contains no XFF and the immediate downstream node’s connection to Envoy has an internal (RFC1918 or RFC4193) source address. If use_remote_address is false, the request is internal if and only if XFF contains a single RFC1918 or RFC4193 address.
+    - NOTE: If an internal service proxies an external request to another internal service, and includes the original XFF header, Envoy will append to it on egress if use_remote_address is set. This will cause the other side to think the request is external. Generally, this is what is intended if XFF is being forwarded. If it is not intended, do not forward XFF, and forward x-envoy-internal instead.
+    - NOTE: If an internal service call is forwarded to another internal service (preserving XFF), Envoy will not consider it internal. This is a known “bug” due to the simplification of how XFF is parsed to determine if a request is internal. In this scenario, do not forward XFF and allow Envoy to generate a new one with a single internal origin IP.
+3. Testing IPv6 in a large multi-hop system can be difficult from a change management perspective. For testing IPv6 compatibility of upstream services which parse XFF header values, represent_ipv4_remote_address_as_ipv4_mapped_ipv6 can be enabled in the v2 API. Envoy will append an IPv4 address in mapped IPv6 format, e.g. ::FFFF:50.0.0.1. This change will also apply to x-envoy-external-address.
 
 
 ### x-forwarded-proto
@@ -219,11 +222,14 @@ A few very important notes about XFF:
 ### x-request-id
 
 Envoy 使用 x-request-id 头来唯一标识请求并执行稳定的访问日志记录和跟踪。Envoy将为所有外部来源请求生成一个 x-request-id 头（标头被清理）。
-它还会为没有 x-request-id 头的内部请求生成一个 x-request-id 头。 This means that x-request-id can and should be propagated between client applications in order to have stable IDs across the entire mesh. Due to the out of process architecture of Envoy, the header can not be automatically forwarded by Envoy itself. This is one of the few areas where a thin client library is needed to perform this duty. How that is done is out of scope for this documentation. If x-request-id is propagated across all hosts, the following features are available:
+它还会为没有 x-request-id 头的内部请求生成一个 x-request-id 头。
+
+这意味着 x-request-id 能且应该在客户端应用程序间传播， 以便在整个网格中拥有一个稳定的 ID。
+由于 Envoy 的与流程无关的架构设计，Envoy 本身不能自动地转发标头。这是少数瘦客户端库需要做的工作之一。如何去做，这个话题超出了本文档的范围。
+如 x-request-id 跨所有主机传播，则可使用如下功能：
 
 - 稳定的 [访问记录](../../configuration/access_log.md#config-access-log) 通过 [v1 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v1/access_log#config-http-con-manager-access-log-filters-runtime-v1) 或 [v2 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/accesslog/v2/accesslog.proto#envoy-api-field-config-filter-accesslog-v2-accesslogfilter-runtime-filter)。
 - 进行随机抽样时稳定的追踪，通过开启 [tracing.random_sampling](../../configuration/http_conn_man/runtime.md#config-http-conn-man-runtime-random-sampling) 运行时配置或是使用 [x-envoy-force-trace](#x-envoy-force-trace) 标头以及 [x-client-trace-id](#x-client-trace-id) 标头进行强行追踪。
-
 
 ### x-ot-span-context
 
@@ -259,17 +265,18 @@ Envoy 的 Zipkin 追踪器使用 x-b3-flags 标头。 编码一个或多个选�
 
 ### custom-request-response-headers
 
-Custom request/response headers can be added to a request/response at the weighted cluster, route, virtual host, and/or global route configuration level. See the relevant v1 and v2 API documentation.
+自定义请求/响应标头可以在加权集群、路由、虚拟主机和/或全局路由配置级别添加到请求/响应中。具体可参看相关的 V1 以及 V2 API文档。
 
-Headers are appended to requests/responses in the following order: weighted cluster level headers, route level headers, virtual host level headers and finally global level headers.
+标头将按照以下顺序附加到请求/响应中：加权集群级别标头、路由级别标头、虚拟主机级别标头以及全局级别标头。
 
-Envoy supports adding dynamic values to request and response headers. The percent symbol (%) is used to delimit variable names.
+Envoy 支持将变量添加到请求以及响应标头。百分号(%)用于分割变量名称。
 
-Attention
+注意
 
-If a literal percent symbol (%) is desired in a request/response header, it must be escaped by doubling it. For example, to emit a header with the value 100%, the custom header value in the Envoy configuration must be 100%%.
+如果需要在请求/响应标头内增加一个书面的百分比符号（%），则需要重复它以达到转义的效果。
+例如，要发送值为100%的标头，Envoy 配置中的自定义标头必须为 100%%。
 
-Supported variable names are:
+支持的变量名有：
 
 %DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%
 
