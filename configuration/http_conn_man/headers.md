@@ -70,47 +70,50 @@ XFCC 标头值是逗号（“，”）分隔的字符串。 每个子字符串�
 代理可以将当前客户端证书信息作为 XFCC 元素附加到请求的 XFCC 头后面的逗号后面。
 
 Each XFCC element is a semicolon “;” separated string. Each substring is a key-value pair, grouped together by an equals (“=”) sign. The keys are 
-每个XFCC元素都是分号“;”分隔的字符串。 每个子字符串都是一个键值对，由一个等号（“=”）组成。 密钥不区分大小写，值区分大小写。 如果“，”，“;”或“=”出现在一个值中，则该值应该用双引号。 值中的双引号应该用反斜杠双引号（\"）替换。
+每个XFCC元素都是分号“;”分隔的字符串。 每个子字符串都是一个键值对，由一个等号（“=”）组成。 密钥不区分大小写，值区分大小写。 如果“，”，“;”或“=”出现在一个值中，则该值应该用双引号。 值中的双引号应该用反斜杠双引号（\\"）替换。
 
 支持以下键值：
 
-1. `By` The Subject Alternative Name (URI type) of the current proxy’s certificate.
+1. `By` 当前代理证书的主题备用名称（ URI 类型）。
 2. `Hash` The SHA 256 diguest of the current client certificate.
-3. `Cert` The entire client certificate in URL encoded PEM format.
-4. `Subject` The Subject field of the current client certificate. The value is always double-quoted.
-5. `URI` The URI type Subject Alternative Name field of the current client certificate.
-6. `DNS` The DNS type Subject Alternative Name field of the current client certificate. A client certificate may contain multiple DNS type Subject Alternative Names, each will be a separate key-value pair.
+3. `Cert` 当前客户端证书的 SHA 256 摘要。
+4. `Subject` 当前客户端证书的主题字段。 该值总是用双引号括起来。
+5. `URI` 当前客户端证书的主题备用名称（ URI 类型）。
+6. `DNS` 当前客户端证书的主题备用名称字段（URI 类型）。 客户端证书可能包含多个DNS类型的主题备用名称，每个名称都将是一个单独的键值对。
 
-A client certificate may contain multiple Subject Alternative Name types. For details on different Subject Alternative Name types, please refer RFC 2459.
+客户端证书可能包含多个主题备用名称类型。 关于不同主题备用名称类型的详细信息，请参阅 [RFC 2459](https://tools.ietf.org/html/rfc2459#section-4.2.1.7)。
 
-Some examples of the XFCC header are:
+以下为 XFCC 标头的一些例子：
 
-    For one client certificate with only URI type Subject Alternative Name: x-forwarded-client-cert: By=http://frontend.lyft.com;Hash=468ed33be74eee6556d90c0149c1309e9ba61d6425303443c0748a02dd8de688;Subject="/C=US/ST=CA/L=San Francisco/OU=Lyft/CN=Test Client";URI=http://testclient.lyft.com
-    For two client certificates with only URI type Subject Alternative Name: x-forwarded-client-cert: By=http://frontend.lyft.com;Hash=468ed33be74eee6556d90c0149c1309e9ba61d6425303443c0748a02dd8de688;URI=http://testclient.lyft.com,By=http://backend.lyft.com;Hash=9ba61d6425303443c0748a02dd8de688468ed33be74eee6556d90c0149c1309e;URI=http://frontend.lyft.com
-    For one client certificate with both URI type and DNS type Subject Alternative Name: x-forwarded-client-cert: By=http://frontend.lyft.com;Hash=468ed33be74eee6556d90c0149c1309e9ba61d6425303443c0748a02dd8de688;Subject="/C=US/ST=CA/L=San Francisco/OU=Lyft/CN=Test Client";URI=http://testclient.lyft.com;DNS=lyft.com;DNS=www.lyft.com
+1. 对于只有URI类型的客户端证书使用主题备用名称：
+`x-forwarded-client-cert: By=http://frontend.lyft.com;Hash=468ed33be74eee6556d90c0149c1309e9ba61d6425303443c0748a02dd8de688;Subject="/C=US/ST=CA/L=San Francisco/OU=Lyft/CN=Test Client";URI=http://testclient.lyft.com`
+2. 对于只有URI类型的两个客户端证书使用替代名称：
+`x-forwarded-client-cert: By=http://frontend.lyft.com;Hash=468ed33be74eee6556d90c0149c1309e9ba61d6425303443c0748a02dd8de688;URI=http://testclient.lyft.com,By=http://backend.lyft.com;Hash=9ba61d6425303443c0748a02dd8de688468ed33be74eee6556d90c0149c1309e;URI=http://frontend.lyft.com`    
+3. 对于同时具有URI类型和DNS类型的一个客户端证书使用替代名称：
+`x-forwarded-client-cert: By=http://frontend.lyft.com;Hash=468ed33be74eee6556d90c0149c1309e9ba61d6425303443c0748a02dd8de688;Subject="/C=US/ST=CA/L=San Francisco/OU=Lyft/CN=Test Client";URI=http://testclient.lyft.com;DNS=lyft.com;DNS=www.lyft.com`
 
-How Envoy processes XFCC is specified by the forward_client_cert and the set_current_client_cert_details HTTP connection manager options. If forward_client_cert is unset, the XFCC header will be sanitized by default.
+Envoy 处理 XFCC 的方式由 [forward_client_cert](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-forward-client-cert) 和[set_current_client_cert_details](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-set-current-client-cert-details) HTTP 连接管理器选项指定。 如果未设置 *forward_client_cert*，则默认情况下会对 XFCC 标头进行清理。
 
 ### x-forwarded-for
 
 x-forwarded-for (XFF) is a standard proxy header which indicates the IP addresses that a request has flowed through on its way from the client to the server. A compliant proxy will append the IP address of the nearest client to the XFF list before proxying the request. Some examples of XFF are:
 
-    x-forwarded-for: 50.0.0.1 (single client)
-    x-forwarded-for: 50.0.0.1, 40.0.0.1 (external proxy hop)
-    x-forwarded-for: 50.0.0.1, 10.0.0.1 (internal proxy hop)
+1. `x-forwarded-for: 50.0.0.1` (单客户端)
+2. `x-forwarded-for: 50.0.0.1, 40.0.0.1` (外部代理跳)
+3. `x-forwarded-for: 50.0.0.1, 10.0.0.1` (内部代理跳)
 
-Envoy will only append to XFF if the use_remote_address HTTP connection manager option is set to true. This means that if use_remote_address is false (which is the default), the connection manager operates in a transparent mode where it does not modify XFF.
+仅在 [use_remote_address](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-use-remote-address) HTTP 连接管理选项设置为 true 时，Envoy 才会追加到 XFF 。 这意味着如果 *use_remote_address* 为 false（这是默认值），则连接管理器将以不修改 XFF 的透明模式运行。
 
-Attention
+    ### 注意
 
-In general, use_remote_address should be set to true when Envoy is deployed as an edge node (aka a front proxy), whereas it may need to be set to false when Envoy is used as an internal service node in a mesh deployment.
+    通常，当 Envoy 作为边缘节点（又名前端代理）进行部署时，应将 *use_remote_address* 设置为 true，而将 Envoy 用作网格部署中的内部服务节点时，可能需要将其设置为false。
 
-The value of use_remote_address controls how Envoy determines the #### trusted client address. Given an HTTP request that has traveled through a series of zero or more proxies to reach Envoy, the trusted client address is the earliest source IP address that is known to be accurate. The source IP address of the immediate downstream node’s connection to Envoy is trusted. XFF sometimes can be trusted. Malicious clients can forge XFF, but the last address in XFF can be trusted if it was put there by a trusted proxy.
+use_remote_address 的值控制 Envoy 如何确定####可信客户端地址。 如果 HTTP 请求已经通过一系列代理(零个或多个)传到 Envoy，则可信的客户端地址是已知准确的最早的源IP地址。 直接下游节点与 Envoy 连接的源 IP 地址是可信的。 XFF 有时可以被信任。 恶意客户可以伪造 XFF，但如果 XFF 中的最后一个地址由可信代理放在那里，则可以信任它。
 
-Envoy’s default rules for determining the trusted client address (before appending anything to XFF) are:
+Envoy 用于确定可信客户端地址的默认规则（在向 XFF 添加任何内容之前）是：
 
-    If use_remote_address is false and an XFF containing at least one IP address is present in the request, the trusted client address is the last (rightmost) IP address in XFF.
-    Otherwise, the trusted client address is the source IP address of the immediate downstream node’s connection to Envoy.
+- 如果 use_remote_address 为 false 且包含至少一个 IP 地址的 XFF 出现在请求中，则可信客户端地址是 XFF 中的最后（最右边）IP 地址。
+- 否则，可信客户端地址是直接下游节点与 Envoy 连接的源 IP 地址。
 
 In an environment where there are one or more trusted proxies in front of an edge Envoy instance, the xff_num_trusted_hops configuration option can be used to trust additional addresses from XFF:
 
@@ -215,10 +218,11 @@ A few very important notes about XFF:
 
 ### x-request-id
 
-The x-request-id header is used by Envoy to uniquely identify a request as well as perform stable access logging and tracing. Envoy will generate an x-request-id header for all external origin requests (the header is sanitized). It will also generate an x-request-id header for internal requests that do not already have one. This means that x-request-id can and should be propagated between client applications in order to have stable IDs across the entire mesh. Due to the out of process architecture of Envoy, the header can not be automatically forwarded by Envoy itself. This is one of the few areas where a thin client library is needed to perform this duty. How that is done is out of scope for this documentation. If x-request-id is propagated across all hosts, the following features are available:
+Envoy 使用 x-request-id 头来唯一标识请求并执行稳定的访问日志记录和跟踪。Envoy将为所有外部来源请求生成一个 x-request-id 头（标头被清理）。
+它还会为没有 x-request-id 头的内部请求生成一个 x-request-id 头。 This means that x-request-id can and should be propagated between client applications in order to have stable IDs across the entire mesh. Due to the out of process architecture of Envoy, the header can not be automatically forwarded by Envoy itself. This is one of the few areas where a thin client library is needed to perform this duty. How that is done is out of scope for this documentation. If x-request-id is propagated across all hosts, the following features are available:
 
-- Stable [access logging] via the [v1 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v1/access_log#config-http-con-manager-access-log-filters-runtime-v1) or the [v2 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/accesslog/v2/accesslog.proto#envoy-api-field-config-filter-accesslog-v2-accesslogfilter-runtime-filter).
-- Stable tracing when performing random sampling via the [tracing.random_sampling] runtime setting or via forced tracing using the [x-envoy-force-trace](#x-envoy-force-trace) and [x-client-trace-id](#x-client-trace-id) headers.
+- 稳定的 [访问记录](../../configuration/access_log.md#config-access-log) 通过 [v1 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v1/access_log#config-http-con-manager-access-log-filters-runtime-v1) 或 [v2 API 运行时过滤器](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/accesslog/v2/accesslog.proto#envoy-api-field-config-filter-accesslog-v2-accesslogfilter-runtime-filter)。
+- 进行随机抽样时稳定的追踪，通过开启 [tracing.random_sampling](../../configuration/http_conn_man/runtime.md#config-http-conn-man-runtime-random-sampling) 运行时配置或是使用 [x-envoy-force-trace](#x-envoy-force-trace) 标头以及 [x-client-trace-id](#x-client-trace-id) 标头进行强行追踪。
 
 
 ### x-ot-span-context
