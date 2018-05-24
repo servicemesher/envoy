@@ -2215,87 +2215,191 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;">&#x8BBF;&#x95EE;&#x8BB0;&#x5F55;</h1>
-<h2 id="configuration">Configuration</h2>
-<p>Access logs are configured as part of the <a href="http_conn_man/http_conn_man.html#config-http-conn-man">HTTP connection manager config</a> or <a href="network_filters/tcp_proxy_filter.html#config-network-filters-tcp-proxy">TCP Proxy</a>.</p>
+                                <h1 id="&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;">&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;</h1>
+<h2 id="&#x914D;&#x7F6E;">&#x914D;&#x7F6E;</h2>
+<p>&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;&#x914D;&#x7F6E;&#x662F; <a href="http_conn_man/http_conn_man.html#config-http-conn-man">HTTP &#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x5668;&#x914D;&#x7F6E;</a>&#x6216;&#x8005; <a href="network_filters/tcp_proxy_filter.html#config-network-filters-tcp-proxy">TCP &#x4EE3;&#x7406;&#x914D;&#x7F6E;</a> &#x4E2D;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;</p>
 <ul>
-<li><a href="../api-v1/access_log.md#config-access-log-v1">v1 API reference</a></li>
-<li><a href="../api-v2/config/filter/accesslog/v2/accesslog.proto.md#envoy-api-msg-config-filter-accesslog-v2-accesslog">v2 API reference</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v1/access_log#config-access-log-v1" target="_blank">v1 API &#x53C2;&#x8003;</a></li>
+<li><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/accesslog/v2/accesslog.proto#envoy-api-msg-config-filter-accesslog-v2-accesslog" target="_blank">v2 API &#x53C2;&#x8003;</a></li>
 </ul>
-<h2 id="format-rules">Format rules</h2>
-<p>The access log format string contains either command operators or other characters interpreted as a plain string. The access log formatter does not make any assumptions about a new line separator, so one has to specified as part of the format string. See the <a href="#config-access-log-default-format">default format</a> for an example. Note that the access log line will contain a &#x2018;-&#x2018; character for every not set/empty value.</p>
-<p>The same format strings are used by different types of access logs (such as HTTP and TCP). Some fields may have slightly different meanings, depending on what type of log it is. Differences are noted.</p>
-<p>The following command operators are supported:</p>
+<h2 id="&#x683C;&#x5F0F;&#x89C4;&#x5219;">&#x683C;&#x5F0F;&#x89C4;&#x5219;</h2>
+<p>&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;&#x683C;&#x5F0F;&#x5B57;&#x7B26;&#x4E32;&#x5305;&#x542B;&#x4E86;&#x547D;&#x4EE4;&#x64CD;&#x4F5C;&#x7B26;&#x4EE5;&#x53CA;&#x5176;&#x4ED6;&#x6587;&#x672C;&#x3002;&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;&#x7684;&#x683C;&#x5F0F;&#x5316;&#x8FC7;&#x7A0B;&#x5E76;&#x4E0D;&#x4F1A;&#x5BF9;&#x6362;&#x884C;&#x7B26;&#x505A;&#x51FA;&#x4EC0;&#x4E48;&#x5047;&#x8BBE;&#xFF0C;&#x6240;&#x4EE5;&#x5E94;&#x8BE5;&#x5C06;&#x5176;&#x8BBE;&#x7F6E;&#x4E3A;&#x683C;&#x5F0F;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x7EC4;&#x6210;&#x90E8;&#x5206;&#x3002;&#x8BF7;&#x53C2;&#x9605;&#x793A;&#x4F8B;&#x7684;<a href="#config-access-log-default-format">&#x7F3A;&#x7701;&#x683C;&#x5F0F;</a>&#x3002;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;&#x4F1A;&#x5728;&#x672A;&#x8BBE;&#x7F6E;&#x3001;&#x6216;&#x8005;&#x7A7A;&#x503C;&#x7684;&#x4F4D;&#x7F6E;&#x52A0;&#x5165;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#xFF1A;&#x201C;-&#x201D;&#x3002;</p>
+<p>&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;&#xFF08;&#x4F8B;&#x5982; HTTP &#x548C; TCP&#xFF09;&#x5171;&#x7528;&#x540C;&#x6837;&#x7684;&#x683C;&#x5F0F;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x65E5;&#x5FD7;&#x4E2D;&#xFF0C;&#x67D0;&#x4E9B;&#x5B57;&#x6BB5;&#x53EF;&#x80FD;&#x4F1A;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x542B;&#x4E49;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x652F;&#x6301;&#x7684;&#x547D;&#x4EE4;&#xFF1A;</p>
 <ul>
-<li><p>%START_TIME%</p>
-<p>HTTPRequest start time including milliseconds.TCPDownstream connection start time including milliseconds.START_TIME can be customized using a <a href="http://en.cppreference.com/w/cpp/io/manip/put_time" target="_blank">format string</a>, for example:</p>
+<li><p><em>%START_TIME%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>Request &#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF0C;&#x7CBE;&#x786E;&#x5230;&#x6BEB;&#x79D2;&#x3002;</p>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x4E0B;&#x6E38;&#x8FDE;&#x63A5;&#x7684;&#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF0C;&#x7CBE;&#x786E;&#x5230;&#x6BEB;&#x79D2;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x7528;<a href="http://en.cppreference.com/w/cpp/io/manip/put_time" target="_blank">&#x683C;&#x5F0F;&#x5316;&#x5B57;&#x7B26;&#x4E32;</a>&#x5BF9; START_TIME &#x8FDB;&#x884C;&#x5B9A;&#x5236;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;<code>%START_TIME(%Y/%m/%dT%H:%M:%S%z %s)%</code></p>
 </li>
 </ul>
-<pre class="language-"><code>%START_TIME(%Y/%m/%dT%H:%M:%S%z %s)%
-</code></pre><ul>
-<li><p>%BYTES_RECEIVED%</p>
-<p>HTTPBody bytes received.TCPDownstream bytes received on connection.</p>
 </li>
-<li><p>%PROTOCOL%</p>
-<p>HTTPProtocol. Currently either <em>HTTP/1.1</em> or <em>HTTP/2</em>.TCPNot implemented (&#x201C;-&#x201C;).</p>
+<li><p><em>%BYTES_RECEIVED%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>&#x6536;&#x5230;&#x7684; Body &#x5B57;&#x8282;&#x6570;&#x3002;</p>
 </li>
-<li><p>%RESPONSE_CODE%</p>
-<p>HTTPHTTP response code. Note that a response code of &#x2018;0&#x2019; means that the server never sent the beginning of a response. This generally means that the (downstream) client disconnected.TCPNot implemented (&#x201C;-&#x201C;).</p>
-</li>
-<li><p>%BYTES_SENT%</p>
-<p>HTTPBody bytes sent.TCPDownstream bytes sent on connection.</p>
-</li>
-<li><p>%DURATION%</p>
-<p>HTTPTotal duration in milliseconds of the request from the start time to the last byte out.TCPTotal duration in milliseconds of the downstream connection.</p>
-</li>
-<li><p>%RESPONSE_FLAGS%</p>
-<p>Additional details about the response or connection, if any. For TCP connections, the response codes mentioned in the descriptions do not apply. Possible values are:HTTP and TCP<strong>UH</strong>: No healthy upstream hosts in upstream cluster in addition to 503 response code.<strong>UF</strong>: Upstream connection failure in addition to 503 response code.<strong>UO</strong>: Upstream overflow (<a href="../intro/arch_overview/circuit_breaking.html#arch-overview-circuit-break">circuit breaking</a>) in addition to 503 response code.<strong>NR</strong>: No <a href="../intro/arch_overview/http_routing.html#arch-overview-http-routing">route configured</a> for a given request in addition to 404 response code.HTTP only<strong>LH</strong>: Local service failed <a href="../intro/arch_overview/health_checking.html#arch-overview-health-checking">health check request</a> in addition to 503 response code.<strong>UT</strong>: Upstream request timeout in addition to 504 response code.<strong>LR</strong>: Connection local reset in addition to 503 response code.<strong>UR</strong>: Upstream remote reset in addition to 503 response code.<strong>UC</strong>: Upstream connection termination in addition to 503 response code.<strong>DI</strong>: The request processing was delayed for a period specified via <a href="http_filters/fault_filter.html#config-http-filters-fault-injection">fault injection</a>.<strong>FI</strong>: The request was aborted with a response code specified via <a href="http_filters/fault_filter.html#config-http-filters-fault-injection">fault injection</a>.<strong>RL</strong>: The request was ratelimited locally by the <a href="http_filters/rate_limit_filter.html#config-http-filters-rate-limit">HTTP rate limit filter</a> in addition to 429 response code.</p>
-</li>
-<li><p>%UPSTREAM_HOST%</p>
-<p>Upstream host URL (e.g., <a href="tcp://ip:port" target="_blank">tcp://ip:port</a> for TCP connections).</p>
-</li>
-<li><p>%UPSTREAM_CLUSTER%</p>
-<p>Upstream cluster to which the upstream host belongs to.</p>
-</li>
-<li><p>%UPSTREAM_LOCAL_ADDRESS%</p>
-<p>Local address of the upstream connection. If the address is an IP address it includes both address and port.</p>
-</li>
-<li><p>%DOWNSTREAM_REMOTE_ADDRESS%</p>
-<p>Remote address of the downstream connection. If the address is an IP address it includes both address and port.NoteThis may not be the physical remote address of the peer if the address has been inferred from <a href="../api-v2/api/v2/listener/listener.proto.md#envoy-api-field-listener-filterchain-use-proxy-proto">proxy proto</a> or <a href="http_conn_man/headers.html#config-http-conn-man-headers-x-forwarded-for">x-forwarded-for</a>.</p>
-</li>
-<li><p>%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%</p>
-<p>Remote address of the downstream connection. If the address is an IP address the output does<em>not</em> include port.NoteThis may not be the physical remote address of the peer if the address has been inferred from <a href="../api-v2/api/v2/listener/listener.proto.md#envoy-api-field-listener-filterchain-use-proxy-proto">proxy proto</a> or <a href="http_conn_man/headers.html#config-http-conn-man-headers-x-forwarded-for">x-forwarded-for</a>.</p>
-</li>
-<li><p>%DOWNSTREAM_LOCAL_ADDRESS%</p>
-<p>Local address of the downstream connection. If the address is an IP address it includes both address and port. If the original connection was redirected by iptables REDIRECT, this represents the original destination address restored by the <a href="listener_filters/original_dst_filter.html#config-listener-filters-original-dst">Original Destination Filter</a> using SO_ORIGINAL_DST socket option. If the original connection was redirected by iptables TPROXY, and the listener&#x2019;s transparent option was set to true, this represents the original destination address and port.</p>
-</li>
-<li><p>%DOWNSTREAM_LOCAL_ADDRESS_WITHOUT_PORT%</p>
-<p>Same as <strong>%DOWNSTREAM_LOCAL_ADDRESS%</strong> excluding port if the address is an IP address.</p>
-</li>
-<li><p>%REQ(X?Y):Z%</p>
-<p>HTTPAn HTTP request header where X is the main HTTP header, Y is the alternative one, and Z is an optional parameter denoting string truncation up to Z characters long. The value is taken from the HTTP request header named X first and if it&#x2019;s not set, then request header Y is used. If none of the headers are present &#x2018;-&#x2018; symbol will be in the log.TCPNot implemented (&#x201C;-&#x201C;).</p>
-</li>
-<li><p>%RESP(X?Y):Z%</p>
-<p>HTTPSame as <strong>%REQ(X?Y):Z%</strong> but taken from HTTP response headers.TCPNot implemented (&#x201C;-&#x201C;).</p>
-</li>
-<li><p>%TRAILER(X?Y):Z%</p>
-<p>HTTPSame as <strong>%REQ(X?Y):Z%</strong> but taken from HTTP response trailers.TCPNot implemented (&#x201C;-&#x201C;).</p>
-</li>
-<li><p>%DYNAMIC_METADATA(NAMESPACE:KEY*):Z%</p>
-<p>HTTP<a href="../api-v2/api/v2/core/base.proto.md#envoy-api-msg-core-metadata">Dynamic Metadata</a> info, where NAMESPACE is the the filter namespace used when setting the metadata, KEY is an optional lookup up key in the namespace with the option of specifying nested keys separated by &#x2018;:&#x2019;, and Z is an optional parameter denoting string truncation up to Z characters long. Dynamic Metadata can be set by filters using the <a href="https://github.com/envoyproxy/envoy/blob/master/include/envoy/request_info/request_info.h" target="_blank">RequestInfo</a> API: <em>setDynamicMetadata</em>. The data will be logged as a JSON string. For example, for the following dynamic metadata:<code>com.test.my_filter: {&quot;test_key&quot;: &quot;foo&quot;, &quot;test_object&quot;: {&quot;inner_key&quot;: &quot;bar&quot;}}</code>%DYNAMIC_METADATA(com.test.my_filter)% will log: <code>{&quot;test_key&quot;: &quot;foo&quot;, &quot;test_object&quot;: {&quot;inner_key&quot;: &quot;bar&quot;}}</code>%DYNAMIC_METADATA(com.test.my_filter:test_key)% will log: <code>&quot;foo&quot;</code>%DYNAMIC_METADATA(com.test.my_filter:test_object)% will log: <code>{&quot;inner_key&quot;: &quot;bar&quot;}</code>%DYNAMIC_METADATA(com.test.my_filter:test_object:inner_key)% will log: <code>&quot;bar&quot;</code>%DYNAMIC_METADATA(com.unknown_filter)% will log: <code>-</code>%DYNAMIC_METADATA(com.test.my_filter:unknown_key)% will log: <code>-</code>%DYNAMIC_METADATA(com.test.my_filter):25% will log (truncation at 25 characters): <code>{&quot;test_key&quot;: &quot;foo&quot;, &quot;test</code>TCPNot implemented (&#x201C;-&#x201C;).</p>
+<li><p><em>TCP</em></p>
+<p>&#x4E0B;&#x6E38;&#x8FDE;&#x63A5;&#x4E0A;&#x6536;&#x5230;&#x7684;&#x5B57;&#x8282;&#x6570;&#x3002;</p>
 </li>
 </ul>
-<h2 id="default-format">Default format</h2>
-<p>If custom format is not specified, Envoy uses the following default format:</p>
+</li>
+<li><p><em>%PROTOCOL%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>&#x534F;&#x8BAE;&#x3002;&#x76EE;&#x524D;&#x53D6;&#x503C;&#x4E3A; <em>HTTP/1.1</em> &#x6216; <em>HTTP/2</em>&#x3002;</p>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x672A;&#x5B9E;&#x73B0; (&#x201C;-&#x201C;)&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p><em>%RESPONSE_CODE%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>HTTP &#x54CD;&#x5E94;&#x7801;&#x3002;&#x6CE8;&#x610F;&#x5982;&#x679C;&#x54CD;&#x5E94;&#x7801;&#x4E3A; 0&#xFF0C;&#x8BF4;&#x660E;&#x670D;&#x52A1;&#x5668;&#x4ECE;&#x672A;&#x53D1;&#x9001;&#x8FC7;&#x54CD;&#x5E94;&#xFF0C;&#x8FD9;&#x4E00;&#x822C;&#x662F;&#x8BF4;&#x660E;&#xFF08;&#x4E0B;&#x6E38;&#xFF09;&#x5BA2;&#x6237;&#x7AEF;&#x65AD;&#x5F00;&#x4E86;&#x3002;</p>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x672A;&#x5B9E;&#x73B0; (&#x201C;-&#x201C;)&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p><em>%BYTES_SENT%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>&#x53D1;&#x9001;&#x51FA;&#x53BB;&#x7684; Body &#x5B57;&#x8282;&#x6570;&#x3002;</p>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x5728;&#x8FDE;&#x63A5;&#x4E2D;&#x5411;&#x4E0B;&#x6E38;&#x53D1;&#x9001;&#x7684;&#x5B57;&#x8282;&#x6570;&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p><em>%DURATION%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x4ECE;&#x5F00;&#x59CB;&#x5230;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x4F20;&#x8F93;&#x5B8C;&#x6210;&#x7684;&#x7684;&#x6301;&#x7EED;&#x65F6;&#x95F4;&#xFF0C;&#x5355;&#x4F4D;&#x662F;&#x6BEB;&#x79D2;&#x3002;</p>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x4E0B;&#x6E38;&#x8FDE;&#x63A5;&#x7684;&#x6301;&#x7EED;&#x65F6;&#x95F4;&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p><em>%RESPONSE_FLAGS%</em></p>
+<p>&#x5173;&#x4E8E;&#x54CD;&#x5E94;&#x6216;&#x8FDE;&#x63A5;&#x7684;&#x9644;&#x52A0;&#x7EC6;&#x8282;&#x3002;&#x8FD9;&#x91CC;&#x63CF;&#x8FF0;&#x7684;&#x54CD;&#x5E94;&#x7801;&#x662F;&#x4E0D;&#x9002;&#x7528;&#x4E8E; TCP &#x8FDE;&#x63A5;&#x7684;&#x3002;&#x53EF;&#x80FD;&#x7684;&#x53D6;&#x503C;&#x5305;&#x62EC;&#xFF1A;</p>
+<ul>
+<li><p><em>HTTP &#x548C; TCP</em></p>
+<ul>
+<li><em>UH</em>&#xFF1A;503 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x4E0A;&#x6E38;&#x96C6;&#x7FA4;&#x4E2D;&#x6CA1;&#x6709;&#x5065;&#x5EB7;&#x7684;&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x3002;</li>
+<li><em>UF</em>&#xFF1A;503 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x4E0A;&#x6E38;&#x8FDE;&#x63A5;&#x5931;&#x8D25;&#x3002;</li>
+<li><em>UO</em>&#xFF1A;503 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x4E0A;&#x6E38;&#x6EA2;&#x51FA;&#xFF08;<a href="../../intro/arch_overview/circuit_breaking.md#arch-overview-circuit-break">&#x7194;&#x65AD;</a>&#x72B6;&#x6001;&#xFF09;&#x3002;</li>
+<li><em>NR</em>&#xFF1A;404 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x7ED9;&#x5B9A;&#x8BF7;&#x6C42;&#x6CA1;&#x6709;<a href="../../intro/arch_overview/http_routing.md#arch-overview-http-routing">&#x8DEF;&#x7531;&#x914D;&#x7F6E;</a>&#x3002;</li>
+</ul>
+</li>
+<li><p><em>HTTP &#x4E13;&#x7528;</em></p>
+<ul>
+<li><em>LH</em>&#xFF1A;503 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x672C;&#x5730;&#x670D;&#x52A1;<a href="../../intro/arch_overview/health_checking.md#arch-overview-health-checking">&#x5065;&#x5EB7;&#x68C0;&#x67E5;</a>&#x5931;&#x8D25;&#x3002;</li>
+<li><em>UT</em>&#xFF1A;504 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x4E0A;&#x6E38;&#x8BF7;&#x6C42;&#x8D85;&#x65F6;&#x3002;</li>
+<li><em>LR</em>&#xFF1A;503 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x8FDE;&#x63A5;&#x5728;&#x672C;&#x5730;&#x88AB;&#x590D;&#x4F4D;&#x3002;</li>
+<li><em>UR</em>&#xFF1A;503 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x4E0A;&#x6E38;&#x590D;&#x4F4D;&#x8FDE;&#x63A5;&#x3002;</li>
+<li><em>UC</em>&#xFF1A;503 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;&#x4E0A;&#x6E38;&#x94FE;&#x63A5;&#x7EC8;&#x6B62;&#x3002;</li>
+<li><em>DI</em>&#xFF1A;&#x8BE5;&#x8BF7;&#x6C42;&#x53D7;<a href="http_filters/fault_filter.html#config-http-filters-fault-injection">&#x9519;&#x8BEF;&#x6CE8;&#x5165;</a>&#x529F;&#x80FD;&#x5F71;&#x54CD;&#xFF0C;&#x5EF6;&#x8FDF;&#x6307;&#x5B9A;&#x65F6;&#x95F4;&#x3002;</li>
+<li><em>FI</em>&#xFF1A;&#x8FD9;&#x4E00;&#x8BF7;&#x6C42;&#x53D7;<a href="http_filters/fault_filter.html#config-http-filters-fault-injection">&#x9519;&#x8BEF;&#x6CE8;&#x5165;</a>&#x529F;&#x80FD;&#x5F71;&#x54CD;&#xFF0C;&#x8FD4;&#x56DE;&#x4E86;&#x6307;&#x5B9A;&#x7684;&#x72B6;&#x6001;&#x7801;&#x3002;</li>
+<li><em>RL</em>&#xFF1A;429 &#x54CD;&#x5E94;&#x7801;&#x7684;&#x8865;&#x5145;&#x4FE1;&#x606F;&#xFF0C;<a href="http_filters/rate_limit_filter#config-http-filters-rate-limit">HTTP &#x9891;&#x7387;&#x9650;&#x5236;&#x8FC7;&#x6EE4;&#x5668;</a>&#x7684;&#x914D;&#x7F6E;&#x9650;&#x5236;&#x4E86;&#x8FD9;&#x4E00;&#x8BF7;&#x6C42;&#x3002;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em>%UPSTREAM_HOST%</em></p>
+<p>&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x7684; URL&#xFF08;&#x5BF9; TCP &#x94FE;&#x63A5;&#x6765;&#x8BF4;&#x5C31;&#x662F;&#xFF1A;<code>tcp://ip:port</code>&#xFF09;</p>
+</li>
+<li><p><em>%UPSTREAM_CLUSTER%</em></p>
+<p>&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x6240;&#x5C5E;&#x7684;&#x4E0A;&#x6E38;&#x96C6;&#x7FA4;&#x3002;</p>
+</li>
+<li><p><em>%UPSTREAM_LOCAL_ADDRESS%</em></p>
+<p>&#x4E0A;&#x6E38;&#x8FDE;&#x63A5;&#x7684;&#x672C;&#x5730;&#x5730;&#x5740;&#xFF0C;&#x5982;&#x679C;&#x662F; Ip &#x5730;&#x5740;&#xFF0C;&#x90A3;&#x4E48;&#x5176;&#x4E2D;&#x4F1A;&#x5305;&#x542B;&#x5730;&#x5740;&#x548C;&#x7AEF;&#x53E3;&#x3002;</p>
+</li>
+<li><p><em>%DOWNSTREAM_REMOTE_ADDRESS%</em></p>
+<p>&#x4E0B;&#x6E38;&#x8FDE;&#x63A5;&#x7684;&#x8FDC;&#x7A0B;&#x5730;&#x5740;&#xFF0C;&#x5982;&#x679C;&#x662F; Ip &#x5730;&#x5740;&#xFF0C;&#x90A3;&#x4E48;&#x5176;&#x4E2D;&#x4F1A;&#x5305;&#x542B;&#x5730;&#x5740;&#x548C;&#x7AEF;&#x53E3;&#x3002;</p>
+<blockquote>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x5982;&#x679C;&#x5730;&#x5740;&#x6765;&#x81EA;&#x4E8E; <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto#envoy-api-field-listener-filterchain-use-proxy-proto" target="_blank">proxy proto</a> &#x6216;&#x8005; <a href="http_conn_man/headers.html#config-http-conn-man-headers-x-forwarded-for">x-forwarded-for</a> &#x8FD9;&#x53EF;&#x80FD;&#x4E0D;&#x662F;&#x8FDC;&#x7AEF;&#x8282;&#x70B9;&#x7684;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;</p>
+</blockquote>
+</li>
+<li><p><em>%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%</em></p>
+<p>&#x4E0B;&#x6E38;&#x8FDE;&#x63A5;&#x7684;&#x8FDC;&#x7A0B;&#x5730;&#x5740;&#xFF0C;&#x5982;&#x679C;&#x662F; Ip &#x5730;&#x5740;&#xFF0C;&#x90A3;&#x4E48;&#x5176;&#x4E2D;&#x4E0D;&#x4F1A;&#x5305;&#x542B;&#x5730;&#x5740;&#x548C;&#x7AEF;&#x53E3;&#x3002;</p>
+<blockquote>
+<p>&#x6CE8;&#x610F;&#xFF1A;&#x5982;&#x679C;&#x5730;&#x5740;&#x6765;&#x81EA;&#x4E8E; <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto#envoy-api-field-listener-filterchain-use-proxy-proto" target="_blank">proxy proto</a> &#x6216;&#x8005; <a href="http_conn_man/headers.html#config-http-conn-man-headers-x-forwarded-for">x-forwarded-for</a> &#x8FD9;&#x53EF;&#x80FD;&#x4E0D;&#x662F;&#x8FDC;&#x7AEF;&#x8282;&#x70B9;&#x7684;&#x7269;&#x7406;&#x5730;&#x5740;&#x3002;</p>
+</blockquote>
+</li>
+<li><p><em>%DOWNSTREAM_LOCAL_ADDRESS%</em></p>
+<p>&#x4E0B;&#x6E38;&#x8FDE;&#x63A5;&#x7684;&#x672C;&#x5730;&#x5730;&#x5740;&#x3002;&#x5982;&#x679C;&#x662F; Ip &#x5730;&#x5740;&#xFF0C;&#x90A3;&#x4E48;&#x5176;&#x4E2D;&#x4F1A;&#x5305;&#x542B;&#x5730;&#x5740;&#x548C;&#x7AEF;&#x53E3;&#x3002;&#x5982;&#x679C;&#x539F;&#x59CB;&#x8FDE;&#x63A5;&#x6765;&#x81EA;&#x4E8E; iptables &#x7684; REDIRECT&#xFF0C;&#x90A3;&#x4E48;&#x8FD9;&#x91CC;&#x7684;&#x539F;&#x59CB;&#x76EE;&#x6807;&#x5730;&#x5740;&#x4F1A;&#x7531;<a href="listener_filters/original_dst_filter#config-listener-filters-original-dst">&#x539F;&#x59CB;&#x76EE;&#x6807;&#x8FC7;&#x6EE4;&#x5668;</a>&#x901A;&#x8FC7; <code>SO_ORIGINAL_DST</code> &#x8FD9;&#x4E00; Socket &#x9009;&#x9879;&#x8FDB;&#x884C;&#x83B7;&#x53D6;&#x3002;&#x5982;&#x679C;&#x539F;&#x59CB;&#x8FDE;&#x63A5;&#x662F;&#x6765;&#x81EA; iptables &#x7684; TPROXY&#xFF0C;&#x5E76;&#x4E14;&#x76D1;&#x542C;&#x5668;&#x7684; <code>transparent</code> &#x9009;&#x9879;&#x5904;&#x4E8E;&#x5F00;&#x542F;&#x72B6;&#x6001;&#xFF0C;&#x8FD9;&#x91CC;&#x4F1A;&#x663E;&#x793A;&#x539F;&#x59CB;&#x7684;&#x76EE;&#x6807;&#x5730;&#x5740;&#x548C;&#x7AEF;&#x53E3;&#x3002;</p>
+</li>
+<li><p><em>%DOWNSTREAM_LOCAL_ADDRESS_WITHOUT_PORT%</em></p>
+<p>&#x548C; <em>%DOWNSTREAM_LOCAL_ADDRESS%</em> &#x7C7B;&#x4F3C;&#xFF0C;&#x4F46;&#x662F;&#x4E0D;&#x5305;&#x542B;&#x7AEF;&#x53E3;&#x90E8;&#x5206;&#x3002;</p>
+</li>
+<li><p><em>%REQ(X?Y):Z%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>&#x4E00;&#x4E2A; HTTP &#x8BF7;&#x6C42; Header&#xFF0C;X &#x662F;&#x4E3B;&#x8981; HTTP &#x5934;&#xFF0C;Y &#x662F;&#x5907;&#x9009; Header&#xFF0C;Z &#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x8868;&#x793A;&#x622A;&#x53D6;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x957F;&#x5EA6;&#x3002;&#x8FD9;&#x4E2A;&#x503C;&#x6765;&#x6E90;&#x4E8E; HTTP Header&#xFF0C;&#x9996;&#x5148;&#x8BFB;&#x53D6; X&#xFF0C;&#x5982;&#x679C; X &#x6CA1;&#x6709;&#x8BBE;&#x7F6E;&#xFF0C;&#x5219;&#x8BFB;&#x53D6; Y&#x3002;&#x5982;&#x679C;&#x4E24;&#x4E2A; Header &#x90FD;&#x6CA1;&#x6709;&#xFF0C;&#x5728;&#x65E5;&#x5FD7;&#x4E2D;&#x5C31;&#x4F1A;&#x5199;&#x5165;&#x201C;-&#x201D;</p>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x672A;&#x5B9E;&#x73B0; (&#x201C;-&#x201C;)&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p><em>%RESP(X?Y):Z%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>&#x548C; <em>%REQ(X?Y):Z%</em> &#x7C7B;&#x4F3C;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x503C;&#x6765;&#x81EA;&#x4E8E;&#x54CD;&#x5E94;&#x800C;&#x975E;&#x8BF7;&#x6C42;&#x3002;</p>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x672A;&#x5B9E;&#x73B0; (&#x201C;-&#x201C;)&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p><em>%TRAILER(X?Y):Z%</em></p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p>&#x548C; <em>%REQ(X?Y):Z%</em> &#x7C7B;&#x4F3C;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x503C;&#x6765;&#x81EA;&#x4E8E;&#x54CD;&#x5E94;&#x5C3E;&#x90E8;&#x3002;</p>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x672A;&#x5B9E;&#x73B0; (&#x201C;-&#x201C;)&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p><em>%DYNAMIC_METADATA(NAMESPACE:KEY</em>):Z%*</p>
+<ul>
+<li><p><em>HTTP</em></p>
+<p><a href="https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#envoy-api-msg-core-metadata" target="_blank">&#x52A8;&#x6001;&#x5143;&#x6570;&#x636E;</a>&#x4FE1;&#x606F;&#xFF0C;NAMESPACE &#x5C31;&#x662F;&#x8BBE;&#x7F6E;&#x7528;&#x4E8E;&#x8FC7;&#x6EE4;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#x7684;&#x53C2;&#x6570;&#xFF0C;KEY &#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x53C2;&#x6570;&#xFF0C;&#x7528;&#x4E8E;&#x5728;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#x5185;&#x67E5;&#x8BE2;&#x6307;&#x5B9A;&#x7684;&#x952E;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; <code>:</code> &#x6765;&#x8868;&#x8FBE;&#x5D4C;&#x5957;&#x5173;&#x7CFB;&#xFF0C;Z &#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x8868;&#x793A;&#x622A;&#x65AD;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x957F;&#x5EA6;&#x3002;&#x52A8;&#x6001;&#x5143;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <a href="https://github.com/envoyproxy/envoy/blob/master/include/envoy/request_info/request_info.h" target="_blank">RequestInfo</a> &#x8FDB;&#x884C;&#x8BBE;&#x7F6E;&#xFF1A;<code>setDynamicMetadata</code>&#x3002;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x4EE5; JSON &#x5F62;&#x5F0F;&#x8FDB;&#x884C;&#x8BB0;&#x5F55;&#xFF0C;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x7684;&#x52A8;&#x6001;&#x5143;&#x6570;&#x636E;&#xFF1A;<code>com.test.my_filter: {&quot;test_key&quot;: &quot;foo&quot;, &quot;test_object&quot;: {&quot;inner_key&quot;: &quot;bar&quot;}}</code></p>
+<ul>
+<li><code>%DYNAMIC_METADATA(com.test.my_filter)%</code> &#x4F1A;&#x8BB0;&#x5F55;&#xFF1A;<code>{&quot;test_key&quot;: &quot;foo&quot;, &quot;test_object&quot;: {&quot;inner_key&quot;: &quot;bar&quot;}}</code></li>
+<li><code>%DYNAMIC_METADATA(com.test.my_filter:test_key)%</code> &#x4F1A;&#x8BB0;&#x5F55;&#xFF1A;<code>&quot;foo&quot;</code></li>
+<li><code>%DYNAMIC_METADATA(com.test.my_filter:test_object)%</code> &#x4F1A;&#x8BB0;&#x5F55;&#xFF1A; <code>{&quot;inner_key&quot;: &quot;bar&quot;}</code></li>
+<li><code>`%DYNAMIC_METADATA(com.test.my_filter:test_object:inner_key)%</code> &#x4F1A;&#x8BB0;&#x5F55;&#xFF1A;<code>&quot;bar&quot;</code></li>
+<li><code>%DYNAMIC_METADATA(com.unknown_filter)%</code> &#x4F1A;&#x8BB0;&#x5F55;&#xFF1A; <code>-</code></li>
+<li><code>%DYNAMIC_METADATA(com.test.my_filter:unknown_key)%</code> &#x4F1A;&#x8BB0;&#x5F55;&#xFF1A; <code>-</code></li>
+<li><code>%DYNAMIC_METADATA(com.test.my_filter):25%</code> &#x4F1A;&#x8BB0;&#x5F55;&#xFF08;&#x622A;&#x53D6;&#x5230; 25 &#x4E2A;&#x5B57;&#x7B26;&#xFF09;: {&quot;test_key&quot;: &quot;foo&quot;, &quot;test`</li>
+</ul>
+</li>
+<li><p><em>TCP</em></p>
+<p>&#x672A;&#x5B9E;&#x73B0; (&#x201C;-&#x201C;)&#x3002;</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x7F3A;&#x7701;&#x683C;&#x5F0F;">&#x7F3A;&#x7701;&#x683C;&#x5F0F;</h2>
+<p>&#x5982;&#x679C;&#x6CA1;&#x6709;&#x8BBE;&#x7F6E;&#x81EA;&#x5B9A;&#x4E49;&#x683C;&#x5F0F;&#xFF0C;Envoy &#x4F1A;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x7684;&#x7F3A;&#x7701;&#x683C;&#x5F0F;&#xFF1A;</p>
 <pre class="language-"><code>[%START_TIME%] &quot;%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%&quot;
 %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION%
 %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% &quot;%REQ(X-FORWARDED-FOR)%&quot; &quot;%REQ(USER-AGENT)%&quot;
 &quot;%REQ(X-REQUEST-ID)%&quot; &quot;%REQ(:AUTHORITY)%&quot; &quot;%UPSTREAM_HOST%&quot;\n
-</code></pre><p>Example of the default Envoy access log format:</p>
-<pre class="language-"><code>[2016-04-15T20:17:00.310Z] &quot;POST /api/v1/locations HTTP/2&quot; 204 - 154 0 226 100 &quot;10.0.35.28&quot;
-&quot;nsq2http&quot; &quot;cc21d9b0-cf5c-432b-8c7e-98aeb7988cd2&quot; &quot;locations&quot; &quot;tcp://10.0.2.1:80&quot;
+</code></pre><p>&#x7F3A;&#x7701;&#x7684;&#x8BBF;&#x95EE;&#x65E5;&#x5FD7;&#x683C;&#x5F0F;&#x793A;&#x4F8B;&#xFF1A;</p>
+<pre class="language-"><code>[2016-04-15T20:17:00.310Z] &quot;POST /api/v1/locations HTTP/2&quot; 204 - 154 0 226 100 &quot;10.0.35.28&quot; &quot;nsq2http&quot; &quot;cc21d9b0-cf5c-432b-8c7e-98aeb7988cd2&quot; &quot;locations&quot; &quot;tcp://10.0.2.1:80&quot;
 </code></pre><footer class="page-footer"><span class="copyright">Copyright &#xA9; ServiceMesher 2018 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> &#x6700;&#x540E;&#x66F4;&#x65B0;&#x4E8E; 
-2018-05-15 19:41:10
+2018-05-24 19:40:46
 </span></footer>
                                 
                                 </section>
@@ -2339,7 +2443,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"访问记录","level":"5.10","depth":1,"next":{"title":"速率限制服务","level":"5.11","depth":1,"path":"configuration/rate_limit.md","ref":"configuration/rate_limit.md","articles":[]},"previous":{"title":"Redis","level":"5.9.1","depth":2,"path":"configuration/health_checkers/redis.md","ref":"configuration/health_checkers/redis.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/access_log.md","mtime":"2018-05-15T11:41:10.899Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-24T07:22:35.532Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"访问记录","level":"5.10","depth":1,"next":{"title":"速率限制服务","level":"5.11","depth":1,"path":"configuration/rate_limit.md","ref":"configuration/rate_limit.md","articles":[]},"previous":{"title":"Redis","level":"5.9.1","depth":2,"path":"configuration/health_checkers/redis.md","ref":"configuration/health_checkers/redis.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/access_log.md","mtime":"2018-05-24T11:40:46.922Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-24T11:41:01.786Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
