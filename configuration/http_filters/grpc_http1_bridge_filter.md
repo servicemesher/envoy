@@ -12,20 +12,20 @@
 - 如果符合上面的条件，当收到响应时，过滤器会缓存它并等待响应的尾部，然后检查 *grpc-status* 状态码。如果状态码不为零，过滤器把 HTTP 状态码转换为503。 同时复制 *grpc-status* 和 *grpc-message* 的尾部到响应的头部，以便客户端在需要的时候可以查看他们。
 
 - 客户端应该发送可以转换为以下伪头部的 HTTP/1.1 请求:
-  - *:method*: POST
+  - *:method：* POST
   - *:path*: <gRPC-METHOD-NAME>
   - *content-type*: application/grpc
-- 请求的主体部分应该是以下格式的序列化的 grpc 主体:
+- 请求的主体部分应该是以下格式的序列化的 grpc 主体：
   - 一个字节的零字符(没有压缩)
   - 网络顺序的4字节的原型消息长度
   - 序列化后的原型消息
-  
+
 - 因为这个模式必须缓存响应以查找 *grpc-status* 尾部，因此它只对一元模式的 gRPC 接口有效。
 
 
 这个过滤器同时收集所有传输的 gRPC 请求，即使这些请求是正常通过 HTTP/2 传输的 gRPC 请求。 
 
-更多的信息：有线格式地址 [gRPC 通过 HTTP/2](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md).
+更多的信息：有线格式地址 [gRPC 通过 HTTP/2](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md)。
 
 
 ## 统计

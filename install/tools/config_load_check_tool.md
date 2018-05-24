@@ -16,4 +16,4 @@
 
 - 运行
 
-  该工具将需要如上所述的 PATH 变量。 `bazel-bin/test/tools/config_load_check/config_load_check_tool PATH`
+  该工具将需要如上所述的 PATH 变量。 `bazel bin/test/tools/config_load_check/config_load_check_tool PATH`
