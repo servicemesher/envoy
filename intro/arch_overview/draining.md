@@ -6,7 +6,7 @@
 - 服务器 [热重启](hot_restart.md#arch-overview-hot-restart)。
 - 通过 [LDS](dynamic_configuration.md#arch-overview-dynamic-config-lds) 修改或者移除单个监听器。
 
-每个 [已配置监听器](listeners.md#arch-overview-listeners) 有 [drain_type](../../api-v1/listeners/listeners.md#config-listeners-drain-type) 设置，用来控制排除何时发生。目前支持的值有：
+每个 [已配置监听器](listeners.md#arch-overview-listeners) 有 [drain_type](https://www.envoyproxy.io/docs/envoy/latest/api-v1/listeners/listeners#config-listeners-drain-type) 设置，用来控制排除何时发生。目前支持的值有：
 
 - default
 

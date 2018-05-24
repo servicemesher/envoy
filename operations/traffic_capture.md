@@ -4,13 +4,13 @@ Envoy 当前提供了一个实验性的[传输套接字扩展](https://www.envoy
 
 > **警告**
 >
-> 这个功能是实验性的，并存在一个已知的问题，当在给定的 socket 上出现很长的跟踪调用的时候会 OOM。 如果担心存在安全问题，也可以在构建时禁用它，请参阅<https://github.com/envoyproxy/envoy/blob/master/bazel/README.md#disabling-extensions>.
+> 这个功能是实验性的，并存在一个已知的问题，当在给定的 socket 上出现很长的跟踪调用的时候会 OOM。 如果担心存在安全问题，也可以在构建时禁用它，请参阅 <https://github.com/envoyproxy/envoy/blob/master/bazel/README.md#disabling-extensions>。
 
 ## 配置
 
-捕获行为可以被配置在 [Listener](../api-v2/api/v2/listener/listener.proto.html#envoy-api-field-listener-filterchain-transport-socket) 和 [Cluster](../api-v2/api/v2/cds.proto.html#envoy-api-field-cluster-transport-socket) 上，提供了一种能力，可以分别针对上行流量和下行流量进行拦截。
+捕获行为可以被配置在 [Listener](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/listener/listener.proto.html#envoy-api-field-listener-filterchain-transport-socket) 和 [Cluster](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto.html#envoy-api-field-cluster-transport-socket) 上，提供了一种能力，可以分别针对上行流量和下行流量进行拦截。
 
-要配置流量捕获, 添加一个`envoy.transport_sockets.capture`[配置](../api-v2/config/transport_socket/capture/v2alpha/capture.proto.html#envoy-api-msg-config-transport-socket-capture-v2alpha-capture)到 listener 或 cluster 上. 如：
+要配置流量捕获, 添加一个`envoy.transport_sockets.capture`[配置](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/transport_socket/capture/v2alpha/capture.proto.html#envoy-api-msg-config-transport-socket-capture-v2alpha-capture)到 listener 或 cluster 上. 如：
 
 ```yaml
 transport_socket:
@@ -35,7 +35,7 @@ transport_socket:
       config: <TLS context>
 ```
 
-这里的 TLS 配置会分别替换现有在 listener 或 cluster 上 [下行流量](../api-v2/api/v2/auth/cert.proto.md#envoy-api-msg-auth-downstreamtlscontext) 或 [上行流量](../api-v2/api/v2/auth/cert.proto.md#envoy-api-msg-auth-upstreamtlscontext) 的 TLS 配置.
+这里的 TLS 配置会分别替换现有在 listener 或 cluster 上 [下行流量](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto#envoy-api-msg-auth-downstreamtlscontext) 或 [上行流量](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto#envoy-api-msg-auth-upstreamtlscontext) 的 TLS 配置.
 
 任一的 socket 实例都会生成一个包含`path`前缀的跟踪文件. 如：/some/capture/path_0.pb
 

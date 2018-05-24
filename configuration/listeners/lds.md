@@ -4,7 +4,7 @@
 
 监听器更新的语义如下：
 
-- 每个监听器必须有一个独特的[名字](../../api-v1/listeners/listeners.md#config-listeners-name)。如果没有提供名称，Envoy 将创建一个 UUID。要动态更新的监听器，管理服务必须提供监听器的唯一名称。
+- 每个监听器必须有一个独特的[名字](https://www.envoyproxy.io/docs/envoy/latest/api-v1/listeners/listeners.md#config-listeners-name)。如果没有提供名称，Envoy 将创建一个 UUID。要动态更新的监听器，管理服务必须提供监听器的唯一名称。
 
 - 当一个监听器被添加，在参与连接处理之前，会先进入“预热”阶段。例如，如果监听器引用 [RDS](../http_conn_man/rds.md#config-http-conn-man-rds) 配置，那么在监听器迁移到 “active” 之前，将会解析并提取该配置。
 

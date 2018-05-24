@@ -34,7 +34,7 @@ tar xvf $PWD/bazel-genfiles/configs/example_configs.tar -C generated/configs
 
 - 一个假定运行在 discovery.yourcompany.net 上的[服务发现](../intro/arch_overview/service_discovery.md#arch-overview-service-discovery-types-sds)实例。
 - yourcompany.net 的 DNS 做了许多配置。 可在配置模版中查找基于其实现的各种实例。
-- 为 [LightStep](http://lightstep.com/) 而配置的追踪。 为了禁止或启用 Zipkin <http://zipkin.io> 追踪，而删除或改变相应的[追踪配置](../api-v1/tracing.md#config-tracing-v1) 。
+- 为 [LightStep](http://lightstep.com/) 而配置的追踪。 为了禁止或启用 Zipkin <http://zipkin.io> 追踪，而删除或改变相应的[追踪配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/tracing#config-tracing-v1) 。
 - 用于演示如何使用[全局速率限制服务](../intro/arch_overview/global_rate_limiting.md#arch-overview-rate-limit)的示例配置。 可以通过删除[速率限制配置](../configuration/rate_limit.md#config-rate-limit-service)以禁用此服务。
 - 为服务间参考配置而设定的[路由发现服务](../configuration/http_conn_man/rds.md#config-http-conn-man-rds)，此服务假定运行在 rds.yourcompany.net 上。
 - 为服务间参考配置而设定的[集群发现服务](../configuration/cluster_manager/cds.md#config-cluster-manager-cds)，此服务假定运行在 cds.yourcompany.net 上。

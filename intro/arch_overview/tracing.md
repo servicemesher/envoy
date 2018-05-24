@@ -10,7 +10,7 @@
 
 ## 如何初始化追踪
 
-处理请求的 HTTP 连接管理器必须设置[跟踪](../../api-v1/network_filters/http_conn_man.md#config-http-conn-man-tracing)对象。有多种途径可以初始化跟踪：
+处理请求的 HTTP 连接管理器必须设置[跟踪](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-tracing)对象。有多种途径可以初始化跟踪：
 
 - 外部客户端，使用 [x-client-trace-id](../../configuration/http_conn_man/headers.md#config-http-conn-man-headers-x-client-trace-id) Header。
 - 内部服务，使用 [x-envoy-force-trace](../../configuration/http_conn_man/headers.md#config-http-conn-man-headers-x-envoy-force-trace) Header。

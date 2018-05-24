@@ -8,7 +8,7 @@ Envoy 的架构使得使用不同类型的配置管理方法成为可能。部�
 
 ## 全静态
 
-在全静态配置中，实现者提供一组[监听器](../../configuration/listeners/listeners.md#config-listeners) (和[过滤器链](../../api-v1/listeners/listeners.md#config-listener-network-filters))、 [集群](../../configuration/cluster_manager/cluster_manager.md#config-cluster-manager)和可选的 [HTTP 路由配置](../../api-v1/route_config/route_config.md#config-http-conn-man-route-table)。动态主机发现仅能通过基 于DNS 的[服务发现](service_discovery.md#arch-overview-service-discovery)。配置重载必须通过内置的[热重启](hot_restart.md#arch-overview-hot-restart)机制进行。
+在全静态配置中，实现者提供一组[监听器](../../configuration/listeners/listeners.md#config-listeners)（和[过滤器链](https://www.envoyproxy.io/docs/envoy/latest/api-v1/listeners/listeners#config-listener-network-filters)）、 [集群](../../configuration/cluster_manager/cluster_manager.md#config-cluster-manager)和可选的 [HTTP 路由配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route_config#config-http-conn-man-route-table)。动态主机发现仅能通过基 于DNS 的[服务发现](service_discovery.md#arch-overview-service-discovery)。配置重载必须通过内置的[热重启](hot_restart.md#arch-overview-hot-restart)机制进行。
 
 虽然简单，但可以使用静态配置和优雅的热重启来创建相当复杂的部署。
 
@@ -18,7 +18,7 @@ Envoy 的架构使得使用不同类型的配置管理方法成为可能。部�
 
 ## SDS/EDS 和 CDS
 
-[集群发现服务 (CDS) API](../../configuration/cluster_manager/cds.md#config-cluster-manager-cds) 是 Envoy 的一种机制，在路由期间可以用来发现使用的上游集群。Envoy 将优雅地添加、更新和删除由 API 指定的集群。该API允许实现者构建拓扑，在其中 Envoy 在初始配置时不需要知道所有上游群集。通常，在与 CDS（但没有路由发现服务）一起进行 HTTP 路由时，实现者将利用路由器的能力将请求转发到在 [HTTP 请求头](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route-cluster-header)中指定的集群。
+[集群发现服务 (CDS) API](../../configuration/cluster_manager/cds.md#config-cluster-manager-cds) 是 Envoy 的一种机制，在路由期间可以用来发现使用的上游集群。Envoy 将优雅地添加、更新和删除由 API 指定的集群。该API允许实现者构建拓扑，在其中 Envoy 在初始配置时不需要知道所有上游群集。通常，在与 CDS（但没有路由发现服务）一起进行 HTTP 路由时，实现者将利用路由器的能力将请求转发到在 [HTTP 请求头](https://www.envoyproxy.io/docs/envoy/latest/api-v1/route_config/route#config-http-conn-man-route-table-route-cluster-header)中指定的集群。
 
 尽管可以通过指定全静态集群来使用不带 SDS/EDS 的 CDS，但我们仍建议为通过 CDS 指定的集群使用 SDS/EDS API。 在内部，更新集群定义时，操作是优雅的。但是，所有现有的连接池都将被排空并重新连接。SDS/EDS 不受此限制。当通过 SDS/EDS 添加和删除主机时，集群中的现有主机不受影响。
 
