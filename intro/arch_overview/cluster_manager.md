@@ -9,7 +9,7 @@ Envoy 集群管理器管理所有配置的上游集群。正如 Envoy 配置可�
 - 集群管理器 [配置](../../configuration/cluster_manager/cluster_manager.md#config-cluster-manager)。
 - CDS [配置](../../configuration/cluster_manager/cds.md#config-cluster-manager-cds)。
 
-## Cluster warming
+## 集群热身
 
 当集群在服务器启动或者通过 CDS 进行初始化时，它们会“热身”。这意味着集群在下列操作发生之前不可用。
 

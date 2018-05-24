@@ -4,7 +4,7 @@ Envoy 的架构使得使用不同类型的配置管理方法成为可能。部�
 
 - 顶级配置[参考](../../configuration/configuration.md#config)
 - [参考配置](../../install/ref_configs.md#install-ref-configs)
-- Envoy [v2 API 概述](../../configuration/overview/v2_overview.md#config-overview-v2).
+- Envoy [v2 API 概述](../../configuration/overview/v2_overview.md#config-overview-v2)
 
 ## 全静态
 

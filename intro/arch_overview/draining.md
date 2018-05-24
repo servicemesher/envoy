@@ -16,4 +16,4 @@
 
   Envoy 只会响应上述第二和第三种情况（热重启和 LDS 更新/删除）而排除监听器。如果 Envoy 同时托管 ingress 和 egress 监听器，此设置很有用。需要在 egress 监听器上设置 *modify_only*，以便在尝试执行受控关闭，依赖  ingress 监听器排除来执行全服务器排除时，它们只在修改期间排除。
 
-请注意，虽然排除是每监听器的概念，但它必须在网络过滤器级别被支持。目前支持优雅排除的过滤器只有 [HTTP 连接管理器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man), [Redis](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy), 和 [Mongo](../../configuration/network_filters/mongo_proxy_filter.md#config-network-filters-mongo-proxy)。
+请注意，虽然排除是每监听器的概念，但它必须在网络过滤器级别被支持。目前支持优雅排除的过滤器只有 [HTTP 连接管理器](../../configuration/http_conn_man/http_conn_man.md#config-http-conn-man) 、[Redis ](../../configuration/network_filters/redis_proxy_filter.md#config-network-filters-redis-proxy)和 [Mongo](../../configuration/network_filters/mongo_proxy_filter.md#config-network-filters-mongo-proxy)。
