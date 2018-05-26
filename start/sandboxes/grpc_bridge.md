@@ -1,14 +1,14 @@
-# gRPC Bridge
+# gRPC 网桥
 
 ## Envoy gRPC
 
-The gRPC bridge sandbox is an example usage of Envoy’s [gRPC bridge filter](../../configuration/http_filters/grpc_http1_bridge_filter.md#config-http-filters-grpc-bridge). Included in the sandbox is a gRPC in-memory Key/Value store with a Python HTTP client. The Python client makes HTTP/1 requests through the Envoy sidecar process which are upgraded into HTTP/2 gRPC requests. Response trailers are then buffered and sent back to the client as a HTTP/1 header payload.
+gRPC 网桥沙箱是 Envoy 的 [gRPC 网桥过滤器](../../configuration/http_filters/grpc_http1_bridge_filter.md#config-http-filters-grpc-bridge)的一个实例。包含在沙箱中的是带有 Python HTTP 客户端的gRPC 内存键/值存储。Python客户端通过 Envoy sidecar 进程发出 HTTP/1请求，并将其升级为 HTTP/2 gRPC 请求。然后响应 trailer 被缓冲并作为 HTTP/1 标头的有效载荷发送回客户端。
 
-Another Envoy feature demonstrated in this example is Envoy’s ability to do authority base routing via its route configuration.
+本例中演示的 Envoy 的另一个功能是通过其路由配置执行权威基础路由。
 
-## Building the Go service
+## 构建 Go 服务
 
-To build the Go gRPC service run:
+运行下面的命令构建 Go gRPC 服务：
 
 ```bash
 $ pwd
@@ -17,11 +17,11 @@ $ script/bootstrap
 $ script/build
 ```
 
-Note: `build` requires that your Envoy codebase (or a working copy thereof) is in `$GOPATH/src/github.com/envoyproxy/envoy`.
+注意：`build` 命令要求 Envoy 代码库（或其工作副本）位于 `$GOPATH/src/github.com/envoyproxy/envoy`。
 
 ## Docker compose
 
-To run the docker compose file, and set up both the Python and the gRPC containers run:
+运行 docker compose 文件，同时运行 Python 和 个RPC 容器：
 
 ```bash
 $ pwd
@@ -29,9 +29,9 @@ envoy/examples/grpc-bridge
 $ docker-compose up --build
 ```
 
-## Sending requests to the Key/Value store
+## 向键/值存储发送请求
 
-To use the Python service and send gRPC requests:
+使用 Python 服务，发送 gRPC 请求：
 
 ```bash
 $ pwd
@@ -53,7 +53,7 @@ $ docker-compose exec python /client/client.py get foo
 baz
 ```
 
-In the running docker-compose container, you should see the gRPC service printing a record of its activity:
+在运行的 docker-compose 容器中，您应该可以看到 gRPC 服务打印的活动的记录：
 
 ```
 grpc_1    | 2017/05/30 12:05:09 set: foo = bar

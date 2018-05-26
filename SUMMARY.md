@@ -56,6 +56,7 @@
   - [Zipkin 追踪](start/sandboxes/zipkin_tracing.md)
   - [Jaeger 追踪](start/sandboxes/jaeger_tracing.md)
   - [Jaeger 原生追踪](start/sandboxes/jaeger_native_tracing.md)
+- [gRPC 网桥](start/sandboxes/grpc_bridge.md)
 - 其他用例
   - [Envoy 作为 Kubernetes 的 API 网关](start/distro/ambassador.md)
 
