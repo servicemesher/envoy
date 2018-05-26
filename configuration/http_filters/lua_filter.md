@@ -1,59 +1,59 @@
 # Lua
 
-Attention
+注意
 
-By default Envoy is built without exporting symbols that you may need when interacting with Lua modules installed as shared objects. Envoy may need to be built with support for exported symbols. Please see the [Bazel docs](https://github.com/envoyproxy/envoy/blob/master/bazel/README.md) for more information.
+Envoy 构建默认不输出你可能在与作为共享对象安装的 Lua 模块交互时需要的符合。Envoy 可能需要被构建为带对输出符号支持。更多信息请参见 [Bazel 文档](https://github.com/envoyproxy/envoy/blob/master/bazel/README.md)。
 
-## Overview
+## 概览
 
-The HTTP Lua filter allows [Lua](https://www.lua.org/) scripts to be run during both the request and response flows. [LuaJIT](http://luajit.org/)is used as the runtime. Because of this, the supported Lua version is mostly 5.1 with some 5.2 features. See the [LuaJIT documentation](http://luajit.org/extensions.md) for more details.
+HTTP Lua 过滤器允许 [Lua](https://www.lua.org/) 脚本在请求和响应流期间运行。[LuaJIT 被作为运行时使用。因此，被支持的 Lua 版本大多是带一些 5.2 特性的 5.1版。更多细节参见 [LuaJIT 文档](http://luajit.org/extensions.md)。
 
-The filter only supports loading Lua code in-line in the configuration. If local filesystem code is desired, a trivial in-line script can be used to load the rest of the code from the local environment.
+该过滤器仅支持加载内置在配置中的 Lua 代码。如果本地文件系统代码被需要，一个小的内置脚本可用于从本地环境加载剩余的代码。
 
-The design of the filter and Lua support at a high level is as follows:
+在一个高的层次该过滤器设计和 Lua 支持如下:
 
-- All Lua environments are [per worker thread](../../intro/arch_overview/threading_model.md#arch-overview-threading). This means that there is no truly global data. Any globals create and populated at load time will be visible from each worker thread in isolation. True global support may be added via an API in the future.
-- All scripts are run as coroutines. This means that they are written in a synchronous style even though they may perform complex asynchronous tasks. This makes the scripts substantially easier to write. All network/async processing is performed by Envoy via a set of APIs. Envoy will yield the script as appropriate and resume it when async tasks are complete.
-- **Do not perform blocking operations from scripts.** It is critical for performance that Envoy APIs are used for all IO.
+- 所有 Lua 环境都是 [针对工作者线程的](../../intro/arch_overview/threading_model.md#arch-overview-threading)。这意味着没有真正的全局数据。任何在加载时创建和存在的全局数据将只在每个工作者线程中可见。真正的全局支持可能在将来通过一个 API 添加。
+- 所有脚本作为协程运行。这意味着，即使它们可能执行复杂的异步操作，它们以同步方式编写。这使得脚本相当容易被编写。所有网络/异步处理通过一组 API 被 Envoy 执行。Envoy 将适当退出脚本并在异步任务完成后恢复。
+- **不要在脚本中执行阻塞操作。** Envoy API 被用于所有 IO，这一点对性能很关键。
 
-## Currently supported high level features
+## 当前被支持的高层次特性:
 
-**NOTE:** It is expected that this list will expand over time as the filter is used in production. The API surface has been kept small on purpose. The goal is to make scripts extremely simple and safe to write. Very complex or high performance use cases are assumed to use the native C++ filter API.
+*注* 预计这个列表将随着时间的推移在该过滤器被用于生产环境的过程中被不断扩充。API 表面上被有意保持很小。目标是使得编写脚本极度简单和安全。假设非常复杂或高性能的使用案例用原生的 C++ 过滤器 API。
 
-- Inspection of headers, body, and trailers while streaming in either the request flow, response flow, or both.
-- Modification of headers and trailers.
-- Blocking and buffering the full request/response body for inspection.
-- Performing an outbound async HTTP call to an upstream host. Such a call can be performed while buffering body data so that when the call completes upstream headers can be modified.
-- Performing a direct response and skipping further filter iteration. For example, a script could make an upstream HTTP call for authentication, and then directly respond with a 403 response code.
+- 在流入请求流、响应流或二者同时，检查头，体和尾。
+- 修改头和尾部。
+- 阻塞并缓存全部请求/响应体用作检查。
+- 执行外向的异步 HTTP 调用到一个上游主机。这样的调用可以在缓存体数据时执行，因此，当调用结束时，上游头可以被修改。
+- 执行一个直接响应并略过更多的过滤器循环。例如，一个脚本可以做一个上游 HTTP 调用做鉴权，并随后直接以一个 403 响应代码响应。
 
-## Configuration
+## 配置
 
-- [v1 API reference](../../api-v1/http_filters/lua_filter.md#config-http-filters-lua-v1)
-- [v2 API reference](../../api-v2/config/filter/http/lua/v2/lua.proto.md#envoy-api-msg-config-filter-http-lua-v2-lua)
+- [v1 API 参考](../../api-v1/http_filters/lua_filter.md#config-http-filters-lua-v1)
+- [v2 API 参考](../../api-v2/config/filter/http/lua/v2/lua.proto.md#envoy-api-msg-config-filter-http-lua-v2-lua)
 
-## Script examples
+## 脚本示例
 
-This section provides some concrete examples of Lua scripts as a more gentle introduction and quick start. Please refer to the [stream handle API](#config-http-filters-lua-stream-handle-api) for more details on the supported API.
+本节提供了一些 Lua 脚本的具体例子，作为更温和的介绍和快速开始。关于被支持的 API 的更多细节，请参照[流处理 API](#config-http-filters-lua-stream-handle-api)。
 
 ```lua
--- Called on the request path.
+-- 在请求路径上被调用。
 function envoy_on_request(request_handle)
-  -- Wait for the entire request body and add a request header with the body size.
+  -- 等待整个请求体并添加一个请求头和体的大小。
   request_handle:headers():add("request_body_size", request_handle:body():length())
 end
 
--- Called on the response path.
+-- 在响应路径上被调用。
 function envoy_on_response(response_handle)
-  -- Wait for the entire response body and a response header with the the body size.
+  -- 等待整个响应体并添加一个请求头和体的大小。
   response_handle:headers():add("response_body_size", response_handle:body():length())
-  -- Remove a response header named 'foo'
+  -- 移除一个名为 'foo' 的响应头。
   response_handle:headers():remove("foo")
 end
 ```
 
 ```lua
 function envoy_on_request(request_handle)
-  -- Make an HTTP call to an upstream host with the following headers, body, and timeout.
+  -- 使用下面的头、体和超时对上游主机做一个 HTTP 调用。
   local headers, body = request_handle:httpCall(
   "lua_cluster",
   {
@@ -64,8 +64,7 @@ function envoy_on_request(request_handle)
   "hello world",
   5000)
 
-  -- Add information from the HTTP call into the headers that are about to be sent to the next
-  -- filter in the filter chain.
+  -- 添加来自 HTTP 调用的信息到将要被发送到过滤器链中下一个过滤器的头。
   request_handle:headers():add("upstream_foo", headers["foo"])
   request_handle:headers():add("upstream_body_size", #body)
 end
@@ -73,7 +72,7 @@ end
 
 ```lua
 function envoy_on_request(request_handle)
-  -- Make an HTTP call.
+  -- 做一个 HTTP 调用。
   local headers, body = request_handle:httpCall(
   "lua_cluster",
   {
@@ -84,8 +83,7 @@ function envoy_on_request(request_handle)
   "hello world",
   5000)
 
-  -- Response directly and set a header from the HTTP call. No further filter iteration
-  -- occurs.
+  -- 直接响应并从 HTTP 调用设置一个头。没有更多的过滤器循环发生。
   request_handle:respond(
     {[":status"] = "403",
      ["upstream_foo"] = headers["foo"]},
@@ -93,9 +91,9 @@ function envoy_on_request(request_handle)
 end
 ```
 
-## Stream handle API
+## 流操作 API
 
-When Envoy loads the script in the configuration, it looks for two global functions that the script defines:
+当 Envoy 加载配置中脚本，它寻找脚本定义的两个全局函数:
 
 ```lua
 function envoy_on_request(request_handle)
@@ -105,13 +103,13 @@ function envoy_on_response(response_handle)
 end
 ```
 
-A script can define either or both of these functions. During the request path, Envoy will run *envoy_on_request* as a coroutine, passing an API handle. During the response path, Envoy will run *envoy_on_response* as a coroutine, passing an API handle.
+一个脚本可以定义这两个函数中的一个或者两个。在请求路径中，Envoy 将作为一个协程运行 *envoy_on_request*，传递一个 API 句柄。在相应路径中，Envoy 将作为一个协程运行 *envoy_on_response*，传递一个 API 句柄。
 
-Attention
+注意
 
-It is critical that all interaction with Envoy occur through the passed stream handle. The stream handle should not be assigned to any global variable and should not be used outside of the coroutine. Envoy will fail your script if the handle is used incorrectly.
+关键是所有与 Envoy 的交互提供被传递的流句柄发生。流句柄不应该被赋值给任何全局变量，而且不应该被用于协程的外部。如果该句柄使用不正确，Envoy 将失败。
 
-The following methods on the stream handle are supported:
+下列在流句柄上的方法被支持:
 
 ### headers()
 
@@ -119,9 +117,9 @@ The following methods on the stream handle are supported:
 headers = handle:headers()
 ```
 
-Returns the stream’s headers. The headers can be modified as long as they have not been sent to the next filter in the header chain. For example, they can be modified after an *httpCall()* or after a *body()* call returns. The script will fail if the headers are modified in any other situation.
+返回流的头。只要它们还没有被发送到头链中的下一个过滤器，就可以被修改。例如，它们可以在一个 *httpCall()* 或者 *body()* 调用返回后被修改。如果头在任何其他情况下被修改，脚本将失败。
 
-Returns a [header object](#config-http-filters-lua-header-wrapper).
+返回一个[头对象](#config-http-filters-lua-header-wrapper)。
 
 ### body()
 
@@ -129,9 +127,9 @@ Returns a [header object](#config-http-filters-lua-header-wrapper).
 body = handle:body()
 ```
 
-Returns the stream’s body. This call will cause Envoy to yield the script until the entire body has been buffered. Note that all buffering must adhere to the flow control policies in place. Envoy will not buffer more data than is allowed by the connection manager.
+返回流的体。这个调用将造成 Envoy 退出脚本直到整个体被缓存。注意，所有缓存必须遵从适当的流控策略。Envoy 将不会缓存比连接管理器允许的更多的数据。
 
-Returns a [buffer object](#config-http-filters-lua-buffer-wrapper).
+返回一个[缓存对象](#config-http-filters-lua-buffer-wrapper)。
 
 ### bodyChunks()
 
@@ -139,7 +137,7 @@ Returns a [buffer object](#config-http-filters-lua-buffer-wrapper).
 iterator = handle:bodyChunks()
 ```
 
-Returns an iterator that can be used to iterate through all received body chunks as they arrive. Envoy will yield the script in between chunks, but *will not buffer* them. This can be used by a script to inspect data as it is streaming by.
+返回一个迭代器，它可被用于在所有体块到达时循环访问它们。Envoy 将在块之间退出脚本，但是 *将不会缓存* 它们。这可被一个脚本用于在数据流入时做检查。
 
 ```
 for chunk in request_handle:bodyChunks() do
@@ -147,7 +145,7 @@ for chunk in request_handle:bodyChunks() do
 end
 ```
 
-Each chunk the iterator returns is a [buffer object](#config-http-filters-lua-buffer-wrapper).
+迭代器返回的每一块是一个[缓存对象](#config-http-filters-lua-buffer-wrapper)。
 
 ### trailers()
 
@@ -155,9 +153,9 @@ Each chunk the iterator returns is a [buffer object](#config-http-filters-lua-bu
 trailers = handle:trailers()
 ```
 
-Returns the stream’s trailers. May return nil if there are no trailers. The trailers may be modified before they are sent to the next filter.
+返回流的尾。如果没有尾，可能返回空。尾在被发送到下一个过滤器之前可能被修改。
 
-Returns a [header object](#config-http-filters-lua-header-wrapper).
+返回一个[头对象](#config-http-filters-lua-header-wrapper)。
 
 ### log*()
 
@@ -170,7 +168,7 @@ handle:logErr(message)
 handle:logCritical(message)
 ```
 
-Logs a message using Envoy’s application logging. *message* is a string to log.
+使用 Envoy 的应用日志功能保存一条消息。*message* 是被保存的字符串。
 
 ### httpCall()
 
@@ -178,9 +176,9 @@ Logs a message using Envoy’s application logging. *message* is a string to log
 headers, body = handle:httpCall(cluster, headers, body, timeout)
 ```
 
-Makes an HTTP call to an upstream host. Envoy will yield the script until the call completes or has an error. *cluster* is a string which maps to a configured cluster manager cluster. *headers* is a table of key/value pairs to send. Note that the *:method*, *:path*, and *:authority* headers must be set. *body* is an optional string of body data to send. *timeout* is an integer that specifies the call timeout in milliseconds.
+对一台上游主机做一个 HTTP 调用。Envoy 将推出脚本直到调用结束或者有一个错误。*cluster* 是一个字符串，映射为一个配置好的集群管理器。*headers* 一个要发送的键值对的表。注意，*:method*，*:path* 和 *:authority* 头必须被设置。*body* 是一个可选的要发送的体数据的字符串。*timeout* 是一个整数，指定以微秒为单位的调用超时。
 
-Returns *headers* which is a table of response headers. Returns *body* which is the string response body. May be nil if there is no body.
+返回 *headers*，这是响应头的一个表。返回 *body*，这是响应体的字符串。如果没有体，则返回空。
 
 ### respond()
 
@@ -188,7 +186,7 @@ Returns *headers* which is a table of response headers. Returns *body* which is 
 handle:respond(headers, body)
 ```
 
-Respond immediately and do not continue further filter iteration. This call is *only valid in the request flow*. Additionally, a response is only possible if request headers have not yet been passed to subsequent filters. Meaning, the following Lua code is invalid:
+立即响应并且不做更多的循环。这个调用*仅在请求流中合法*。另外，只有当请求头还没有被传递给后续过滤器时才可能。这意味着，下面的 Lua 代码是不合法的:
 
 ```lua
 function envoy_on_request(request_handle)
@@ -200,7 +198,7 @@ function envoy_on_request(request_handle)
 end
 ```
 
-*headers* is a table of key/value pairs to send. Note that the *:status* header must be set. *body* is a string and supplies the optional response body. May be nil.
+*headers* 一张要发送的键值对的表。注意，*:status* 头必须被设置。*body* 是一个字符串并提供了可选的响应体，可能为空。
 
 ### metadata()
 
@@ -208,7 +206,7 @@ end
 metadata = handle:metadata()
 ```
 
-Returns the current route entry metadata. Note that the metadata should be specified under the filter name i.e. *envoy.lua*. Below is an example of a *metadata* in a [route entry](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route).
+返回当前路由条目元数据。注意，元数据应该在过滤器名下指定，例如*envoy.lua*。下面是一个 在[路由条目](../../api-v1/route_config/route.md#config-http-conn-man-route-table-route)中 *metadata* 的例子。
 
 ```yaml
 metadata:
@@ -220,9 +218,9 @@ metadata:
         - baz
 ```
 
-Returns a [metadata object](#config-http-filters-lua-metadata-wrapper).
+返回一个[元数据对象](#config-http-filters-lua-metadata-wrapper)。
 
-## Header object API
+## 头对象 API
 
 ### add()
 
@@ -230,11 +228,11 @@ Returns a [metadata object](#config-http-filters-lua-metadata-wrapper).
 headers:add(key, value)
 ```
 
-Adds a header. *key* is a string that supplies the header key. *value* is a string that supplies the header value.
+添加一个头。*key* 是一个提供头键的字符串。*value*是一个提供头值的字符串。
 
-Attention
+注意
 
-Envoy treats certain headers specially. These are known as the O(1) or *inline* headers. The list of inline headers can be found [here](https://github.com/envoyproxy/envoy/blob/6b6ce85a24094146c5c225f19b6ecc47b2ca84bf/include/envoy/http/header_map.h#L228). If an inline header is already present in the header map, *add()*will have no effect. If attempting to *add()* a non-inline header, the additional header will be added so that the resultant headers contains multiple header entries with the same name. Consider using the *replace* function if want to replace a header with another value. Note also that we understand this behavior is confusing and we may change it in a future release.
+Envoy 特殊处理特定头。这些被称为 O(1) 或 *inline* 头。一个内建头的列表可以在[这里](https://github.com/envoyproxy/envoy/blob/6b6ce85a24094146c5c225f19b6ecc47b2ca84bf/include/envoy/http/header_map.h#L228)找到。如果一个内建头已经呈现在头映射中，*add()* 将没有效果。如果试图去 *add()* 一个非内建的头，附加的头将会被添加，因此，合成的头包含多个同名的头。如果想要将头换为另一个值，可以考虑使用 *replace* 函数。注意，我们理解这个行为令人迷惑并且我们可能在将来的一版中改变。
 
 ### get()
 
@@ -242,7 +240,7 @@ Envoy treats certain headers specially. These are known as the O(1) or *inline* 
 headers:get(key)
 ```
 
-Gets a header. *key* is a string that supplies the header key. Returns a string that is the header value or nil if there is no such header.
+得到一个头。*key* 是一个提供头键的字符串。返回一个头值的字符串，如果没有这个头则返回空。
 
 ### __pairs()
 
@@ -251,11 +249,11 @@ for key, value in pairs(headers) do
 end
 ```
 
-Iterates through every header. *key* is a string that supplies the header key. *value* is a string that supplies the header value.
+循环访问每个头。*key* 是一个提供头键的字符串。*value*是一个提供头值的字符串。
 
-Attention
+注意
 
-In the currently implementation, headers cannot be modified during iteration. Additionally, if it is desired to modify headers after iteration, the iteration must be completed. Meaning, do not use break or any other mechanism to exit the loop early. This may be relaxed in the future.
+在当前的实现中，头不能在循环期间被修改。另外，如果想要在循环后修改头，循环必须完成。这意味着，不用过早使用跳出或其他机制退出循环体。这个要求可能在将来被放松。
 
 ### remove()
 
@@ -263,7 +261,7 @@ In the currently implementation, headers cannot be modified during iteration. Ad
 headers:remove(key)
 ```
 
-Removes a header. *key* supplies the header key to remove.
+移除一个头。 *key* 提供了要移除的头键。
 
 ### replace()
 
@@ -271,9 +269,9 @@ Removes a header. *key* supplies the header key to remove.
 headers:replace(key, value)
 ```
 
-Replaces a header. *key* is a string that supplies the header key. *value* is a string that supplies the header value. If the header does not exist, it is added as per the *add()* function.
+替换一个头。*key* 是一个提供头键的字符串。*value*是一个提供头值的字符串。如果头不存在，它用 *add()* 函数添加。
 
-## Buffer API
+## 缓存 API
 
 ### length()
 
@@ -281,7 +279,7 @@ Replaces a header. *key* is a string that supplies the header key. *value* is a 
 size = buffer:length()
 ```
 
-Gets the size of the buffer in bytes. Returns an integer.
+获得以字节为单位的缓存的大小。返回一个整数。
 
 ### getBytes()
 
@@ -289,9 +287,9 @@ Gets the size of the buffer in bytes. Returns an integer.
 buffer:getBytes(index, length)
 ```
 
-Get bytes from the buffer. By default Envoy will not copy all buffer bytes to Lua. This will cause a buffer segment to be copied. *index* is an integer and supplies the buffer start index to copy. *length*is an integer and supplies the buffer length to copy. *index* + *length* must be less than the buffer length.
+从缓存中获得字节。Envoy 默认将不会拷贝所有的缓存数据给 Lua。这将造成一个缓存段被拷贝。*index* 是一个整数并提供了缓存要开始拷贝的索引。*length* 是一个整数并提供了要拷贝的缓存长度。*index* + *length* 必须小于缓存的长度。
 
-## Metadata object API
+## 元数据对象 API
 
 ### get()
 
@@ -299,7 +297,7 @@ Get bytes from the buffer. By default Envoy will not copy all buffer bytes to Lu
 metadata:get(key)
 ```
 
-Gets a metadata. *key* is a string that supplies the metadata key. Returns the corresponding value of the given metadata key. The type of the value can be: *null*, *boolean*, *number*, *string* and *table*.
+获得一个元数据。 *key* 是一个提供了元数据键的字符串。返回给定元数据键对应的值。值的类型可以是: *null*, *boolean*, *number*, *string* 和 *table*。
 
 ### __pairs()
 
@@ -308,4 +306,4 @@ for key, value in pairs(metadata) do
 end
 ```
 
-Iterates through every *metadata* entry. *key* is a string that supplies a *metadata* key. *value* is *metadata* entry value.
+循环访问每个 *metadata* 条目。*key* 是一个提供 *metadata* 键的字符串。 *value* 是 *metadata* 条目值。
