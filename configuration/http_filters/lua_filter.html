@@ -2231,49 +2231,51 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="lua">Lua</h1>
-<p>Attention</p>
-<p>By default Envoy is built without exporting symbols that you may need when interacting with Lua modules installed as shared objects. Envoy may need to be built with support for exported symbols. Please see the <a href="https://github.com/envoyproxy/envoy/blob/master/bazel/README.md" target="_blank">Bazel docs</a> for more information.</p>
-<h2 id="overview">Overview</h2>
-<p>The HTTP Lua filter allows <a href="https://www.lua.org/" target="_blank">Lua</a> scripts to be run during both the request and response flows. <a href="http://luajit.org/" target="_blank">LuaJIT</a>is used as the runtime. Because of this, the supported Lua version is mostly 5.1 with some 5.2 features. See the <a href="http://luajit.org/extensions.md" target="_blank">LuaJIT documentation</a> for more details.</p>
-<p>The filter only supports loading Lua code in-line in the configuration. If local filesystem code is desired, a trivial in-line script can be used to load the rest of the code from the local environment.</p>
-<p>The design of the filter and Lua support at a high level is as follows:</p>
+<blockquote>
+<p><strong>&#x6CE8;&#x610F;</strong></p>
+<p>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;Envoy &#x7684;&#x6784;&#x5EFA;&#x4E0D;&#x4F1A;&#x5BFC;&#x51FA;&#x5728;&#x4E0E;&#x4F5C;&#x4E3A;&#x5171;&#x4EAB;&#x5BF9;&#x8C61;&#x5B89;&#x88C5;&#x7684; Lua &#x6A21;&#x5757;&#x8FDB;&#x884C;&#x4EA4;&#x4E92;&#x65F6;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x7684;&#x7B26;&#x53F7;&#x3002;Envoy &#x53EF;&#x80FD;&#x9700;&#x8981;&#x5EFA;&#x7ACB;&#x5BF9;&#x5BFC;&#x51FA;&#x7B26;&#x53F7;&#x7684;&#x652F;&#x6301;&#x3002;&#x8BF7;&#x53C2;&#x9605; <a href="https://github.com/envoyproxy/envoy/blob/master/bazel/README.md" target="_blank">Bazel &#x6587;&#x6863;</a>&#x4EE5;&#x83B7;&#x53D6;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#x3002;</p>
+</blockquote>
+<h2 id="&#x6982;&#x89C8;">&#x6982;&#x89C8;</h2>
+<p>HTTP Lua &#x8FC7;&#x6EE4;&#x5668;&#x5141;&#x8BB8; <a href="https://www.lua.org/" target="_blank">Lua</a> &#x811A;&#x672C;&#x5728;&#x8BF7;&#x6C42;&#x548C;&#x54CD;&#x5E94;&#x6D41;&#x671F;&#x95F4;&#x8FD0;&#x884C;&#x3002;[LuaJIT &#x88AB;&#x4F5C;&#x4E3A;&#x8FD0;&#x884C;&#x65F6;&#x4F7F;&#x7528;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x88AB;&#x652F;&#x6301;&#x7684; Lua &#x7248;&#x672C;&#x5927;&#x591A;&#x662F;&#x5E26;&#x4E00;&#x4E9B; 5.2 &#x7279;&#x6027;&#x7684; 5.1&#x7248;&#x3002;&#x66F4;&#x591A;&#x7EC6;&#x8282;&#x53C2;&#x89C1; <a href="http://luajit.org/extensions.md" target="_blank">LuaJIT &#x6587;&#x6863;</a>&#x3002;</p>
+<p>&#x8BE5;&#x8FC7;&#x6EE4;&#x5668;&#x4EC5;&#x652F;&#x6301;&#x52A0;&#x8F7D;&#x5185;&#x7F6E;&#x5728;&#x914D;&#x7F6E;&#x4E2D;&#x7684; Lua &#x4EE3;&#x7801;&#x3002;&#x5982;&#x679C;&#x672C;&#x5730;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4EE3;&#x7801;&#x88AB;&#x9700;&#x8981;&#xFF0C;&#x4E00;&#x4E2A;&#x5C0F;&#x7684;&#x5185;&#x7F6E;&#x811A;&#x672C;&#x53EF;&#x7528;&#x4E8E;&#x4ECE;&#x672C;&#x5730;&#x73AF;&#x5883;&#x52A0;&#x8F7D;&#x5269;&#x4F59;&#x7684;&#x4EE3;&#x7801;&#x3002;</p>
+<p>&#x5728;&#x4E00;&#x4E2A;&#x9AD8;&#x7684;&#x5C42;&#x6B21;&#x8BE5;&#x8FC7;&#x6EE4;&#x5668;&#x8BBE;&#x8BA1;&#x548C; Lua &#x652F;&#x6301;&#x5982;&#x4E0B;:</p>
 <ul>
-<li>All Lua environments are <a href="../../intro/arch_overview/threading_model.html#arch-overview-threading">per worker thread</a>. This means that there is no truly global data. Any globals create and populated at load time will be visible from each worker thread in isolation. True global support may be added via an API in the future.</li>
-<li>All scripts are run as coroutines. This means that they are written in a synchronous style even though they may perform complex asynchronous tasks. This makes the scripts substantially easier to write. All network/async processing is performed by Envoy via a set of APIs. Envoy will yield the script as appropriate and resume it when async tasks are complete.</li>
-<li><strong>Do not perform blocking operations from scripts.</strong> It is critical for performance that Envoy APIs are used for all IO.</li>
+<li>&#x6240;&#x6709; Lua &#x73AF;&#x5883;&#x90FD;&#x662F; <a href="../../intro/arch_overview/threading_model.html#arch-overview-threading">&#x9488;&#x5BF9;&#x5DE5;&#x4F5C;&#x8005;&#x7EBF;&#x7A0B;&#x7684;</a>&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x6CA1;&#x6709;&#x771F;&#x6B63;&#x7684;&#x5168;&#x5C40;&#x6570;&#x636E;&#x3002;&#x4EFB;&#x4F55;&#x5728;&#x52A0;&#x8F7D;&#x65F6;&#x521B;&#x5EFA;&#x548C;&#x5B58;&#x5728;&#x7684;&#x5168;&#x5C40;&#x6570;&#x636E;&#x5C06;&#x53EA;&#x5728;&#x6BCF;&#x4E2A;&#x5DE5;&#x4F5C;&#x8005;&#x7EBF;&#x7A0B;&#x4E2D;&#x53EF;&#x89C1;&#x3002;&#x771F;&#x6B63;&#x7684;&#x5168;&#x5C40;&#x652F;&#x6301;&#x53EF;&#x80FD;&#x5728;&#x5C06;&#x6765;&#x901A;&#x8FC7;&#x4E00;&#x4E2A; API &#x6DFB;&#x52A0;&#x3002;</li>
+<li>&#x6240;&#x6709;&#x811A;&#x672C;&#x4F5C;&#x4E3A;&#x534F;&#x7A0B;&#x8FD0;&#x884C;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#xFF0C;&#x5373;&#x4F7F;&#x5B83;&#x4EEC;&#x53EF;&#x80FD;&#x6267;&#x884C;&#x590D;&#x6742;&#x7684;&#x5F02;&#x6B65;&#x64CD;&#x4F5C;&#xFF0C;&#x5B83;&#x4EEC;&#x4EE5;&#x540C;&#x6B65;&#x65B9;&#x5F0F;&#x7F16;&#x5199;&#x3002;&#x8FD9;&#x4F7F;&#x5F97;&#x811A;&#x672C;&#x76F8;&#x5F53;&#x5BB9;&#x6613;&#x88AB;&#x7F16;&#x5199;&#x3002;&#x6240;&#x6709;&#x7F51;&#x7EDC;/&#x5F02;&#x6B65;&#x5904;&#x7406;&#x901A;&#x8FC7;&#x4E00;&#x7EC4; API &#x88AB; Envoy &#x6267;&#x884C;&#x3002;Envoy &#x5C06;&#x9002;&#x5F53;&#x9000;&#x51FA;&#x811A;&#x672C;&#x5E76;&#x5728;&#x5F02;&#x6B65;&#x4EFB;&#x52A1;&#x5B8C;&#x6210;&#x540E;&#x6062;&#x590D;&#x3002;</li>
+<li><strong>&#x4E0D;&#x8981;&#x5728;&#x811A;&#x672C;&#x4E2D;&#x6267;&#x884C;&#x963B;&#x585E;&#x64CD;&#x4F5C;&#x3002;</strong> Envoy API &#x88AB;&#x7528;&#x4E8E;&#x6240;&#x6709; IO&#xFF0C;&#x8FD9;&#x4E00;&#x70B9;&#x5BF9;&#x6027;&#x80FD;&#x5F88;&#x5173;&#x952E;&#x3002;</li>
 </ul>
-<h2 id="currently-supported-high-level-features">Currently supported high level features</h2>
-<p><strong>NOTE:</strong> It is expected that this list will expand over time as the filter is used in production. The API surface has been kept small on purpose. The goal is to make scripts extremely simple and safe to write. Very complex or high performance use cases are assumed to use the native C++ filter API.</p>
+<h2 id="&#x5F53;&#x524D;&#x88AB;&#x652F;&#x6301;&#x7684;&#x9AD8;&#x5C42;&#x6B21;&#x7279;&#x6027;">&#x5F53;&#x524D;&#x88AB;&#x652F;&#x6301;&#x7684;&#x9AD8;&#x5C42;&#x6B21;&#x7279;&#x6027;:</h2>
+<p><em>&#x6CE8;</em> &#x9884;&#x8BA1;&#x8FD9;&#x4E2A;&#x5217;&#x8868;&#x5C06;&#x968F;&#x7740;&#x65F6;&#x95F4;&#x7684;&#x63A8;&#x79FB;&#x5728;&#x8BE5;&#x8FC7;&#x6EE4;&#x5668;&#x88AB;&#x7528;&#x4E8E;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x88AB;&#x4E0D;&#x65AD;&#x6269;&#x5145;&#x3002;API &#x8868;&#x9762;&#x4E0A;&#x88AB;&#x6709;&#x610F;&#x4FDD;&#x6301;&#x5F88;&#x5C0F;&#x3002;&#x76EE;&#x6807;&#x662F;&#x4F7F;&#x5F97;&#x7F16;&#x5199;&#x811A;&#x672C;&#x6781;&#x5EA6;&#x7B80;&#x5355;&#x548C;&#x5B89;&#x5168;&#x3002;&#x5047;&#x8BBE;&#x975E;&#x5E38;&#x590D;&#x6742;&#x6216;&#x9AD8;&#x6027;&#x80FD;&#x7684;&#x4F7F;&#x7528;&#x6848;&#x4F8B;&#x7528;&#x539F;&#x751F;&#x7684; C++ &#x8FC7;&#x6EE4;&#x5668; API&#x3002;</p>
 <ul>
-<li>Inspection of headers, body, and trailers while streaming in either the request flow, response flow, or both.</li>
-<li>Modification of headers and trailers.</li>
-<li>Blocking and buffering the full request/response body for inspection.</li>
-<li>Performing an outbound async HTTP call to an upstream host. Such a call can be performed while buffering body data so that when the call completes upstream headers can be modified.</li>
-<li>Performing a direct response and skipping further filter iteration. For example, a script could make an upstream HTTP call for authentication, and then directly respond with a 403 response code.</li>
+<li>&#x5728;&#x6D41;&#x5165;&#x8BF7;&#x6C42;&#x6D41;&#x3001;&#x54CD;&#x5E94;&#x6D41;&#x6216;&#x4E8C;&#x8005;&#x540C;&#x65F6;&#xFF0C;&#x68C0;&#x67E5;&#x5934;&#xFF0C;&#x4F53;&#x548C;&#x5C3E;&#x3002;</li>
+<li>&#x4FEE;&#x6539;&#x5934;&#x548C;&#x5C3E;&#x90E8;&#x3002;</li>
+<li>&#x963B;&#x585E;&#x5E76;&#x7F13;&#x5B58;&#x5168;&#x90E8;&#x8BF7;&#x6C42;/&#x54CD;&#x5E94;&#x4F53;&#x7528;&#x4F5C;&#x68C0;&#x67E5;&#x3002;</li>
+<li>&#x6267;&#x884C;&#x5916;&#x5411;&#x7684;&#x5F02;&#x6B65; HTTP &#x8C03;&#x7528;&#x5230;&#x4E00;&#x4E2A;&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x3002;&#x8FD9;&#x6837;&#x7684;&#x8C03;&#x7528;&#x53EF;&#x4EE5;&#x5728;&#x7F13;&#x5B58;&#x4F53;&#x6570;&#x636E;&#x65F6;&#x6267;&#x884C;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5F53;&#x8C03;&#x7528;&#x7ED3;&#x675F;&#x65F6;&#xFF0C;&#x4E0A;&#x6E38;&#x5934;&#x53EF;&#x4EE5;&#x88AB;&#x4FEE;&#x6539;&#x3002;</li>
+<li>&#x6267;&#x884C;&#x4E00;&#x4E2A;&#x76F4;&#x63A5;&#x54CD;&#x5E94;&#x5E76;&#x7565;&#x8FC7;&#x66F4;&#x591A;&#x7684;&#x8FC7;&#x6EE4;&#x5668;&#x5FAA;&#x73AF;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x4E00;&#x4E2A;&#x811A;&#x672C;&#x53EF;&#x4EE5;&#x505A;&#x4E00;&#x4E2A;&#x4E0A;&#x6E38; HTTP &#x8C03;&#x7528;&#x505A;&#x9274;&#x6743;&#xFF0C;&#x5E76;&#x968F;&#x540E;&#x76F4;&#x63A5;&#x4EE5;&#x4E00;&#x4E2A; 403 &#x54CD;&#x5E94;&#x4EE3;&#x7801;&#x54CD;&#x5E94;&#x3002;</li>
 </ul>
-<h2 id="configuration">Configuration</h2>
+<h2 id="&#x914D;&#x7F6E;">&#x914D;&#x7F6E;</h2>
 <ul>
-<li><a href="../../api-v1/http_filters/lua_filter.md#config-http-filters-lua-v1">v1 API reference</a></li>
-<li><a href="../../api-v2/config/filter/http/lua/v2/lua.proto.md#envoy-api-msg-config-filter-http-lua-v2-lua">v2 API reference</a></li>
+<li><a href="../../api-v1/http_filters/lua_filter.md#config-http-filters-lua-v1">v1 API &#x53C2;&#x8003;</a></li>
+<li><a href="../../api-v2/config/filter/http/lua/v2/lua.proto.md#envoy-api-msg-config-filter-http-lua-v2-lua">v2 API &#x53C2;&#x8003;</a></li>
 </ul>
-<h2 id="script-examples">Script examples</h2>
-<p>This section provides some concrete examples of Lua scripts as a more gentle introduction and quick start. Please refer to the <a href="#config-http-filters-lua-stream-handle-api">stream handle API</a> for more details on the supported API.</p>
-<pre class="language-"><code class="lang-lua"><span class="token comment" spellcheck="true">-- Called on the request path.</span>
+<h2 id="&#x811A;&#x672C;&#x793A;&#x4F8B;">&#x811A;&#x672C;&#x793A;&#x4F8B;</h2>
+<p>&#x672C;&#x8282;&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E9B; Lua &#x811A;&#x672C;&#x7684;&#x5177;&#x4F53;&#x4F8B;&#x5B50;&#xFF0C;&#x4F5C;&#x4E3A;&#x66F4;&#x6E29;&#x548C;&#x7684;&#x4ECB;&#x7ECD;&#x548C;&#x5FEB;&#x901F;&#x5F00;&#x59CB;&#x3002;&#x5173;&#x4E8E;&#x88AB;&#x652F;&#x6301;&#x7684; API &#x7684;&#x66F4;&#x591A;&#x7EC6;&#x8282;&#xFF0C;&#x8BF7;&#x53C2;&#x7167;<a href="#config-http-filters-lua-stream-handle-api">&#x6D41;&#x5904;&#x7406; API</a>&#x3002;</p>
+<pre class="language-"><code class="lang-lua"><span class="token comment" spellcheck="true">-- &#x5728;&#x8BF7;&#x6C42;&#x8DEF;&#x5F84;&#x4E0A;&#x88AB;&#x8C03;&#x7528;&#x3002;</span>
 <span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">-- Wait for the entire request body and add a request header with the body size.</span>
+  <span class="token comment" spellcheck="true">-- &#x7B49;&#x5F85;&#x6574;&#x4E2A;&#x8BF7;&#x6C42;&#x4F53;&#x5E76;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x5934;&#x548C;&#x4F53;&#x7684;&#x5927;&#x5C0F;&#x3002;</span>
   request_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;request_body_size&quot;</span><span class="token punctuation">,</span> request_handle<span class="token punctuation">:</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 
-<span class="token comment" spellcheck="true">-- Called on the response path.</span>
+<span class="token comment" spellcheck="true">-- &#x5728;&#x54CD;&#x5E94;&#x8DEF;&#x5F84;&#x4E0A;&#x88AB;&#x8C03;&#x7528;&#x3002;</span>
 <span class="token keyword">function</span> <span class="token function">envoy_on_response</span><span class="token punctuation">(</span>response_handle<span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">-- Wait for the entire response body and a response header with the the body size.</span>
+  <span class="token comment" spellcheck="true">-- &#x7B49;&#x5F85;&#x6574;&#x4E2A;&#x54CD;&#x5E94;&#x4F53;&#x5E76;&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x5934;&#x548C;&#x4F53;&#x7684;&#x5927;&#x5C0F;&#x3002;</span>
   response_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;response_body_size&quot;</span><span class="token punctuation">,</span> response_handle<span class="token punctuation">:</span><span class="token function">body</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">-- Remove a response header named &apos;foo&apos;</span>
+  <span class="token comment" spellcheck="true">-- &#x79FB;&#x9664;&#x4E00;&#x4E2A;&#x540D;&#x4E3A; &apos;foo&apos; &#x7684;&#x54CD;&#x5E94;&#x5934;&#x3002;</span>
   response_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token string">&quot;foo&quot;</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 </code></pre>
 <pre class="language-"><code class="lang-lua"><span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">-- Make an HTTP call to an upstream host with the following headers, body, and timeout.</span>
+  <span class="token comment" spellcheck="true">-- &#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x7684;&#x5934;&#x3001;&#x4F53;&#x548C;&#x8D85;&#x65F6;&#x5BF9;&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x505A;&#x4E00;&#x4E2A; HTTP &#x8C03;&#x7528;&#x3002;</span>
   <span class="token keyword">local</span> headers<span class="token punctuation">,</span> body <span class="token operator">=</span> request_handle<span class="token punctuation">:</span><span class="token function">httpCall</span><span class="token punctuation">(</span>
   <span class="token string">&quot;lua_cluster&quot;</span><span class="token punctuation">,</span>
   <span class="token punctuation">{</span>
@@ -2284,14 +2286,13 @@
   <span class="token string">&quot;hello world&quot;</span><span class="token punctuation">,</span>
   <span class="token number">5000</span><span class="token punctuation">)</span>
 
-  <span class="token comment" spellcheck="true">-- Add information from the HTTP call into the headers that are about to be sent to the next</span>
-  <span class="token comment" spellcheck="true">-- filter in the filter chain.</span>
+  <span class="token comment" spellcheck="true">-- &#x6DFB;&#x52A0;&#x6765;&#x81EA; HTTP &#x8C03;&#x7528;&#x7684;&#x4FE1;&#x606F;&#x5230;&#x5C06;&#x8981;&#x88AB;&#x53D1;&#x9001;&#x5230;&#x8FC7;&#x6EE4;&#x5668;&#x94FE;&#x4E2D;&#x4E0B;&#x4E00;&#x4E2A;&#x8FC7;&#x6EE4;&#x5668;&#x7684;&#x5934;&#x3002;</span>
   request_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;upstream_foo&quot;</span><span class="token punctuation">,</span> headers<span class="token punctuation">[</span><span class="token string">&quot;foo&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
   request_handle<span class="token punctuation">:</span><span class="token function">headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">&quot;upstream_body_size&quot;</span><span class="token punctuation">,</span> <span class="token operator">#</span>body<span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 </code></pre>
 <pre class="language-"><code class="lang-lua"><span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">-- Make an HTTP call.</span>
+  <span class="token comment" spellcheck="true">-- &#x505A;&#x4E00;&#x4E2A; HTTP &#x8C03;&#x7528;&#x3002;</span>
   <span class="token keyword">local</span> headers<span class="token punctuation">,</span> body <span class="token operator">=</span> request_handle<span class="token punctuation">:</span><span class="token function">httpCall</span><span class="token punctuation">(</span>
   <span class="token string">&quot;lua_cluster&quot;</span><span class="token punctuation">,</span>
   <span class="token punctuation">{</span>
@@ -2302,45 +2303,44 @@
   <span class="token string">&quot;hello world&quot;</span><span class="token punctuation">,</span>
   <span class="token number">5000</span><span class="token punctuation">)</span>
 
-  <span class="token comment" spellcheck="true">-- Response directly and set a header from the HTTP call. No further filter iteration</span>
-  <span class="token comment" spellcheck="true">-- occurs.</span>
+  <span class="token comment" spellcheck="true">-- &#x76F4;&#x63A5;&#x54CD;&#x5E94;&#x5E76;&#x4ECE; HTTP &#x8C03;&#x7528;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x5934;&#x3002;&#x6CA1;&#x6709;&#x66F4;&#x591A;&#x7684;&#x8FC7;&#x6EE4;&#x5668;&#x5FAA;&#x73AF;&#x53D1;&#x751F;&#x3002;</span>
   request_handle<span class="token punctuation">:</span><span class="token function">respond</span><span class="token punctuation">(</span>
     <span class="token punctuation">{</span><span class="token punctuation">[</span><span class="token string">&quot;:status&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">&quot;403&quot;</span><span class="token punctuation">,</span>
      <span class="token punctuation">[</span><span class="token string">&quot;upstream_foo&quot;</span><span class="token punctuation">]</span> <span class="token operator">=</span> headers<span class="token punctuation">[</span><span class="token string">&quot;foo&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
     <span class="token string">&quot;nope&quot;</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 </code></pre>
-<h2 id="stream-handle-api">Stream handle API</h2>
-<p>When Envoy loads the script in the configuration, it looks for two global functions that the script defines:</p>
+<h2 id="&#x6D41;&#x64CD;&#x4F5C;-api">&#x6D41;&#x64CD;&#x4F5C; API</h2>
+<p>&#x5F53; Envoy &#x52A0;&#x8F7D;&#x914D;&#x7F6E;&#x4E2D;&#x811A;&#x672C;&#xFF0C;&#x5B83;&#x5BFB;&#x627E;&#x811A;&#x672C;&#x5B9A;&#x4E49;&#x7684;&#x4E24;&#x4E2A;&#x5168;&#x5C40;&#x51FD;&#x6570;:</p>
 <pre class="language-"><code class="lang-lua"><span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 
 <span class="token keyword">function</span> <span class="token function">envoy_on_response</span><span class="token punctuation">(</span>response_handle<span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 </code></pre>
-<p>A script can define either or both of these functions. During the request path, Envoy will run <em>envoy_on_request</em> as a coroutine, passing an API handle. During the response path, Envoy will run <em>envoy_on_response</em> as a coroutine, passing an API handle.</p>
-<p>Attention</p>
-<p>It is critical that all interaction with Envoy occur through the passed stream handle. The stream handle should not be assigned to any global variable and should not be used outside of the coroutine. Envoy will fail your script if the handle is used incorrectly.</p>
-<p>The following methods on the stream handle are supported:</p>
+<p>&#x4E00;&#x4E2A;&#x811A;&#x672C;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x8FD9;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x6216;&#x8005;&#x4E24;&#x4E2A;&#x3002;&#x5728;&#x8BF7;&#x6C42;&#x8DEF;&#x5F84;&#x4E2D;&#xFF0C;Envoy &#x5C06;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x534F;&#x7A0B;&#x8FD0;&#x884C; <em>envoy_on_request</em>&#xFF0C;&#x4F20;&#x9012;&#x4E00;&#x4E2A; API &#x53E5;&#x67C4;&#x3002;&#x5728;&#x76F8;&#x5E94;&#x8DEF;&#x5F84;&#x4E2D;&#xFF0C;Envoy &#x5C06;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x534F;&#x7A0B;&#x8FD0;&#x884C; <em>envoy_on_response</em>&#xFF0C;&#x4F20;&#x9012;&#x4E00;&#x4E2A; API &#x53E5;&#x67C4;&#x3002;</p>
+<p>&#x6CE8;&#x610F;</p>
+<p>&#x5173;&#x952E;&#x662F;&#x6240;&#x6709;&#x4E0E; Envoy &#x7684;&#x4EA4;&#x4E92;&#x63D0;&#x4F9B;&#x88AB;&#x4F20;&#x9012;&#x7684;&#x6D41;&#x53E5;&#x67C4;&#x53D1;&#x751F;&#x3002;&#x6D41;&#x53E5;&#x67C4;&#x4E0D;&#x5E94;&#x8BE5;&#x88AB;&#x8D4B;&#x503C;&#x7ED9;&#x4EFB;&#x4F55;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;&#x800C;&#x4E14;&#x4E0D;&#x5E94;&#x8BE5;&#x88AB;&#x7528;&#x4E8E;&#x534F;&#x7A0B;&#x7684;&#x5916;&#x90E8;&#x3002;&#x5982;&#x679C;&#x8BE5;&#x53E5;&#x67C4;&#x4F7F;&#x7528;&#x4E0D;&#x6B63;&#x786E;&#xFF0C;Envoy &#x5C06;&#x5931;&#x8D25;&#x3002;</p>
+<p>&#x4E0B;&#x5217;&#x5728;&#x6D41;&#x53E5;&#x67C4;&#x4E0A;&#x7684;&#x65B9;&#x6CD5;&#x88AB;&#x652F;&#x6301;:</p>
 <h3 id="headers">headers()</h3>
 <pre class="language-"><code>headers = handle:headers()
-</code></pre><p>Returns the stream&#x2019;s headers. The headers can be modified as long as they have not been sent to the next filter in the header chain. For example, they can be modified after an <em>httpCall()</em> or after a <em>body()</em> call returns. The script will fail if the headers are modified in any other situation.</p>
-<p>Returns a <a href="#config-http-filters-lua-header-wrapper">header object</a>.</p>
+</code></pre><p>&#x8FD4;&#x56DE;&#x6D41;&#x7684;&#x5934;&#x3002;&#x53EA;&#x8981;&#x5B83;&#x4EEC;&#x8FD8;&#x6CA1;&#x6709;&#x88AB;&#x53D1;&#x9001;&#x5230;&#x5934;&#x94FE;&#x4E2D;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x8FC7;&#x6EE4;&#x5668;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x88AB;&#x4FEE;&#x6539;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5B83;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x4E00;&#x4E2A; <em>httpCall()</em> &#x6216;&#x8005; <em>body()</em> &#x8C03;&#x7528;&#x8FD4;&#x56DE;&#x540E;&#x88AB;&#x4FEE;&#x6539;&#x3002;&#x5982;&#x679C;&#x5934;&#x5728;&#x4EFB;&#x4F55;&#x5176;&#x4ED6;&#x60C5;&#x51B5;&#x4E0B;&#x88AB;&#x4FEE;&#x6539;&#xFF0C;&#x811A;&#x672C;&#x5C06;&#x5931;&#x8D25;&#x3002;</p>
+<p>&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;<a href="#config-http-filters-lua-header-wrapper">&#x5934;&#x5BF9;&#x8C61;</a>&#x3002;</p>
 <h3 id="body">body()</h3>
 <pre class="language-"><code>body = handle:body()
-</code></pre><p>Returns the stream&#x2019;s body. This call will cause Envoy to yield the script until the entire body has been buffered. Note that all buffering must adhere to the flow control policies in place. Envoy will not buffer more data than is allowed by the connection manager.</p>
-<p>Returns a <a href="#config-http-filters-lua-buffer-wrapper">buffer object</a>.</p>
+</code></pre><p>&#x8FD4;&#x56DE;&#x6D41;&#x7684;&#x4F53;&#x3002;&#x8FD9;&#x4E2A;&#x8C03;&#x7528;&#x5C06;&#x9020;&#x6210; Envoy &#x9000;&#x51FA;&#x811A;&#x672C;&#x76F4;&#x5230;&#x6574;&#x4E2A;&#x4F53;&#x88AB;&#x7F13;&#x5B58;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x6240;&#x6709;&#x7F13;&#x5B58;&#x5FC5;&#x987B;&#x9075;&#x4ECE;&#x9002;&#x5F53;&#x7684;&#x6D41;&#x63A7;&#x7B56;&#x7565;&#x3002;Envoy &#x5C06;&#x4E0D;&#x4F1A;&#x7F13;&#x5B58;&#x6BD4;&#x8FDE;&#x63A5;&#x7BA1;&#x7406;&#x5668;&#x5141;&#x8BB8;&#x7684;&#x66F4;&#x591A;&#x7684;&#x6570;&#x636E;&#x3002;</p>
+<p>&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;<a href="#config-http-filters-lua-buffer-wrapper">&#x7F13;&#x5B58;&#x5BF9;&#x8C61;</a>&#x3002;</p>
 <h3 id="bodychunks">bodyChunks()</h3>
 <pre class="language-"><code>iterator = handle:bodyChunks()
-</code></pre><p>Returns an iterator that can be used to iterate through all received body chunks as they arrive. Envoy will yield the script in between chunks, but <em>will not buffer</em> them. This can be used by a script to inspect data as it is streaming by.</p>
+</code></pre><p>&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x8FED;&#x4EE3;&#x5668;&#xFF0C;&#x5B83;&#x53EF;&#x88AB;&#x7528;&#x4E8E;&#x5728;&#x6240;&#x6709;&#x4F53;&#x5757;&#x5230;&#x8FBE;&#x65F6;&#x5FAA;&#x73AF;&#x8BBF;&#x95EE;&#x5B83;&#x4EEC;&#x3002;Envoy &#x5C06;&#x5728;&#x5757;&#x4E4B;&#x95F4;&#x9000;&#x51FA;&#x811A;&#x672C;&#xFF0C;&#x4F46;&#x662F; <em>&#x5C06;&#x4E0D;&#x4F1A;&#x7F13;&#x5B58;</em> &#x5B83;&#x4EEC;&#x3002;&#x8FD9;&#x53EF;&#x88AB;&#x4E00;&#x4E2A;&#x811A;&#x672C;&#x7528;&#x4E8E;&#x5728;&#x6570;&#x636E;&#x6D41;&#x5165;&#x65F6;&#x505A;&#x68C0;&#x67E5;&#x3002;</p>
 <pre class="language-"><code>for chunk in request_handle:bodyChunks() do
   request_handle:log(0, chunk:length())
 end
-</code></pre><p>Each chunk the iterator returns is a <a href="#config-http-filters-lua-buffer-wrapper">buffer object</a>.</p>
+</code></pre><p>&#x8FED;&#x4EE3;&#x5668;&#x8FD4;&#x56DE;&#x7684;&#x6BCF;&#x4E00;&#x5757;&#x662F;&#x4E00;&#x4E2A;<a href="#config-http-filters-lua-buffer-wrapper">&#x7F13;&#x5B58;&#x5BF9;&#x8C61;</a>&#x3002;</p>
 <h3 id="trailers">trailers()</h3>
 <pre class="language-"><code>trailers = handle:trailers()
-</code></pre><p>Returns the stream&#x2019;s trailers. May return nil if there are no trailers. The trailers may be modified before they are sent to the next filter.</p>
-<p>Returns a <a href="#config-http-filters-lua-header-wrapper">header object</a>.</p>
+</code></pre><p>&#x8FD4;&#x56DE;&#x6D41;&#x7684;&#x5C3E;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5C3E;&#xFF0C;&#x53EF;&#x80FD;&#x8FD4;&#x56DE;&#x7A7A;&#x3002;&#x5C3E;&#x5728;&#x88AB;&#x53D1;&#x9001;&#x5230;&#x4E0B;&#x4E00;&#x4E2A;&#x8FC7;&#x6EE4;&#x5668;&#x4E4B;&#x524D;&#x53EF;&#x80FD;&#x88AB;&#x4FEE;&#x6539;&#x3002;</p>
+<p>&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;<a href="#config-http-filters-lua-header-wrapper">&#x5934;&#x5BF9;&#x8C61;</a>&#x3002;</p>
 <h3 id="log">log*()</h3>
 <pre class="language-"><code>handle:logTrace(message)
 handle:logDebug(message)
@@ -2348,14 +2348,14 @@ handle:logInfo(message)
 handle:logWarn(message)
 handle:logErr(message)
 handle:logCritical(message)
-</code></pre><p>Logs a message using Envoy&#x2019;s application logging. <em>message</em> is a string to log.</p>
+</code></pre><p>&#x4F7F;&#x7528; Envoy &#x7684;&#x5E94;&#x7528;&#x65E5;&#x5FD7;&#x529F;&#x80FD;&#x4FDD;&#x5B58;&#x4E00;&#x6761;&#x6D88;&#x606F;&#x3002;<em>message</em> &#x662F;&#x88AB;&#x4FDD;&#x5B58;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
 <h3 id="httpcall">httpCall()</h3>
 <pre class="language-"><code>headers, body = handle:httpCall(cluster, headers, body, timeout)
-</code></pre><p>Makes an HTTP call to an upstream host. Envoy will yield the script until the call completes or has an error. <em>cluster</em> is a string which maps to a configured cluster manager cluster. <em>headers</em> is a table of key/value pairs to send. Note that the <em>:method</em>, <em>:path</em>, and <em>:authority</em> headers must be set. <em>body</em> is an optional string of body data to send. <em>timeout</em> is an integer that specifies the call timeout in milliseconds.</p>
-<p>Returns <em>headers</em> which is a table of response headers. Returns <em>body</em> which is the string response body. May be nil if there is no body.</p>
+</code></pre><p>&#x5BF9;&#x4E00;&#x53F0;&#x4E0A;&#x6E38;&#x4E3B;&#x673A;&#x505A;&#x4E00;&#x4E2A; HTTP &#x8C03;&#x7528;&#x3002;Envoy &#x5C06;&#x63A8;&#x51FA;&#x811A;&#x672C;&#x76F4;&#x5230;&#x8C03;&#x7528;&#x7ED3;&#x675F;&#x6216;&#x8005;&#x6709;&#x4E00;&#x4E2A;&#x9519;&#x8BEF;&#x3002;<em>cluster</em> &#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6620;&#x5C04;&#x4E3A;&#x4E00;&#x4E2A;&#x914D;&#x7F6E;&#x597D;&#x7684;&#x96C6;&#x7FA4;&#x7BA1;&#x7406;&#x5668;&#x3002;<em>headers</em> &#x4E00;&#x4E2A;&#x8981;&#x53D1;&#x9001;&#x7684;&#x952E;&#x503C;&#x5BF9;&#x7684;&#x8868;&#x3002;&#x6CE8;&#x610F;&#xFF0C;<em>:method</em>&#xFF0C;<em>:path</em> &#x548C; <em>:authority</em> &#x5934;&#x5FC5;&#x987B;&#x88AB;&#x8BBE;&#x7F6E;&#x3002;<em>body</em> &#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x7684;&#x8981;&#x53D1;&#x9001;&#x7684;&#x4F53;&#x6570;&#x636E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;<em>timeout</em> &#x662F;&#x4E00;&#x4E2A;&#x6574;&#x6570;&#xFF0C;&#x6307;&#x5B9A;&#x4EE5;&#x5FAE;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x8C03;&#x7528;&#x8D85;&#x65F6;&#x3002;</p>
+<p>&#x8FD4;&#x56DE; <em>headers</em>&#xFF0C;&#x8FD9;&#x662F;&#x54CD;&#x5E94;&#x5934;&#x7684;&#x4E00;&#x4E2A;&#x8868;&#x3002;&#x8FD4;&#x56DE; <em>body</em>&#xFF0C;&#x8FD9;&#x662F;&#x54CD;&#x5E94;&#x4F53;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4F53;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;&#x7A7A;&#x3002;</p>
 <h3 id="respond">respond()</h3>
 <pre class="language-"><code>handle:respond(headers, body)
-</code></pre><p>Respond immediately and do not continue further filter iteration. This call is <em>only valid in the request flow</em>. Additionally, a response is only possible if request headers have not yet been passed to subsequent filters. Meaning, the following Lua code is invalid:</p>
+</code></pre><p>&#x7ACB;&#x5373;&#x54CD;&#x5E94;&#x5E76;&#x4E14;&#x4E0D;&#x505A;&#x66F4;&#x591A;&#x7684;&#x5FAA;&#x73AF;&#x3002;&#x8FD9;&#x4E2A;&#x8C03;&#x7528;<em>&#x4EC5;&#x5728;&#x8BF7;&#x6C42;&#x6D41;&#x4E2D;&#x5408;&#x6CD5;</em>&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x53EA;&#x6709;&#x5F53;&#x8BF7;&#x6C42;&#x5934;&#x8FD8;&#x6CA1;&#x6709;&#x88AB;&#x4F20;&#x9012;&#x7ED9;&#x540E;&#x7EED;&#x8FC7;&#x6EE4;&#x5668;&#x65F6;&#x624D;&#x53EF;&#x80FD;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#xFF0C;&#x4E0B;&#x9762;&#x7684; Lua &#x4EE3;&#x7801;&#x662F;&#x4E0D;&#x5408;&#x6CD5;&#x7684;:</p>
 <pre class="language-"><code class="lang-lua"><span class="token keyword">function</span> <span class="token function">envoy_on_request</span><span class="token punctuation">(</span>request_handle<span class="token punctuation">)</span>
   <span class="token keyword">for</span> chunk <span class="token keyword">in</span> request_handle<span class="token punctuation">:</span><span class="token function">bodyChunks</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">do</span>
     request_handle<span class="token punctuation">:</span><span class="token function">respond</span><span class="token punctuation">(</span>
@@ -2364,10 +2364,10 @@ handle:logCritical(message)
   <span class="token keyword">end</span>
 <span class="token keyword">end</span>
 </code></pre>
-<p><em>headers</em> is a table of key/value pairs to send. Note that the <em>:status</em> header must be set. <em>body</em> is a string and supplies the optional response body. May be nil.</p>
+<p><em>headers</em> &#x4E00;&#x5F20;&#x8981;&#x53D1;&#x9001;&#x7684;&#x952E;&#x503C;&#x5BF9;&#x7684;&#x8868;&#x3002;&#x6CE8;&#x610F;&#xFF0C;<em>:status</em> &#x5934;&#x5FC5;&#x987B;&#x88AB;&#x8BBE;&#x7F6E;&#x3002;<em>body</em> &#x662F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x5E76;&#x63D0;&#x4F9B;&#x4E86;&#x53EF;&#x9009;&#x7684;&#x54CD;&#x5E94;&#x4F53;&#xFF0C;&#x53EF;&#x80FD;&#x4E3A;&#x7A7A;&#x3002;</p>
 <h3 id="metadata">metadata()</h3>
 <pre class="language-"><code>metadata = handle:metadata()
-</code></pre><p>Returns the current route entry metadata. Note that the metadata should be specified under the filter name i.e. <em>envoy.lua</em>. Below is an example of a <em>metadata</em> in a <a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route">route entry</a>.</p>
+</code></pre><p>&#x8FD4;&#x56DE;&#x5F53;&#x524D;&#x8DEF;&#x7531;&#x6761;&#x76EE;&#x5143;&#x6570;&#x636E;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x5143;&#x6570;&#x636E;&#x5E94;&#x8BE5;&#x5728;&#x8FC7;&#x6EE4;&#x5668;&#x540D;&#x4E0B;&#x6307;&#x5B9A;&#xFF0C;&#x4F8B;&#x5982;<em>envoy.lua</em>&#x3002;&#x4E0B;&#x9762;&#x662F;&#x4E00;&#x4E2A; &#x5728;<a href="../../api-v1/route_config/route.md#config-http-conn-man-route-table-route">&#x8DEF;&#x7531;&#x6761;&#x76EE;</a>&#x4E2D; <em>metadata</em> &#x7684;&#x4F8B;&#x5B50;&#x3002;</p>
 <pre class="language-"><code class="lang-yaml"><span class="token key atrule">metadata</span><span class="token punctuation">:</span>
   <span class="token key atrule">filter_metadata</span><span class="token punctuation">:</span>
     <span class="token key atrule">envoy.lua</span><span class="token punctuation">:</span>
@@ -2376,45 +2376,45 @@ handle:logCritical(message)
         <span class="token punctuation">-</span> bad
         <span class="token punctuation">-</span> baz
 </code></pre>
-<p>Returns a <a href="#config-http-filters-lua-metadata-wrapper">metadata object</a>.</p>
-<h2 id="header-object-api">Header object API</h2>
+<p>&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;<a href="#config-http-filters-lua-metadata-wrapper">&#x5143;&#x6570;&#x636E;&#x5BF9;&#x8C61;</a>&#x3002;</p>
+<h2 id="&#x5934;&#x5BF9;&#x8C61;-api">&#x5934;&#x5BF9;&#x8C61; API</h2>
 <h3 id="add">add()</h3>
 <pre class="language-"><code>headers:add(key, value)
-</code></pre><p>Adds a header. <em>key</em> is a string that supplies the header key. <em>value</em> is a string that supplies the header value.</p>
-<p>Attention</p>
-<p>Envoy treats certain headers specially. These are known as the O(1) or <em>inline</em> headers. The list of inline headers can be found <a href="https://github.com/envoyproxy/envoy/blob/6b6ce85a24094146c5c225f19b6ecc47b2ca84bf/include/envoy/http/header_map.h#L228" target="_blank">here</a>. If an inline header is already present in the header map, <em>add()</em>will have no effect. If attempting to <em>add()</em> a non-inline header, the additional header will be added so that the resultant headers contains multiple header entries with the same name. Consider using the <em>replace</em> function if want to replace a header with another value. Note also that we understand this behavior is confusing and we may change it in a future release.</p>
+</code></pre><p>&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x5934;&#x3002;<em>key</em> &#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x5934;&#x952E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;<em>value</em>&#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x5934;&#x503C;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+<p>&#x6CE8;&#x610F;</p>
+<p>Envoy &#x7279;&#x6B8A;&#x5904;&#x7406;&#x7279;&#x5B9A;&#x5934;&#x3002;&#x8FD9;&#x4E9B;&#x88AB;&#x79F0;&#x4E3A; O(1) &#x6216; <em>inline</em> &#x5934;&#x3002;&#x4E00;&#x4E2A;&#x5185;&#x5EFA;&#x5934;&#x7684;&#x5217;&#x8868;&#x53EF;&#x4EE5;&#x5728;<a href="https://github.com/envoyproxy/envoy/blob/6b6ce85a24094146c5c225f19b6ecc47b2ca84bf/include/envoy/http/header_map.h#L228" target="_blank">&#x8FD9;&#x91CC;</a>&#x627E;&#x5230;&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x5185;&#x5EFA;&#x5934;&#x5DF2;&#x7ECF;&#x5448;&#x73B0;&#x5728;&#x5934;&#x6620;&#x5C04;&#x4E2D;&#xFF0C;<em>add()</em> &#x5C06;&#x6CA1;&#x6709;&#x6548;&#x679C;&#x3002;&#x5982;&#x679C;&#x8BD5;&#x56FE;&#x53BB; <em>add()</em> &#x4E00;&#x4E2A;&#x975E;&#x5185;&#x5EFA;&#x7684;&#x5934;&#xFF0C;&#x9644;&#x52A0;&#x7684;&#x5934;&#x5C06;&#x4F1A;&#x88AB;&#x6DFB;&#x52A0;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5408;&#x6210;&#x7684;&#x5934;&#x5305;&#x542B;&#x591A;&#x4E2A;&#x540C;&#x540D;&#x7684;&#x5934;&#x3002;&#x5982;&#x679C;&#x60F3;&#x8981;&#x5C06;&#x5934;&#x6362;&#x4E3A;&#x53E6;&#x4E00;&#x4E2A;&#x503C;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x4F7F;&#x7528; <em>replace</em> &#x51FD;&#x6570;&#x3002;&#x6CE8;&#x610F;&#xFF0C;&#x6211;&#x4EEC;&#x7406;&#x89E3;&#x8FD9;&#x4E2A;&#x884C;&#x4E3A;&#x4EE4;&#x4EBA;&#x8FF7;&#x60D1;&#x5E76;&#x4E14;&#x6211;&#x4EEC;&#x53EF;&#x80FD;&#x5728;&#x5C06;&#x6765;&#x7684;&#x4E00;&#x7248;&#x4E2D;&#x6539;&#x53D8;&#x3002;</p>
 <h3 id="get">get()</h3>
 <pre class="language-"><code>headers:get(key)
-</code></pre><p>Gets a header. <em>key</em> is a string that supplies the header key. Returns a string that is the header value or nil if there is no such header.</p>
+</code></pre><p>&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x5934;&#x3002;<em>key</em> &#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x5934;&#x952E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x5934;&#x503C;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x8FD9;&#x4E2A;&#x5934;&#x5219;&#x8FD4;&#x56DE;&#x7A7A;&#x3002;</p>
 <h3 id="pairs">__pairs()</h3>
 <pre class="language-"><code>for key, value in pairs(headers) do
 end
-</code></pre><p>Iterates through every header. <em>key</em> is a string that supplies the header key. <em>value</em> is a string that supplies the header value.</p>
-<p>Attention</p>
-<p>In the currently implementation, headers cannot be modified during iteration. Additionally, if it is desired to modify headers after iteration, the iteration must be completed. Meaning, do not use break or any other mechanism to exit the loop early. This may be relaxed in the future.</p>
+</code></pre><p>&#x5FAA;&#x73AF;&#x8BBF;&#x95EE;&#x6BCF;&#x4E2A;&#x5934;&#x3002;<em>key</em> &#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x5934;&#x952E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;<em>value</em>&#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x5934;&#x503C;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;</p>
+<p>&#x6CE8;&#x610F;</p>
+<p>&#x5728;&#x5F53;&#x524D;&#x7684;&#x5B9E;&#x73B0;&#x4E2D;&#xFF0C;&#x5934;&#x4E0D;&#x80FD;&#x5728;&#x5FAA;&#x73AF;&#x671F;&#x95F4;&#x88AB;&#x4FEE;&#x6539;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x8981;&#x5728;&#x5FAA;&#x73AF;&#x540E;&#x4FEE;&#x6539;&#x5934;&#xFF0C;&#x5FAA;&#x73AF;&#x5FC5;&#x987B;&#x5B8C;&#x6210;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#xFF0C;&#x4E0D;&#x7528;&#x8FC7;&#x65E9;&#x4F7F;&#x7528;&#x8DF3;&#x51FA;&#x6216;&#x5176;&#x4ED6;&#x673A;&#x5236;&#x9000;&#x51FA;&#x5FAA;&#x73AF;&#x4F53;&#x3002;&#x8FD9;&#x4E2A;&#x8981;&#x6C42;&#x53EF;&#x80FD;&#x5728;&#x5C06;&#x6765;&#x88AB;&#x653E;&#x677E;&#x3002;</p>
 <h3 id="remove">remove()</h3>
 <pre class="language-"><code>headers:remove(key)
-</code></pre><p>Removes a header. <em>key</em> supplies the header key to remove.</p>
+</code></pre><p>&#x79FB;&#x9664;&#x4E00;&#x4E2A;&#x5934;&#x3002; <em>key</em> &#x63D0;&#x4F9B;&#x4E86;&#x8981;&#x79FB;&#x9664;&#x7684;&#x5934;&#x952E;&#x3002;</p>
 <h3 id="replace">replace()</h3>
 <pre class="language-"><code>headers:replace(key, value)
-</code></pre><p>Replaces a header. <em>key</em> is a string that supplies the header key. <em>value</em> is a string that supplies the header value. If the header does not exist, it is added as per the <em>add()</em> function.</p>
-<h2 id="buffer-api">Buffer API</h2>
+</code></pre><p>&#x66FF;&#x6362;&#x4E00;&#x4E2A;&#x5934;&#x3002;<em>key</em> &#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x5934;&#x952E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;<em>value</em>&#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x5934;&#x503C;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x5982;&#x679C;&#x5934;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x5B83;&#x7528; <em>add()</em> &#x51FD;&#x6570;&#x6DFB;&#x52A0;&#x3002;</p>
+<h2 id="&#x7F13;&#x5B58;-api">&#x7F13;&#x5B58; API</h2>
 <h3 id="length">length()</h3>
 <pre class="language-"><code>size = buffer:length()
-</code></pre><p>Gets the size of the buffer in bytes. Returns an integer.</p>
+</code></pre><p>&#x83B7;&#x5F97;&#x4EE5;&#x5B57;&#x8282;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x7F13;&#x5B58;&#x7684;&#x5927;&#x5C0F;&#x3002;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x6574;&#x6570;&#x3002;</p>
 <h3 id="getbytes">getBytes()</h3>
 <pre class="language-"><code>buffer:getBytes(index, length)
-</code></pre><p>Get bytes from the buffer. By default Envoy will not copy all buffer bytes to Lua. This will cause a buffer segment to be copied. <em>index</em> is an integer and supplies the buffer start index to copy. <em>length</em>is an integer and supplies the buffer length to copy. <em>index</em> + <em>length</em> must be less than the buffer length.</p>
-<h2 id="metadata-object-api">Metadata object API</h2>
+</code></pre><p>&#x4ECE;&#x7F13;&#x5B58;&#x4E2D;&#x83B7;&#x5F97;&#x5B57;&#x8282;&#x3002;Envoy &#x9ED8;&#x8BA4;&#x5C06;&#x4E0D;&#x4F1A;&#x62F7;&#x8D1D;&#x6240;&#x6709;&#x7684;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x7ED9; Lua&#x3002;&#x8FD9;&#x5C06;&#x9020;&#x6210;&#x4E00;&#x4E2A;&#x7F13;&#x5B58;&#x6BB5;&#x88AB;&#x62F7;&#x8D1D;&#x3002;<em>index</em> &#x662F;&#x4E00;&#x4E2A;&#x6574;&#x6570;&#x5E76;&#x63D0;&#x4F9B;&#x4E86;&#x7F13;&#x5B58;&#x8981;&#x5F00;&#x59CB;&#x62F7;&#x8D1D;&#x7684;&#x7D22;&#x5F15;&#x3002;<em>length</em> &#x662F;&#x4E00;&#x4E2A;&#x6574;&#x6570;&#x5E76;&#x63D0;&#x4F9B;&#x4E86;&#x8981;&#x62F7;&#x8D1D;&#x7684;&#x7F13;&#x5B58;&#x957F;&#x5EA6;&#x3002;<em>index</em> + <em>length</em> &#x5FC5;&#x987B;&#x5C0F;&#x4E8E;&#x7F13;&#x5B58;&#x7684;&#x957F;&#x5EA6;&#x3002;</p>
+<h2 id="&#x5143;&#x6570;&#x636E;&#x5BF9;&#x8C61;-api">&#x5143;&#x6570;&#x636E;&#x5BF9;&#x8C61; API</h2>
 <h3 id="get">get()</h3>
 <pre class="language-"><code>metadata:get(key)
-</code></pre><p>Gets a metadata. <em>key</em> is a string that supplies the metadata key. Returns the corresponding value of the given metadata key. The type of the value can be: <em>null</em>, <em>boolean</em>, <em>number</em>, <em>string</em> and <em>table</em>.</p>
+</code></pre><p>&#x83B7;&#x5F97;&#x4E00;&#x4E2A;&#x5143;&#x6570;&#x636E;&#x3002; <em>key</em> &#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x4E86;&#x5143;&#x6570;&#x636E;&#x952E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002;&#x8FD4;&#x56DE;&#x7ED9;&#x5B9A;&#x5143;&#x6570;&#x636E;&#x952E;&#x5BF9;&#x5E94;&#x7684;&#x503C;&#x3002;&#x503C;&#x7684;&#x7C7B;&#x578B;&#x53EF;&#x4EE5;&#x662F;: <em>null</em>, <em>boolean</em>, <em>number</em>, <em>string</em> &#x548C; <em>table</em>&#x3002;</p>
 <h3 id="pairs">__pairs()</h3>
 <pre class="language-"><code>for key, value in pairs(metadata) do
 end
-</code></pre><p>Iterates through every <em>metadata</em> entry. <em>key</em> is a string that supplies a <em>metadata</em> key. <em>value</em> is <em>metadata</em> entry value. </p>
+</code></pre><p>&#x5FAA;&#x73AF;&#x8BBF;&#x95EE;&#x6BCF;&#x4E2A; <em>metadata</em> &#x6761;&#x76EE;&#x3002;<em>key</em> &#x662F;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B; <em>metadata</em> &#x952E;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x3002; <em>value</em> &#x662F; <em>metadata</em> &#x6761;&#x76EE;&#x503C;&#x3002;</p>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; ServiceMesher 2018 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification"> &#x6700;&#x540E;&#x66F4;&#x65B0;&#x4E8E; 
-2018-05-15 19:31:38
+2018-05-27 21:49:12
 </span></footer>
                                 
                                 </section>
@@ -2458,7 +2458,7 @@ end
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Lua","level":"5.7.11","depth":2,"next":{"title":"速率限制","level":"5.7.12","depth":2,"path":"configuration/http_filters/rate_limit_filter.md","ref":"configuration/http_filters/rate_limit_filter.md","articles":[]},"previous":{"title":"IP 标签","level":"5.7.10","depth":2,"path":"configuration/http_filters/ip_tagging_filter.md","ref":"configuration/http_filters/ip_tagging_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/http_filters/lua_filter.md","mtime":"2018-05-15T11:31:38.700Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-26T03:14:43.497Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Lua","level":"5.7.11","depth":2,"next":{"title":"速率限制","level":"5.7.12","depth":2,"path":"configuration/http_filters/rate_limit_filter.md","ref":"configuration/http_filters/rate_limit_filter.md","articles":[]},"previous":{"title":"IP 标签","level":"5.7.10","depth":2,"path":"configuration/http_filters/ip_tagging_filter.md","ref":"configuration/http_filters/ip_tagging_filter.md","articles":[]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"11f7d254cfa4e0ca44b175c66d379ecc"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"https://servicemesher.github.io"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"configuration/http_filters/lua_filter.md","mtime":"2018-05-27T13:49:12.754Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-05-27T13:50:35.944Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
