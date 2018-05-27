@@ -1,8 +1,8 @@
 # Lua
 
-注意
-
-Envoy 构建默认不输出你可能在与作为共享对象安装的 Lua 模块交互时需要的符合。Envoy 可能需要被构建为带对输出符号支持。更多信息请参见 [Bazel 文档](https://github.com/envoyproxy/envoy/blob/master/bazel/README.md)。
+> **注意**
+>
+> 默认情况下，Envoy 的构建不会导出在与作为共享对象安装的 Lua 模块进行交互时可能需要的符号。Envoy 可能需要建立对导出符号的支持。请参阅 [Bazel 文档](https://github.com/envoyproxy/envoy/blob/master/bazel/README.md)以获取更多信息。
 
 ## 概览
 
