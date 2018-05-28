@@ -10,41 +10,41 @@ HTTP Lua 过滤器允许 [Lua](https://www.lua.org/) 脚本在请求和响应流
 
 该过滤器仅支持加载内置在配置中的 Lua 代码。如果本地文件系统代码被需要，一个小的内置脚本可用于从本地环境加载剩余的代码。
 
-在一个高的层次该过滤器设计和 Lua 支持如下:
+在高层次对过滤器设计以及 Lua 支持概括如下：
 
-- 所有 Lua 环境都是 [针对工作者线程的](../../intro/arch_overview/threading_model.md#arch-overview-threading)。这意味着没有真正的全局数据。任何在加载时创建和存在的全局数据将只在每个工作者线程中可见。真正的全局支持可能在将来通过一个 API 添加。
+- 所有 Lua 环境都是 [针对工作线程的](../../intro/arch_overview/threading_model.md#arch-overview-threading)。这意味着没有真正的全局数据。任何在加载时创建和存在的全局数据将只在每个工作线程中可见。将来可能会通过添加 API 来支持真正的全局支持。
 - 所有脚本作为协程运行。这意味着，即使它们可能执行复杂的异步操作，它们以同步方式编写。这使得脚本相当容易被编写。所有网络/异步处理通过一组 API 被 Envoy 执行。Envoy 将适当退出脚本并在异步任务完成后恢复。
 - **不要在脚本中执行阻塞操作。** Envoy API 被用于所有 IO，这一点对性能很关键。
 
 ## 当前被支持的高层次特性:
 
-*注* 预计这个列表将随着时间的推移在该过滤器被用于生产环境的过程中被不断扩充。API 表面上被有意保持很小。目标是使得编写脚本极度简单和安全。假设非常复杂或高性能的使用案例用原生的 C++ 过滤器 API。
+*注意* 预计这个列表将在生产环境不断地使用该过滤器的过程中被扩充。API 的表面被有意地保持很小。以达到编写脚本极度简单和安全的目的。在非常复杂或高性能的使用案例中，默认用原生的 C++ 过滤器 API。
 
-- 在流入请求流、响应流或二者同时，检查头，体和尾。
+- 在请求流、响应流或二者同时流入时，检查头，正文和尾。
 - 修改头和尾部。
-- 阻塞并缓存全部请求/响应体用作检查。
-- 执行外向的异步 HTTP 调用到一个上游主机。这样的调用可以在缓存体数据时执行，因此，当调用结束时，上游头可以被修改。
+- 阻塞并缓存全部请求/响应正文用作检查。
+- 执行对外的异步 HTTP 调用至一个上游主机。可以在缓存正文数据时执行这样的调用，因此，当调用结束时，上游头可以被修改。
 - 执行一个直接响应并略过更多的过滤器循环。例如，一个脚本可以做一个上游 HTTP 调用做鉴权，并随后直接以一个 403 响应代码响应。
 
 ## 配置
 
-- [v1 API 参考](../../api-v1/http_filters/lua_filter.md#config-http-filters-lua-v1)
-- [v2 API 参考](../../api-v2/config/filter/http/lua/v2/lua.proto.md#envoy-api-msg-config-filter-http-lua-v2-lua)
+- [v1 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v1/http_filters/lua_filter#config-http-filters-lua-v1)
+- [v2 API 参考](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/lua/v2/lua.proto#envoy-api-msg-config-filter-http-lua-v2-lua)
 
 ## 脚本示例
 
-本节提供了一些 Lua 脚本的具体例子，作为更温和的介绍和快速开始。关于被支持的 API 的更多细节，请参照[流处理 API](#config-http-filters-lua-stream-handle-api)。
+本节提供了一些 Lua 脚本的具体例子，作为更温和的介绍和快速开始。关于支持的 API 的更多细节，请参照[流处理 API](#config-http-filters-lua-stream-handle-api)。
 
 ```lua
 -- 在请求路径上被调用。
 function envoy_on_request(request_handle)
-  -- 等待整个请求体并添加一个请求头和体的大小。
+  -- 等待整个请求正文并添加一个请求头和正文的大小。
   request_handle:headers():add("request_body_size", request_handle:body():length())
 end
 
 -- 在响应路径上被调用。
 function envoy_on_response(response_handle)
-  -- 等待整个响应体并添加一个请求头和体的大小。
+  -- 等待整个响应正文并添加一个请求头和正文的大小。
   response_handle:headers():add("response_body_size", response_handle:body():length())
   -- 移除一个名为 'foo' 的响应头。
   response_handle:headers():remove("foo")
@@ -53,7 +53,7 @@ end
 
 ```lua
 function envoy_on_request(request_handle)
-  -- 使用下面的头、体和超时对上游主机做一个 HTTP 调用。
+  -- 使用下面的头、正文和超时对上游主机做一个 HTTP 调用。
   local headers, body = request_handle:httpCall(
   "lua_cluster",
   {
@@ -107,7 +107,7 @@ end
 
 注意
 
-关键是所有与 Envoy 的交互提供被传递的流句柄发生。流句柄不应该被赋值给任何全局变量，而且不应该被用于协程的外部。如果该句柄使用不正确，Envoy 将失败。
+所有与 Envoy 通过传递的流句柄发生的交互是至关重要的。流句柄不应该被赋值给任何全局变量，而且不应该被用于协程的外部。如果该句柄使用不正确，Envoy 将失败。
 
 下列在流句柄上的方法被支持:
 
@@ -127,7 +127,7 @@ headers = handle:headers()
 body = handle:body()
 ```
 
-返回流的体。这个调用将造成 Envoy 退出脚本直到整个体被缓存。注意，所有缓存必须遵从适当的流控策略。Envoy 将不会缓存比连接管理器允许的更多的数据。
+返回流的正文。这个调用将造成 Envoy 退出脚本直到整个正文被缓存。注意，所有缓存必须遵从适当的流控策略。Envoy 将不会缓存比连接管理器允许的更多的数据。
 
 返回一个[缓存对象](#config-http-filters-lua-buffer-wrapper)。
 
@@ -137,7 +137,7 @@ body = handle:body()
 iterator = handle:bodyChunks()
 ```
 
-返回一个迭代器，它可被用于在所有体块到达时循环访问它们。Envoy 将在块之间退出脚本，但是 *将不会缓存* 它们。这可被一个脚本用于在数据流入时做检查。
+返回一个迭代器，它可被用于在所有正文块到达时循环访问它们。Envoy 将在块之间退出脚本，但是 *将不会缓存* 它们。这可被一个脚本用于在数据流入时做检查。
 
 ```
 for chunk in request_handle:bodyChunks() do
@@ -176,9 +176,9 @@ handle:logCritical(message)
 headers, body = handle:httpCall(cluster, headers, body, timeout)
 ```
 
-对一台上游主机做一个 HTTP 调用。Envoy 将推出脚本直到调用结束或者有一个错误。*cluster* 是一个字符串，映射为一个配置好的集群管理器。*headers* 一个要发送的键值对的表。注意，*:method*，*:path* 和 *:authority* 头必须被设置。*body* 是一个可选的要发送的体数据的字符串。*timeout* 是一个整数，指定以微秒为单位的调用超时。
+对一台上游主机做一个 HTTP 调用。Envoy 将推出脚本直到调用结束或者有一个错误。*cluster* 是一个字符串，映射为一个配置好的集群管理器。*headers* 一个要发送的键值对的表。注意，*:method*，*:path* 和 *:authority* 头必须被设置。*body* 是一个可选的要发送的正文数据的字符串。*timeout* 是一个整数，指定以微秒为单位的调用超时。
 
-返回 *headers*，这是响应头的一个表。返回 *body*，这是响应体的字符串。如果没有体，则返回空。
+返回 *headers*，这是响应头的一个表。返回 *body*，这是响应正文的字符串。如果没有正文，则返回空。
 
 ### respond()
 
@@ -198,7 +198,7 @@ function envoy_on_request(request_handle)
 end
 ```
 
-*headers* 一张要发送的键值对的表。注意，*:status* 头必须被设置。*body* 是一个字符串并提供了可选的响应体，可能为空。
+*headers* 一张要发送的键值对的表。注意，*:status* 头必须被设置。*body* 是一个字符串并提供了可选的响应正文，可能为空。
 
 ### metadata()
 
