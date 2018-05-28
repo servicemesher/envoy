@@ -1,8 +1,8 @@
 # 健康检查
 
-主动健康检查可以在每个上游集群的基础上进行[配置](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)。如[服务发现](service_discovery.md#arch-overview-service-discovery)部分所述，主动运行状况检查和 SDS 服务发现类型会同时进行。但是，即使使用其他服务发现类型，也有其他需要进行主动健康检查的情况。Envoy 支持三种不同类型的健康检查以及各种设置（检查时间间隔、主机不健康标记为故障、主机健康时标记为成功等）：
+主动健康检查可以在每个上游集群的基础上进行[配置](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)。如[服务发现](service_discovery.md#arch-overview-service-discovery)部分所述，主动运行状况检查和 SDS 服务发现类型会同时进行。但是，即使使用其他服务发现类型，也有其他需要进行主动健康检查的情况。Envoy 支持三种不同类型的健康检查及各种设置（检查时间间隔、主机不健康标记为故障、主机健康时标记为成功等）：
 
-- **HTTP**：在 HTTP 健康检查期间，Envoy 将向上游主机发送 HTTP 请求。如果主机是健康的，会有200 响应。如果上游主机想立即通知下游主机不再转发流量，则返回 503。
+- **HTTP**：在 HTTP 健康检查期间，Envoy 将向上游主机发送 HTTP 请求。如果主机是健康的，会有 200 响应。如果上游主机想立即通知下游主机不再转发流量，则返回 503。
 - **L3/L4**：在 L3/L4 健康检查期间，Envoy 会向上游主机发送一个可配置的字节缓冲区。如果主机被认为是健康的，字节缓冲区在响应中会被显示出来。Envoy 还支持仅连接 L3/L4 健康检查。
 - **Redis**：Envoy 将发送 Redis PING 命令并期望 PONG 响应。如果上游 Redis 服务器使用 PONG 以外的任何其他响应命令，则会导致健康检查失败。或者，Envoy 可以在用户指定的密钥上执行 EXISTS。如果密钥不存在，则认为它是合格的健康检查。这允许用户通过将指定的密钥设置为任意值来标记 Redis 实例以进行维护直至流量耗尽。请参阅 [redis_key](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster_hc#config-cluster-manager-cluster-hc-redis-key)。
 

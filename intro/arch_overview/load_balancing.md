@@ -1,6 +1,6 @@
 # 负载均衡
 
-当过滤器需要获取到上游集群中主机的连接时，cluster manager 将使用负载均衡策略来确定选择哪个主机。负载均衡策略是可拔插的，并且在[配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster.htmlhttps://www.envoyproxy.io/docs/envoy/latest/#config-cluster-manager-cluster)中以每个上游集群为基础进行指定。请注意，如果没有为集群[配置](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)活动的运行状况检查策略，则所有上游集群成员都认为是健康的。
+当过滤器需要获取到上游集群中主机的连接时，集群管理器将使用负载均衡策略来确定选择哪个主机。负载均衡策略是可拔插的，并且在[配置](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/cluster.htmlhttps://www.envoyproxy.io/docs/envoy/latest/#config-cluster-manager-cluster)中以每个上游集群为基础进行指定。请注意，如果没有为集群[配置](../../configuration/cluster_manager/cluster_hc.md#config-cluster-manager-cluster-hc)活动的运行状况检查策略，则所有上游集群成员都认为是健康的。
 
 ## 支持的负载均衡器
 
@@ -12,7 +12,7 @@
 
 请求最少的负载均衡器使用 O(1) 算法选择两个随机健康主机，并选择主动请求较少的主机（[研究](http://www.eecs.harvard.edu/~michaelm/postscripts/handbook2001.pdf)表明这种方法几乎与 O(N) 全扫描一样好）。如果集群中的任何主机的负载均衡权重大于1，则负载均衡器将转换为随机选择主机并使用该主机<权重>时间的模式。该算法对于负载测试来说简单且足够。它不应该用于需要真正的加权最小请求的地方（通常请求持续时间可变且较长）。我们可能会在将来添加一个真正的全扫描加权最小请求变体来涵盖此用例。
 
-### Ring hash
+### 环哈希
 
 Ring/modulo 哈希负载均衡器实现对上游主机的一致性哈希。该算法基于将所有主机映射到一个环上，使得从主机集添加或移除主机的更改仅影响 1/N 个请求。这种技术通常也被称为 “[ketama](https://github.com/RJ/ketama)” 哈希。一致的哈希负载均衡器只有在使用指定哈希值的协议路由时才有效。最小环大小控制环中每个主机的复制因子。例如，如果最小环大小为 1024 并且有 16 个主机，则每个主机将被复制 64 次。环哈希负载均衡器当前不支持加权。
 
