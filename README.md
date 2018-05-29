@@ -22,6 +22,8 @@ Envoy 官方文档中文版，基于 Envoy 最新的 1.7 版本。
 
 [查看贡献者名单](https://github.com/servicemesher/envoy/graphs/contributors)
 
+封面图片：杭州中河路西湖大道立交桥 by [Jimmy Song](https://github.com/rootsongjc)
+
 ### 注意
 
 本书中**不包含**官方文档中的 **v1 API 参考** 和 **v2 API 参考** 部分，书中凡是指向 API 参考的链接都直接跳转到官方页面。
