@@ -1,8 +1,8 @@
 # 监听器发现服务（LDS）
 
-监听器发现服务（LDS）是一个可选的 API，Envoy 将调用它来动态获取监听器。Envoy 将协调 API 响应，并根据需要添加，修改或删除已知的监听器。
+监听器发现服务（LDS）是一个可选的 API，Envoy 将调用它来动态获取监听器。Envoy 将协调 API 响应，并根据需要添加、修改或删除已知的监听器。
 
-监听器更新的语义如下：
+w监听器更新的语义如下：
 
 - 每个监听器必须有一个独特的[名字](https://www.envoyproxy.io/docs/envoy/latest/api-v1/listeners/listeners.md#config-listeners-name)。如果没有提供名称，Envoy 将创建一个 UUID。要动态更新的监听器，管理服务必须提供监听器的唯一名称。
 
@@ -27,8 +27,8 @@ LDS 的统计树是以 `listener_manager.lds` 为根，统计如下：
 
 |	名称	|	类型	|	描述	|
 | ---- | ---- | ---- |
-|	config_reload	|	Counter	|	由于不同的配置更新，导致配置API调用总数	|
-|	update_attempt	|	Counter	|	LDS配置API调用重试总数	|
-|	update_success	|	Counter	|	LDS配置API调用成功总数	|
-|	update_failure	|	Counter	|	LDS配置API调用失败总数（网络或模式错误）	|
+|	config_reload	|	Counter	|	由于不同的配置更新，导致配置 API 调用总数	|
+|	update_attempt	|	Counter	|	LDS 配置 API 调用重试总数	|
+|	update_success	|	Counter	|	LDS 配置 API 调用成功总数	|
+|	update_failure	|	Counter	|	LDS 配置 API 调用失败总数（网络或模式错误）	|
 |	version	|	Gauge	|	上次成功调用的内容哈希值	|
