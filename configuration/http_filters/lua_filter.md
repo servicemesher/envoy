@@ -2,13 +2,13 @@
 
 > **注意**
 >
-> 默认情况下，Envoy 的构建不会导出在与作为共享对象安装的 Lua 模块进行交互时可能需要的符号。Envoy 可能需要建立对导出符号的支持。请参阅 [Bazel 文档](https://github.com/envoyproxy/envoy/blob/master/bazel/README.md)以获取更多信息。
+> 默认情况下，作为共享对象安装的 Lua 模块需要的符号，Envoy 在构建的时候不会导出它们。Envoy 可能需要建立对导出符号的支持。请参阅 [Bazel 文档](https://github.com/envoyproxy/envoy/blob/master/bazel/README.md)以获取更多信息。
 
 ## 概览
 
-HTTP Lua 过滤器允许 [Lua](https://www.lua.org/) 脚本在请求和响应流期间运行。[LuaJIT 被作为运行时使用。因此，被支持的 Lua 版本大多是带一些 5.2 特性的 5.1版。更多细节参见 [LuaJIT 文档](http://luajit.org/extensions.md)。
+HTTP Lua 过滤器允许 [Lua](https://www.lua.org/) 脚本在请求和响应流期间运行。[LuaJIT](http://luajit.org/) 被作为运行时使用。因此，被支持的 Lua 版本大多是带一些 5.2 特性的 5.1版。更多细节参见 [LuaJIT 文档](http://luajit.org/extensions.md)。
 
-该过滤器仅支持加载内置在配置中的 Lua 代码。如果本地文件系统代码被需要，一个小的内置脚本可用于从本地环境加载剩余的代码。
+该过滤器仅支持加载配置中内置的 Lua 代码。如果需要本地文件系统中的代码，可以使用内置小脚本从本地环境加载剩余的代码。
 
 在高层次对过滤器设计以及 Lua 支持概括如下：
 
