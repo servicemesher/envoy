@@ -8,7 +8,7 @@
   "generator": "site",
   "links": {
    "sidebar": {
-   "ServiceMesher主页": "https://servicemesher.github.io"
+   "ServiceMesher主页": "http://www.servicemesher.com"
     }
   },
   "plugins": [
@@ -48,7 +48,7 @@
         ]
     },
     "3-ba": {
-        "token": "761ec5e305f799778975c1f71c47a520"
+        "token": "154337f0d95f0b110f98c1d5d7038895"
      },
     "tbfed-pagefooter": {
     "copyright": "Copyright © ServiceMesher 2018",
