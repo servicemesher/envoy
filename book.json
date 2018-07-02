@@ -23,7 +23,8 @@
     "-highlight", "prism", "prism-themes",
     "favicon@^0.0.2",
     "tbfed-pagefooter@^0.0.1",
-    "3-ba"
+    "3-ba",
+    "sitemap-general"
   ],
   "pluginsConfig": {
     "edit-link": {
@@ -54,6 +55,9 @@
     "copyright": "Copyright © ServiceMesher 2018",
     "modify_label": " 最后更新于 ",
     "modify_format": "YYYY-MM-DD HH:mm:ss"
+    },
+    "sitemap-general": {
+        "prefix": "http://www.servicemesher.com/envoy/"
     }
   }
 }
