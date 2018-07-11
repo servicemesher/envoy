@@ -20,24 +20,24 @@
 -   访问日志：添加了 [HeaderFilter](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/accesslog/v2/accesslog.proto#envoy-api-msg-config-filter-accesslog-v2-headerfilter) 以根据请求标头过滤日志。
 -   访问日志：添加％（\[1-9\]）？f 作为 START_TIME 说明符之一来渲染子秒。
 -   访问日志：为 [HTTP 访问日志](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/accesslog/v2/als.proto#envoy-api-msg-config-accesslog-v2-httpgrpcaccesslogconfig)添加了 gRPC 访问日志服务（ALS）支持。
--   访问日志：改进的 WebSocket 日志记录。
+-   访问日志：改进的 WebSocket 日志记录。 
 -   管理：添加用于转储当前配置和关联的 xDS 版本信息（如果适用）。[`GET /config_dump`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--config_dump "GET / config_dump")
 -   管理：添加用于输出 JSON 序列化的 proto，详细说明所有集群的当前状态。[`GET /clusters?format=json`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--clusters?format=json "GET / clusters？format = json")
 -   管理：添加为另一个端点，用于获取 prometheus 格式的统计信息。[`GET /stats/prometheus`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#get--stats-prometheus "GET / stats / prometheus")
 -   管理：添加 [/runtime_modify](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#operations-admin-interface-runtime-modify) 端点以添加或更改运行时值。
--   管理：突变必须作为 POST 发送，而不是 GET。突变包括： [`POST /cpuprofiler`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--cpuprofiler "POST / cpuprofiler") ， [`POST /healthcheck/fail`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--healthcheck-fail "POST / healthcheck / fail")，[`POST /healthcheck/ok`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--healthcheck-ok "POST / healthcheck / ok")，[`POST /logging`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--logging "POST /日志记录")，[`POST /quitquitquit`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--quitquitquit "POST / quitquitquit")，[`POST /reset_counters`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--reset_counters "POST / reset_counters")，[`POST /runtime_modify?key1=value1&key2=value2&keyN=valueN`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--runtime_modify?key1=value1&key2=value2&keyN=valueN "POST / runtime_modify？key1 = value1＆key2 = value2＆keyN = valueN") 。
--   管理：删除/路由端点; 现在可以在 [/config_dump](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#operations-admin-interface-config-dump) 端点找到路由配置。
+-   管理：以下接口都必须作为 POST 发送，而不是 GET。突变包括： [`POST /cpuprofiler`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--cpuprofiler "POST / cpuprofiler") ， [`POST /healthcheck/fail`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--healthcheck-fail "POST / healthcheck / fail")，[`POST /healthcheck/ok`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--healthcheck-ok "POST / healthcheck / ok")，[`POST /logging`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--logging "POST /日志记录")，[`POST /quitquitquit`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--quitquitquit "POST / quitquitquit")，[`POST /reset_counters`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--reset_counters "POST / reset_counters")，[`POST /runtime_modify?key1=value1&key2=value2&keyN=valueN`](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#post--runtime_modify?key1=value1&key2=value2&keyN=valueN "POST / runtime_modify？key1 = value1＆key2 = value2＆keyN = valueN") 。
+-   管理：删除 /routes 端点; 现在可以在 [/config_dump](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#operations-admin-interface-config-dump) 端点找到路由配置。
 -   缓冲区过滤器：可以选择使用路由本地配置[禁用](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/buffer/v2/buffer.proto#envoy-api-field-config-filter-http-buffer-v2-bufferperroute-disabled)或 [覆盖](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/filter/http/buffer/v2/buffer.proto#envoy-api-field-config-filter-http-buffer-v2-bufferperroute-buffer)缓冲区过滤器 。
 -   cli：将 -config-yaml 标志添加到 Envoy 二进制文件中。设置时，其值被解释为 bootstrap 配置的 yaml 表示并覆盖 -config-path。
 -   cluster：添加了 在运行状况检查失败时关闭 tcp_proxy 上游连接的[选项](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-close-connections-on-host-health-failure)。
 -   cluster：添加了一个[选项](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-drain-connections-on-host-removal)，用于在从服务发现中删除主机后从主机中排除连接，而不管运行状况如何。
 -   cluster：修复了阻止删除优先级中所有端点的错误
 -   debug：添加符号化堆栈跟踪（支持的位置）
--   ext-authz过滤器：增加了对原始 HTTP 授权的支持。
--   ext-authz过滤器：增加了对 gRPC 响应的支持以携带 HTTP 属性。
+-   ext-authz 过滤器：增加了对原始 HTTP 授权的支持。
+-   ext-authz 过滤器：增加了对 gRPC 响应的支持以携带 HTTP 属性。
 -   grpc：为全套[Google gRPC通话凭证](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/grpc_service.proto#envoy-api-msg-core-grpcservice-googlegrpc-callcredentials)添加了支持。
--   gzip filter：向过滤器添加[统计信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/gzip_filter#gzip-statistics)。
--   gzip filter：发送 *accept-encoding* 标头作为*标识*不再压缩有效负载。
+-   gzip 过滤器：向过滤器添加[统计信息](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/gzip_filter#gzip-statistics)。
+-   gzip 过滤器：发送 *accept-encoding* 标头作为*标识*不再压缩有效负载。
 -   运行状况检查：添加了为 HTTP 运行状况检查设置[其他HTTP标头的](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/health_check.proto#envoy-api-field-core-healthcheck-httphealthcheck-request-headers-to-add)功能。
 -   健康检查：增加了对 EDS 提供的[终端健康状态的支持](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/endpoint/endpoint.proto#envoy-api-field-endpoint-lbendpoint-health-status)。
 -   健康检查：添加间隔覆盖，用于健康状态从[健康](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/health_check.proto#envoy-api-field-core-healthcheck-unhealthy-edge-interval)状态转换[为不健康状态](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/health_check.proto#envoy-api-field-core-healthcheck-unhealthy-edge-interval)，[不健康](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/health_check.proto#envoy-api-field-core-healthcheck-healthy-edge-interval)状态转换为健康状态以及随后检查 [不健康的主机](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/health_check.proto#envoy-api-field-core-healthcheck-unhealthy-interval)。
@@ -62,7 +62,7 @@
 -   记录器：可以在运行时配置所有[日志记录级别](https://www.envoyproxy.io/docs/envoy/latest/operations/admin#operations-admin-interface-logging)：跟踪调试信息警告错误严重。
 -   rbac http过滤器：添加了[基于角色的访问控制http过滤器](https://www.envoyproxy.io/docs/envoy/latest/configuration/http_filters/rbac_filter#config-http-filters-rbac)。
 -   路由器：在发生超时时，响应的一部分已经被下游代理的情况下，每次尝试超时的行为已经改变。以前，响应将被重置，导致 HTTP/2 重置或 HTTP/1 关闭连接和部分响应。现在，超时将被忽略，响应将继续代理到全局请求超时。
--   路由器：更改[源IP路由](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto#envoy-api-field-route-routeaction-hashpolicy-connectionproperties-source-ip)的行为 以忽略源端口。
+-   路由器：更改[源IP路由](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto#envoy-api-field-route-routeaction-hashpolicy-connectionproperties-source-ip)的行为以忽略源端口。
 -   路由器：添加了[prefix_match](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto#envoy-api-field-route-headermatcher-prefix-match) 匹配类型，根据头值的前缀显式匹配。
 -   路由器：添加了[suffix_match](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto#envoy-api-field-route-headermatcher-suffix-match) 匹配类型，以根据标头值的后缀显式匹配。
 -   路由器：添加了[present_match](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/route/route.proto#envoy-api-field-route-headermatcher-present-match) 匹配类型，以根据标头的存在明确匹配。
