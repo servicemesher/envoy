@@ -77,7 +77,7 @@
 -   套接字：为[侦听器](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/lds.proto#envoy-api-field-listener-transparent)添加了 IP_TRANSPARENT 套接字选项支持。
 -   套接字：为[每个集群的](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/cds.proto#envoy-api-field-cluster-upstream-connection-options)上游连接添加了 SO_KEEPALIVE 套接字选项 。
 -   统计：增加了对直方图的支持。
--   stats：添加[了配置statsd前缀的选项](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/stats.proto#envoy-api-field-config-metrics-v2-statsdsink-prefix)。
+-   stats：添加[了配置 statsd 前缀的选项](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/metrics/v2/stats.proto#envoy-api-field-config-metrics-v2-statsdsink-prefix)。
 -   统计：更新统计信息接收器接口以通过单个呼叫进行刷新。
 -   tls：添加了对 [verify\_certificate\_spki的](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto#envoy-api-field-auth-certificatevalidationcontext-verify-certificate-spki)支持 。
 -   tls：添加了对多个 [verify\_certificate\_hash](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/auth/cert.proto#envoy-api-field-auth-certificatevalidationcontext-verify-certificate-hash) 值的支持 。
