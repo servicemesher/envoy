@@ -4,14 +4,14 @@
   "description": "Envoy proxy中文文档,基于Envoy 1.7最新版",
   "language": "zh-hans",
   "author": "ServiceMesher",
-  "extension": null,
-  "generator": "site",
   "links": {
    "sidebar": {
    "ServiceMesher主页": "http://www.servicemesher.com"
     }
   },
   "plugins": [
+    "github",
+    "codesnippet",
     "splitter",
     "-lunr", "-search", "search-plus",
     "-sharing",
@@ -27,6 +27,9 @@
     "sitemap-general"
   ],
   "pluginsConfig": {
+    "github": {
+        "url": "https://github.com/servicemesher/envoy"
+    },
     "edit-link": {
         "base": "https://github.com/servicemesher/envoy/edit/master",
         "label": "在线编辑"
