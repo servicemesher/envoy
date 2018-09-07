@@ -2275,9 +2275,9 @@ example_front-envoy_1   /bin/sh -c /usr/local/bin/ <span class="token punctuatio
 <p><strong>&#x6B65;&#x9AA4; 4&#xFF1A;&#x6D4B;&#x8BD5; Envoy &#x7684;&#x8DEF;&#x7531;&#x80FD;&#x529B;</strong></p>
 <p>&#x60A8;&#x73B0;&#x5728;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x524D;&#x7AEF; envoy &#x5411;&#x4E24;&#x9879;&#x670D;&#x52A1;&#x53D1;&#x9001;&#x8BF7;&#x6C42;&#x3002;</p>
 <p>&#x5411; service1&#xFF1A;</p>
-<pre class="language-"><code class="lang-bash">$ curl -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/1
+<pre class="language-"><code class="lang-bash">$ <span class="token function">curl</span> -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/1
 *   Trying 192.168.99.100<span class="token punctuation">..</span>.
-* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment" spellcheck="true">#0)</span>
+* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment">#0)</span>
 <span class="token operator">&gt;</span> GET /service/1 HTTP/1.1
 <span class="token operator">&gt;</span> Host: 192.168.99.100:8000
 <span class="token operator">&gt;</span> User-Agent: curl/7.43.0
@@ -2292,12 +2292,12 @@ example_front-envoy_1   /bin/sh -c /usr/local/bin/ <span class="token punctuatio
 <span class="token operator">&lt;</span> x-envoy-protocol-version: HTTP/1.1
 <span class="token operator">&lt;</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 1<span class="token punctuation">)</span><span class="token operator">!</span> hostname: f26027f1ce28 resolvedhostname: 172.19.0.6
-* Connection <span class="token comment" spellcheck="true">#0 to host 192.168.99.100 left intact</span>
+* Connection <span class="token comment">#0 to host 192.168.99.100 left intact</span>
 </code></pre>
 <p>&#x5411; service2&#xFF1A;</p>
-<pre class="language-"><code class="lang-bash">$ curl -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/2
+<pre class="language-"><code class="lang-bash">$ <span class="token function">curl</span> -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/2
 *   Trying 192.168.99.100<span class="token punctuation">..</span>.
-* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment" spellcheck="true">#0)</span>
+* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment">#0)</span>
 <span class="token operator">&gt;</span> GET /service/2 HTTP/1.1
 <span class="token operator">&gt;</span> Host: 192.168.99.100:8000
 <span class="token operator">&gt;</span> User-Agent: curl/7.43.0
@@ -2312,7 +2312,7 @@ Hello from behind Envoy <span class="token punctuation">(</span>service 1<span c
 <span class="token operator">&lt;</span> x-envoy-protocol-version: HTTP/1.1
 <span class="token operator">&lt;</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 2<span class="token punctuation">)</span><span class="token operator">!</span> hostname: 92f4a3737bbc resolvedhostname: 172.19.0.2
-* Connection <span class="token comment" spellcheck="true">#0 to host 192.168.99.100 left intact</span>
+* Connection <span class="token comment">#0 to host 192.168.99.100 left intact</span>
 </code></pre>
 <p>&#x8BF7;&#x6CE8;&#x610F;&#xFF0C;&#x6BCF;&#x4E2A;&#x8BF7;&#x6C42;&#x5728;&#x53D1;&#x9001;&#x7ED9;&#x524D;&#x7AEF; envoy &#x65F6;&#x5DF2;&#x6B63;&#x786E;&#x8DEF;&#x7531;&#x5230;&#x76F8;&#x5E94;&#x7684;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x3002;</p>
 <p><strong>&#x6B65;&#x9AA4; 5&#xFF1A;&#x6D4B;&#x8BD5; Envoy &#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x80FD;&#x529B;</strong></p>
@@ -2322,9 +2322,9 @@ Creating and starting example_service1_2 <span class="token punctuation">..</spa
 Creating and starting example_service1_3 <span class="token punctuation">..</span>. <span class="token keyword">done</span>
 </code></pre>
 <p>&#x73B0;&#x5728;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x591A;&#x6B21;&#x5411; service1 &#x53D1;&#x9001;&#x8BF7;&#x6C42;&#xFF0C;&#x524D;&#x7AEF; envoy &#x5C06;&#x901A;&#x8FC7;&#x5FAA;&#x73AF;&#x8F6E;&#x8BE2;&#x4E09;&#x53F0; service1 &#x673A;&#x5668;&#x6765;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x8BF7;&#x6C42;&#xFF1A;</p>
-<pre class="language-"><code class="lang-bash">$ curl -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/1
+<pre class="language-"><code class="lang-bash">$ <span class="token function">curl</span> -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/1
 *   Trying 192.168.99.100<span class="token punctuation">..</span>.
-* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment" spellcheck="true">#0)</span>
+* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment">#0)</span>
 <span class="token operator">&gt;</span> GET /service/1 HTTP/1.1
 <span class="token operator">&gt;</span> Host: 192.168.99.100:8000
 <span class="token operator">&gt;</span> User-Agent: curl/7.43.0
@@ -2339,10 +2339,10 @@ Creating and starting example_service1_3 <span class="token punctuation">..</spa
 <span class="token operator">&lt;</span> x-envoy-protocol-version: HTTP/1.1
 <span class="token operator">&lt;</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 1<span class="token punctuation">)</span><span class="token operator">!</span> hostname: 85ac151715c6 resolvedhostname: 172.19.0.3
-* Connection <span class="token comment" spellcheck="true">#0 to host 192.168.99.100 left intact</span>
-$ curl -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/1
+* Connection <span class="token comment">#0 to host 192.168.99.100 left intact</span>
+$ <span class="token function">curl</span> -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/1
 *   Trying 192.168.99.100<span class="token punctuation">..</span>.
-* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment" spellcheck="true">#0)</span>
+* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment">#0)</span>
 <span class="token operator">&gt;</span> GET /service/1 HTTP/1.1
 <span class="token operator">&gt;</span> Host: 192.168.99.100:8000
 <span class="token operator">&gt;</span> User-Agent: curl/7.43.0
@@ -2357,10 +2357,10 @@ $ curl -v <span class="token variable"><span class="token variable">$(</span>doc
 <span class="token operator">&lt;</span> x-envoy-protocol-version: HTTP/1.1
 <span class="token operator">&lt;</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 1<span class="token punctuation">)</span><span class="token operator">!</span> hostname: 20da22cfc955 resolvedhostname: 172.19.0.5
-* Connection <span class="token comment" spellcheck="true">#0 to host 192.168.99.100 left intact</span>
-$ curl -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/1
+* Connection <span class="token comment">#0 to host 192.168.99.100 left intact</span>
+$ <span class="token function">curl</span> -v <span class="token variable"><span class="token variable">$(</span>docker-machine ip default<span class="token variable">)</span></span>:8000/service/1
 *   Trying 192.168.99.100<span class="token punctuation">..</span>.
-* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment" spellcheck="true">#0)</span>
+* Connected to 192.168.99.100 <span class="token punctuation">(</span>192.168.99.100<span class="token punctuation">)</span> port 8000 <span class="token punctuation">(</span><span class="token comment">#0)</span>
 <span class="token operator">&gt;</span> GET /service/1 HTTP/1.1
 <span class="token operator">&gt;</span> Host: 192.168.99.100:8000
 <span class="token operator">&gt;</span> User-Agent: curl/7.43.0
@@ -2375,26 +2375,26 @@ $ curl -v <span class="token variable"><span class="token variable">$(</span>doc
 <span class="token operator">&lt;</span> x-envoy-protocol-version: HTTP/1.1
 <span class="token operator">&lt;</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 1<span class="token punctuation">)</span><span class="token operator">!</span> hostname: f26027f1ce28 resolvedhostname: 172.19.0.6
-* Connection <span class="token comment" spellcheck="true">#0 to host 192.168.99.100 left intact</span>
+* Connection <span class="token comment">#0 to host 192.168.99.100 left intact</span>
 </code></pre>
 <p><strong>&#x6B65;&#x9AA4; 6&#xFF1A;&#x8FDB;&#x5165;&#x5BB9;&#x5668;&#x5E76; curl &#x670D;&#x52A1;</strong></p>
 <p>&#x9664;&#x4E86;&#x4F7F;&#x7528;&#x4E3B;&#x673A;&#x4E0A;&#x7684; <code>curl</code> &#x5916;&#xFF0C;&#x60A8;&#x8FD8;&#x53EF;&#x4EE5;&#x8FDB;&#x5165;&#x5BB9;&#x5668;&#x5E76;&#x4ECE;&#x5BB9;&#x5668;&#x91CC;&#x9762; <code>curl</code>&#x3002;&#x8981;&#x8FDB;&#x5165;&#x5BB9;&#x5668;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>docker-compose exec <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>&#x5BB9;&#x5668;&#x540D;</span><span class="token punctuation">&gt;</span></span> /bin/bash</code>&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8FDB;&#x5165;&#x524D;&#x7AEF; envoy &#x5BB9;&#x5668;&#xFF0C;&#x5E76;&#x5728;&#x672C;&#x5730; <code>curl</code> &#x670D;&#x52A1;&#xFF1A;</p>
 <pre class="language-"><code class="lang-bash">$ docker-compose <span class="token function">exec</span> front-envoy /bin/bash
-root@81288499f9d7:/<span class="token comment" spellcheck="true"># curl localhost:80/service/1</span>
+root@81288499f9d7:/<span class="token comment"># curl localhost:80/service/1</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 1<span class="token punctuation">)</span><span class="token operator">!</span> hostname: 85ac151715c6 resolvedhostname: 172.19.0.3
-root@81288499f9d7:/<span class="token comment" spellcheck="true"># curl localhost:80/service/1</span>
+root@81288499f9d7:/<span class="token comment"># curl localhost:80/service/1</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 1<span class="token punctuation">)</span><span class="token operator">!</span> hostname: 20da22cfc955 resolvedhostname: 172.19.0.5
-root@81288499f9d7:/<span class="token comment" spellcheck="true"># curl localhost:80/service/1</span>
+root@81288499f9d7:/<span class="token comment"># curl localhost:80/service/1</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 1<span class="token punctuation">)</span><span class="token operator">!</span> hostname: f26027f1ce28 resolvedhostname: 172.19.0.6
-root@81288499f9d7:/<span class="token comment" spellcheck="true"># curl localhost:80/service/2</span>
+root@81288499f9d7:/<span class="token comment"># curl localhost:80/service/2</span>
 Hello from behind Envoy <span class="token punctuation">(</span>service 2<span class="token punctuation">)</span><span class="token operator">!</span> hostname: 92f4a3737bbc resolvedhostname: 172.19.0.2
 </code></pre>
 <p><strong>&#x6B65;&#x9AA4;7&#xFF1A;&#x8FDB;&#x5165;&#x5BB9;&#x5668;&#x5E76; curl admin</strong></p>
 <p>&#x5F53; envoy &#x8FD0;&#x884C;&#x65F6;&#xFF0C;&#x5B83;&#x4E5F;&#x4F1A;&#x5C06; <code>admin</code> &#x8FDE;&#x63A5;&#x5230;&#x6240;&#x9700;&#x7684;&#x7AEF;&#x53E3;&#x3002;&#x5728;&#x793A;&#x4F8B;&#x914D;&#x7F6E; admin &#x7ED1;&#x5B9A;&#x5230; 8001 &#x7AEF;&#x53E3;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5; <code>curl</code> &#x5B83;&#x83B7;&#x5F97;&#x6709;&#x7528;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x60A8;&#x53EF;&#x4EE5; <code>curl /server_info</code> &#x6765;&#x83B7;&#x53D6;&#x6B63;&#x5728;&#x8FD0;&#x884C;&#x7684; envoy &#x7248;&#x672C;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5; <code>curl /stats</code> &#x6765;&#x83B7;&#x5F97;&#x7EDF;&#x8BA1;&#x6570;&#x636E;&#x3002;&#x4F8B;&#x5982;&#x5728; <code>frontenvoy</code> &#x91CC;&#x9762;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#xFF1A;</p>
 <pre class="language-"><code class="lang-bash">$ docker-compose <span class="token function">exec</span> front-envoy /bin/bash
-root@e654c2c83277:/<span class="token comment" spellcheck="true"># curl localhost:8001/server_info</span>
+root@e654c2c83277:/<span class="token comment"># curl localhost:8001/server_info</span>
 envoy 10e00b/RELEASE live 142 142 0
-root@e654c2c83277:/<span class="token comment" spellcheck="true"># curl localhost:8001/stats</span>
+root@e654c2c83277:/<span class="token comment"># curl localhost:8001/stats</span>
 cluster.service1.external.upstream_rq_200: 7
 <span class="token punctuation">..</span>.
 cluster.service1.membership_change: 2
@@ -2460,7 +2460,7 @@ cluster.service2.upstream_rq_total: 2
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"前端代理","level":"3.2.1","depth":2,"next":{"title":"Zipkin 追踪","level":"3.2.2","depth":2,"path":"start/sandboxes/zipkin_tracing.md","ref":"start/sandboxes/zipkin_tracing.md","articles":[]},"previous":{"title":"Sandbox","level":"3.2","depth":1,"path":"start/sandboxes.md","ref":"start/sandboxes.md","articles":[{"title":"前端代理","level":"3.2.1","depth":2,"path":"start/sandboxes/front_proxy.md","ref":"start/sandboxes/front_proxy.md","articles":[]},{"title":"Zipkin 追踪","level":"3.2.2","depth":2,"path":"start/sandboxes/zipkin_tracing.md","ref":"start/sandboxes/zipkin_tracing.md","articles":[]},{"title":"Jaeger 追踪","level":"3.2.3","depth":2,"path":"start/sandboxes/jaeger_tracing.md","ref":"start/sandboxes/jaeger_tracing.md","articles":[]},{"title":"Jaeger 原生追踪","level":"3.2.4","depth":2,"path":"start/sandboxes/jaeger_native_tracing.md","ref":"start/sandboxes/jaeger_native_tracing.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba","sitemap-general"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"splitter":{},"sitemap-general":{"prefix":"http://www.servicemesher.com/envoy/"},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"154337f0d95f0b110f98c1d5d7038895"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"http://www.servicemesher.com"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版","extension":null},"file":{"path":"start/sandboxes/front_proxy.md","mtime":"2018-07-01T02:57:03.539Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-11T05:50:38.908Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"前端代理","level":"3.2.1","depth":2,"next":{"title":"Zipkin 追踪","level":"3.2.2","depth":2,"path":"start/sandboxes/zipkin_tracing.md","ref":"start/sandboxes/zipkin_tracing.md","articles":[]},"previous":{"title":"Sandbox","level":"3.2","depth":1,"path":"start/sandboxes.md","ref":"start/sandboxes.md","articles":[{"title":"前端代理","level":"3.2.1","depth":2,"path":"start/sandboxes/front_proxy.md","ref":"start/sandboxes/front_proxy.md","articles":[]},{"title":"Zipkin 追踪","level":"3.2.2","depth":2,"path":"start/sandboxes/zipkin_tracing.md","ref":"start/sandboxes/zipkin_tracing.md","articles":[]},{"title":"Jaeger 追踪","level":"3.2.3","depth":2,"path":"start/sandboxes/jaeger_tracing.md","ref":"start/sandboxes/jaeger_tracing.md","articles":[]},{"title":"Jaeger 原生追踪","level":"3.2.4","depth":2,"path":"start/sandboxes/jaeger_native_tracing.md","ref":"start/sandboxes/jaeger_native_tracing.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["github","codesnippet","splitter","-lunr","-search","search-plus","-sharing","theme-default","edit-link","page-toc-button","back-to-top-button","github-buttons@2.1.0","-highlight","prism","prism-themes","favicon@^0.0.2","tbfed-pagefooter@^0.0.1","3-ba","sitemap-general"],"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright © ServiceMesher 2018","modify_label":" 最后更新于 ","modify_format":"YYYY-MM-DD HH:mm:ss"},"prism":{"css":["prism-themes/themes/prism-ghcolors.css"]},"github":{"url":"https://github.com/servicemesher/envoy"},"splitter":{},"codesnippet":{},"sitemap-general":{"prefix":"http://www.servicemesher.com/envoy/"},"fontsettings":{"theme":"white","family":"sans","size":2},"favicon":{"shortcut":"favicon.ico","bookmark":"favicon.ico"},"page-toc-button":{},"back-to-top-button":{},"prism-themes":{},"github-buttons":{"repo":"servicemesher/envoy","types":["star"],"size":"small"},"3-ba":{"configuration":"auto","token":"154337f0d95f0b110f98c1d5d7038895"},"edit-link":{"label":"在线编辑","base":"https://github.com/servicemesher/envoy/edit/master"},"theme-default":{"showLevel":true,"styles":{"ebook":"styles/ebook.css","epub":"styles/epub.css","mobi":"styles/mobi.css","pdf":"styles/pdf.css","print":"styles/print.css","website":"styles/website.css"}},"search-plus":{}},"theme":"default","author":"ServiceMesher","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Envoy proxy中文文档","language":"zh-hans","links":{"sidebar":{"ServiceMesher主页":"http://www.servicemesher.com"}},"gitbook":">=3.2.0","description":"Envoy proxy中文文档,基于Envoy 1.7最新版"},"file":{"path":"start/sandboxes/front_proxy.md","mtime":"2018-07-01T02:57:03.539Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-07T04:50:18.246Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -2468,6 +2468,10 @@ cluster.service2.upstream_rq_total: 2
         
     <script src="../../gitbook/gitbook.js"></script>
     <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
     
         
         <script src="../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
