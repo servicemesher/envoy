@@ -24,7 +24,8 @@
     "favicon@^0.0.2",
     "tbfed-pagefooter@^0.0.1",
     "3-ba",
-    "sitemap-general"
+    "sitemap-general",
+    "ga"
   ],
   "pluginsConfig": {
     "github": {
@@ -61,6 +62,9 @@
     },
     "sitemap-general": {
         "prefix": "http://www.servicemesher.com/envoy/"
+    },
+    "ga": {
+        "token": "UA-93485976-2"
     }
   }
 }
