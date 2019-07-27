@@ -73,7 +73,7 @@ linkerd是一个独立的，开源的RPC路由代理，它基于 Netty 与 Finag
 以及对请求的流量路由层。linkerd提供一个可插拔的服务发现层 (Consul以及Zookeeper为此提供标准支持，就如 Marathon 以及Kubernetes 的API)。
 
 linkerd的内存消耗以及CPU的要求都远远高于Envoy。 对比Enovy，linkerd仅提供了一个最小可用的配置语言， 且不支持热加载，而是用动态配置以及服务抽象的方式变相地
-提供类似的功能。 linkerd支持HTTP/1。1， Thrift， ThriftMux， HTTP/2 (experimental) 和 gRPC (experimental)。
+提供类似的功能。 linkerd支持HTTP/1.1， Thrift， ThriftMux， HTTP/2 (experimental) 和 gRPC (experimental)。
 
 ## [nghttp2](https://nghttp2.org/)
 
