@@ -16,9 +16,9 @@ Envoy 的配置开始变得越发复杂。 在 Lyft 我们用 [jinja](http://jin
 我们同时为上述的三种场景都准备了相应的范例配置模版。
 
 - 脚本生成器: [configs/configgen.py](https://github.com/envoyproxy/envoy/blob/master/configs/configgen.py)
-- 服务间模版: [configs/envoy_service_to_service.template.json](https://github.com/envoyproxy/envoy/blob/master/configs/envoy_service_to_service.template.json)
-- 前端代理模版: [configs/envoy_front_proxy.template.json](https://github.com/envoyproxy/envoy/blob/master/configs/envoy_front_proxy.template.json)
-- 双向代理模版: [configs/envoy_double_proxy.template.json](https://github.com/envoyproxy/envoy/blob/master/configs/envoy_double_proxy.template.json)
+- 服务间模版: [configs/envoy_service_to_service.template.json](https://github.com/envoyproxy/envoy/blob/master/configs/envoy_service_to_service_v2.template.yaml)
+- 前端代理模版: [configs/envoy_front_proxy.template.json](https://github.com/envoyproxy/envoy/blob/master/configs/envoy_front_proxy_v2.template.yaml)
+- 双向代理模版: [configs/envoy_double_proxy.template.json](https://github.com/envoyproxy/envoy/blob/master/configs/envoy_double_proxy_v2.template.yaml)
 
 可以从 repo 的根目录运行以下命令以生成相关的范例配置：
 
