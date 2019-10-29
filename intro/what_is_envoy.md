@@ -39,7 +39,7 @@ Envoy 是专为大型现代 SOA（面向服务架构）架构设计的 L7 代理
 **DynamoDB L7 支持**：[DynamoDB](https://aws.amazon.com/dynamodb/) 是亚马逊的托管键/值 NOSQL 数据存储。Envoy [支持](arch_overview/dynamo.md#arch-overview-dynamo)对 DynamoDB 连接进行 L7 嗅探和统计。
 
 
-**服务发现：**[服务发现](arch_overview/service_discovery.md#arch-overview-service-discovery)是面向服务架构的关键组件。Envoy 通过一种[服务发现服务（service discovery service）](arch_overview/service_discovery.md#arch-overview-service-discovery-types-sds)的方式支持多种服务发现方式，包括异步 DNS 解析和基于 REST 的查找。
+**服务发现和动态配置：** Envoy 可以选择使用[动态配置 API](arch_overview/dynamic_configuration.md#arch-overview-dynamic-config) 的分层集合实现集中管理。这些层为Envoy 提供了以下内容的动态更新：后端集群内的主机、后端集群本身、HTTP 路由、监听套接字和加密材料。对于更简单的部署，可以通过[DNS 解析](arch_overview/service_discovery.md#arch-overview-service-discovery)（甚至[完全跳过](arch_overview/service_discovery.md#arch-overview-service-discovery-types-sds)）发现后端主机，静态配置文件将替代更深的层。
 
 
 **健康检查：**[推荐](arch_overview/service_discovery.md#arch-overview-service-discovery-eventually-consistent)使用将服务发现视为最终一致的过程的方式来建立 Envoy 网格。Envoy 包含了一个[健康检查](arch_overview/health_checking.md#arch-overview-health-checking)子系统，可以选择对上游服务集群执行主动健康检查。然后，Envoy 联合使用服务发现和健康检查信息来确定健康的负载均衡目标。Envoy 还通过[异常检测](arch_overview/outlier.md#arch-overview-outlier-detection)子系统支持被动健康检查。
@@ -53,8 +53,6 @@ Envoy 是专为大型现代 SOA（面向服务架构）架构设计的 L7 代理
 
 **最佳的可观察性：** 如上所述，Envoy 的主要目标是使网络透明。但是，问题在网络层面和应用层面都可能会出现。Envoy 包含对所有子系统强大的[统计](arch_overview/statistics.md#arch-overview-statistics)功能支持。目前支持 [statsd](https://github.com/etsy/statsd)（和兼容的提供程序）作为统计信息接收器，但是插入不同的接收器并不困难。统计信息也可以通过[管理](../operations/admin.md#operations-admin-interface)端口查看。Envoy 还通过第三方提供商支持分布式[追踪](arch_overview/tracing.md#arch-overview-tracing)。
 
-
-**动态配置：**Envoy 可以选择使用[动态配置 API](arch_overview/dynamic_configuration.md#arch-overview-dynamic-config) 的分层集合。如果需要，实现者可以使用这些 API 来构建复杂的集中管理部署。
 
 ## 设计目标
 
