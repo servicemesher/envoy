@@ -6,7 +6,7 @@
 
 ![../../images/docker_compose_v0.1.svg](../../images/docker_compose_v0.1.svg)
 
-所有传入的请求都通过前端 envoy 进行路由，该 envoy 充当位于 `envoymesh` 网络边缘的反向代理。通过docker compose 将端口 80 映射到 8000 端口（请参阅 [/examples/front-proxy/docker-compose.yml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/docker-compose.yml)）。此外，请注意，由前端 envoy 由到服务容器的所有流量实际上路由到服务 envoy（在 [/examples/front-proxy/front-envoy.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/front-envoy.yaml) 中设置的路由）。反过来，服务 envoy 通过回环地址（[/examples/front-proxy/service-envoy.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/service-envoy.yaml) 中的路由设置）将请求路由到 flask 应用程序。此设置说明了运行服务 envoy 与您的服务搭配的优势：所有请求都由服务 envoy 处理，并有效地路由到您的服务。
+所有传入的请求都通过前端 envoy 进行路由，该 envoy 充当位于 `envoymesh` 网络边缘的反向代理。通过docker compose 将端口 80 映射到 8000 端口（请参阅 [/examples/front-proxy/docker-compose.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/docker-compose.yaml)）。此外，请注意，由前端 envoy 由到服务容器的所有流量实际上路由到服务 envoy（在 [/examples/front-proxy/front-envoy.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/front-envoy.yaml) 中设置的路由）。反过来，服务 envoy 通过回环地址（[/examples/front-proxy/service-envoy.yaml](https://github.com/envoyproxy/envoy/blob/master//examples/front-proxy/service-envoy.yaml) 中的路由设置）将请求路由到 flask 应用程序。此设置说明了运行服务 envoy 与您的服务搭配的优势：所有请求都由服务 envoy 处理，并有效地路由到您的服务。
 
 ## 运行 Sandbox
 
