@@ -101,11 +101,11 @@ Envoy 由 JSON 配置文件和一组命令行选项一起驱动。以下是 Envo
 
 - `--service-node <string>`
 
-  *(可选)* 定义 Envoy 运行的本地服务节点名称。本地服务节点名称首先来自[引导节点](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-node)消息的消息的 id 字段。此命令行选项为指定此值提供了另一种方法，并将覆盖引导配置中设置的任何值。若使用了以下任何功能，则应该通过此命令行选项或引导配置来设置它：[statsd](../intro/arch_overview/statistics.md#arch-overview-statistics)、[CDS](../configuration/cluster_manager/cds.md#config-cluster-manager-cds) 和 [HTTP 跟踪](../intro/arch_overview/tracing.md#arch-overview-tracing)。
+  *(可选)* 定义 Envoy 运行的本地服务节点名称。本地服务节点名称首先来自[引导节点](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-node)消息的 id 字段。此命令行选项为指定此值提供了另一种方法，并将覆盖引导配置中设置的任何值。若使用了以下任何功能，则应该通过此命令行选项或引导配置来设置它：[statsd](../intro/arch_overview/statistics.md#arch-overview-statistics)、[CDS](../configuration/cluster_manager/cds.md#config-cluster-manager-cds) 和 [HTTP 跟踪](../intro/arch_overview/tracing.md#arch-overview-tracing)。
 
 - `--service-zone <string>`
 
-  *(可选)* 定义 Envoy 运行的本地服务区域名称。本地服务区域名称首先来自[引导节点](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-node)消息的消息的 [locality.zone](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#envoy-api-field-core-locality-zone) 字段。此命令行选项为指定此值提供了另一种方法，并将覆盖引导配置中设置的任何值。若使用了发现服务路由且发现服务暴露出[区域数据](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds#config-cluster-manager-sds-api-host-az)，则应该通过此命令行选项或引导配置来设置它。区域的含义是依赖于上下文的，如 AWS 上的[可用性区域（AZ ）](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)，GCP 上的[区域](https://cloud.google.com/compute/docs/regions-zones/)，等等。
+  *(可选)* 定义 Envoy 运行的本地服务区域名称。本地服务区域名称首先来自[引导节点](https://www.envoyproxy.io/docs/envoy/latest/api-v2/config/bootstrap/v2/bootstrap.proto#envoy-api-field-config-bootstrap-v2-bootstrap-node)消息的 [locality.zone](https://www.envoyproxy.io/docs/envoy/latest/api-v2/api/v2/core/base.proto#envoy-api-field-core-locality-zone) 字段。此命令行选项为指定此值提供了另一种方法，并将覆盖引导配置中设置的任何值。若使用了发现服务路由且发现服务暴露出[区域数据](https://www.envoyproxy.io/docs/envoy/latest/api-v1/cluster_manager/sds#config-cluster-manager-sds-api-host-az)，则应该通过此命令行选项或引导配置来设置它。区域的含义是依赖于上下文的，如 AWS 上的[可用性区域（AZ ）](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)，GCP 上的[区域](https://cloud.google.com/compute/docs/regions-zones/)，等等。
 
 - `--file-flush-interval-msec <integer>`
 
