@@ -22,7 +22,7 @@
 
 ## 运行时
 
-Http 错误注入器支持一下全局运行时配置：
+Http 错误注入器支持以下全局运行时配置：
 
 - fault.http.abort.abort_percent
 
@@ -51,7 +51,7 @@ Http 错误注入器支持一下全局运行时配置：
 
 ## 统计
 
-故障过滤器使用 *http.<stat_prefix>.fault.* 作为命名空间输出统计结果。这个统计前缀 [stat prefix](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-stat-prefix) 来源于 HTTP 链接管理器。
+故障过滤器使用 *http.<stat_prefix>.fault.* 作为命名空间输出统计结果。这个统计前缀 [stat prefix](https://www.envoyproxy.io/docs/envoy/latest/api-v1/network_filters/http_conn_man#config-http-conn-man-stat-prefix) 来源于 HTTP 连接管理器。
 
 | 名称                                 | 类型    | 描述                                             |
 | ------------------------------------ | ------- | ------------------------------------------------------- |
