@@ -1,12 +1,12 @@
 # Envoy 官方文档中文版
 
-Envoy 官方文档中文版，基于 Envoy 最新的 1.7 版本。
+Envoy 官方文档中文版，基于 Envoy v1.7。
 
 本项目文档地址：https://github.com/servicemesher/envoy
 
 英文官方文档地址：https://www.envoyproxy.io/docs/envoy/latest
 
-在线阅读地址：<http://www.servicemesher.com/envoy/>
+在线阅读地址：<https://www.servicemesher.com/envoy/>
 
 *本文档使用 Gitbook 生成。*
 
@@ -18,7 +18,7 @@ Envoy 官方文档中文版，基于 Envoy 最新的 1.7 版本。
 
 ### 致谢
 
-感谢所有为本文档作出贡献的 Service Mesh 爱好者。
+感谢所有为本文档作出贡献的 ServiceMesher。
 
 [查看贡献者名单](https://github.com/servicemesher/envoy/graphs/contributors)
 
