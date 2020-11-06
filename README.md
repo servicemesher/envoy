@@ -1,5 +1,9 @@
 # Envoy 官方文档中文版
 
+**[云原生社区](https://mp.weixin.qq.com/s/vWlSdzz2MNdXRr0sd2-LFg)正在进行最新版本的 Envoy 官方文档的翻译工作，欢迎[参与进来](https://github.com/cloudnativeto/envoy/tree/zh/docs/root)。**
+
+---
+
 Envoy 官方文档中文版，基于 Envoy v1.7。
 
 本项目文档地址：https://github.com/servicemesher/envoy
